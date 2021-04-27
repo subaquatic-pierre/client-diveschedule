@@ -11,6 +11,7 @@ import { Auth } from "./components/Auth";
 
 import { BaseRouter } from "./routes";
 import { Layout } from "./components/Layout/Layout";
+import Cookies from "js-cookie";
 import { getApiUri } from "./utils";
 
 // Authorization logic
@@ -20,6 +21,7 @@ const httpLink = new HttpLink({
   uri: getApiUri(),
   headers: {
     Authorization: token ? `JWT ${token}` : "",
+    "X-CSRFToken": Cookies.get("csrftoken"),
   },
 });
 
