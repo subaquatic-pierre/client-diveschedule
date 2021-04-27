@@ -9,7 +9,7 @@ export const authMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
-      authorization: `token: ${token}` || null,
+      Authorization: `JWT ${token}` || null,
     },
   }));
 
