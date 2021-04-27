@@ -5,6 +5,7 @@ import {
   ApolloProvider,
   HttpLink,
   InMemoryCache,
+  from,
 } from "@apollo/client";
 import { getAuthToken } from "./components/Auth/utils";
 import { Auth } from "./components/Auth";
@@ -12,18 +13,13 @@ import { Auth } from "./components/Auth";
 import { BaseRouter } from "./routes";
 import { Layout } from "./components/Layout/Layout";
 
-// Get app config from env file
-require("dotenv").config();
+import { getApiUri } from "./utils";
+import { csrfMiddleware, authMiddleware } from "./middleware";
 
 // Authorization logic
 const token = getAuthToken();
-
 const httpLink = new HttpLink({
-  uri: "http://localhost:8000/graphql/",
-  credentials: "include",
-  headers: {
-    Authorization: token ? `JWT ${token}` : "",
-  },
+  uri: getApiUri(),
 });
 
 const cache = new InMemoryCache({
@@ -41,7 +37,7 @@ const cache = new InMemoryCache({
 });
 
 const client = new ApolloClient({
-  link: httpLink,
+  link: from([csrfMiddleware, authMiddleware, httpLink]),
   cache,
 });
 
