@@ -5,21 +5,22 @@ import {
   ApolloProvider,
   HttpLink,
   InMemoryCache,
-  from,
 } from "@apollo/client";
 import { getAuthToken } from "./components/Auth/utils";
 import { Auth } from "./components/Auth";
 
 import { BaseRouter } from "./routes";
 import { Layout } from "./components/Layout/Layout";
-
 import { getApiUri } from "./utils";
-import { csrfMiddleware, authMiddleware } from "./middleware";
 
 // Authorization logic
 const token = getAuthToken();
+
 const httpLink = new HttpLink({
   uri: getApiUri(),
+  headers: {
+    Authorization: token ? `JWT ${token}` : "",
+  },
 });
 
 const cache = new InMemoryCache({
@@ -37,7 +38,7 @@ const cache = new InMemoryCache({
 });
 
 const client = new ApolloClient({
-  link: from([csrfMiddleware, authMiddleware, httpLink]),
+  link: httpLink,
   cache,
 });
 
