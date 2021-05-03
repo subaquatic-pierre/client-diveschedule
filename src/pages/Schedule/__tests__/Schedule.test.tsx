@@ -4,6 +4,7 @@ import { CREATE_BOOKING, DELETE_BOOKING } from "../mutations";
 import { GET_DAY } from "../queries";
 import { Schedule } from "../Schedule";
 
+// Test the pipeline works on push
 interface IMocks {
   request: {
     query: DocumentNode;
