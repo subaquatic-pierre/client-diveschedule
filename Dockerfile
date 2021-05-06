@@ -1,10 +1,18 @@
 FROM node:slim
 
-RUN npm install -g server
+RUN npm install -g serve
 
 COPY . /app/
 WORKDIR /app
-RUN npm install && npm build
 
-CMD ["serve", "-p 5000" "build"]
+
+ARG REACT_APP_URI
+ARG REACT_APP_DEV_ENV
+
+ENV REACT_APP_URI=$REACT_APP_URI
+ENV REACT_APP_DEV_ENV=$REACT_APP_DEV_ENV
+
+RUN npm install && npm run build
+
+CMD ["serve", "-s", "build"]
 
