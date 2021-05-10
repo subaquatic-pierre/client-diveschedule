@@ -1,0 +1,17 @@
+FROM node:slim
+
+RUN npm install -g serve
+
+COPY . /app/
+WORKDIR /app
+
+RUN npm install 
+
+ARG REACT_APP_URI
+ARG REACT_APP_DEV_ENV
+
+ENV REACT_APP_URI=$REACT_APP_URI
+ENV REACT_APP_DEV_ENV=$REACT_APP_DEV_ENV
+
+CMD npm start
+
