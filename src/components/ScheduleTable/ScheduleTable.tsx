@@ -16,6 +16,7 @@ import { getHeadFields } from "./utils";
 import { useBookingMutation } from "./hooks";
 import { EDIT_BOOKING, CREATE_BOOKING, DELETE_BOOKING } from "./mutations";
 import { IBooking, IDiveTripDetail } from "../../pages/Schedule/schedule";
+import { AlertContext } from "../../App";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,13 +50,20 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   tableType,
   handleOpenEditDiverModal,
 }) => {
+  const { setAlert } = React.useContext(AlertContext);
   const classes = useStyles();
   const { bookingSet: bookings } = diveTripDetail;
 
   // Hooks
-  const { mutation: deleteBooking } = useBookingMutation(DELETE_BOOKING);
-  const { mutation: editBooking } = useBookingMutation(EDIT_BOOKING);
-  const { mutation: createBooking } = useBookingMutation(CREATE_BOOKING);
+  const { mutation: deleteBooking } = useBookingMutation(
+    DELETE_BOOKING,
+    setAlert
+  );
+  const { mutation: editBooking } = useBookingMutation(EDIT_BOOKING, setAlert);
+  const { mutation: createBooking } = useBookingMutation(
+    CREATE_BOOKING,
+    setAlert
+  );
 
   const [selected, setSelected] = React.useState<number[]>([]);
   const [creatingBooking, setCreatingBooking] = React.useState<boolean>(false);

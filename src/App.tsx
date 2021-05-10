@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
+import { Color } from "@material-ui/lab/Alert";
 import {
   ApolloClient,
   ApolloProvider,
@@ -13,6 +14,19 @@ import { BaseRouter } from "./routes";
 import { Layout } from "./components/Layout/Layout";
 import Cookies from "js-cookie";
 import { getApiUri } from "./utils";
+
+interface IAlert {
+  state: boolean;
+  severity: Color | undefined;
+  message: string | undefined;
+}
+
+interface IAlertContext {
+  alert: IAlert;
+  setAlert: React.Dispatch<React.SetStateAction<IAlert>>;
+}
+
+export const AlertContext = React.createContext({} as IAlertContext);
 
 // Authorization logic
 const token = getAuthToken();
@@ -45,13 +59,22 @@ const client = new ApolloClient({
 });
 
 const App: React.FC = (props) => {
+  const initialAlert: IAlert = {
+    state: true,
+    severity: "error",
+    message: "The biggest error",
+  };
+
+  const [alert, setAlert] = React.useState(initialAlert);
   return (
     <ApolloProvider client={client}>
       <Router>
         <Auth token={token}>
-          <Layout>
-            <BaseRouter />
-          </Layout>
+          <AlertContext.Provider value={{ alert, setAlert }}>
+            <Layout>
+              <BaseRouter />
+            </Layout>
+          </AlertContext.Provider>
         </Auth>
       </Router>
     </ApolloProvider>
