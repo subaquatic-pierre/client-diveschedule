@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
-import { useMutation } from "@apollo/client";
 import { makeStyles } from "@material-ui/core";
+
+import { useBaseMutation } from "../../hooks";
+
 import {
   Card,
   Button,
@@ -36,11 +38,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Login: React.FC = withRouter((props) => {
+export const Login = withRouter((props) => {
   let token: any = null;
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [login] = useMutation(LOGIN);
+  const { mutation: login } = useBaseMutation(LOGIN);
   const classes = useStyles();
 
   const handleTextChange = (event, id) => {
@@ -53,12 +55,12 @@ export const Login: React.FC = withRouter((props) => {
 
   const handleClick = () => {
     login({ variables: { email: email, password: password } })
-      .then((res) => {
+      .then((res: any) => {
         token = res.data.tokenAuth.token;
         localStorage.setItem("token", token);
         window.location.assign("/");
       })
-      .catch((err) => {
+      .catch((err: any) => {
         console.log(err);
       });
   };

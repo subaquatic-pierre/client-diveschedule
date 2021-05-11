@@ -1,7 +1,8 @@
 import React from "react";
-import { useMutation } from "@apollo/client";
-import { Link, withRouter, useHistory } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { AppBar, Tabs, Tab } from "@material-ui/core";
+
+import { useBaseMutation } from "../../hooks";
 
 import {
   deleteAuthToken,
@@ -22,16 +23,16 @@ export const Header = withRouter(() => {
   const classes = useStyles();
   const authContext = React.useContext(AuthContext);
   const { isAuth, isStaff } = getAuthContextData(authContext);
-  const [logout] = useMutation(DELETE_AUTH_TOKEN);
+  const { mutation: logout } = useBaseMutation(DELETE_AUTH_TOKEN);
 
   const handleLogout = () => {
     deleteAuthToken();
     logout()
-      .then((res) => {
+      .then((res: any) => {
         console.log(isAuth);
         window.location.assign("/login");
       })
-      .catch((err) => {
+      .catch((err: any) => {
         console.log(err);
       });
   };
