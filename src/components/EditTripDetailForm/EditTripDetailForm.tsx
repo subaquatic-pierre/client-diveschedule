@@ -1,5 +1,5 @@
 import React from "react";
-import { useMutation } from "@apollo/client";
+
 import {
   Grid,
   Typography,
@@ -20,10 +20,12 @@ import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
 import DoneIcon from "@material-ui/icons/Done";
 import { makeStyles } from "@material-ui/core/styles";
+
 import { IDiveTripDetail, IUser } from "../../pages/Schedule/schedule";
 import { UserSearchInput } from "../UserSearchInput";
 import { EDIT_DIVE_TRIP_DETAIL, CREATE_DIVE_TRIP_DETAIL } from "./mutations";
 import { buildFormData } from "./utils";
+import { useBaseMutation } from "../../hooks";
 
 const siteOptions = [
   "Artificial Reef",
@@ -109,24 +111,12 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
   const [addGuide, setAddGuide] = React.useState(false);
   const [user, setUser] = React.useState<IUser | null>(null);
   const [formData, setFormData] = React.useState<IFormData>(initialFormData);
-  const [submitEditTripDetail] = useMutation(EDIT_DIVE_TRIP_DETAIL, {
-    onCompleted: (data) => {
-      window.location.reload();
-      console.log(data);
-    },
-    onError: (error) => {
-      console.log(error.message);
-    },
-  });
-  const [submitCreateTripDetail] = useMutation(CREATE_DIVE_TRIP_DETAIL, {
-    onCompleted: (data) => {
-      console.log(data);
-      window.location.reload();
-    },
-    onError: (error) => {
-      console.log(error.message);
-    },
-  });
+  const { mutation: submitEditTripDetail } = useBaseMutation(
+    EDIT_DIVE_TRIP_DETAIL
+  );
+  const { mutation: submitCreateTripDetail } = useBaseMutation(
+    CREATE_DIVE_TRIP_DETAIL
+  );
 
   const classes = useStyles();
 
@@ -185,8 +175,6 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
   };
 
   const handleRemoveDiveGuide = (event: any, id: number): void => {
-    console.log(id);
-    console.log(formData);
     setFormData((oldData) => {
       return {
         ...oldData,

@@ -1,7 +1,7 @@
 import React from "react";
-import { useMutation } from "@apollo/client";
 import Modal from "@material-ui/core/Modal";
 
+import { useBaseMutation } from "../../hooks";
 import { CREATE_USER, EDIT_USER } from "./mutations";
 import { EditDiverForm } from "./EditDiverForm";
 import { IUser } from "../../pages/Schedule/schedule";
@@ -18,23 +18,9 @@ export const EditDiverModal: React.FC<IEditFormModalProps> = ({
   diverData,
 }) => {
   const [editingDiverForm, setEditingDiverForm] = React.useState(false);
-  const [createUserMutation] = useMutation(CREATE_USER, {
-    onCompleted: (data) => {
-      // window.location.reload();
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
+  const { mutation: createUserMutation } = useBaseMutation(CREATE_USER);
 
-  const [editUserMutation] = useMutation(EDIT_USER, {
-    onCompleted: (data) => {
-      window.location.reload();
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
+  const { mutation: editUserMutation } = useBaseMutation(EDIT_USER);
 
   const handleCreateUser = (formData: any): void => {
     createUserMutation({ variables: formData });

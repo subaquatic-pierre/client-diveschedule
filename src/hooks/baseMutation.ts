@@ -2,7 +2,15 @@ import React from "react";
 import { AlertContext } from "../App";
 import { useMutation } from "@apollo/client";
 
-export const useBaseMutation = (gqlString: any, options?: any): any => {
+interface IMutationOptions {
+  onCompleted: () => void;
+  onError: () => void;
+}
+
+export const useBaseMutation = (
+  gqlString: any,
+  options?: IMutationOptions
+): any => {
   const { setAlert } = React.useContext(AlertContext);
   console.log(options);
   const defaultOptions = {
