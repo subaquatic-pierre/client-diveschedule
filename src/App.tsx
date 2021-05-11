@@ -58,13 +58,13 @@ const client = new ApolloClient({
   cache,
 });
 
-const App: React.FC = (props) => {
-  const initialAlert: IAlert = {
-    state: true,
-    severity: "error",
-    message: "The biggest error",
-  };
+export const initialAlert: IAlert = {
+  state: false,
+  severity: undefined,
+  message: undefined,
+};
 
+const App: React.FC = (props) => {
   const [alert, setAlert] = React.useState(initialAlert);
   return (
     <ApolloProvider client={client}>
