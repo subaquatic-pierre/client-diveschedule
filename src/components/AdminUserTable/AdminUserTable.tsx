@@ -12,6 +12,7 @@ import { EditDiverModal } from "../EditDiverModal";
 import { AdminUserTableRow } from "../AdminUserTableRow";
 import { AdminUserTableToolbar } from "../AdminUserTableToolbar";
 import { DELETE_USER } from "./mutations";
+import { useBaseMutation } from "../../hooks";
 import { IUser } from "../../pages/Schedule/schedule";
 
 const useStyles = makeStyles((theme) => ({
@@ -52,14 +53,7 @@ export const AdminUserTable: React.FC<IAdminUserTableProps> = ({ users }) => {
     IUser | undefined
   >(undefined);
 
-  const [deleteUserMutation] = useMutation(DELETE_USER, {
-    onCompleted: (data) => {
-      window.location.reload();
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
+  const { mutation: deleteUserMutation } = useBaseMutation(DELETE_USER);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);

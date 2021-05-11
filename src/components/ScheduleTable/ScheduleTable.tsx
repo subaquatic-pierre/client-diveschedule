@@ -13,10 +13,9 @@ import { ScheduleTableGuideRow } from "../ScheduleTableGuideRow";
 import { ScheduleTableEditRow } from "../ScheduleTableEditRow";
 import { getHeadFields } from "./utils";
 
-import { useBookingMutation } from "./hooks";
 import { EDIT_BOOKING, CREATE_BOOKING, DELETE_BOOKING } from "./mutations";
 import { IBooking, IDiveTripDetail } from "../../pages/Schedule/schedule";
-import { AlertContext } from "../../App";
+import { useBaseMutation } from "../../hooks";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,20 +49,13 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   tableType,
   handleOpenEditDiverModal,
 }) => {
-  const { setAlert } = React.useContext(AlertContext);
   const classes = useStyles();
   const { bookingSet: bookings } = diveTripDetail;
 
   // Hooks
-  const { mutation: deleteBooking } = useBookingMutation(
-    DELETE_BOOKING,
-    setAlert
-  );
-  const { mutation: editBooking } = useBookingMutation(EDIT_BOOKING, setAlert);
-  const { mutation: createBooking } = useBookingMutation(
-    CREATE_BOOKING,
-    setAlert
-  );
+  const { mutation: deleteBooking } = useBaseMutation(DELETE_BOOKING);
+  const { mutation: editBooking } = useBaseMutation(EDIT_BOOKING);
+  const { mutation: createBooking } = useBaseMutation(CREATE_BOOKING);
 
   const [selected, setSelected] = React.useState<number[]>([]);
   const [creatingBooking, setCreatingBooking] = React.useState<boolean>(false);
