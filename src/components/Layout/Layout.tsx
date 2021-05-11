@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
   alert: {
     position: "relative",
     boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px;",
+    width: "70%",
   },
 }));
 

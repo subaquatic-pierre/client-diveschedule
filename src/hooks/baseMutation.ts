@@ -12,7 +12,6 @@ export const useBaseMutation = (
   options?: IMutationOptions
 ): any => {
   const { setAlert } = React.useContext(AlertContext);
-  console.log(options);
   const defaultOptions = {
     onCompleted: (data: any) => {
       window.location.reload();
