@@ -59,7 +59,9 @@ export const ScheduleTableToolbar: React.FC<IScheduleTableToolbarProps> = ({
   showCreateBookingRow,
   deleteBooking,
 }) => {
-  const value = useAuthContext();
+  const {
+    viewer: { isAdmin },
+  } = useAuthContext();
   const classes = useStyles();
   const [moreMenuAnchorEl, setMoreMenuAnchorEl] = React.useState(null);
   const [editTripAnchorEl, setEditTripPopoverAnchorEl] =
@@ -89,12 +91,6 @@ export const ScheduleTableToolbar: React.FC<IScheduleTableToolbarProps> = ({
 
   const isBoatTrip =
     tableType === "AM_BOAT" || tableType === "PM_BOAT" ? true : false;
-
-  React.useEffect(() => {
-    if (value) {
-      console.log(value.isAdmin);
-    }
-  }, [value]);
 
   return (
     <Toolbar
@@ -133,14 +129,14 @@ export const ScheduleTableToolbar: React.FC<IScheduleTableToolbarProps> = ({
         </>
       ) : (
         <>
-          {showAddBooking && (
+          {showAddBooking && isAdmin && (
             <Tooltip title="Add Booking">
               <IconButton onClick={showCreateBookingRow}>
                 <AddCircleIcon />
               </IconButton>
             </Tooltip>
           )}
-          {isBoatTrip && (
+          {isBoatTrip && isAdmin && (
             <Tooltip title="Edit trip details">
               <IconButton
                 aria-label="filter list"

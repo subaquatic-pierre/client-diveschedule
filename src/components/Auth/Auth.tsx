@@ -23,7 +23,7 @@ export const initialAuthContext: IAuthContext = {
   isAuth: false,
   viewer: {
     email: null,
-    isAdmin: null,
+    isAdmin: false,
   },
 };
 
