@@ -21,7 +21,7 @@ interface IAlert {
   message: string | undefined;
 }
 
-interface IAlertContext {
+export interface IAlertContext {
   alert: IAlert;
   setAlert: React.Dispatch<React.SetStateAction<IAlert>>;
 }

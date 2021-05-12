@@ -20,6 +20,7 @@ import {
   getUser,
   getUserOptions,
 } from "./utils";
+import { useBaseAlert } from "../../hooks/baseAlert";
 
 const useStyles = makeStyles((theme) => ({
   saveButton: {
@@ -60,6 +61,7 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
   handleOpenEditDiverModal,
   bookingData,
 }) => {
+  const { setAlert } = useBaseAlert();
   const [user, setUser] = React.useState<IUser>();
   const [instructor, setInstructor] = React.useState<IUser>();
   const classes = useStyles();
@@ -101,7 +103,11 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
         createBooking(createBookingData);
       }
     } else {
-      console.warn("Booking data is invalid: ", formData);
+      setAlert({
+        state: true,
+        severity: "error",
+        message: `Booking data is invalid: ${formData}`,
+      });
     }
   };
 

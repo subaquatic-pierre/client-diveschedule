@@ -5,8 +5,8 @@ import {
   Container,
   makeStyles,
 } from "@material-ui/core";
-import { AlertContext, initialAlert } from "../../App";
-import Alert from "@material-ui/lab/Alert";
+import { useBaseAlert } from "../../hooks";
+import { Message } from "../Message";
 
 import { Header } from "../Header/Header";
 import { Footer } from "../Footer";
@@ -30,9 +30,8 @@ const useStyles = makeStyles((theme) => ({
 export const Layout: React.FC = ({ children }) => {
   const classes = useStyles();
   const {
-    alert: { state, severity, message },
-    setAlert,
-  } = React.useContext(AlertContext);
+    alert: { state },
+  } = useBaseAlert();
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -40,13 +39,7 @@ export const Layout: React.FC = ({ children }) => {
         <Header />
         {state && (
           <div className={classes.alertContainer}>
-            <Alert
-              className={classes.alert}
-              onClose={() => setAlert(initialAlert)}
-              severity={severity}
-            >
-              {message}
-            </Alert>
+            <Message />
           </div>
         )}
         <Container maxWidth="xl">{children}</Container>

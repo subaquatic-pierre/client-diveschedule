@@ -1,17 +1,22 @@
 import React from "react";
-import { AlertContext } from "../App";
+import { useBaseAlert } from "./baseAlert";
 import { useMutation } from "@apollo/client";
+import { Color } from "@material-ui/lab/Alert";
+import { AlertContext, IAlertContext, initialAlert } from "../App";
 
 interface IMutationOptions {
+  severity: Color | undefined;
   onCompleted: () => void;
   onError: () => void;
 }
 
 export const useBaseMutation = (
   gqlString: any,
+  severity = "error" as Color,
   options?: IMutationOptions
 ): any => {
-  const { setAlert } = React.useContext(AlertContext);
+  const context = React.useContext(AlertContext);
+  const { setAlert } = context;
   const defaultOptions = {
     onCompleted: (data: any) => {
       window.location.reload();
@@ -19,7 +24,7 @@ export const useBaseMutation = (
     onError: (error: any) => {
       setAlert({
         state: true,
-        severity: "error",
+        severity: severity,
         message: error.message,
       });
     },

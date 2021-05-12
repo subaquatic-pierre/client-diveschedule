@@ -15,7 +15,7 @@ import { getHeadFields } from "./utils";
 
 import { EDIT_BOOKING, CREATE_BOOKING, DELETE_BOOKING } from "./mutations";
 import { IBooking, IDiveTripDetail } from "../../pages/Schedule/schedule";
-import { useBaseMutation } from "../../hooks";
+import { useBaseAlert, useBaseMutation } from "../../hooks";
 
 const useStyles = makeStyles((theme) => ({
   root: {
