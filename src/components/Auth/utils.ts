@@ -21,7 +21,7 @@ export const needRefreshToken = (expDate: Date): boolean => {
 
 interface IAuthContext {
   isAuth: boolean;
-  isStaff: boolean;
+  isAdmin: boolean;
   email: string;
 }
 
@@ -30,7 +30,7 @@ export const getAuthContextData = (authContext: any): IAuthContext => {
     if (authContext.user.__typename === "AnonUserType") {
       return {
         isAuth: false,
-        isStaff: false,
+        isAdmin: false,
         email: "",
       };
     } else {
@@ -42,7 +42,7 @@ export const getAuthContextData = (authContext: any): IAuthContext => {
   } else {
     return {
       isAuth: false,
-      isStaff: false,
+      isAdmin: false,
       email: "",
     };
   }

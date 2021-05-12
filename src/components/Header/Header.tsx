@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 export const Header = withRouter(() => {
   const classes = useStyles();
   const authContext = React.useContext(AuthContext);
-  const { isAuth, isStaff } = getAuthContextData(authContext);
+  const { isAuth, isAdmin } = getAuthContextData(authContext);
   const { mutation: logout } = useBaseMutation(DELETE_AUTH_TOKEN);
 
   const handleLogout = () => {
@@ -44,7 +44,7 @@ export const Header = withRouter(() => {
           <Tabs value={false} centered aria-label="header links">
             <Tab component={Link} to="/" label="Home" />
             <Tab onClick={handleLogout} label="Logout" />
-            {isStaff && <Tab component={Link} to="/admin" label="Admin" />}
+            {isAdmin && <Tab component={Link} to="/admin" label="Admin" />}
           </Tabs>
         </AppBar>
       </div>
