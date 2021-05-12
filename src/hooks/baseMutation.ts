@@ -1,8 +1,7 @@
 import React from "react";
-import { useBaseAlert } from "./baseAlert";
 import { useMutation } from "@apollo/client";
 import { Color } from "@material-ui/lab/Alert";
-import { AlertContext, IAlertContext, initialAlert } from "../App";
+import { AlertContext } from "../App";
 
 interface IMutationOptions {
   severity: Color | undefined;

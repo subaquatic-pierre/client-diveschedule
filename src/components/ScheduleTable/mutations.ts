@@ -24,7 +24,7 @@ export const CREATE_BOOKING = gql`
     $userId: ID!
     $tripType: String!
     $date: Date!
-    $equipment: String!
+    $equipment: String
     $time: String!
     $instructorId: ID
   ) {
