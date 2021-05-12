@@ -5,13 +5,13 @@ export const AUTH_QUERY = gql`
     user: viewer {
       ... on UserType {
         email
-        isStaff
+        isAdmin
       }
     }
     anon: viewer {
       ... on AnonUserType {
         email
-        isStaff
+        isAdmin
       }
     }
   }
