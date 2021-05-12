@@ -37,7 +37,11 @@ export const Auth: React.FC<IAuthProps> = ({ children, token }) => {
   const history = useHistory();
 
   const { mutation: getRefreshToken } = useBaseMutation(REFRESH_TOKEN);
-  const { mutation: logout } = useBaseMutation(DELETE_AUTH_TOKEN);
+  const { mutation: logout } = useBaseMutation(DELETE_AUTH_TOKEN, {
+    onCompleted: () => {
+      history.push("/login");
+    },
+  });
 
   // Check token is valid and refresh if needed
   const { mutation: verifyToken } = useBaseMutation(VERIFY_TOKEN, {
@@ -68,7 +72,6 @@ export const Auth: React.FC<IAuthProps> = ({ children, token }) => {
     } else {
       deleteAuthToken();
       logout();
-      history.push("/");
     }
   }, [verifyToken, logout, history, token]);
 

@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 export const Header = withRouter(() => {
   const {
     isAuth,
-    viewer: { email, isAdmin },
+    viewer: { isAdmin },
   } = useAuthContext();
   const classes = useStyles();
   const { mutation: logout } = useBaseMutation(DELETE_AUTH_TOKEN);

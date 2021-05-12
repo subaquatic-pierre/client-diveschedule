@@ -14,15 +14,16 @@ import { GET_DAY } from "./queries";
 export const Schedule: React.FC = () => {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
   const [editDiverModalOpen, setEditDiverModalOpen] = React.useState(false);
-  const { data: dayData, loading: loadingDay, refetch: refetchDay } = useQuery(
-    GET_DAY,
-    {
-      variables: { date: formatDate(selectedDate, "server") },
-      onError: (error) => {
-        console.log(error.message);
-      },
-    }
-  );
+  const {
+    data: dayData,
+    loading: loadingDay,
+    refetch: refetchDay,
+  } = useQuery(GET_DAY, {
+    variables: { date: formatDate(selectedDate, "server") },
+    onError: (error) => {
+      console.log(error.message);
+    },
+  });
 
   const handleOpenEditDiverModal = () => {
     setEditDiverModalOpen(true);
@@ -75,7 +76,7 @@ export const Schedule: React.FC = () => {
       (trip: IDiveTripDetail) => trip.tripType === tableType
     );
     if (tripDetail && tripDetail.length === 0) return blankTripDetail;
-    return tripDetail[0];
+    if (tripDetail) return tripDetail[0];
   };
 
   React.useEffect(() => {
