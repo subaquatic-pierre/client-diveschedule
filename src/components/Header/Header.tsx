@@ -2,13 +2,9 @@ import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import { AppBar, Tabs, Tab } from "@material-ui/core";
 
-import { useBaseMutation } from "../../hooks";
+import { useAuthContext, useBaseMutation } from "../../hooks";
 
-import {
-  deleteAuthToken,
-  getAuthContextData,
-  AuthContext,
-} from "../Auth/utils";
+import { deleteAuthToken } from "../Auth";
 import { DELETE_AUTH_TOKEN } from "./mutation";
 
 import { makeStyles } from "@material-ui/core";
@@ -20,9 +16,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Header = withRouter(() => {
+  const { viewer } = useAuthContext();
   const classes = useStyles();
-  const authContext = React.useContext(AuthContext);
-  const { isAuth, isAdmin } = getAuthContextData(authContext);
   const { mutation: logout } = useBaseMutation(DELETE_AUTH_TOKEN);
 
   const handleLogout = () => {
@@ -36,6 +31,13 @@ export const Header = withRouter(() => {
         console.log(err);
       });
   };
+
+  let isAuth = false;
+  let isAdmin = false;
+  if (viewer) {
+    isAuth = true;
+    isAdmin = viewer.isAdmin;
+  }
 
   if (isAuth !== false) {
     return (

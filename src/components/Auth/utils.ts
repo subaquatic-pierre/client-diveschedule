@@ -1,5 +1,3 @@
-import { createContext } from "react";
-
 export const getAuthToken = () => {
   return localStorage.getItem("token");
 };
@@ -18,34 +16,3 @@ export const needRefreshToken = (expDate: Date): boolean => {
     return false;
   }
 };
-
-interface IAuthContext {
-  isAuth: boolean;
-  isAdmin: boolean;
-  email: string;
-}
-
-export const getAuthContextData = (authContext: any): IAuthContext => {
-  if (authContext) {
-    if (authContext.user.__typename === "AnonUserType") {
-      return {
-        isAuth: false,
-        isAdmin: false,
-        email: "",
-      };
-    } else {
-      return {
-        isAuth: true,
-        ...authContext.user,
-      };
-    }
-  } else {
-    return {
-      isAuth: false,
-      isAdmin: false,
-      email: "",
-    };
-  }
-};
-
-export const AuthContext = createContext({} as IAuthContext);

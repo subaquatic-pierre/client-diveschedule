@@ -16,6 +16,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { IDiveTripDetail } from "../../pages/Schedule/schedule";
 import { EditTripDetailForm } from "../EditTripDetailForm";
 import { getToolbarHeading } from "./utils";
+import { useAuthContext } from "../../hooks";
 
 const useStyles = makeStyles((theme) => ({
   toolbarRoot: {
@@ -58,12 +59,11 @@ export const ScheduleTableToolbar: React.FC<IScheduleTableToolbarProps> = ({
   showCreateBookingRow,
   deleteBooking,
 }) => {
+  const value = useAuthContext();
   const classes = useStyles();
   const [moreMenuAnchorEl, setMoreMenuAnchorEl] = React.useState(null);
-  const [
-    editTripAnchorEl,
-    setEditTripPopoverAnchorEl,
-  ] = React.useState<HTMLButtonElement | null>(null);
+  const [editTripAnchorEl, setEditTripPopoverAnchorEl] =
+    React.useState<HTMLButtonElement | null>(null);
 
   const handleEditTripButtonClick = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -89,6 +89,12 @@ export const ScheduleTableToolbar: React.FC<IScheduleTableToolbarProps> = ({
 
   const isBoatTrip =
     tableType === "AM_BOAT" || tableType === "PM_BOAT" ? true : false;
+
+  React.useEffect(() => {
+    if (value) {
+      console.log(value.isAdmin);
+    }
+  }, [value]);
 
   return (
     <Toolbar
