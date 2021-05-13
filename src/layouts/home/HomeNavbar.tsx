@@ -19,10 +19,10 @@ import {
   MenuItem,
   Container,
   ListItemIcon,
-  ListItemText
+  ListItemText,
 } from "@material-ui/core";
 // routes
-import { PATH_HOME, PATH_DOCS } from "../../routes/paths";
+import { PATH_HOME } from "../../routes/paths";
 // hooks
 import useOffSetTop from "../../hooks/useOffSetTop";
 // components
@@ -36,7 +36,6 @@ const MENU_LINKS = [
   { title: "Home", icon: homeFill, href: "/" },
   { title: "Components", icon: roundStreetview, href: PATH_HOME.components },
   { title: "Dashboard", icon: roundSpeed, href: PATH_HOME.dashboard },
-  { title: "Documentation", icon: bookOpenFill, href: PATH_DOCS.root }
 ];
 
 const APP_BAR_MOBILE = 64;
@@ -45,7 +44,7 @@ const APP_BAR_DESKTOP = 96;
 const RootStyle = styled(AppBar)(({ theme }) => ({
   boxShadow: "none",
   "& .isDesktopActive": {
-    color: `${theme.palette.primary.main} !important`
+    color: `${theme.palette.primary.main} !important`,
   },
   "& .isMobileActive": {
     color: theme.palette.primary.main,
@@ -53,17 +52,17 @@ const RootStyle = styled(AppBar)(({ theme }) => ({
     backgroundColor: alpha(
       theme.palette.primary.main,
       theme.palette.action.selectedOpacity
-    )
-  }
+    ),
+  },
 }));
 
 const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
   height: APP_BAR_MOBILE,
   transition: theme.transitions.create(["height", "background-color"], {
     easing: theme.transitions.easing.easeInOut,
-    duration: theme.transitions.duration.shorter
+    duration: theme.transitions.duration.shorter,
   }),
-  [theme.breakpoints.up("md")]: { height: APP_BAR_DESKTOP }
+  [theme.breakpoints.up("md")]: { height: APP_BAR_DESKTOP },
 }));
 
 const ToolbarShadowStyle = styled("div")(({ theme }) => ({
@@ -76,7 +75,7 @@ const ToolbarShadowStyle = styled("div")(({ theme }) => ({
   borderRadius: "50%",
   position: "absolute",
   width: `calc(100% - 48px)`,
-  boxShadow: theme.customShadows.z8
+  boxShadow: theme.customShadows.z8,
 }));
 
 // ----------------------------------------------------------------------
@@ -104,11 +103,11 @@ export default function HomeNavbar() {
             color: "text.primary",
             transition: (theme) =>
               theme.transitions.create("opacity", {
-                duration: theme.transitions.duration.shortest
+                duration: theme.transitions.duration.shortest,
               }),
             "&:hover": { opacity: 0.48 },
             ...(isHome && { color: "common.white" }),
-            ...(offset && { color: "text.primary" })
+            ...(offset && { color: "text.primary" }),
           }}
         >
           {link.title}
@@ -154,8 +153,8 @@ export default function HomeNavbar() {
         sx={{
           ...(offset && {
             bgcolor: "background.default",
-            height: { md: APP_BAR_DESKTOP - 20 }
-          })
+            height: { md: APP_BAR_DESKTOP - 20 },
+          }),
         }}
       >
         <Container
@@ -163,7 +162,7 @@ export default function HomeNavbar() {
           sx={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between"
+            justifyContent: "space-between",
           }}
         >
           <RouterLink to="/">
@@ -190,7 +189,7 @@ export default function HomeNavbar() {
               sx={{
                 ml: 1,
                 ...(isHome && { color: "common.white" }),
-                ...(offset && { color: "text.primary" })
+                ...(offset && { color: "text.primary" }),
               }}
             >
               <Icon icon={menu2Fill} />

@@ -180,9 +180,6 @@ const routes: RouteItem[] = [
   // App Routes
   DashboardRoutes,
 
-  // Docs Routes
-  DocsRoutes,
-
   // Home Routes
   HomeRoutes
 ];

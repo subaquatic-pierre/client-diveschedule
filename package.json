@@ -10,6 +10,12 @@
     "lint": "eslint --ext .ts,.tsx ./src",
     "lint:fix": "eslint --fix --ext .ts,.tsx ./src"
   },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
   "babel": {
     "presets": [
       "@babel/preset-react"
@@ -28,12 +34,6 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ]
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
     ]
   },
   "dependencies": {
@@ -64,7 +64,6 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "@turf/bbox": "^6.0.1",
-    "@types/js-cookie": "^2.2.6",
     "apexcharts": "^3.26.0",
     "autosuggest-highlight": "^3.1.1",
     "axios": "^0.21.1",
@@ -99,7 +98,6 @@
     "numeral": "^2.0.6",
     "react": "^17.0.2",
     "react-apexcharts": "^1.3.9",
-    "react-calendar": "^3.4.0",
     "react-compare-slider": "^2.0.2",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^17.0.2",
@@ -173,9 +171,5 @@
     "prettier": "2.2.1",
     "prettier-eslint": "12.0.0",
     "prettier-eslint-cli": "5.0.1"
-  },
-  "jestConfiguration": {
-    "collectCoverage": true
-  },
-  "proxy": "http://127.0.0.1:8000"
+  }
 }
