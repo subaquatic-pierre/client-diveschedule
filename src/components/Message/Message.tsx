@@ -10,13 +10,13 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.modal,
     width: "100%",
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   alert: {
     position: "relative",
     boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px;",
-    width: "70%",
-  },
+    width: "70%"
+  }
 }));
 
 export const Message: React.FC = () => {
@@ -24,7 +24,7 @@ export const Message: React.FC = () => {
   const classes = useStyles();
   const {
     alert: { severity, message },
-    setAlert,
+    setAlert
   } = context;
   return (
     <Alert

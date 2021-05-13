@@ -1,8 +1,7 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { formatDate } from "../../utils/date";
-
 import { Grid } from "@material-ui/core";
+import { formatDate } from "../../utils/date";
 
 import { IBooking, IDay, IDiveTripDetail } from "./schedule";
 import { ScheduleTable } from "../../components/ScheduleTable";
@@ -14,16 +13,15 @@ import { GET_DAY } from "./queries";
 export const Schedule: React.FC = () => {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
   const [editDiverModalOpen, setEditDiverModalOpen] = React.useState(false);
-  const {
-    data: dayData,
-    loading: loadingDay,
-    refetch: refetchDay,
-  } = useQuery(GET_DAY, {
-    variables: { date: formatDate(selectedDate, "server") },
-    onError: (error) => {
-      console.log(error.message);
-    },
-  });
+  const { data: dayData, loading: loadingDay, refetch: refetchDay } = useQuery(
+    GET_DAY,
+    {
+      variables: { date: formatDate(selectedDate, "server") },
+      onError: (error) => {
+        console.log(error.message);
+      }
+    }
+  );
 
   const handleOpenEditDiverModal = () => {
     setEditDiverModalOpen(true);
@@ -38,18 +36,15 @@ export const Schedule: React.FC = () => {
     try {
       if (dayData.day.__typename === "AnonDayType") {
         return false;
-      } else {
-        return true;
       }
+      return true;
     } catch {
       console.log("There was an error with the day");
       return false;
     }
   };
 
-  const getDay = (): IDay => {
-    return dayData.day;
-  };
+  const getDay = (): IDay => dayData.day;
 
   const getTripTime = (tableType: string): string | undefined => {
     switch (tableType) {
@@ -68,7 +63,7 @@ export const Schedule: React.FC = () => {
       time: getTripTime(tableType),
       day: { date: selectedDate },
       bookingSet: [] as IBooking[],
-      tripType: tableType,
+      tripType: tableType
     };
     if (!isDayReady()) return blankTripDetail;
     const day = getDay();

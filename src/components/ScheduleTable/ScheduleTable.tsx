@@ -19,19 +19,19 @@ import { useBaseMutation } from "../../hooks";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(2)
   },
   boatTableContainer: {
     width: "100%",
-    minHeight: 700,
+    minHeight: 700
   },
   shoreContainer: {
     width: "100%",
-    minHeight: 400,
+    minHeight: 400
   },
   loading: {
-    width: 300,
-  },
+    width: 300
+  }
 }));
 
 interface IScheduleTableProps {
@@ -47,7 +47,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   diveTripDetail,
   date,
   tableType,
-  handleOpenEditDiverModal,
+  handleOpenEditDiverModal
 }) => {
   const classes = useStyles();
   const { bookingSet: bookings } = diveTripDetail;
@@ -63,19 +63,19 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
 
   const handleDeleteBooking = (): void => {
     deleteBooking({
-      variables: { ids: selected },
+      variables: { ids: selected }
     });
   };
 
   const handleCreateBooking = (data: any): void => {
     createBooking({
-      variables: data,
+      variables: data
     });
   };
 
   const handleEditBooking = (data: any): void => {
     editBooking({
-      variables: data,
+      variables: data
     });
   };
 
@@ -163,17 +163,16 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
                         cancelEditingBooking={cancelEditingBooking}
                       />
                     );
-                  } else {
-                    return (
-                      <ScheduleTableRow
-                        key={index}
-                        bookingData={bookingData}
-                        setEditingBookingId={setEditingBookingId}
-                        handleSelectClick={handleSelectClick}
-                        selected={selected}
-                      />
-                    );
                   }
+                  return (
+                    <ScheduleTableRow
+                      key={index}
+                      bookingData={bookingData}
+                      setEditingBookingId={setEditingBookingId}
+                      handleSelectClick={handleSelectClick}
+                      selected={selected}
+                    />
+                  );
                 })}
                 {isBoatTrip &&
                   diveTripDetail.diveGuides?.map((guide, index) => (

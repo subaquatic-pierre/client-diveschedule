@@ -1,5 +1,5 @@
-import { AdminUserTableRow } from ".";
 import { render, fireEvent } from "@testing-library/react";
+import { AdminUserTableRow } from ".";
 import { IUser } from "../../pages/Schedule/schedule";
 
 const user: IUser = {
@@ -8,8 +8,8 @@ const user: IUser = {
   profile: {
     fullName: "Test Name",
     certificationLevel: "OW",
-    equipment: "FK",
-  },
+    equipment: "FK"
+  }
 };
 
 const setSelected = jest.fn();
@@ -19,22 +19,21 @@ const handleEditDiverClick = jest.fn();
 const defaultProps = {
   isItemSelected: false,
   labelId: "",
-  setSelected: setSelected,
-  deleteUser: deleteUser,
+  setSelected,
+  deleteUser,
   selected: [],
-  user: user,
-  handleEditDiverClick: handleEditDiverClick,
+  user,
+  handleEditDiverClick
 };
 
-const TestHOC = (props = defaultProps) => {
-  return render(
+const TestHOC = (props = defaultProps) =>
+  render(
     <table>
       <tbody>
         <AdminUserTableRow {...props} />
       </tbody>
     </table>
   );
-};
 
 describe("AdminUserTableRow tests", () => {
   it("renders correct user in row", () => {
@@ -49,7 +48,7 @@ describe("AdminUserTableRow tests", () => {
     const { getByTestId } = TestHOC({
       ...defaultProps,
       selected: [1],
-      isItemSelected: true,
+      isItemSelected: true
     });
     expect(getByTestId("table-row").className).toContain("Mui-selected");
   });
@@ -61,7 +60,7 @@ describe("AdminUserTableRow tests", () => {
       checkbox,
       new MouseEvent("click", {
         bubbles: true,
-        cancelable: true,
+        cancelable: true
       })
     );
 
@@ -76,7 +75,7 @@ describe("AdminUserTableRow tests", () => {
       moreButton,
       new MouseEvent("click", {
         bubbles: true,
-        cancelable: true,
+        cancelable: true
       })
     );
 
@@ -92,7 +91,7 @@ describe("AdminUserTableRow tests", () => {
       moreButton,
       new MouseEvent("click", {
         bubbles: true,
-        cancelable: true,
+        cancelable: true
       })
     );
 
@@ -101,7 +100,7 @@ describe("AdminUserTableRow tests", () => {
       deleteButton,
       new MouseEvent("click", {
         bubbles: true,
-        cancelable: true,
+        cancelable: true
       })
     );
 
@@ -116,7 +115,7 @@ describe("AdminUserTableRow tests", () => {
       moreButton,
       new MouseEvent("click", {
         bubbles: true,
-        cancelable: true,
+        cancelable: true
       })
     );
 
@@ -125,7 +124,7 @@ describe("AdminUserTableRow tests", () => {
       editUser,
       new MouseEvent("click", {
         bubbles: true,
-        cancelable: true,
+        cancelable: true
       })
     );
 

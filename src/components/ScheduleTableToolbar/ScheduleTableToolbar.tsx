@@ -22,24 +22,24 @@ const useStyles = makeStyles((theme) => ({
   toolbarRoot: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(1),
-    backgroundColor: lighten(theme.palette.primary.light, 0.5),
+    backgroundColor: lighten(theme.palette.primary.light, 0.5)
   },
   highlight: {
     color: theme.palette.secondary.main,
-    backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+    backgroundColor: lighten(theme.palette.secondary.light, 0.85)
   },
   title: {
-    flex: "1 1 100%",
+    flex: "1 1 100%"
   },
   moreMenu: {
     width: 150,
     maxWidth: 150,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.paper
   },
   popoverContainer: {
     padding: theme.spacing(2),
-    maxWidth: "400px",
-  },
+    maxWidth: "400px"
+  }
 }));
 
 interface IScheduleTableToolbarProps {
@@ -57,15 +57,17 @@ export const ScheduleTableToolbar: React.FC<IScheduleTableToolbarProps> = ({
   tableType,
   showAddBooking,
   showCreateBookingRow,
-  deleteBooking,
+  deleteBooking
 }) => {
   const {
-    viewer: { isAdmin },
+    viewer: { isAdmin }
   } = useAuthContext();
   const classes = useStyles();
   const [moreMenuAnchorEl, setMoreMenuAnchorEl] = React.useState(null);
-  const [editTripAnchorEl, setEditTripPopoverAnchorEl] =
-    React.useState<HTMLButtonElement | null>(null);
+  const [
+    editTripAnchorEl,
+    setEditTripPopoverAnchorEl
+  ] = React.useState<HTMLButtonElement | null>(null);
 
   const handleEditTripButtonClick = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -89,14 +91,13 @@ export const ScheduleTableToolbar: React.FC<IScheduleTableToolbarProps> = ({
   const moreMenuOpen = Boolean(moreMenuAnchorEl);
   const moreMenuId = moreMenuOpen ? "moreMenu" : undefined;
 
-  const isBoatTrip =
-    tableType === "AM_BOAT" || tableType === "PM_BOAT" ? true : false;
+  const isBoatTrip = !!(tableType === "AM_BOAT" || tableType === "PM_BOAT");
 
   return (
     <Toolbar
       disableGutters
       className={clsx(classes.toolbarRoot, {
-        [classes.highlight]: numSelected > 0,
+        [classes.highlight]: numSelected > 0
       })}
     >
       {numSelected > 0 ? (
@@ -156,11 +157,11 @@ export const ScheduleTableToolbar: React.FC<IScheduleTableToolbarProps> = ({
         onClose={handleClose}
         anchorOrigin={{
           vertical: "bottom",
-          horizontal: "center",
+          horizontal: "center"
         }}
         transformOrigin={{
           vertical: "top",
-          horizontal: "center",
+          horizontal: "center"
         }}
       >
         <div className={classes.moreMenu}>
@@ -178,11 +179,11 @@ export const ScheduleTableToolbar: React.FC<IScheduleTableToolbarProps> = ({
         onClose={handleEditTripPopoverClose}
         anchorOrigin={{
           vertical: "bottom",
-          horizontal: "left",
+          horizontal: "left"
         }}
         transformOrigin={{
           vertical: "top",
-          horizontal: "right",
+          horizontal: "right"
         }}
       >
         <div className={classes.popoverContainer}>

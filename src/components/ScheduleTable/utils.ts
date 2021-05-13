@@ -2,7 +2,7 @@ export const boatBookingHeadFields: string[] = [
   "Diver Name",
   "Activity",
   "Cert Level",
-  "Equipment",
+  "Equipment"
 ];
 
 export const trainingHeadFields: string[] = [
@@ -10,7 +10,7 @@ export const trainingHeadFields: string[] = [
   "Activity",
   "Instructor",
   "Equipment",
-  "Time",
+  "Time"
 ];
 
 export const getHeadFields = (tripType: string): string[] => {

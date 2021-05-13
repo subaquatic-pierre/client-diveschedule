@@ -1,18 +1,17 @@
-import { AdminUserTableToolbar } from ".";
 import { fireEvent, render } from "@testing-library/react";
+import { AdminUserTableToolbar } from ".";
 
 const handleOpenDiverFormModal = jest.fn();
 const deleteUsers = jest.fn();
 
 const defaultProps = {
   numSelected: 0,
-  handleOpenDiverFormModal: handleOpenDiverFormModal,
-  deleteUsers: deleteUsers,
+  handleOpenDiverFormModal,
+  deleteUsers
 };
 
-const TestHOC = (props = defaultProps) => {
-  return render(<AdminUserTableToolbar {...props} />);
-};
+const TestHOC = (props = defaultProps) =>
+  render(<AdminUserTableToolbar {...props} />);
 
 describe("AdminUserTableToolbat tests", () => {
   it("Create Diver button in the document when no users selected", () => {

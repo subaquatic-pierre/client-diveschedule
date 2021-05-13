@@ -1,6 +1,6 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
-import { Grid } from "@material-ui/core";
+import { makeStyles, Grid } from "@material-ui/core";
+
 import { withRouter } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { USERS_QUERY } from "./query";
@@ -11,20 +11,20 @@ import { AdminUserTable } from "../../components/AdminUserTable";
 
 const useStyles = makeStyles((theme) => ({
   adminContent: {
-    marginTop: "1rem",
+    marginTop: "1rem"
   },
   navList: {
     width: "100%",
     maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
-  },
+    backgroundColor: theme.palette.background.paper
+  }
 }));
 
 export const Admin = withRouter((props) => {
   const classes = useStyles();
   const { data, loading } = useQuery(USERS_QUERY);
 
-  let users: any[] = [];
+  const users: any[] = [];
 
   if (data) {
     data.allUsers.edges.forEach((user: any) => {

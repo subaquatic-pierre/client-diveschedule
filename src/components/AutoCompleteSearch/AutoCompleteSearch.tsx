@@ -30,12 +30,12 @@ export const AutoCompleteSearch: React.FC<ISearchProps> = ({
   name = "search",
   label = "Label",
   createObjectPlaceholder = "Create",
-  queryFieldName = "field",
+  queryFieldName = "field"
 }) => {
   const [query, { data }] = useLazyQuery(gqlQuery, {
     onError: (error) => {
       console.log(error);
-    },
+    }
   });
   const [_, setSearchValue] = React.useState("");
   const [searchOptions, setSearchOptions] = React.useState<string[]>([]);
@@ -44,9 +44,7 @@ export const AutoCompleteSearch: React.FC<ISearchProps> = ({
   const filter = (
     value: string,
     filterCallback: (filterString: string, data: any) => any
-  ) => {
-    return filterCallback(value, data);
-  };
+  ) => filterCallback(value, data);
 
   const handleSearchChange = (event: any, value: any, optionKey: string) => {
     setSearchOptions(value ? [value, ...searchOptions] : searchOptions);
@@ -74,8 +72,8 @@ export const AutoCompleteSearch: React.FC<ISearchProps> = ({
     if (active) {
       query({
         variables: {
-          [queryFieldName]: searchInputValue ? searchInputValue : "",
-        },
+          [queryFieldName]: searchInputValue || ""
+        }
       });
       if (data) {
         const options = getOptions(data);
@@ -97,7 +95,7 @@ export const AutoCompleteSearch: React.FC<ISearchProps> = ({
     query,
     data,
     setSearchOptions,
-    createObjectPlaceholder,
+    createObjectPlaceholder
   ]);
 
   return (
@@ -108,7 +106,7 @@ export const AutoCompleteSearch: React.FC<ISearchProps> = ({
       getOptionLabel={(option: string) => option}
       filterOptions={(x) => x}
       options={searchOptions}
-      size={size ? size : "small"}
+      size={size || "small"}
       onChange={handleSearchChange}
       onInputChange={handleSearchInputChange}
       renderInput={(params) => (
@@ -119,8 +117,8 @@ export const AutoCompleteSearch: React.FC<ISearchProps> = ({
           InputProps={{
             ...params.InputProps,
             type: "search",
-            name: name,
-            autoFocus: autoFocus,
+            name,
+            autoFocus
           }}
         />
       )}

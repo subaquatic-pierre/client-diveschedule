@@ -22,13 +22,12 @@ export const formatSiteName = (siteName: string | undefined): string => {
       return newWords.join(" ");
 
       // Site is a normal name
-    } else {
-      for (let i = 0; i < words.length; i++) {
-        const lowerCase = words[i].toLowerCase();
-        words[i] = capitalizeWord(lowerCase);
-      }
-      return words.join(" ");
     }
+    for (let i = 0; i < words.length; i++) {
+      const lowerCase = words[i].toLowerCase();
+      words[i] = capitalizeWord(lowerCase);
+    }
+    return words.join(" ");
   } catch (error) {
     return "Site";
   }
@@ -48,14 +47,14 @@ export const getToolbarHeading = (
   switch (tableType) {
     case "AM_BOAT":
       if (!isTripDefined) return "9am: Boat Trip";
-      return `${time ? time : `9am`}: ${
+      return `${time || `9am`}: ${
         diveSites
           ? `${formatSiteName(diveSite1)} & ${formatSiteName(diveSite2)}`
           : `Boat Trip`
       }`;
     case "PM_BOAT":
       if (!isTripDefined) return "1:30pm: Boat Trip";
-      return `${time ? time : `1:30pm`}: ${
+      return `${time || `1:30pm`}: ${
         diveSites
           ? `${formatSiteName(diveSite1)} & ${formatSiteName(diveSite2)}`
           : `Boat Trip`

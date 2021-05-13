@@ -1,6 +1,6 @@
-import { ScheduleTable } from ".";
 import { MockedProvider } from "@apollo/client/testing";
 import { render } from "@testing-library/react";
+import { ScheduleTable } from ".";
 
 describe("Autocomplete search tests", () => {
   it("renders without error", () => {
@@ -10,7 +10,7 @@ describe("Autocomplete search tests", () => {
           diveTripDetail={{} as any}
           loading={false}
           date={{} as any}
-          tableType={""}
+          tableType=""
           handleOpenEditDiverModal={() => jest.fn()}
         />
       </MockedProvider>

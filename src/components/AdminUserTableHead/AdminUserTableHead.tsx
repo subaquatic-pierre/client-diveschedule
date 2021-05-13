@@ -10,16 +10,16 @@ const headCells = [
     id: "name",
     numeric: false,
     disablePadding: true,
-    label: "Full Name",
+    label: "Full Name"
   },
   { id: "email", numeric: true, disablePadding: false, label: "Email" },
   {
     id: "certLevel",
     numeric: true,
     disablePadding: false,
-    label: "Cert Level",
+    label: "Cert Level"
   },
-  { id: "equipment", numeric: true, disablePadding: false, label: "Equipment" },
+  { id: "equipment", numeric: true, disablePadding: false, label: "Equipment" }
 ];
 
 interface IAdminUserTableHeadProps {
@@ -33,7 +33,7 @@ export const AdminUserTableHead: React.FC<IAdminUserTableHeadProps> = ({
   numSelected,
   rowCount,
   setSelected,
-  users,
+  users
 }) => {
   const handleSelectAllClick = (event: any) => {
     if (event.target.checked) {
@@ -64,7 +64,7 @@ export const AdminUserTableHead: React.FC<IAdminUserTableHeadProps> = ({
             {headCell.label}
           </TableCell>
         ))}
-        <TableCell></TableCell>
+        <TableCell />
       </TableRow>
     </TableHead>
   );

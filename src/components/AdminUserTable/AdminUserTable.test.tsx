@@ -1,19 +1,19 @@
-import { AdminUserTable } from ".";
 import { render, prettyDOM, fireEvent } from "@testing-library/react";
-import { IUser } from "../../pages/Schedule/schedule";
 import { MockedProvider } from "@apollo/client/testing";
+import { AdminUserTable } from ".";
+import { IUser } from "../../pages/Schedule/schedule";
 
 const users: IUser[] = [
   {
     id: 1,
     email: "some@some.com",
-    profile: {},
+    profile: {}
   },
   {
     id: 2,
     email: "test@some.com",
-    profile: {},
-  },
+    profile: {}
+  }
 ];
 
 describe("Admin user table tests", () => {

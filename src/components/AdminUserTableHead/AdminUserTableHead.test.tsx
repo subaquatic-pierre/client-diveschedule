@@ -1,17 +1,17 @@
-import { AdminUserTableHead } from ".";
 import { render, prettyDOM } from "@testing-library/react";
+import { AdminUserTableHead } from ".";
 
 const users: IUser[] = [
   {
     id: 1,
     email: "some@some.com",
-    profile: {},
+    profile: {}
   },
   {
     id: 2,
     email: "test@some.com",
-    profile: {},
-  },
+    profile: {}
+  }
 ];
 
 describe("AdminUserTableHead tests", () => {

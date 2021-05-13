@@ -7,20 +7,20 @@ import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   dateDiv: {
     "&:hover": {
-      cursor: "pointer",
+      cursor: "pointer"
     },
     display: "flex",
     alignContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   calendarDiv: {
     border: "none",
-    padding: theme.spacing(2),
-  },
+    padding: theme.spacing(2)
+  }
 }));
 
 interface IAdminInfoBarProps {}

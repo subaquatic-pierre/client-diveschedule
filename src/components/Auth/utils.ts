@@ -1,6 +1,4 @@
-export const getAuthToken = () => {
-  return localStorage.getItem("token");
-};
+export const getAuthToken = () => localStorage.getItem("token");
 
 export const deleteAuthToken = () => {
   localStorage.removeItem("token");
@@ -12,7 +10,6 @@ export const needRefreshToken = (expDate: Date): boolean => {
   const expTime = now + halfTime;
   if (now > expTime) {
     return true;
-  } else {
-    return false;
   }
+  return false;
 };

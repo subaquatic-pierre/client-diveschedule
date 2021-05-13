@@ -3,7 +3,7 @@ import {
   Theme,
   withStyles,
   WithStyles,
-  createStyles,
+  createStyles
 } from "@material-ui/core/styles";
 
 import { Grid, TextField, Typography, Button } from "@material-ui/core";
@@ -22,7 +22,7 @@ const getModalStyle = () => {
 
   return {
     top: `${modalTop}px`,
-    left: `${modalLeft}px`,
+    left: `${modalLeft}px`
   };
 };
 
@@ -30,10 +30,10 @@ const styles = (theme: Theme) =>
   createStyles({
     formControl: {
       margin: theme.spacing(1),
-      minWidth: "200px",
+      minWidth: "200px"
     },
     selectEmpty: {
-      marginTop: theme.spacing(2),
+      marginTop: theme.spacing(2)
     },
     paper: {
       position: "absolute",
@@ -42,16 +42,16 @@ const styles = (theme: Theme) =>
       backgroundColor: theme.palette.background.paper,
       borderRadius: "5px",
       boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 2, 3),
+      padding: theme.spacing(2, 2, 3)
     },
     formContainer: {
-      padding: theme.spacing(2),
+      padding: theme.spacing(2)
     },
     buttonContainer: {
       "& .MuiButton-root": {
-        margin: theme.spacing(1),
-      },
-    },
+        margin: theme.spacing(1)
+      }
+    }
   });
 
 interface IProps extends WithStyles<typeof styles> {
@@ -84,48 +84,42 @@ class Form extends React.Component<IProps, IState> {
         certificationLevel: initialData
           ? initialData.profile.certificationLevel
           : "",
-        email: initialData ? initialData.email : "",
+        email: initialData ? initialData.email : ""
       },
-      modalStyle: getModalStyle(),
+      modalStyle: getModalStyle()
     };
   }
 
   handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { setEditingForm } = this.props;
-    this.setState((oldState: any) => {
-      return {
-        ...oldState,
-        formData: {
-          ...oldState.formData,
-          [event.target.name]: event.target.value,
-        },
-      };
-    });
+    this.setState((oldState: any) => ({
+      ...oldState,
+      formData: {
+        ...oldState.formData,
+        [event.target.name]: event.target.value
+      }
+    }));
     setEditingForm(true);
   };
 
   handleCertLevelChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    this.setState((oldState: any) => {
-      return {
-        ...oldState,
-        formData: {
-          ...oldState.formData,
-          certificationLevel: event.target.value,
-        },
-      };
-    });
+    this.setState((oldState: any) => ({
+      ...oldState,
+      formData: {
+        ...oldState.formData,
+        certificationLevel: event.target.value
+      }
+    }));
   };
 
   handleEquipmentChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    this.setState((oldState: any) => {
-      return {
-        ...oldState,
-        formData: {
-          ...oldState.formData,
-          equipment: event.target.value,
-        },
-      };
-    });
+    this.setState((oldState: any) => ({
+      ...oldState,
+      formData: {
+        ...oldState.formData,
+        equipment: event.target.value
+      }
+    }));
   };
 
   handleConfirmButtonClick = () => {
@@ -201,10 +195,10 @@ class Form extends React.Component<IProps, IState> {
                     name="certificationLevel"
                     onChange={this.handleCertLevelChange}
                   >
-                    <MenuItem value={"OW"}>Open Water</MenuItem>
-                    <MenuItem value={"RD"}>Rescue Diver</MenuItem>
-                    <MenuItem value={"AOW"}>Advanced Open Water</MenuItem>
-                    <MenuItem value={"DM"}>Divemaster or above</MenuItem>
+                    <MenuItem value="OW">Open Water</MenuItem>
+                    <MenuItem value="RD">Rescue Diver</MenuItem>
+                    <MenuItem value="AOW">Advanced Open Water</MenuItem>
+                    <MenuItem value="DM">Divemaster or above</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -218,9 +212,9 @@ class Form extends React.Component<IProps, IState> {
                     name="equipment"
                     onChange={this.handleEquipmentChange}
                   >
-                    <MenuItem value={"FK"}>Full Kit</MenuItem>
-                    <MenuItem value={"TW"}>Tanks and Weights</MenuItem>
-                    <MenuItem value={"NO"}>None</MenuItem>
+                    <MenuItem value="FK">Full Kit</MenuItem>
+                    <MenuItem value="TW">Tanks and Weights</MenuItem>
+                    <MenuItem value="NO">None</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>

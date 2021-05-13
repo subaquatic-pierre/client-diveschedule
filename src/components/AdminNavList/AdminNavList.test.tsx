@@ -1,5 +1,5 @@
-import { AdminNavList } from ".";
 import { render } from "@testing-library/react";
+import { AdminNavList } from ".";
 
 describe("Nav list tests", () => {
   it("renders without error", () => {

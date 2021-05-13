@@ -11,7 +11,7 @@ const customRender = (
       const props = children?.props;
       return <MockedProvider mocks={props.mocks}>{children}</MockedProvider>;
     },
-    ...options,
+    ...options
   });
 
 export * from "@testing-library/react";

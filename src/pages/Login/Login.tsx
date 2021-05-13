@@ -1,18 +1,17 @@
 import React, { useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/core";
-
-import { useBaseMutation } from "../../hooks";
-
 import {
+  makeStyles,
   Card,
   Button,
   Typography,
   FormControl,
   Grid,
   FormLabel,
-  TextField,
+  TextField
 } from "@material-ui/core";
+
+import { useBaseMutation } from "../../hooks";
 
 import { LOGIN } from "./mutation";
 
@@ -23,19 +22,19 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
+    alignItems: "center"
   },
   textInput: {
-    marginTop: "2rem",
+    marginTop: "2rem"
   },
   button: {
     marginTop: "2rem",
-    display: "block",
+    display: "block"
   },
   signup: {
     color: "white",
-    marginTop: "1rem",
-  },
+    marginTop: "1rem"
+  }
 }));
 
 export const Login = withRouter((props) => {
@@ -54,7 +53,7 @@ export const Login = withRouter((props) => {
   };
 
   const handleClick = () => {
-    login({ variables: { email: email, password: password } })
+    login({ variables: { email, password } })
       .then((res: any) => {
         token = res.data.tokenAuth.token;
         localStorage.setItem("token", token);

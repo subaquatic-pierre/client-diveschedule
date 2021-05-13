@@ -20,86 +20,84 @@ const mocks: IMocks[] = [
     request: {
       query: GET_DAY,
       variables: {
-        name: "Buck",
-      },
+        name: "Buck"
+      }
     },
-    result: () => {
-      return {
-        data: {
-          day: {
-            teamMembersOff: [],
-            noteSet: [],
-            tripdetailSet: [
-              {
-                tripType: "AM_BOAT",
-                diveSite1: "Inchcape 1",
-                diveSite2: "Inchcape 2",
-                diveGuides: [
-                  {
+    result: () => ({
+      data: {
+        day: {
+          teamMembersOff: [],
+          noteSet: [],
+          tripdetailSet: [
+            {
+              tripType: "AM_BOAT",
+              diveSite1: "Inchcape 1",
+              diveSite2: "Inchcape 2",
+              diveGuides: [
+                {
+                  profile: {
+                    fullName: "Pierre du Toit",
+                    certificationLevel: "OW"
+                  }
+                }
+              ],
+              bookingSet: [
+                {
+                  id: "38",
+                  activity: "PD",
+                  equipment: "FK",
+                  instructor: null,
+                  diver: {
                     profile: {
                       fullName: "Pierre du Toit",
-                      certificationLevel: "OW",
-                    },
+                      certificationLevel: "OW"
+                    }
+                  }
+                },
+                {
+                  id: "39",
+                  activity: "PD",
+                  equipment: "FK",
+                  instructor: null,
+                  diver: {
+                    profile: {
+                      fullName: "Hilton Life",
+                      certificationLevel: "AOW"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              tripType: "POOL",
+              diveSite1: null,
+              diveSite2: null,
+              diveGuides: [],
+              bookingSet: [
+                {
+                  id: "40",
+                  activity: "OWC",
+                  equipment: "FK",
+                  instructor: {
+                    profile: {
+                      fullName: "Edward Gunson",
+                      certificationLevel: "DM"
+                    }
                   },
-                ],
-                bookingSet: [
-                  {
-                    id: "38",
-                    activity: "PD",
-                    equipment: "FK",
-                    instructor: null,
-                    diver: {
-                      profile: {
-                        fullName: "Pierre du Toit",
-                        certificationLevel: "OW",
-                      },
-                    },
-                  },
-                  {
-                    id: "39",
-                    activity: "PD",
-                    equipment: "FK",
-                    instructor: null,
-                    diver: {
-                      profile: {
-                        fullName: "Hilton Life",
-                        certificationLevel: "AOW",
-                      },
-                    },
-                  },
-                ],
-              },
-              {
-                tripType: "POOL",
-                diveSite1: null,
-                diveSite2: null,
-                diveGuides: [],
-                bookingSet: [
-                  {
-                    id: "40",
-                    activity: "OWC",
-                    equipment: "FK",
-                    instructor: {
-                      profile: {
-                        fullName: "Edward Gunson",
-                        certificationLevel: "DM",
-                      },
-                    },
-                    diver: {
-                      profile: {
-                        fullName: "Luke Eee",
-                        certificationLevel: "OW",
-                      },
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-        },
-      };
-    },
-  },
+                  diver: {
+                    profile: {
+                      fullName: "Luke Eee",
+                      certificationLevel: "OW"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    })
+  }
 ];
 
 describe("Blank schedule page layout test", () => {

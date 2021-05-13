@@ -8,7 +8,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  ListSubheader,
+  ListSubheader
 } from "@material-ui/core";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -45,47 +45,47 @@ const siteOptions = [
   "Hole in the Wall",
   "Inchcape 2",
   "Martini Rock",
-  "Other",
+  "Other"
 ];
 
 const useStyles = makeStyles((theme) => ({
   root: {},
   formControl: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(1)
   },
   formContainer: {
     "& . input": {
-      margin: theme.spacing(2),
-    },
+      margin: theme.spacing(2)
+    }
   },
   buttonContainer: {
     marginTop: theme.spacing(2),
     "& .MuiButton-root": {
-      margin: theme.spacing(1),
-    },
+      margin: theme.spacing(1)
+    }
   },
   heading: { marginBottom: theme.spacing(2) },
   addDiverContainer: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(2)
   },
   searchInput: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   icon: {
     "&:hover": {
-      cursor: "pointer",
+      cursor: "pointer"
     },
     marginTop: "5px",
-    marginRight: "5px",
+    marginRight: "5px"
   },
   iconRight: {
     "&:hover": {
-      cursor: "pointer",
+      cursor: "pointer"
     },
     marginTop: "5px",
     marginRight: "5px",
-    marginLeft: "5px",
-  },
+    marginLeft: "5px"
+  }
 }));
 
 export interface IFormData {
@@ -105,7 +105,7 @@ interface IEditTripDetailFormProps {
 
 export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
   diveTripDetail,
-  handleClose,
+  handleClose
 }: any) => {
   const initialFormData = buildFormData(diveTripDetail);
   const [addGuide, setAddGuide] = React.useState(false);
@@ -121,12 +121,10 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
   const classes = useStyles();
 
   const handleFormChange = (event: any) => {
-    setFormData((oldState: IFormData) => {
-      return {
-        ...oldState,
-        [event.target.name]: event.target.value,
-      };
-    });
+    setFormData((oldState: IFormData) => ({
+      ...oldState,
+      [event.target.name]: event.target.value
+    }));
   };
 
   const isValidData = (data: IFormData) => {
@@ -141,9 +139,7 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
     return true;
   };
 
-  const isEditTrip = () => {
-    return diveTripDetail.id !== -1;
-  };
+  const isEditTrip = () => diveTripDetail.id !== -1;
 
   const getGuideIds = (): number[] => {
     const diveGuideIds: number[] = [];
@@ -162,35 +158,31 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
       diveSite2: formData.diveSite2,
       id: formData.id,
       time: formData.time,
-      tripType: formData.tripType,
+      tripType: formData.tripType
     };
     console.log(vars);
     if (isEditTrip()) {
       submitEditTripDetail({ variables: vars });
     } else {
       submitCreateTripDetail({
-        variables: vars,
+        variables: vars
       });
     }
   };
 
   const handleRemoveDiveGuide = (event: any, id: number): void => {
-    setFormData((oldData) => {
-      return {
-        ...oldData,
-        diveGuides: oldData.diveGuides?.filter((user: IUser) => user.id !== id),
-      };
-    });
+    setFormData((oldData) => ({
+      ...oldData,
+      diveGuides: oldData.diveGuides?.filter((user: IUser) => user.id !== id)
+    }));
   };
 
   const handleAddDiveGuide = () => {
     if (user !== null) {
-      setFormData((oldData) => {
-        return {
-          ...oldData,
-          diveGuides: [...(oldData.diveGuides as []), user],
-        };
-      });
+      setFormData((oldData) => ({
+        ...oldData,
+        diveGuides: [...(oldData.diveGuides as []), user]
+      }));
       setUser(null);
     }
     setAddGuide(false);
@@ -301,7 +293,7 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
               )}
             </List>
           </Grid>
-          <Grid item xs={12}></Grid>
+          <Grid item xs={12} />
         </Grid>
       </Grid>
       <Grid className={classes.buttonContainer} container justify="center">

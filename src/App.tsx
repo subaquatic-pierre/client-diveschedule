@@ -5,14 +5,14 @@ import {
   ApolloClient,
   ApolloProvider,
   HttpLink,
-  InMemoryCache,
+  InMemoryCache
 } from "@apollo/client";
+import Cookies from "js-cookie";
 import { getAuthToken } from "./components/Auth/utils";
 import { Auth } from "./components/Auth";
 
 import { BaseRouter } from "./routes";
 import { Layout } from "./components/Layout/Layout";
-import Cookies from "js-cookie";
 import { getApiUri } from "./utils";
 
 interface IAlert {
@@ -35,8 +35,8 @@ const httpLink = new HttpLink({
   uri: getApiUri(),
   headers: {
     Authorization: token ? `JWT ${token}` : "",
-    "X-CSRFToken": Cookies.get("csrftoken"),
-  },
+    "X-CSRFToken": Cookies.get("csrftoken")
+  }
 });
 
 const cache = new InMemoryCache({
@@ -46,22 +46,22 @@ const cache = new InMemoryCache({
         bookings: {
           merge(existing, incoming) {
             return incoming;
-          },
-        },
-      },
-    },
-  },
+          }
+        }
+      }
+    }
+  }
 });
 
 const client = new ApolloClient({
   link: httpLink,
-  cache,
+  cache
 });
 
 export const initialAlert: IAlert = {
   state: false,
   severity: undefined,
-  message: undefined,
+  message: undefined
 };
 
 const App: React.FC = (props) => {

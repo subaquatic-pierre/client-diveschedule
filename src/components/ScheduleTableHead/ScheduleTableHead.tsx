@@ -15,7 +15,7 @@ export const ScheduleTableHead: React.FC<IBoatScheduleTableHeadProps> = ({
   onSelectAllClick,
   numSelected,
   rowCount,
-  headFields,
+  headFields
 }) => {
   const isFirstField = (index: number): boolean => {
     if (index === 0) return true;

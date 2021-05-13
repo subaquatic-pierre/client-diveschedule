@@ -3,7 +3,7 @@ import {
   CssBaseline,
   ThemeProvider,
   Container,
-  makeStyles,
+  makeStyles
 } from "@material-ui/core";
 import { useBaseAlert } from "../../hooks";
 import { Message } from "../Message";
@@ -18,19 +18,19 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.modal,
     width: "100%",
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   alert: {
     position: "relative",
     boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px;",
-    width: "70%",
-  },
+    width: "70%"
+  }
 }));
 
 export const Layout: React.FC = ({ children }) => {
   const classes = useStyles();
   const {
-    alert: { state },
+    alert: { state }
   } = useBaseAlert();
   return (
     <>

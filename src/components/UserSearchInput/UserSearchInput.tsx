@@ -12,20 +12,18 @@ interface IUserSearchInputProps {
 
 export const UserSearchInput: React.FC<IUserSearchInputProps> = ({
   setObject,
-  size,
-}: IUserSearchInputProps) => {
-  return (
-    <AutoCompleteSearch
-      size={size}
-      name="user"
-      label="Full Name"
-      setObject={setObject}
-      getObject={getUser}
-      getOptions={getUserOptions}
-      createObjectPlaceholder="Create User"
-      queryFieldName="fullName"
-      gqlQuery={SEARCH_USERS}
-      autoFocus
-    />
-  );
-};
+  size
+}: IUserSearchInputProps) => (
+  <AutoCompleteSearch
+    size={size}
+    name="user"
+    label="Full Name"
+    setObject={setObject}
+    getObject={getUser}
+    getOptions={getUserOptions}
+    createObjectPlaceholder="Create User"
+    queryFieldName="fullName"
+    gqlQuery={SEARCH_USERS}
+    autoFocus
+  />
+);

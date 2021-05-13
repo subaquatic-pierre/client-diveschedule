@@ -13,8 +13,8 @@ import { IBooking, IProfile } from "../../pages/Schedule/schedule";
 
 const useStyles = makeStyles((theme) => ({
   guideRow: {
-    backgroundColor: "#FAFF88",
-  },
+    backgroundColor: "#FAFF88"
+  }
 }));
 
 interface IBookingRowProps {
@@ -22,13 +22,13 @@ interface IBookingRowProps {
 }
 
 export const ScheduleTableGuideRow: React.FC<IBookingRowProps> = ({
-  profile,
+  profile
 }) => {
   const classes = useStyles();
 
   return (
     <TableRow className={classes.guideRow} role="checkbox">
-      <TableCell padding="checkbox"></TableCell>
+      <TableCell padding="checkbox" />
       <TableCell
         component="th"
         id={profile.fullName}

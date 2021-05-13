@@ -23,8 +23,8 @@ export const initialAuthContext: IAuthContext = {
   isAuth: false,
   viewer: {
     email: null,
-    isAdmin: false,
-  },
+    isAdmin: false
+  }
 };
 
 export const AuthContext = React.createContext(
@@ -40,7 +40,7 @@ export const Auth: React.FC<IAuthProps> = ({ children, token }) => {
   const { mutation: logout } = useBaseMutation(DELETE_AUTH_TOKEN, {
     onCompleted: () => {
       history.push("/login");
-    },
+    }
   });
 
   // Check token is valid and refresh if needed
@@ -57,9 +57,9 @@ export const Auth: React.FC<IAuthProps> = ({ children, token }) => {
       setAlert({
         state: true,
         severity: "error",
-        message: error.message,
+        message: error.message
       });
-    },
+    }
   });
 
   const authData = authQuery.data;
@@ -67,7 +67,7 @@ export const Auth: React.FC<IAuthProps> = ({ children, token }) => {
   React.useEffect(() => {
     if (token !== null) {
       verifyToken({
-        variables: { token },
+        variables: { token }
       });
     } else {
       deleteAuthToken();

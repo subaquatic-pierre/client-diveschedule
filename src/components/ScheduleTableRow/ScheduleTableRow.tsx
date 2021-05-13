@@ -19,16 +19,16 @@ const useStyles = makeStyles((theme) => ({
   moreMenu: {
     width: 150,
     maxWidth: 150,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.paper
   },
   moreButton: {
     "&:hover": {
-      cursor: "pointer",
-    },
+      cursor: "pointer"
+    }
   },
   typography: {
-    padding: theme.spacing(2),
-  },
+    padding: theme.spacing(2)
+  }
 }));
 
 interface IBookingRowProps {
@@ -42,7 +42,7 @@ export const ScheduleTableRow: React.FC<IBookingRowProps> = ({
   handleSelectClick,
   setEditingBookingId,
   selected,
-  bookingData,
+  bookingData
 }) => {
   const {
     tripDetail: { tripType },
@@ -50,10 +50,10 @@ export const ScheduleTableRow: React.FC<IBookingRowProps> = ({
     time,
     diver: {
       email,
-      profile: { fullName, certificationLevel },
+      profile: { fullName, certificationLevel }
     },
     activity,
-    equipment,
+    equipment
   } = bookingData;
 
   const instructor = bookingData.instructor
@@ -136,11 +136,11 @@ export const ScheduleTableRow: React.FC<IBookingRowProps> = ({
         onClose={handleMoreMenuClose}
         anchorOrigin={{
           vertical: "bottom",
-          horizontal: "center",
+          horizontal: "center"
         }}
         transformOrigin={{
           vertical: "top",
-          horizontal: "center",
+          horizontal: "center"
         }}
       >
         <div className={classes.moreMenu}>

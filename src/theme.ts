@@ -6,9 +6,9 @@ const theme = createMuiTheme({
       lineHeight: 1.167,
       letterSpacing: "-0.01562em",
       fontWeight: 400,
-      fontSize: "4rem",
-    },
-  },
+      fontSize: "4rem"
+    }
+  }
 });
 
 export default theme;

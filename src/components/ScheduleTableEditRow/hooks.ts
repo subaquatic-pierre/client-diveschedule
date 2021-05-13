@@ -16,7 +16,7 @@ const initialFormData: IFormData = {
   instructorName: "",
   activity: "",
   equipment: "",
-  time: "",
+  time: ""
 };
 
 const buildFormData = (bookingData: IBooking): IFormData => {
@@ -25,11 +25,11 @@ const buildFormData = (bookingData: IBooking): IFormData => {
     equipment,
     diver: {
       id,
-      profile: { fullName, certificationLevel },
+      profile: { fullName, certificationLevel }
     },
     instructor: {
-      profile: { fullName: instructorName },
-    },
+      profile: { fullName: instructorName }
+    }
   } = bookingData;
   return {
     userId: id,
@@ -37,7 +37,7 @@ const buildFormData = (bookingData: IBooking): IFormData => {
     fullName,
     activity,
     equipment,
-    certificationLevel,
+    certificationLevel
   };
 };
 

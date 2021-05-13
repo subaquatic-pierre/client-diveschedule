@@ -1,6 +1,6 @@
-import { Auth } from "..";
 import { MockedProvider } from "@apollo/client/testing";
 import { render } from "@testing-library/react";
+import { Auth } from "..";
 
 describe("Auth tests", () => {
   it("renders without error", () => {

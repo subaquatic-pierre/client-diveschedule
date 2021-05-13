@@ -18,19 +18,19 @@ const useStyles = makeStyles((theme) => ({
   moreMenu: {
     width: 150,
     maxWidth: 150,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.paper
   },
   moreButton: {
     "&:hover": {
-      cursor: "pointer",
-    },
+      cursor: "pointer"
+    }
   },
   moreCell: {
-    padding: theme.spacing(0, 2),
+    padding: theme.spacing(0, 2)
   },
   typography: {
-    padding: theme.spacing(2),
-  },
+    padding: theme.spacing(2)
+  }
 }));
 
 interface IAdminUserTableRowProps {
@@ -50,12 +50,12 @@ export const AdminUserTableRow: React.FC<IAdminUserTableRowProps> = ({
   labelId,
   deleteUser,
   setSelected,
-  handleEditDiverClick,
+  handleEditDiverClick
 }) => {
   const {
     email,
     id,
-    profile: { fullName, equipment, certificationLevel },
+    profile: { fullName, equipment, certificationLevel }
   } = user;
 
   const classes = useStyles();
@@ -143,11 +143,11 @@ export const AdminUserTableRow: React.FC<IAdminUserTableRowProps> = ({
         onClose={handleMoreMenuClose}
         anchorOrigin={{
           vertical: "bottom",
-          horizontal: "center",
+          horizontal: "center"
         }}
         transformOrigin={{
           vertical: "top",
-          horizontal: "center",
+          horizontal: "center"
         }}
       >
         <div className={classes.moreMenu}>

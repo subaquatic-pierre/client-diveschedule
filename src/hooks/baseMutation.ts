@@ -29,7 +29,7 @@ export const useBaseMutation = (
       setAlert({
         state: true,
         severity: options.severity,
-        message: error.message,
+        message: error.message
       });
     };
   }

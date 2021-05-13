@@ -11,30 +11,30 @@ import IconButton from "@material-ui/core/IconButton";
 import TodayIcon from "@material-ui/icons/Today";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import Popover from "@material-ui/core/Popover";
-import { formatDate } from "../../utils/date";
 import Calendar from "react-calendar";
 import Tooltip from "@material-ui/core/Tooltip";
+import { formatDate } from "../../utils/date";
 
 import { DAY_QUERY } from "./queries";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "space-between"
   },
   dateDiv: {
     "&:hover": {
-      cursor: "pointer",
+      cursor: "pointer"
     },
     display: "flex",
     alignContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   toolsDiv: {},
   calendarDiv: {
     border: "none",
-    padding: theme.spacing(2),
-  },
+    padding: theme.spacing(2)
+  }
 }));
 
 interface IScheduleInfoBarProps {
@@ -47,14 +47,14 @@ interface IScheduleInfoBarProps {
 export const ScheduleInfoBar: React.FC<IScheduleInfoBarProps> = ({
   setSelectedDate,
   selectedDate,
-  handleOpenEditDiverModal,
+  handleOpenEditDiverModal
 }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   useQuery(DAY_QUERY, {
     onError: (error) => {
       console.log(error);
-    },
+    }
   });
 
   const openCalendar = (event: any) => {
@@ -109,11 +109,11 @@ export const ScheduleInfoBar: React.FC<IScheduleInfoBarProps> = ({
             onClose={closeCalendar}
             anchorOrigin={{
               vertical: "bottom",
-              horizontal: "left",
+              horizontal: "left"
             }}
             transformOrigin={{
               vertical: "top",
-              horizontal: "right",
+              horizontal: "right"
             }}
           >
             <Calendar

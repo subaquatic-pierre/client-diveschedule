@@ -1,12 +1,11 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, TextField } from "@material-ui/core";
 
 import TableCell from "@material-ui/core/TableCell";
 import DoneIcon from "@material-ui/icons/Done";
 import TableRow from "@material-ui/core/TableRow";
 import CancelIcon from "@material-ui/icons/Cancel";
 import Tooltip from "@material-ui/core/Tooltip";
-import { TextField } from "@material-ui/core";
 
 import { SEARCH_USERS } from "./queries";
 import { AutoCompleteSearch } from "../AutoCompleteSearch";
@@ -18,7 +17,7 @@ import {
   buildEditBookingData,
   buildCreateBookingData,
   getUser,
-  getUserOptions,
+  getUserOptions
 } from "./utils";
 import { useBaseAlert } from "../../hooks/baseAlert";
 
@@ -26,20 +25,20 @@ const useStyles = makeStyles((theme) => ({
   saveButton: {
     color: "#6CA468",
     "&:hover": {
-      cursor: "pointer",
-    },
+      cursor: "pointer"
+    }
   },
   cancelButton: {
     color: "#d11a2a",
     "&:hover": {
-      cursor: "pointer",
-    },
+      cursor: "pointer"
+    }
   },
   row: {
     "& .MuiTableCell-root": {
-      minWidth: "100px",
-    },
-  },
+      minWidth: "100px"
+    }
+  }
 }));
 
 interface IScheduleTableEditRowProps {
@@ -59,7 +58,7 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
   createBooking,
   cancelEditingBooking,
   handleOpenEditDiverModal,
-  bookingData,
+  bookingData
 }) => {
   const { setAlert } = useBaseAlert();
   const [user, setUser] = React.useState<IUser>();
@@ -69,12 +68,10 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
   const isBoatBooking = tableType === "AM_BOAT" || tableType === "PM_BOAT";
 
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((oldState: IFormData) => {
-      return {
-        ...oldState,
-        [event.target.name]: event.target.value,
-      };
-    });
+    setFormData((oldState: IFormData) => ({
+      ...oldState,
+      [event.target.name]: event.target.value
+    }));
   };
 
   const isValidBookingData = (data: IFormData) => {
@@ -106,7 +103,7 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
       setAlert({
         state: true,
         severity: "error",
-        message: `Booking data is invalid: ${formData}`,
+        message: `Booking data is invalid: ${formData}`
       });
     }
   };
@@ -131,7 +128,7 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
           certificationLevel: user.profile.certificationLevel,
           equipment: user.profile.equipment,
           fullName: user?.profile?.fullName,
-          instructorId: instructor?.id,
+          instructorId: instructor?.id
         };
       }
       return { ...oldData };

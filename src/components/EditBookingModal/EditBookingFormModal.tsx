@@ -15,7 +15,7 @@ interface IEditFormModalProps {
 export const EditBookingFormModal: React.FC<IEditFormModalProps> = ({
   open,
   handleClose,
-  diverData,
+  diverData
 }) => {
   const [editingDiverForm, setEditingDiverForm] = React.useState(false);
   const [createUserMutation] = useMutation(CREATE_USER, {
@@ -24,7 +24,7 @@ export const EditBookingFormModal: React.FC<IEditFormModalProps> = ({
     },
     onError: (error) => {
       console.log(error);
-    },
+    }
   });
 
   const [editUserMutation] = useMutation(EDIT_USER, {
@@ -33,7 +33,7 @@ export const EditBookingFormModal: React.FC<IEditFormModalProps> = ({
     },
     onError: (error) => {
       console.log(error);
-    },
+    }
   });
 
   const handleCreateUser = (formData: any): void => {
@@ -43,9 +43,9 @@ export const EditBookingFormModal: React.FC<IEditFormModalProps> = ({
   const handleEditUser = (formData: any, id?: number): void => {
     editUserMutation({
       variables: {
-        id: id,
-        ...formData,
-      },
+        id,
+        ...formData
+      }
     });
   };
 

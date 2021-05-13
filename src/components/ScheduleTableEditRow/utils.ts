@@ -2,9 +2,8 @@ import { IBooking } from "../../pages/Schedule/schedule";
 import { formatDate } from "../../utils/date";
 import { IFormData } from "./hooks";
 
-export const getUserOptions = (data: any): any[] => {
-  return data.searchUsers.edges.map((edge: any) => edge.node.profile.fullName);
-};
+export const getUserOptions = (data: any): any[] =>
+  data.searchUsers.edges.map((edge: any) => edge.node.profile.fullName);
 
 export const getUser = (userName: string, data: any): IUser | undefined => {
   try {
@@ -45,7 +44,7 @@ export const buildCreateBookingData = (
     userId,
     equipment,
     instructorId: instructorId as number,
-    time: time as string,
+    time: time as string
   };
 };
 
@@ -57,7 +56,7 @@ export const buildEditBookingData = (
   const mutationData = {
     id: bookingData.id,
     equipment,
-    activity,
+    activity
   };
 
   return mutationData;

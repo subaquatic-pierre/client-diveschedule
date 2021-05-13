@@ -15,7 +15,7 @@ interface IEditFormModalProps {
 export const EditDiverModal: React.FC<IEditFormModalProps> = ({
   open,
   handleClose,
-  diverData,
+  diverData
 }) => {
   const [editingDiverForm, setEditingDiverForm] = React.useState(false);
   const { mutation: createUserMutation } = useBaseMutation(CREATE_USER);
@@ -29,9 +29,9 @@ export const EditDiverModal: React.FC<IEditFormModalProps> = ({
   const handleEditUser = (formData: any, id?: number): void => {
     editUserMutation({
       variables: {
-        id: id,
-        ...formData,
-      },
+        id,
+        ...formData
+      }
     });
   };
 

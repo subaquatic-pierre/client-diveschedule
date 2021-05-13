@@ -11,19 +11,19 @@ export interface IAddRemoveButtonProps {
 const useStyles = makeStyles((theme) => ({
   baseDiv: {
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   button: {
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
-    margin: theme.spacing(2),
-  },
+    margin: theme.spacing(2)
+  }
 }));
 
 export const ScheduleTableAddButton: React.FC<IAddRemoveButtonProps> = ({
-  showCreateBookingRow,
+  showCreateBookingRow
 }) => {
   const classes = useStyles();
 

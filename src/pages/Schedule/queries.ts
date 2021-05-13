@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 import {
   bookingFragment,
   profileFragment,
-  tripDetailFragment,
+  tripDetailFragment
 } from "./fragments";
 
 export const BOOKING_QUERY = gql`

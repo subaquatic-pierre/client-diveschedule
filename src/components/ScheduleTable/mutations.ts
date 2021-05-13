@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 import {
   bookingFragment,
-  profileFragment,
+  profileFragment
 } from "../../pages/Schedule/fragments";
 
 export const DELETE_BOOKING = gql`

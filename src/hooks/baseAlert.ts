@@ -6,16 +6,16 @@ export const useBaseAlert = (): IAlertContext => {
   try {
     const {
       alert: { state, message },
-      setAlert,
+      setAlert
     } = context;
     return {
       alert: { state, severity: "error", message },
-      setAlert,
+      setAlert
     };
   } catch (error) {
     return {
       alert: initialAlert,
-      setAlert: () => {},
+      setAlert: () => {}
     };
   }
 };

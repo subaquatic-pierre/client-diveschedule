@@ -8,8 +8,8 @@ import Skeleton from "@material-ui/lab/Skeleton";
 
 const useStyles = makeStyles((theme) => ({
   loading: {
-    width: 300,
-  },
+    width: 300
+  }
 }));
 
 interface IScheduleTableLoadingProps {
@@ -17,7 +17,7 @@ interface IScheduleTableLoadingProps {
 }
 
 export const ScheduleTableLoading: React.FC<IScheduleTableLoadingProps> = ({
-  numCol,
+  numCol
 }) => {
   const classes = useStyles();
   return (
