@@ -13,7 +13,8 @@ export const useBaseMutation = (
   gqlString: any,
   options: IMutationOptions = {}
 ): any => {
-  const { setAlert } = React.useContext(AlertContext);
+  // const { setAlert } = React.useContext(AlertContext);
+  const setAlert = () => {};
 
   // Set default options if any are not present on config object
   if (options.severity === undefined) {
@@ -29,7 +30,7 @@ export const useBaseMutation = (
       setAlert({
         state: true,
         severity: options.severity,
-        message: error.message
+        message: error.message,
       });
     };
   }

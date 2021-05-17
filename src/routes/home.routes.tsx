@@ -12,20 +12,13 @@ const HomeRoutes = {
     {
       exact: true,
       path: "/",
-      component: lazy(() => import("../views/LandingPage"))
+      component: lazy(() => import("../views/LandingPage")),
     },
-    {
-      exact: true,
-      path: "/components",
-      component: lazy(() => import("../views/ComponentsOverview"))
-    },
-
     // ----------------------------------------------------------------------
-
     {
-      component: () => <Redirect to="/404" />
-    }
-  ]
+      component: () => <Redirect to="/404" />,
+    },
+  ],
 };
 
 export default HomeRoutes;
