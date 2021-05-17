@@ -1,16 +1,22 @@
 import React from "react";
+import { Icon } from "@iconify/react";
+import plusFill from "@iconify/icons-eva/plus-fill";
+import { PATH_DASHBOARD } from "../../routes/paths";
 import { useQuery } from "@apollo/client";
-import { Grid } from "@material-ui/core";
+import { Grid, Card, Button, Container } from "@material-ui/core";
 import { formatDate } from "../../utils/date";
 
+// components
+import Page from "../../components/Page";
+import HeaderDashboard from "../../components/HeaderDashboard";
 import { IBooking, IDay, IDiveTripDetail } from "./schedule";
-import { ScheduleTable } from "../../components/ScheduleTable";
-import { ScheduleInfoBar } from "../../components/SchduleInfoBar/ScheduleInfoBar";
-import { EditDiverModal } from "../../components/EditDiverModal";
+import { ScheduleTable } from "../../components/schedule/ScheduleTable";
+import { ScheduleInfoBar } from "../../components/schedule/ScheduleInfoBar";
+import { EditDiverModal } from "../../components/schedule/EditDiverModal";
 
 import { GET_DAY } from "./queries";
 
-export const Schedule: React.FC = () => {
+export default function Schedule() {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
   const [editDiverModalOpen, setEditDiverModalOpen] = React.useState(false);
   const { data: dayData, loading: loadingDay, refetch: refetchDay } = useQuery(
@@ -19,7 +25,7 @@ export const Schedule: React.FC = () => {
       variables: { date: formatDate(selectedDate, "server") },
       onError: (error) => {
         console.log(error.message);
-      }
+      },
     }
   );
 
@@ -63,7 +69,7 @@ export const Schedule: React.FC = () => {
       time: getTripTime(tableType),
       day: { date: selectedDate },
       bookingSet: [] as IBooking[],
-      tripType: tableType
+      tripType: tableType,
     };
     if (!isDayReady()) return blankTripDetail;
     const day = getDay();
@@ -92,60 +98,82 @@ export const Schedule: React.FC = () => {
   }, []);
 
   return (
-    <>
-      <Grid container spacing={2} xl>
-        <Grid item xs={12}>
-          <ScheduleInfoBar
-            handleOpenEditDiverModal={handleOpenEditDiverModal}
-            editDiverModalOpen={editDiverModalOpen}
-            selectedDate={selectedDate}
-            setSelectedDate={handleSetSelectedDate}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <ScheduleTable
-            diveTripDetail={getTripDetail("AM_BOAT")}
-            tableType="AM_BOAT"
-            date={selectedDate}
-            loading={loadingDay}
-            handleOpenEditDiverModal={handleOpenEditDiverModal}
-          />
-          <ScheduleTable
-            diveTripDetail={getTripDetail("PM_BOAT")}
-            tableType="PM_BOAT"
-            date={selectedDate}
-            loading={loadingDay}
-            handleOpenEditDiverModal={handleOpenEditDiverModal}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <ScheduleTable
-            diveTripDetail={getTripDetail("POOL")}
-            tableType="POOL"
-            date={selectedDate}
-            loading={loadingDay}
-            handleOpenEditDiverModal={handleOpenEditDiverModal}
-          />
-          <ScheduleTable
-            diveTripDetail={getTripDetail("SHORE")}
-            tableType="SHORE"
-            date={selectedDate}
-            loading={loadingDay}
-            handleOpenEditDiverModal={handleOpenEditDiverModal}
-          />
-          <ScheduleTable
-            diveTripDetail={getTripDetail("CLASS")}
-            tableType="CLASS"
-            date={selectedDate}
-            loading={loadingDay}
-            handleOpenEditDiverModal={handleOpenEditDiverModal}
-          />
-        </Grid>
-      </Grid>
-      <EditDiverModal
-        open={editDiverModalOpen}
-        handleClose={handleCloseEditDiverModal}
-      />
-    </>
+    <Page title="Schedule | Minimal-UI">
+      <Container maxWidth="xl">
+        <HeaderDashboard
+          heading="Schedule"
+          links={[
+            { name: "Dashboard", href: PATH_DASHBOARD.root },
+            { name: "Schedule" },
+          ]}
+          action={
+            <Button
+              variant="contained"
+              startIcon={<Icon icon={plusFill} width={20} height={20} />}
+            >
+              New Event
+            </Button>
+          }
+        />
+
+        <Card>
+          <>
+            <Grid container spacing={2} xl>
+              <Grid item xs={12}>
+                <ScheduleInfoBar
+                  handleOpenEditDiverModal={handleOpenEditDiverModal}
+                  editDiverModalOpen={editDiverModalOpen}
+                  selectedDate={selectedDate}
+                  setSelectedDate={handleSetSelectedDate}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <ScheduleTable
+                  diveTripDetail={getTripDetail("AM_BOAT")}
+                  tableType="AM_BOAT"
+                  date={selectedDate}
+                  loading={loadingDay}
+                  handleOpenEditDiverModal={handleOpenEditDiverModal}
+                />
+                <ScheduleTable
+                  diveTripDetail={getTripDetail("PM_BOAT")}
+                  tableType="PM_BOAT"
+                  date={selectedDate}
+                  loading={loadingDay}
+                  handleOpenEditDiverModal={handleOpenEditDiverModal}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <ScheduleTable
+                  diveTripDetail={getTripDetail("POOL")}
+                  tableType="POOL"
+                  date={selectedDate}
+                  loading={loadingDay}
+                  handleOpenEditDiverModal={handleOpenEditDiverModal}
+                />
+                <ScheduleTable
+                  diveTripDetail={getTripDetail("SHORE")}
+                  tableType="SHORE"
+                  date={selectedDate}
+                  loading={loadingDay}
+                  handleOpenEditDiverModal={handleOpenEditDiverModal}
+                />
+                <ScheduleTable
+                  diveTripDetail={getTripDetail("CLASS")}
+                  tableType="CLASS"
+                  date={selectedDate}
+                  loading={loadingDay}
+                  handleOpenEditDiverModal={handleOpenEditDiverModal}
+                />
+              </Grid>
+            </Grid>
+            <EditDiverModal
+              open={editDiverModalOpen}
+              handleClose={handleCloseEditDiverModal}
+            />
+          </>
+        </Card>
+      </Container>
+    </Page>
   );
-};
+}

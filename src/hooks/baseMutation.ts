@@ -14,7 +14,7 @@ export const useBaseMutation = (
   options: IMutationOptions = {}
 ): any => {
   // const { setAlert } = React.useContext(AlertContext);
-  const setAlert = () => {};
+  const setAlert = (some: any) => {};
 
   // Set default options if any are not present on config object
   if (options.severity === undefined) {
