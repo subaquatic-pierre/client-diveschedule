@@ -1,1 +1,0 @@
-export { AdminUserTableHead } from "./AdminUserTableHead";
