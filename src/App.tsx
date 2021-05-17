@@ -43,7 +43,6 @@ import { getAuthToken } from "./components/Auth/utils";
 import { Auth } from "./components/Auth";
 
 // Layout
-import { Layout } from "./components/Layout/Layout";
 import { getApiUri } from "./utils";
 
 // ----------------------------------------------------------------------

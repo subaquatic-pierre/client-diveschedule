@@ -1,9 +1,9 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
-import { Schedule } from "./pages/Schedule";
-import { Admin } from "./pages/Admin";
-import { Login } from "./pages/Login";
+import { Schedule } from "./views/Schedule";
+import { Admin } from "./views/Admin";
+import { Login } from "./views/Login";
 
 export const BaseRouter: React.FC = (props) => (
   <Switch>

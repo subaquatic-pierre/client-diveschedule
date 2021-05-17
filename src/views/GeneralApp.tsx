@@ -17,7 +17,7 @@ import {
   AppTotalInstalled,
   AppCurrentDownload,
   AppTotalActiveUsers,
-  AppTopInstalledCountries
+  AppTopInstalledCountries,
 } from "../components/general/app";
 
 // ----------------------------------------------------------------------

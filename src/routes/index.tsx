@@ -156,8 +156,10 @@ const routes: RouteItem[] = [
     path: PATH_AUTH.root,
     component: () => <Redirect to={PATH_AUTH.login} />,
   },
+
   // App Routes
   DashboardRoutes,
+
   // Home Routes
   HomeRoutes,
 ];

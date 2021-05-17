@@ -1,7 +1,7 @@
-import { ReactNode, useEffect } from 'react';
-import { Link as RouterLink, useLocation, matchPath } from 'react-router-dom';
+import { ReactNode, useEffect } from "react";
+import { Link as RouterLink, useLocation, matchPath } from "react-router-dom";
 // material
-import { alpha, experimentalStyled as styled } from '@material-ui/core/styles';
+import { alpha, experimentalStyled as styled } from "@material-ui/core/styles";
 import {
   Box,
   Link,
@@ -9,47 +9,47 @@ import {
   Drawer,
   Hidden,
   Typography,
-  ListSubheader
-} from '@material-ui/core';
+  ListSubheader,
+} from "@material-ui/core";
 // hooks
-import useAuth from '../../hooks/useAuth';
+import useAuth from "../../hooks/useAuth";
 // routes
-import { PATH_DASHBOARD } from '../../routes/paths';
+import { PATH_DASHBOARD } from "../../routes/paths";
 // components
-import Logo from '../../components/Logo';
-import MyAvatar from '../../components/MyAvatar';
-import Scrollbar from '../../components/Scrollbar';
+import Logo from "../../components/Logo";
+import MyAvatar from "../../components/MyAvatar";
+import Scrollbar from "../../components/Scrollbar";
 //
-import MenuLinks from './SidebarConfig';
-import SidebarItem from './SidebarItem';
+import MenuLinks from "./SidebarConfig";
+import SidebarItem from "./SidebarItem";
 
 // ----------------------------------------------------------------------
 
 const DRAWER_WIDTH = 280;
 
-const RootStyle = styled('div')(({ theme }) => ({
-  [theme.breakpoints.up('lg')]: {
+const RootStyle = styled("div")(({ theme }) => ({
+  [theme.breakpoints.up("lg")]: {
     flexShrink: 0,
-    width: DRAWER_WIDTH
-  }
+    width: DRAWER_WIDTH,
+  },
 }));
 
-const AccountStyle = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
+const AccountStyle = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
   padding: theme.spacing(2, 2.5),
   margin: theme.spacing(1, 2.5, 5),
   borderRadius: theme.shape.borderRadiusSm,
-  backgroundColor: theme.palette.grey[500_12]
+  backgroundColor: theme.palette.grey[500_12],
 }));
 
-const DocStyle = styled('div')(({ theme }) => ({
+const DocStyle = styled("div")(({ theme }) => ({
   padding: theme.spacing(2.5),
   borderRadius: theme.shape.borderRadiusMd,
   backgroundColor:
-    theme.palette.mode === 'light'
+    theme.palette.mode === "light"
       ? alpha(theme.palette.primary.main, 0.08)
-      : theme.palette.primary.lighter
+      : theme.palette.primary.lighter,
 }));
 // ----------------------------------------------------------------------
 
@@ -74,7 +74,7 @@ function reduceChild({ array, item, pathname, level }: ReduceChildParams) {
   if (item.items) {
     const match = matchPath(pathname, {
       path: item.href,
-      exact: false
+      exact: false,
     });
 
     return [
@@ -91,9 +91,9 @@ function reduceChild({ array, item, pathname, level }: ReduceChildParams) {
         {renderSidebarItems({
           pathname,
           level: level + 1,
-          items: item.items
+          items: item.items,
         })}
-      </SidebarItem>
+      </SidebarItem>,
     ];
   }
   return [
@@ -105,7 +105,7 @@ function reduceChild({ array, item, pathname, level }: ReduceChildParams) {
       icon={item.icon}
       info={item.info}
       title={item.title}
-    />
+    />,
   ];
 }
 
@@ -118,7 +118,7 @@ type RenderSidebarItemsParams = {
 function renderSidebarItems({
   items,
   pathname,
-  level = 0
+  level = 0,
 }: RenderSidebarItemsParams) {
   return (
     <List disablePadding>
@@ -137,7 +137,7 @@ type NavBarProps = {
 
 export default function DashboardSidebar({
   isOpenSidebar,
-  onCloseSidebar
+  onCloseSidebar,
 }: NavBarProps) {
   const { pathname } = useLocation();
   const { user } = useAuth();
@@ -165,10 +165,10 @@ export default function DashboardSidebar({
         <AccountStyle>
           <MyAvatar />
           <Box sx={{ ml: 2 }}>
-            <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
+            <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
               {user.displayName}
             </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            <Typography variant="body2" sx={{ color: "text.secondary" }}>
               {user.role}
             </Typography>
           </Box>
@@ -187,8 +187,8 @@ export default function DashboardSidebar({
                 mt: 3,
                 mb: 2,
                 pl: 5,
-                color: 'text.primary',
-                typography: 'overline'
+                color: "text.primary",
+                typography: "overline",
               }}
             >
               {list.subheader}
@@ -197,7 +197,7 @@ export default function DashboardSidebar({
         >
           {renderSidebarItems({
             items: list.items,
-            pathname
+            pathname,
           })}
         </List>
       ))}
@@ -213,11 +213,11 @@ export default function DashboardSidebar({
           <Typography
             gutterBottom
             variant="subtitle1"
-            sx={{ color: 'grey.800' }}
+            sx={{ color: "grey.800" }}
           >
             Hi, {user.displayName}
           </Typography>
-          <Typography variant="body2" sx={{ mb: 2, color: 'grey.600' }}>
+          <Typography variant="body2" sx={{ mb: 2, color: "grey.600" }}>
             Need help?
             <br /> Please check our docs
           </Typography>
@@ -233,7 +233,7 @@ export default function DashboardSidebar({
           open={isOpenSidebar}
           onClose={onCloseSidebar}
           PaperProps={{
-            sx: { width: DRAWER_WIDTH }
+            sx: { width: DRAWER_WIDTH },
           }}
         >
           {renderContent}
@@ -244,7 +244,7 @@ export default function DashboardSidebar({
           open
           variant="persistent"
           PaperProps={{
-            sx: { width: DRAWER_WIDTH, bgcolor: 'background.default' }
+            sx: { width: DRAWER_WIDTH, bgcolor: "background.default" },
           }}
         >
           {renderContent}
