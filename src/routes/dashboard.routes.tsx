@@ -25,10 +25,17 @@ const DashboardRoutes = {
       path: PATH_DASHBOARD.root,
       component: () => <Redirect to={PATH_DASHBOARD.general.app} />,
     },
+    // APP : CALENDAR
+    // ----------------------------------------------------------------------
     {
       exact: true,
-      path: PATH_DASHBOARD.eCommerce.root,
-      component: () => <Redirect to={PATH_DASHBOARD.eCommerce.shop} />,
+      path: PATH_DASHBOARD.calendar,
+      component: lazy(() => import("../views/Calendar")),
+    },
+    {
+      exact: true,
+      path: PATH_DASHBOARD.schedule,
+      component: lazy(() => import("../views/Schedule")),
     },
 
     // MANAGEMENT : USER
@@ -58,22 +65,6 @@ const DashboardRoutes = {
       path: PATH_DASHBOARD.user.root,
       component: () => <Redirect to={PATH_DASHBOARD.user.profile} />,
     },
-
-    {
-      exact: true,
-      path: PATH_DASHBOARD.chat.root,
-      component: () => <Redirect to={PATH_DASHBOARD.chat.new} />,
-    },
-
-    // APP : CALENDAR
-    // ----------------------------------------------------------------------
-    {
-      exact: true,
-      path: PATH_DASHBOARD.calendar,
-      component: lazy(() => import("../views/Calendar")),
-    },
-
-    // ----------------------------------------------------------------------
 
     {
       component: () => <Redirect to="/404" />,
