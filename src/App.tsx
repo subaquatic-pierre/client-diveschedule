@@ -1,5 +1,4 @@
 import React from "react";
-import Cookies from "js-cookie";
 import { createBrowserHistory } from "history";
 import { HelmetProvider } from "react-helmet-async";
 import { Provider as ReduxProvider } from "react-redux";
@@ -10,15 +9,10 @@ import AdapterDateFns from "@material-ui/lab/AdapterDateFns";
 import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
 import { Router } from "react-router-dom";
 import { Color } from "@material-ui/lab/Alert";
-import {
-  ApolloClient,
-  ApolloProvider,
-  HttpLink,
-  InMemoryCache,
-} from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
 
 // Redux
-import { store, persistor } from "./redux/store";
+import { store, persistor as reduxPersistor } from "./redux/store";
 
 // Routes
 import routes, { renderRoutes } from "./routes";
@@ -39,13 +33,15 @@ import JwtProvider from "./components/authentication/JwtProvider";
 // import FirebaseProvider from './components/authentication/FirebaseProvider';
 
 // Auth
-import { getAuthToken } from "./components/Auth/utils";
 import { Auth } from "./components/Auth";
 
 // Layout
-import { getApiUri } from "./utils";
+import useApolloSetup from "./hooks/useApolloSetup";
+import { getAuthToken } from "./components/Auth/utils";
 
 // ----------------------------------------------------------------------
+
+const token = getAuthToken();
 
 interface IAlert {
   state: boolean;
@@ -60,36 +56,6 @@ export interface IAlertContext {
 
 export const AlertContext = React.createContext({} as IAlertContext);
 
-// Authorization logic
-const token = getAuthToken();
-
-const httpLink = new HttpLink({
-  uri: getApiUri(),
-  headers: {
-    Authorization: token ? `JWT ${token}` : "",
-    "X-CSRFToken": Cookies.get("csrftoken"),
-  },
-});
-
-const cache = new InMemoryCache({
-  typePolicies: {
-    Query: {
-      fields: {
-        bookings: {
-          merge(existing, incoming) {
-            return incoming;
-          },
-        },
-      },
-    },
-  },
-});
-
-const client = new ApolloClient({
-  link: httpLink,
-  cache,
-});
-
 export const initialAlert: IAlert = {
   state: false,
   severity: undefined,
@@ -100,11 +66,17 @@ const history = createBrowserHistory();
 
 const App: React.FC = (props) => {
   const [alert, setAlert] = React.useState(initialAlert);
+  const client = useApolloSetup();
+
+  if (!client) {
+    return <h2>Initializing app...</h2>;
+  }
+
   return (
     <ApolloProvider client={client}>
       <HelmetProvider>
         <ReduxProvider store={store}>
-          <PersistGate loading={<LoadingScreen />} persistor={persistor}>
+          <PersistGate loading={<LoadingScreen />} persistor={reduxPersistor}>
             <ThemeConfig>
               <RtlLayout>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
