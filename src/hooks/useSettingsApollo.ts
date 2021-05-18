@@ -22,54 +22,46 @@ function useSettings() {
     query: SETTINGS_QUERY,
   });
 
-  const { themeMode, themeDirection } = settings;
+  const { themeMode } = settings;
 
   const isLight = themeMode === "light";
 
-  const handleToggleTheme = useCallback(
-    () =>
-      client.writeQuery({
-        query: SETTINGS_QUERY,
-        data: {
-          settings: {
-            themeDirection,
-            themeMode: isLight ? "dark" : "light",
-          },
-        },
-      }),
-    [client, themeDirection, isLight]
-  );
-
-  const handleChangeTheme = (event) => {
-    return client.writeQuery({
+  const handleToggleTheme = () =>
+    client.writeQuery({
       query: SETTINGS_QUERY,
       data: {
         settings: {
-          themeDirection,
+          ...settings,
+          themeMode: isLight ? "dark" : "light",
+        },
+      },
+    });
+
+  const handleChangeTheme = (event) =>
+    client.writeQuery({
+      query: SETTINGS_QUERY,
+      data: {
+        settings: {
+          ...settings,
           themeMode: event.target.value,
         },
       },
     });
-  };
 
   const handleChangeDirection = (event) =>
     client.writeQuery({
       query: SETTINGS_QUERY,
       data: {
         settings: {
-          themeMode,
+          ...settings,
           themeDirection: event.target.value,
         },
       },
     });
 
   return {
-    // Mode
-    themeMode,
     toggleMode: handleToggleTheme,
     selectMode: handleChangeTheme,
-    // Direction
-    themeDirection,
     selectDirection: handleChangeDirection,
   };
 }

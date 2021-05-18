@@ -27,11 +27,12 @@ type ThemeConfigProps = {
 
 export default function ThemeConfig({ children }: ThemeConfigProps) {
   const client = useApolloClient();
-  const {
-    settings: { themeDirection, themeMode },
-  } = client.readQuery({
+
+  const { settings } = client.readQuery({
     query: SETTINGS_QUERY,
   });
+
+  const { themeDirection, themeMode } = settings;
 
   const isLight = themeMode === "light";
 

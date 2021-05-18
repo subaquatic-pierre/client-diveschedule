@@ -19,12 +19,24 @@ export default function SettingDirection() {
   const client = useApolloClient();
 
   const {
-    settings: { themeDirection },
+    settings: { themeDirection, themeMode },
   } = client.readQuery({
     query: SETTINGS_QUERY,
   });
 
-  const { selectDirection } = useSettingsApollo();
+  // const { selectDirection } = useSettingsApollo();
+
+  const selectDirection = (event) =>
+    client.writeQuery({
+      query: SETTINGS_QUERY,
+      data: {
+        settings: {
+          __typename: "Settings",
+          themeDirection: event.target.value,
+          themeMode: themeMode,
+        },
+      },
+    });
 
   return (
     <RadioGroup
