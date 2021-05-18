@@ -8,7 +8,7 @@ import {
   Hidden,
   Tooltip,
   Container,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import { PATH_AUTH } from "../../routes/paths";
 import useAuth from "../../hooks/useAuth";
@@ -21,8 +21,8 @@ import AuthWithSocial from "../../components/authentication/AuthWithSocial";
 
 const RootStyle = styled(Page)(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
-    display: "flex"
-  }
+    display: "flex",
+  },
 }));
 
 const HeaderStyle = styled("header")(({ theme }) => ({
@@ -37,8 +37,8 @@ const HeaderStyle = styled("header")(({ theme }) => ({
   justifyContent: "space-between",
   [theme.breakpoints.up("md")]: {
     alignItems: "flex-start",
-    padding: theme.spacing(7, 5, 0, 7)
-  }
+    padding: theme.spacing(7, 5, 0, 7),
+  },
 }));
 
 const SectionStyle = styled(Card)(({ theme }) => ({
@@ -47,7 +47,7 @@ const SectionStyle = styled(Card)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
-  margin: theme.spacing(2, 0, 2, 2)
+  margin: theme.spacing(2, 0, 2, 2),
 }));
 
 const ContentStyle = styled("div")(({ theme }) => ({
@@ -57,7 +57,7 @@ const ContentStyle = styled("div")(({ theme }) => ({
   minHeight: "100vh",
   flexDirection: "column",
   justifyContent: "center",
-  padding: theme.spacing(12, 0)
+  padding: theme.spacing(12, 0),
 }));
 
 // ----------------------------------------------------------------------
@@ -75,7 +75,7 @@ export default function Login() {
           <Typography
             variant="body2"
             sx={{
-              mt: { md: -2 }
+              mt: { md: -2 },
             }}
           >
             Don’t have an account? &nbsp;
