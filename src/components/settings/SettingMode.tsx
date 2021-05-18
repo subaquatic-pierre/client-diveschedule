@@ -10,22 +10,12 @@ import {
   FormControlLabel,
 } from "@material-ui/core";
 // hooks
-import useSettingsApollo, {
-  SETTINGS_QUERY,
-} from "../../hooks/useSettingsApollo";
+import useSettingsApollo from "../../hooks/useSettingsApollo";
 
 // ----------------------------------------------------------------------
 
 export default function SettingMode() {
-  const client = useApolloClient();
-
-  const {
-    settings: { themeMode },
-  } = client.readQuery({
-    query: SETTINGS_QUERY,
-  });
-
-  const { selectMode } = useSettingsApollo();
+  const { selectMode, themeMode } = useSettingsApollo();
 
   return (
     <RadioGroup name="themeMode" value={themeMode} onChange={selectMode}>

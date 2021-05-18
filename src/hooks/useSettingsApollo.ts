@@ -1,10 +1,24 @@
 import { useCallback } from "react";
-import { useApolloClient, gql } from "@apollo/client";
+import {
+  useApolloClient,
+  gql,
+  useQuery,
+  ApolloClient,
+  DocumentNode,
+} from "@apollo/client";
+import { string } from "yup/lib/locale";
 
 // ----------------------------------------------------------------------
 
 type ThemeMode = "light" | "dark";
 type ThemeDirection = "rtl" | "ltr";
+
+type SettingsQueryType = {
+  settings: {
+    themeMode: ThemeMode;
+    themeDirection: ThemeDirection;
+  };
+};
 
 export const SETTINGS_QUERY = gql`
   query Settings {
@@ -15,53 +29,70 @@ export const SETTINGS_QUERY = gql`
   }
 `;
 
+function updateClient(
+  client: ApolloClient<any>,
+  query: DocumentNode,
+  data: any
+): void {
+  client.writeQuery({
+    query,
+    data,
+  });
+}
+
 function useSettings() {
   const client = useApolloClient();
 
-  const { settings } = client.readQuery({
-    query: SETTINGS_QUERY,
+  const { data, error } = useQuery<SettingsQueryType>(SETTINGS_QUERY, {
+    fetchPolicy: "cache-only",
   });
 
-  const { themeMode } = settings;
+  const settings = data.settings;
+  const { themeMode, themeDirection } = settings;
 
   const isLight = themeMode === "light";
 
-  const handleToggleTheme = () =>
-    client.writeQuery({
-      query: SETTINGS_QUERY,
-      data: {
-        settings: {
-          ...settings,
-          themeMode: isLight ? "dark" : "light",
-        },
-      },
-    });
+  if (error) {
+    throw new Error(`There was an error with settings query: ${error.message}`);
+  }
 
-  const handleChangeTheme = (event) =>
-    client.writeQuery({
-      query: SETTINGS_QUERY,
-      data: {
-        settings: {
-          ...settings,
-          themeMode: event.target.value,
-        },
+  const handleToggleTheme = () => {
+    const data = {
+      settings: {
+        ...settings,
+        themeMode: isLight ? "dark" : "light",
       },
-    });
+    };
+    updateClient(client, SETTINGS_QUERY, data);
+  };
 
-  const handleChangeDirection = (event) =>
-    client.writeQuery({
-      query: SETTINGS_QUERY,
-      data: {
-        settings: {
-          ...settings,
-          themeDirection: event.target.value,
-        },
+  const handleChangeTheme = (event) => {
+    const data = {
+      settings: {
+        ...settings,
+        themeMode: event.target.value,
       },
-    });
+    };
+    updateClient(client, SETTINGS_QUERY, data);
+  };
+
+  const handleChangeDirection = (event) => {
+    const data = {
+      settings: {
+        ...settings,
+        themeDirection: event.target.value,
+      },
+    };
+    updateClient(client, SETTINGS_QUERY, data);
+  };
 
   return {
+    // Mode
+    themeMode,
     toggleMode: handleToggleTheme,
     selectMode: handleChangeTheme,
+    // Direction
+    themeDirection,
     selectDirection: handleChangeDirection,
   };
 }

@@ -17,7 +17,7 @@ import breakpoints from "./breakpoints";
 import GlobalStyles from "./globalStyles";
 import componentsOverride from "./overrides";
 import shadows, { customShadows } from "./shadows";
-import { SETTINGS_QUERY } from "../hooks/useSettingsApollo";
+import useSettingsApollo from "../hooks/useSettingsApollo";
 
 // ----------------------------------------------------------------------
 
@@ -26,13 +26,7 @@ type ThemeConfigProps = {
 };
 
 export default function ThemeConfig({ children }: ThemeConfigProps) {
-  const client = useApolloClient();
-
-  const { settings } = client.readQuery({
-    query: SETTINGS_QUERY,
-  });
-
-  const { themeDirection, themeMode } = settings;
+  const { themeDirection, themeMode } = useSettingsApollo();
 
   const isLight = themeMode === "light";
 

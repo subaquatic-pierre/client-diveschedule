@@ -17,8 +17,6 @@ import Page from "../../components/Page";
 import Logo from "../../components/Logo";
 import { LoginForm } from "../../components/authentication/login";
 import AuthWithSocial from "../../components/authentication/AuthWithSocial";
-import { useApolloClient } from "@apollo/client";
-import { TEST_QUERY } from "../../components/SetupCache";
 
 // ----------------------------------------------------------------------
 
@@ -67,26 +65,6 @@ const ContentStyle = styled("div")(({ theme }) => ({
 
 export default function Login() {
   const { method } = useAuth();
-  const client = useApolloClient();
-
-  const data = client.readQuery({
-    query: TEST_QUERY,
-  });
-
-  const handleButtonClick = () => {
-    client.writeQuery({
-      query: TEST_QUERY,
-      data: {
-        test: {
-          value: data.test.value + 1,
-        },
-      },
-    });
-  };
-
-  React.useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   return (
     <RootStyle title="Login | Minimal-UI">
@@ -153,13 +131,6 @@ export default function Login() {
           </Alert>
 
           <LoginForm />
-
-          <button
-            onClick={handleButtonClick}
-            style={{ marginTop: "2rem", width: "50px" }}
-          >
-            Hello
-          </button>
 
           <Hidden smUp>
             <Typography variant="body2" align="center" sx={{ mt: 3 }}>

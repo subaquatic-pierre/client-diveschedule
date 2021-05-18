@@ -7,36 +7,13 @@ import {
   CardActionArea,
   FormControlLabel,
 } from "@material-ui/core";
-import { useApolloClient } from "@apollo/client";
 // hooks
-import useSettingsApollo, {
-  SETTINGS_QUERY,
-} from "../../hooks/useSettingsApollo";
+import useSettingsApollo from "../../hooks/useSettingsApollo";
 
 // ----------------------------------------------------------------------
 
 export default function SettingDirection() {
-  const client = useApolloClient();
-
-  const {
-    settings: { themeDirection, themeMode },
-  } = client.readQuery({
-    query: SETTINGS_QUERY,
-  });
-
-  // const { selectDirection } = useSettingsApollo();
-
-  const selectDirection = (event) =>
-    client.writeQuery({
-      query: SETTINGS_QUERY,
-      data: {
-        settings: {
-          __typename: "Settings",
-          themeDirection: event.target.value,
-          themeMode: themeMode,
-        },
-      },
-    });
+  const { themeDirection, selectDirection } = useSettingsApollo();
 
   return (
     <RadioGroup
