@@ -8,13 +8,13 @@ export const formatDate = (date: Date, format?: string) => {
     weekday: "long",
     year: "numeric",
     month: "short",
-    day: "numeric"
+    day: "numeric",
   };
 
   const todayString = `${dd}-${mm}-${yyyy}`;
   switch (format) {
     case "full":
-      return formatDate.toLocaleDateString("en-US", fullDateOptions);
+      return formatDate.toLocaleDateString("en-US", fullDateOptions as any);
     case "server":
       return `${yyyy}-${mm}-${dd}`;
     default:
