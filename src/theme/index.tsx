@@ -1,14 +1,14 @@
 import { useMemo, ReactNode } from "react";
+import { useApolloClient } from "@apollo/client";
 // material
 import { CssBaseline } from "@material-ui/core";
 import {
   ThemeOptions,
   ThemeProvider,
-  createMuiTheme
+  createMuiTheme,
 } from "@material-ui/core/styles";
 import StyledEngineProvider from "@material-ui/core/StyledEngineProvider";
 // hooks
-import useSettings from "../hooks/useSettings";
 //
 import shape from "./shape";
 import palette from "./palette";
@@ -17,6 +17,7 @@ import breakpoints from "./breakpoints";
 import GlobalStyles from "./globalStyles";
 import componentsOverride from "./overrides";
 import shadows, { customShadows } from "./shadows";
+import { SETTINGS_QUERY } from "../hooks/useSettingsApollo";
 
 // ----------------------------------------------------------------------
 
@@ -25,7 +26,13 @@ type ThemeConfigProps = {
 };
 
 export default function ThemeConfig({ children }: ThemeConfigProps) {
-  const { themeMode, themeDirection } = useSettings();
+  const client = useApolloClient();
+  const {
+    settings: { themeDirection, themeMode },
+  } = client.readQuery({
+    query: SETTINGS_QUERY,
+  });
+
   const isLight = themeMode === "light";
 
   const themeOptions: ThemeOptions = useMemo(
@@ -38,7 +45,7 @@ export default function ThemeConfig({ children }: ThemeConfigProps) {
       breakpoints,
       direction: themeDirection,
       shadows: isLight ? shadows.light : shadows.dark,
-      customShadows: isLight ? customShadows.light : customShadows.dark
+      customShadows: isLight ? customShadows.light : customShadows.dark,
     }),
     [isLight, themeDirection]
   );

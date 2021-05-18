@@ -21,6 +21,7 @@ import routes, { renderRoutes } from "./routes";
 import ThemeConfig from "./theme";
 
 // Components
+import SetupCache from "./components/SetupCache";
 import Settings from "./components/settings";
 import RtlLayout from "./components/RtlLayout";
 import ScrollToTop from "./components/ScrollToTop";
@@ -75,30 +76,32 @@ const App: React.FC = (props) => {
   return (
     <ApolloProvider client={client}>
       <HelmetProvider>
-        <ReduxProvider store={store}>
-          <PersistGate loading={<LoadingScreen />} persistor={reduxPersistor}>
-            <ThemeConfig>
-              <RtlLayout>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <NotistackProvider>
-                    <Auth token={token}>
-                      <AlertContext.Provider value={{ alert, setAlert }}>
-                        <Router history={history}>
-                          {/* <JwtProvider> */}
-                          <Settings />
-                          <ScrollToTop />
-                          <GoogleAnalytics />
-                          {renderRoutes(routes)}
-                          {/* </JwtProvider> */}
-                        </Router>
-                      </AlertContext.Provider>
-                    </Auth>
-                  </NotistackProvider>
-                </LocalizationProvider>
-              </RtlLayout>
-            </ThemeConfig>
-          </PersistGate>
-        </ReduxProvider>
+        <SetupCache>
+          <ReduxProvider store={store}>
+            <PersistGate loading={<LoadingScreen />} persistor={reduxPersistor}>
+              <ThemeConfig>
+                <RtlLayout>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <NotistackProvider>
+                      <Auth token={token}>
+                        <AlertContext.Provider value={{ alert, setAlert }}>
+                          <Router history={history}>
+                            {/* <JwtProvider> */}
+                            <Settings />
+                            <ScrollToTop />
+                            <GoogleAnalytics />
+                            {renderRoutes(routes)}
+                            {/* </JwtProvider> */}
+                          </Router>
+                        </AlertContext.Provider>
+                      </Auth>
+                    </NotistackProvider>
+                  </LocalizationProvider>
+                </RtlLayout>
+              </ThemeConfig>
+            </PersistGate>
+          </ReduxProvider>
+        </SetupCache>
       </HelmetProvider>
     </ApolloProvider>
   );
