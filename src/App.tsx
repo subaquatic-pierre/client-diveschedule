@@ -44,6 +44,8 @@ import { Auth } from "./components/Auth";
 
 // Layout
 import { getApiUri } from "./utils";
+import useSettings, { initialState } from "./hooks/useSettings";
+import { SettingsState } from "./@types/settings";
 
 // ----------------------------------------------------------------------
 
@@ -98,33 +100,38 @@ export const initialAlert: IAlert = {
 
 const history = createBrowserHistory();
 
+export const SettingsContext = React.createContext({} as any);
+
 const App: React.FC = (props) => {
   const [alert, setAlert] = React.useState(initialAlert);
+  const settings = useSettings();
   return (
     <ApolloProvider client={client}>
       <HelmetProvider>
         <ReduxProvider store={store}>
           <PersistGate loading={<LoadingScreen />} persistor={persistor}>
-            <ThemeConfig>
-              <RtlLayout>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <NotistackProvider>
-                    <Auth token={token}>
-                      <AlertContext.Provider value={{ alert, setAlert }}>
-                        <Router history={history}>
-                          {/* <JwtProvider> */}
-                          <Settings />
-                          <ScrollToTop />
-                          <GoogleAnalytics />
-                          {renderRoutes(routes)}
-                          {/* </JwtProvider> */}
-                        </Router>
-                      </AlertContext.Provider>
-                    </Auth>
-                  </NotistackProvider>
-                </LocalizationProvider>
-              </RtlLayout>
-            </ThemeConfig>
+            <SettingsContext.Provider value={settings}>
+              <ThemeConfig>
+                <RtlLayout>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <NotistackProvider>
+                      <Auth token={token}>
+                        <AlertContext.Provider value={{ alert, setAlert }}>
+                          <Router history={history}>
+                            {/* <JwtProvider> */}
+                            <Settings />
+                            <ScrollToTop />
+                            <GoogleAnalytics />
+                            {renderRoutes(routes)}
+                            {/* </JwtProvider> */}
+                          </Router>
+                        </AlertContext.Provider>
+                      </Auth>
+                    </NotistackProvider>
+                  </LocalizationProvider>
+                </RtlLayout>
+              </ThemeConfig>
+            </SettingsContext.Provider>
           </PersistGate>
         </ReduxProvider>
       </HelmetProvider>

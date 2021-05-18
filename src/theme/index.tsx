@@ -1,10 +1,10 @@
-import { useMemo, ReactNode } from "react";
+import { useMemo, ReactNode, useContext } from "react";
 // material
 import { CssBaseline } from "@material-ui/core";
 import {
   ThemeOptions,
   ThemeProvider,
-  createMuiTheme
+  createMuiTheme,
 } from "@material-ui/core/styles";
 import StyledEngineProvider from "@material-ui/core/StyledEngineProvider";
 // hooks
@@ -17,6 +17,7 @@ import breakpoints from "./breakpoints";
 import GlobalStyles from "./globalStyles";
 import componentsOverride from "./overrides";
 import shadows, { customShadows } from "./shadows";
+import { SettingsContext } from "../App";
 
 // ----------------------------------------------------------------------
 
@@ -25,7 +26,7 @@ type ThemeConfigProps = {
 };
 
 export default function ThemeConfig({ children }: ThemeConfigProps) {
-  const { themeMode, themeDirection } = useSettings();
+  const { themeMode, themeDirection } = useContext(SettingsContext);
   const isLight = themeMode === "light";
 
   const themeOptions: ThemeOptions = useMemo(
@@ -38,7 +39,7 @@ export default function ThemeConfig({ children }: ThemeConfigProps) {
       breakpoints,
       direction: themeDirection,
       shadows: isLight ? shadows.light : shadows.dark,
-      customShadows: isLight ? customShadows.light : customShadows.dark
+      customShadows: isLight ? customShadows.light : customShadows.dark,
     }),
     [isLight, themeDirection]
   );

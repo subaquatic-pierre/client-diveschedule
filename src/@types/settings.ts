@@ -1,6 +1,9 @@
 // ----------------------------------------------------------------------
 
+type ThemeMode = "light" | "dark";
+type ThemeDirection = "rtl" | "ltr";
+
 export type SettingsState = {
-  themeMode: "light" | "dark";
-  themeDirection: "rlt" | "ltr";
+  themeMode: ThemeMode;
+  themeDirection: ThemeDirection;
 };
