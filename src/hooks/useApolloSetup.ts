@@ -38,7 +38,7 @@ export default function useApolloSetup() {
       let newPersistor = new CachePersistor({
         cache,
         storage: new LocalStorageWrapper(window.localStorage),
-        debug: true,
+        // debug: true,
         trigger: "write",
       });
 

@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import {
   useApolloClient,
   gql,
@@ -6,7 +5,6 @@ import {
   ApolloClient,
   DocumentNode,
 } from "@apollo/client";
-import { string } from "yup/lib/locale";
 
 // ----------------------------------------------------------------------
 
@@ -42,19 +40,16 @@ function updateClient(
 
 function useSettings() {
   const client = useApolloClient();
-
-  const { data, error } = useQuery<SettingsQueryType>(SETTINGS_QUERY, {
-    fetchPolicy: "cache-only",
-  });
-
-  const settings = data.settings;
-  const { themeMode, themeDirection } = settings;
-
-  const isLight = themeMode === "light";
+  const { data, error } = useQuery<SettingsQueryType>(SETTINGS_QUERY);
 
   if (error) {
     throw new Error(`There was an error with settings query: ${error.message}`);
   }
+
+  const { settings } = data;
+  const { themeMode, themeDirection } = settings;
+
+  const isLight = themeMode === "light";
 
   const handleToggleTheme = () => {
     const data = {
