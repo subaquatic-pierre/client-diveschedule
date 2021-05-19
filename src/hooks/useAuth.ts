@@ -62,7 +62,7 @@ export default function useAuth(some: Method = "jwt") {
 
       logout: () => dispatch(logout()),
 
-      resetPassword: (some: any) => {},
+      resetPassword: (data: any) => {},
 
       updateProfile: (data: any) => {},
 

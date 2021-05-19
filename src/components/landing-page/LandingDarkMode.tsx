@@ -1,47 +1,47 @@
 // material
-import { experimentalStyled as styled } from '@material-ui/core/styles';
-import { Box, Grid, Container, Typography, Switch } from '@material-ui/core';
+import { experimentalStyled as styled } from "@material-ui/core/styles";
+import { Box, Grid, Container, Typography, Switch } from "@material-ui/core";
 // hooks
-import useSettings from '../../hooks/useSettings';
+import useSettings from "../../hooks/useSettings";
 //
 import {
   varFadeInUp,
   MotionInView,
   varFadeInLeft,
-  varFadeInRight
-} from '../animate';
+  varFadeInRight,
+} from "../animate";
 
 // ----------------------------------------------------------------------
 
-const RootStyle = styled('div')(({ theme }) => ({
+const RootStyle = styled("div")(({ theme }) => ({
   padding: theme.spacing(20, 0),
-  backgroundColor: theme.palette.grey[900]
+  backgroundColor: theme.palette.grey[900],
 }));
 
-const ContentStyle = styled('div')(({ theme }) => ({
-  textAlign: 'center',
-  position: 'relative',
+const ContentStyle = styled("div")(({ theme }) => ({
+  textAlign: "center",
+  position: "relative",
   marginBottom: theme.spacing(10),
-  [theme.breakpoints.up('md')]: {
-    height: '100%',
+  [theme.breakpoints.up("md")]: {
+    height: "100%",
     marginBottom: 0,
-    textAlign: 'left',
-    display: 'inline-flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'flex-start'
-  }
+    textAlign: "left",
+    display: "inline-flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "flex-start",
+  },
 }));
 
 // ----------------------------------------------------------------------
 
 export default function LandingDarkMode() {
   const { themeMode, toggleMode } = useSettings();
-  const isLight = themeMode === 'light';
+  const isLight = themeMode === "light";
 
   return (
     <RootStyle>
-      <Container maxWidth="lg" sx={{ position: 'relative' }}>
+      <Container maxWidth="lg" sx={{ position: "relative" }}>
         <Box
           component="img"
           alt="image shape"
@@ -50,10 +50,10 @@ export default function LandingDarkMode() {
             top: 0,
             right: 0,
             bottom: 0,
-            my: 'auto',
-            position: 'absolute',
-            filter: 'grayscale(1) opacity(48%)',
-            display: { xs: 'none', md: 'block' }
+            my: "auto",
+            position: "absolute",
+            filter: "grayscale(1) opacity(48%)",
+            display: { xs: "none", md: "block" },
           }}
         />
 
@@ -64,7 +64,7 @@ export default function LandingDarkMode() {
                 <Typography
                   gutterBottom
                   variant="overline"
-                  sx={{ color: 'text.disabled', display: 'block' }}
+                  sx={{ color: "text.disabled", display: "block" }}
                 >
                   Easy switch between styles.
                 </Typography>
@@ -72,7 +72,7 @@ export default function LandingDarkMode() {
 
               <MotionInView
                 variants={varFadeInUp}
-                sx={{ color: 'common.white' }}
+                sx={{ color: "common.white" }}
               >
                 <Typography variant="h2" paragraph>
                   Dark Mode
@@ -81,7 +81,7 @@ export default function LandingDarkMode() {
 
               <MotionInView
                 variants={varFadeInUp}
-                sx={{ color: 'common.white', mb: 5 }}
+                sx={{ color: "common.white", mb: 5 }}
               >
                 <Typography>
                   A dark theme that feels easier on the eyes.
@@ -99,11 +99,11 @@ export default function LandingDarkMode() {
               <Box
                 component="img"
                 alt="theme mode"
-                src={`/static/home/${isLight ? 'light' : 'dark'}mode.png`}
+                src={`/static/home/${isLight ? "light" : "dark"}mode.png`}
                 sx={{
-                  maxWidth: { md: 'calc(100% - 48px)' },
-                  transform: 'translateZ(0)',
-                  filter: 'drop-shadow(-80px 80px 120px #000000)'
+                  maxWidth: { md: "calc(100% - 48px)" },
+                  transform: "translateZ(0)",
+                  filter: "drop-shadow(-80px 80px 120px #000000)",
                 }}
               />
             </MotionInView>

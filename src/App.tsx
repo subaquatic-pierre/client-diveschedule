@@ -70,7 +70,7 @@ const App: React.FC = (props) => {
   const client = useApolloSetup();
 
   if (!client) {
-    return <h2>Initializing app...</h2>;
+    return <LoadingScreen />;
   }
 
   return (

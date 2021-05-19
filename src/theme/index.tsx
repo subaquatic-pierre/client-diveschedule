@@ -17,7 +17,7 @@ import breakpoints from "./breakpoints";
 import GlobalStyles from "./globalStyles";
 import componentsOverride from "./overrides";
 import shadows, { customShadows } from "./shadows";
-import useSettingsApollo from "../hooks/useSettingsApollo";
+import useSettingsApollo from "../hooks/useSettings";
 
 // ----------------------------------------------------------------------
 

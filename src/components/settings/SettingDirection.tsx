@@ -8,7 +8,7 @@ import {
   FormControlLabel,
 } from "@material-ui/core";
 // hooks
-import useSettingsApollo from "../../hooks/useSettingsApollo";
+import useSettingsApollo from "../../hooks/useSettings";
 
 // ----------------------------------------------------------------------
 

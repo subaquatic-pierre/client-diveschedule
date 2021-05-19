@@ -1,35 +1,28 @@
-import { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { switchMode, switchDirection } from "../redux/slices/settings";
+import { useApolloClient, useQuery } from "@apollo/client";
+import {
+  SETTINGS_CACHE_QUERY,
+  SettingsCache,
+  settingsController,
+} from "../cache/settings";
 
 // ----------------------------------------------------------------------
 
-type ThemeMode = "light" | "dark";
-type ThemeDirection = "rtl" | "ltr";
+export default function useSettings() {
+  const client = useApolloClient();
+  const { data, error } = useQuery<SettingsCache>(SETTINGS_CACHE_QUERY);
 
-function useSettings() {
-  const dispatch = useDispatch();
-  const { themeMode, themeDirection } = useSelector(
-    (state: {
-      settings: { themeMode: ThemeMode; themeDirection: ThemeDirection };
-    }) => state.settings
-  );
-  const isLight = themeMode === "light";
+  if (error) {
+    throw new Error(`There was an error with settings query: ${error.message}`);
+  }
 
-  const handleToggleTheme = useCallback(
-    () => dispatch(switchMode(isLight ? "dark" : "light")),
-    [dispatch, isLight]
-  );
+  const { settings } = data;
+  const { themeMode, themeDirection } = settings;
 
-  const handleChangeTheme = useCallback(
-    (event) => dispatch(switchMode(event.target.value)),
-    [dispatch]
-  );
-
-  const handleChangeDirection = useCallback(
-    (event) => dispatch(switchDirection(event.target.value)),
-    [dispatch]
-  );
+  const {
+    handleToggleTheme,
+    handleChangeTheme,
+    handleChangeDirection,
+  } = settingsController(client, settings);
 
   return {
     // Mode
@@ -38,8 +31,6 @@ function useSettings() {
     selectMode: handleChangeTheme,
     // Direction
     themeDirection,
-    selectDirection: handleChangeDirection
+    selectDirection: handleChangeDirection,
   };
 }
-
-export default useSettings;
