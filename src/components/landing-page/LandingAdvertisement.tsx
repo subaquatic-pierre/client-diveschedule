@@ -1,28 +1,28 @@
 // material
-import { experimentalStyled as styled } from '@material-ui/core/styles';
-import { Button, Box, Container, Typography } from '@material-ui/core';
+import { experimentalStyled as styled } from "@material-ui/core/styles";
+import { Button, Box, Container, Typography } from "@material-ui/core";
 // routes
-import { PATH_HOME } from '../../routes/paths';
+import { PATH_HOME } from "../../routes/paths";
 //
-import { varFadeInDown, varFadeInUp, MotionInView } from '../animate';
+import { varFadeInDown, varFadeInUp, MotionInView } from "../animate";
 
 // ----------------------------------------------------------------------
 
-const ContentStyle = styled('div')(({ theme }) => ({
+const ContentStyle = styled("div")(({ theme }) => ({
   maxWidth: 456,
-  margin: 'auto',
-  overflow: 'hidden',
+  margin: "auto",
+  overflow: "hidden",
   paddingBottom: theme.spacing(10),
   borderRadius: theme.shape.borderRadiusMd,
   backgroundImage: `linear-gradient(135deg,
     ${theme.palette.primary.main} 0%,
     ${theme.palette.primary.dark} 100%)`,
-  [theme.breakpoints.up('md')]: {
-    display: 'flex',
-    maxWidth: '100%',
+  [theme.breakpoints.up("md")]: {
+    display: "flex",
+    maxWidth: "100%",
     paddingBottom: 0,
-    alignItems: 'center'
-  }
+    alignItems: "center",
+  },
 }));
 
 // ----------------------------------------------------------------------
@@ -34,7 +34,7 @@ export default function LandingAdvertisement() {
         <MotionInView
           variants={varFadeInUp}
           sx={{
-            mb: { xs: 3, md: 0 }
+            mb: { xs: 3, md: 0 },
           }}
         >
           <Box
@@ -44,9 +44,9 @@ export default function LandingAdvertisement() {
             sx={{
               maxWidth: 460,
               transform: {
-                xs: 'translateX(-18%)',
-                md: 'translateX(0)'
-              }
+                xs: "translateX(-18%)",
+                md: "translateX(0)",
+              },
             }}
           />
         </MotionInView>
@@ -54,12 +54,12 @@ export default function LandingAdvertisement() {
         <Box
           sx={{
             pl: { md: 10 },
-            textAlign: { xs: 'center', md: 'left' }
+            textAlign: { xs: "center", md: "left" },
           }}
         >
           <MotionInView
             variants={varFadeInDown}
-            sx={{ color: 'common.white', mb: 5 }}
+            sx={{ color: "common.white", mb: 5 }}
           >
             <Typography variant="h2">
               Get started with
@@ -71,13 +71,13 @@ export default function LandingAdvertisement() {
               size="large"
               variant="contained"
               target="_blank"
-              href={PATH_HOME.purchase}
+              href={PATH_HOME.home}
               sx={{
                 boxShadow: (theme) => theme.customShadows.z8,
                 color: (theme) =>
                   theme.palette.getContrastText(theme.palette.common.white),
-                bgcolor: 'common.white',
-                '&:hover': { bgcolor: 'grey.300' }
+                bgcolor: "common.white",
+                "&:hover": { bgcolor: "grey.300" },
               }}
             >
               Purchase Now

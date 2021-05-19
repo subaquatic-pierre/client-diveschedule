@@ -1,87 +1,87 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from "react-router-dom";
 // material
 import {
   alpha,
   useTheme,
-  experimentalStyled as styled
-} from '@material-ui/core/styles';
+  experimentalStyled as styled,
+} from "@material-ui/core/styles";
 import {
   Box,
   Grid,
   Button,
   Container,
   Typography,
-  useMediaQuery
-} from '@material-ui/core';
+  useMediaQuery,
+} from "@material-ui/core";
 // routes
-import { PATH_HOME } from '../../routes/paths';
+import { PATH_HOME } from "../../routes/paths";
 //
-import { varFadeInUp, MotionInView, varFadeInRight } from '../animate';
+import { varFadeInUp, MotionInView, varFadeInRight } from "../animate";
 
 // ----------------------------------------------------------------------
 
-const RootStyle = styled('div')(({ theme }) => ({
+const RootStyle = styled("div")(({ theme }) => ({
   padding: theme.spacing(15, 0),
   backgroundImage:
-    theme.palette.mode === 'light'
+    theme.palette.mode === "light"
       ? `linear-gradient(180deg, ${alpha(theme.palette.grey[300], 0)} 0%, ${
           theme.palette.grey[300]
         } 100%)`
-      : 'none'
+      : "none",
 }));
 
-const ContentStyle = styled('div')(({ theme }) => ({
+const ContentStyle = styled("div")(({ theme }) => ({
   maxWidth: 520,
-  margin: 'auto',
-  textAlign: 'center',
+  margin: "auto",
+  textAlign: "center",
   marginBottom: theme.spacing(10),
-  [theme.breakpoints.up('md')]: {
-    height: '100%',
+  [theme.breakpoints.up("md")]: {
+    height: "100%",
     marginBottom: 0,
-    textAlign: 'left',
-    display: 'inline-flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    paddingRight: theme.spacing(5)
-  }
+    textAlign: "left",
+    display: "inline-flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    justifyContent: "center",
+    paddingRight: theme.spacing(5),
+  },
 }));
 
 const ScreenStyle = styled(MotionInView)(({ theme }) => ({
   bottom: 0,
   maxWidth: 460,
-  position: 'absolute'
+  position: "absolute",
 }));
 
 const variantScreenLeftMoblie = {
-  initial: { x: '22%', y: -10, opacity: 0 },
-  animate: { x: 0, y: 0, opacity: 1 }
+  initial: { x: "22%", y: -10, opacity: 0 },
+  animate: { x: 0, y: 0, opacity: 1 },
 };
 const variantScreenRightMobile = {
-  initial: { x: '26%', y: -30, opacity: 0 },
-  animate: { x: '48%', y: -40, opacity: 1 }
+  initial: { x: "26%", y: -30, opacity: 0 },
+  animate: { x: "48%", y: -40, opacity: 1 },
 };
 const variantScreenLeft = {
-  initial: { x: '30%', y: -30, opacity: 0 },
-  animate: { x: 0, y: 0, opacity: 1 }
+  initial: { x: "30%", y: -30, opacity: 0 },
+  animate: { x: 0, y: 0, opacity: 1 },
 };
 const variantScreenCenter = {
   initial: { opacity: 0 },
-  animate: { opacity: 1 }
+  animate: { opacity: 1 },
 };
 const variantScreenRight = {
-  initial: { x: '34%', y: -50, opacity: 0 },
-  animate: { x: '64%', y: -80, opacity: 1 }
+  initial: { x: "34%", y: -50, opacity: 0 },
+  animate: { x: "64%", y: -80, opacity: 1 },
 };
 
 // ----------------------------------------------------------------------
 
 export default function LandingHugePackElements() {
   const theme = useTheme();
-  const isLight = theme.palette.mode === 'light';
-  const isRTL = theme.direction === 'rtl';
-  const upSm = useMediaQuery(theme.breakpoints.up('sm'));
-  const upMd = useMediaQuery(theme.breakpoints.up('md'));
+  const isLight = theme.palette.mode === "light";
+  const isRTL = theme.direction === "rtl";
+  const upSm = useMediaQuery(theme.breakpoints.up("sm"));
+  const upMd = useMediaQuery(theme.breakpoints.up("md"));
 
   const textAnimate = upMd ? varFadeInRight : varFadeInUp;
   const screenLeftAnimate = upSm ? variantScreenLeft : variantScreenLeftMoblie;
@@ -100,7 +100,7 @@ export default function LandingHugePackElements() {
                 <Typography
                   gutterBottom
                   variant="overline"
-                  sx={{ color: 'text.secondary', display: 'block' }}
+                  sx={{ color: "text.secondary", display: "block" }}
                 >
                   Interface Starter Kit
                 </Typography>
@@ -113,7 +113,7 @@ export default function LandingHugePackElements() {
               </MotionInView>
 
               <MotionInView variants={textAnimate}>
-                <Typography sx={{ color: 'text.secondary' }}>
+                <Typography sx={{ color: "text.secondary" }}>
                   We collected most popular elements. Menu, sliders, buttons,
                   inputs etc. are all here. Just dive in!
                 </Typography>
@@ -125,7 +125,7 @@ export default function LandingHugePackElements() {
                   color="inherit"
                   variant="outlined"
                   component={RouterLink}
-                  to={PATH_HOME.components}
+                  to={PATH_HOME.home}
                 >
                   View All Components
                 </Button>
@@ -140,8 +140,8 @@ export default function LandingHugePackElements() {
             md={8}
             lg={7}
             sx={{
-              position: 'relative',
-              pl: { sm: '16% !important', md: '0 !important' }
+              position: "relative",
+              pl: { sm: "16% !important", md: "0 !important" },
             }}
           >
             {[...Array(3)].map((screen, index) => (
@@ -151,30 +151,30 @@ export default function LandingHugePackElements() {
                 variants={{
                   ...(index === 0 && screenLeftAnimate),
                   ...(index === 1 && screenCenterAnimate),
-                  ...(index === 2 && screenRightAnimate)
+                  ...(index === 2 && screenRightAnimate),
                 }}
-                transition={{ duration: 0.5, ease: 'easeOut' }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
                 sx={{
                   ...(index === 0 && { zIndex: 3 }),
                   ...(index === 2 && { zIndex: 1 }),
                   ...(index === 1 && {
-                    position: 'relative',
+                    position: "relative",
                     zIndex: 2,
                     bottom: { xs: 20, sm: 40 },
                     transform: {
-                      xs: isRTL ? 'translateX(-24%)' : 'translateX(24%)',
-                      sm: isRTL ? 'translateX(-32%)' : 'translateX(32%)'
-                    }
-                  })
+                      xs: isRTL ? "translateX(-24%)" : "translateX(24%)",
+                      sm: isRTL ? "translateX(-32%)" : "translateX(32%)",
+                    },
+                  }),
                 }}
               >
                 <Box
                   component="img"
                   alt={`screen ${index + 1}`}
-                  src={`/static/home/screen_${isLight ? 'light' : 'dark'}_${
+                  src={`/static/home/screen_${isLight ? "light" : "dark"}_${
                     index + 1
                   }.png`}
-                  sx={{ width: { xs: '80%', sm: '100%' } }}
+                  sx={{ width: { xs: "80%", sm: "100%" } }}
                 />
               </ScreenStyle>
             ))}

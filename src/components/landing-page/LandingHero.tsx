@@ -1,56 +1,56 @@
-import { Icon } from '@iconify/react';
-import { motion } from 'framer-motion';
-import flashFill from '@iconify/icons-eva/flash-fill';
-import { Link as RouterLink } from 'react-router-dom';
+import { Icon } from "@iconify/react";
+import { motion } from "framer-motion";
+import flashFill from "@iconify/icons-eva/flash-fill";
+import { Link as RouterLink } from "react-router-dom";
 // material
-import { experimentalStyled as styled } from '@material-ui/core/styles';
-import { Button, Box, Link, Container, Typography } from '@material-ui/core';
+import { experimentalStyled as styled } from "@material-ui/core/styles";
+import { Button, Box, Link, Container, Typography } from "@material-ui/core";
 // routes
-import { PATH_DASHBOARD, PATH_HOME } from '../../routes/paths';
+import { PATH_DASHBOARD, PATH_HOME } from "../../routes/paths";
 //
 import {
   varFadeIn,
   varWrapEnter,
   varFadeInUp,
-  varFadeInRight
-} from '../animate';
+  varFadeInRight,
+} from "../animate";
 
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(motion.div)(({ theme }) => ({
-  position: 'relative',
-  backgroundColor: '#F2F3F5',
-  [theme.breakpoints.up('md')]: {
+  position: "relative",
+  backgroundColor: "#F2F3F5",
+  [theme.breakpoints.up("md")]: {
     top: 0,
     left: 0,
-    width: '100%',
-    height: '100vh',
-    display: 'flex',
-    position: 'fixed',
-    alignItems: 'center'
-  }
+    width: "100%",
+    height: "100vh",
+    display: "flex",
+    position: "fixed",
+    alignItems: "center",
+  },
 }));
 
-const ContentStyle = styled('div')(({ theme }) => ({
+const ContentStyle = styled("div")(({ theme }) => ({
   zIndex: 10,
   maxWidth: 520,
-  margin: 'auto',
-  textAlign: 'center',
-  position: 'relative',
+  margin: "auto",
+  textAlign: "center",
+  position: "relative",
   paddingTop: theme.spacing(15),
   paddingBottom: theme.spacing(15),
-  [theme.breakpoints.up('md')]: {
-    margin: 'unset',
-    textAlign: 'left'
-  }
+  [theme.breakpoints.up("md")]: {
+    margin: "unset",
+    textAlign: "left",
+  },
 }));
 
 const HeroOverlayStyle = styled(motion.img)(({ theme }) => ({
   zIndex: 9,
-  width: '100%',
-  height: '100%',
-  objectFit: 'cover',
-  position: 'absolute'
+  width: "100%",
+  height: "100%",
+  objectFit: "cover",
+  position: "absolute",
 }));
 
 const HeroImgStyle = styled(motion.img)(({ theme }) => ({
@@ -58,14 +58,14 @@ const HeroImgStyle = styled(motion.img)(({ theme }) => ({
   right: 0,
   bottom: 0,
   zIndex: 8,
-  width: '100%',
-  margin: 'auto',
-  position: 'absolute',
-  [theme.breakpoints.up('lg')]: {
-    right: '8%',
-    width: 'auto',
-    height: '72vh'
-  }
+  width: "100%",
+  margin: "auto",
+  position: "absolute",
+  [theme.breakpoints.up("lg")]: {
+    right: "8%",
+    width: "auto",
+    height: "72vh",
+  },
 }));
 
 // ----------------------------------------------------------------------
@@ -89,13 +89,13 @@ export default function LandingHero() {
         <Container maxWidth="lg">
           <ContentStyle>
             <motion.div variants={varFadeInRight}>
-              <Typography variant="h1" sx={{ color: 'common.white' }}>
+              <Typography variant="h1" sx={{ color: "common.white" }}>
                 Start a <br />
                 New Project <br /> with
                 <Typography
                   component="span"
                   variant="h1"
-                  sx={{ color: 'primary.main' }}
+                  sx={{ color: "primary.main" }}
                 >
                   &nbsp;Minimal
                 </Typography>
@@ -103,7 +103,7 @@ export default function LandingHero() {
             </motion.div>
 
             <motion.div variants={varFadeInRight}>
-              <Typography sx={{ py: 5, color: 'common.white' }}>
+              <Typography sx={{ py: 5, color: "common.white" }}>
                 The starting point for your next project based on
                 easy-to-customize Material-UI © helps you build apps faster and
                 better.
@@ -115,10 +115,10 @@ export default function LandingHero() {
               variants={varFadeInRight}
               sx={{
                 mb: 5,
-                display: 'flex',
-                alignItems: 'center',
-                color: 'common.white',
-                justifyContent: { xs: 'center', md: 'flex-start' }
+                display: "flex",
+                alignItems: "center",
+                color: "common.white",
+                justifyContent: { xs: "center", md: "flex-start" },
               }}
             >
               <Box
@@ -130,7 +130,7 @@ export default function LandingHero() {
               <Link
                 color="inherit"
                 underline="always"
-                href={PATH_HOME.cloud}
+                href={PATH_HOME.home}
                 target="_blank"
               >
                 Preview in Sketch Cloud
@@ -152,9 +152,9 @@ export default function LandingHero() {
             <Box
               sx={{
                 mt: 5,
-                display: 'flex',
-                justifyContent: { xs: 'center', md: 'flex-start' },
-                '& > :not(:last-of-type)': { mr: 1.5 }
+                display: "flex",
+                justifyContent: { xs: "center", md: "flex-start" },
+                "& > :not(:last-of-type)": { mr: 1.5 },
               }}
             >
               <motion.img
@@ -185,7 +185,7 @@ export default function LandingHero() {
           </ContentStyle>
         </Container>
       </RootStyle>
-      <Box sx={{ height: { md: '100vh' } }} />
+      <Box sx={{ height: { md: "100vh" } }} />
     </>
   );
 }

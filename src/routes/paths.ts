@@ -29,9 +29,7 @@ export const PATH_PAGE = {
 };
 
 export const PATH_HOME = {
-  cloud: "https://www.sketch.com/s/0fa4699d-a3ff-4cd5-a3a7-d851eb7e17f0",
-  purchase: "https://material-ui.com/store/items/minimal-dashboard/",
-  components: "/components",
+  home: "/",
   dashboard: ROOTS_DASHBOARD,
 };
 
