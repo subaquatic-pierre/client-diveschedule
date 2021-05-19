@@ -1,6 +1,6 @@
 import { ApolloClient, gql } from "@apollo/client";
-import { SettingsController } from "./controllers";
-import { updateClient } from "./index";
+import { SettingsController } from "../controllers";
+import { updateClient } from "../index";
 
 type ThemeMode = "light" | "dark";
 type ThemeDirection = "rtl" | "ltr";
@@ -52,20 +52,20 @@ export const initSettings = (client: ApolloClient<any>): void => {
 
 export const settingsController = (
   client: ApolloClient<any>,
-  currentSettings: Settings
+  data?: Settings
 ): SettingsController => {
   // Call root client update
   const updateSettings = (updatedData: Settings) => {
-    const data: SettingsCache = {
+    const newData: SettingsCache = {
       settings: {
-        ...currentSettings,
+        ...data,
         ...updatedData,
       },
     };
-    updateClient(client, SETTINGS_CACHE_QUERY, data);
+    updateClient(client, SETTINGS_CACHE_QUERY, newData);
   };
 
-  const isLight = currentSettings.themeMode === "light";
+  const isLight = data.themeMode === "light";
 
   //   Handler methods for settings
   const handleToggleTheme = () => {

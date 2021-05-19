@@ -1,12 +1,12 @@
-import * as Yup from 'yup';
-import { useState } from 'react';
-import { useSnackbar } from 'notistack';
-import { Link as RouterLink } from 'react-router-dom';
-import { useFormik, Form, FormikProvider } from 'formik';
-import { Icon } from '@iconify/react';
-import eyeFill from '@iconify/icons-eva/eye-fill';
-import closeFill from '@iconify/icons-eva/close-fill';
-import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
+import * as Yup from "yup";
+import { useState } from "react";
+import { useSnackbar } from "notistack";
+import { Link as RouterLink } from "react-router-dom";
+import { useFormik, Form, FormikProvider } from "formik";
+import { Icon } from "@iconify/react";
+import eyeFill from "@iconify/icons-eva/eye-fill";
+import closeFill from "@iconify/icons-eva/close-fill";
+import eyeOffFill from "@iconify/icons-eva/eye-off-fill";
 // material
 import {
   Box,
@@ -15,18 +15,18 @@ import {
   TextField,
   IconButton,
   InputAdornment,
-  FormControlLabel
-} from '@material-ui/core';
-import { LoadingButton } from '@material-ui/lab';
+  FormControlLabel,
+} from "@material-ui/core";
+import { LoadingButton } from "@material-ui/lab";
 // routes
-import { PATH_AUTH } from '../../../routes/paths';
+import { PATH_AUTH } from "../../../routes/paths";
 // hooks
-import useAuth from '../../../hooks/useAuth';
-import useIsMountedRef from '../../../hooks/useIsMountedRef';
+import useAuth from "../../../hooks/useAuthApollo";
+import useIsMountedRef from "../../../hooks/useIsMountedRef";
 // utils
-import { passwordError, emailError } from '../../../utils/helpError';
+import { passwordError, emailError } from "../../../utils/helpError";
 //
-import { MIconButton } from '../../@material-extend';
+import { MIconButton } from "../../@material-extend";
 
 // ----------------------------------------------------------------------
 
@@ -45,31 +45,31 @@ export default function LoginForm() {
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string()
-      .email('Email must be a valid email address')
-      .required('Email is required'),
-    password: Yup.string().required('Password is required')
+      .email("Email must be a valid email address")
+      .required("Email is required"),
+    password: Yup.string().required("Password is required"),
   });
 
   const formik = useFormik<InitialValues>({
     initialValues: {
-      email: '',
-      password: '',
-      remember: true
+      email: "",
+      password: "",
+      remember: true,
     },
     validationSchema: LoginSchema,
     onSubmit: async (values, { setErrors, setSubmitting, resetForm }) => {
       try {
         await login({
           email: values.email,
-          password: values.password
+          password: values.password,
         });
-        enqueueSnackbar('Login success', {
-          variant: 'success',
+        enqueueSnackbar("Login success", {
+          variant: "success",
           action: (key) => (
             <MIconButton size="small" onClick={() => closeSnackbar(key)}>
               <Icon icon={closeFill} />
             </MIconButton>
-          )
+          ),
         });
         if (isMountedRef.current) {
           setSubmitting(false);
@@ -82,7 +82,7 @@ export default function LoginForm() {
           setErrors({ afterSubmit: error.code || error.message });
         }
       }
-    }
+    },
   });
 
   const {
@@ -91,7 +91,7 @@ export default function LoginForm() {
     values,
     isSubmitting,
     handleSubmit,
-    getFieldProps
+    getFieldProps,
   } = formik;
 
   const handleShowPassword = () => {
@@ -106,14 +106,14 @@ export default function LoginForm() {
           autoComplete="username"
           type="email"
           label="Email address"
-          {...getFieldProps('email')}
+          {...getFieldProps("email")}
           error={
             Boolean(touched.email && errors.email) ||
-            emailError(errors.afterSubmit || '').error
+            emailError(errors.afterSubmit || "").error
           }
           helperText={
             (touched.email && errors.email) ||
-            emailError(errors.afterSubmit || '').helperText
+            emailError(errors.afterSubmit || "").helperText
           }
           sx={{ mb: 3 }}
         />
@@ -121,9 +121,9 @@ export default function LoginForm() {
         <TextField
           fullWidth
           autoComplete="current-password"
-          type={showPassword ? 'text' : 'password'}
+          type={showPassword ? "text" : "password"}
           label="Password"
-          {...getFieldProps('password')}
+          {...getFieldProps("password")}
           InputProps={{
             endAdornment: (
               <InputAdornment>
@@ -131,29 +131,29 @@ export default function LoginForm() {
                   <Icon icon={showPassword ? eyeFill : eyeOffFill} />
                 </IconButton>
               </InputAdornment>
-            )
+            ),
           }}
           error={
             Boolean(touched.password && errors.password) ||
-            passwordError(errors.afterSubmit || '').error
+            passwordError(errors.afterSubmit || "").error
           }
           helperText={
             (touched.password && errors.password) ||
-            passwordError(errors.afterSubmit || '').helperText
+            passwordError(errors.afterSubmit || "").helperText
           }
         />
         <Box
           sx={{
             my: 2,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between'
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
           <FormControlLabel
             control={
               <Checkbox
-                {...getFieldProps('remember')}
+                {...getFieldProps("remember")}
                 checked={values.remember}
               />
             }

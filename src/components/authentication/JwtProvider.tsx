@@ -1,7 +1,7 @@
-import { ReactNode, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { ReactNode, useEffect } from "react";
+import { useDispatch } from "react-redux";
 // redux
-import { getInitialize } from '../../redux/slices/authJwt';
+import { getInitialize } from "../../redux/slices/authJwt";
 
 // ----------------------------------------------------------------------
 
