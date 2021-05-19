@@ -1,10 +1,7 @@
 import React, { ReactNode } from "react";
-import { ApolloClient, useApolloClient } from "@apollo/client";
-import {
-  SETTINGS_CACHE_QUERY,
-  SettingsCache,
-  initializeSettings,
-} from "../cache/settings";
+import { useApolloClient } from "@apollo/client";
+import { initAuth } from "../cache/auth";
+import { initSettings } from "../cache/settings";
 
 type SetupCacheProps = {
   children?: ReactNode;
@@ -13,6 +10,8 @@ type SetupCacheProps = {
 export default function SetupCache({ children }: SetupCacheProps) {
   const client = useApolloClient();
 
-  initializeSettings(client);
+  initSettings(client);
+  initAuth(client);
+
   return <>{children}</>;
 }

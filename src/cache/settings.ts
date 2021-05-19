@@ -24,7 +24,7 @@ export const SETTINGS_CACHE_QUERY = gql`
   }
 `;
 
-export const initialSettings: SettingsCache = {
+export const initialSettingsState: SettingsCache = {
   settings: {
     __typename: "Settings",
     themeMode: "light",
@@ -32,7 +32,7 @@ export const initialSettings: SettingsCache = {
   },
 };
 
-export const initializeSettings = (client: ApolloClient<any>): void => {
+export const initSettings = (client: ApolloClient<any>): void => {
   try {
     //   Read query from client
     const settings = client.readQuery({
@@ -45,7 +45,7 @@ export const initializeSettings = (client: ApolloClient<any>): void => {
     //   Write query to local storage
     client.writeQuery<SettingsCache>({
       query: SETTINGS_CACHE_QUERY,
-      data: initialSettings,
+      data: initialSettingsState,
     });
   }
 };
