@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 // material
 import { Container, Grid, Skeleton } from "@material-ui/core";
 // redux
@@ -28,12 +27,11 @@ const SkeletonLoad = (
 );
 
 export default function UserCards() {
-  const dispatch = useDispatch();
   const { users } = initialState;
 
   useEffect(() => {
-    dispatch(getUsers());
-  }, [dispatch]);
+    getUsers();
+  });
 
   return (
     <Page title="User: Cards | Minimal-UI">
