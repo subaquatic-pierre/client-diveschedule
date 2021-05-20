@@ -1,5 +1,4 @@
 import { useMemo, ReactNode } from "react";
-import { useApolloClient } from "@apollo/client";
 // material
 import { CssBaseline } from "@material-ui/core";
 import {
@@ -8,8 +7,7 @@ import {
   createMuiTheme,
 } from "@material-ui/core/styles";
 import StyledEngineProvider from "@material-ui/core/StyledEngineProvider";
-// hooks
-//
+import { ThemeDirection } from "../cache/controllers/settings";
 import shape from "./shape";
 import palette from "./palette";
 import typography from "./typography";
@@ -21,15 +19,21 @@ import useSettingsApollo from "../hooks/useSettings";
 
 // ----------------------------------------------------------------------
 
+type BaseThemeConfigProps = {
+  children: ReactNode;
+  isLight?: Boolean;
+  themeDirection?: ThemeDirection;
+};
+
 type ThemeConfigProps = {
   children: ReactNode;
 };
 
-export default function ThemeConfig({ children }: ThemeConfigProps) {
-  const { themeDirection, themeMode } = useSettingsApollo();
-
-  const isLight = themeMode === "light";
-
+export const BaseTheme = ({
+  children,
+  isLight = true,
+  themeDirection = "ltr",
+}: BaseThemeConfigProps) => {
   const themeOptions: ThemeOptions = useMemo(
     () => ({
       palette: isLight
@@ -56,5 +60,16 @@ export default function ThemeConfig({ children }: ThemeConfigProps) {
         {children}
       </ThemeProvider>
     </StyledEngineProvider>
+  );
+};
+
+export default function ThemeConfig({ children }: ThemeConfigProps) {
+  const { themeDirection, themeMode } = useSettingsApollo();
+
+  const isLight = themeMode === "light";
+  return (
+    <BaseTheme isLight={isLight} themeDirection={themeDirection}>
+      {children}
+    </BaseTheme>
   );
 }

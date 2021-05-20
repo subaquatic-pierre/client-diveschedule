@@ -12,7 +12,7 @@ import { ApolloProvider } from "@apollo/client";
 import routes, { renderRoutes } from "./routes";
 
 // Theme
-import ThemeConfig from "./theme";
+import ThemeConfig, { BaseTheme } from "./theme";
 
 // Components
 import SetupCache from "./components/SetupCache";
@@ -34,7 +34,11 @@ const App: React.FC = (props) => {
   const client = useApolloSetup();
 
   if (!client) {
-    return <LoadingScreen />;
+    return (
+      <BaseTheme>
+        <LoadingScreen />
+      </BaseTheme>
+    );
   }
 
   return (

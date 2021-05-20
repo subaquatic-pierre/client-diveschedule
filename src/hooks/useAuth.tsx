@@ -40,7 +40,7 @@ export default function useAuth() {
   } = authController(client);
 
   return {
-    isAuthenticated: true,
+    isAuthenticated: user.id !== "AnonymousUser",
     isLoading: loading,
     user: user,
     login,
