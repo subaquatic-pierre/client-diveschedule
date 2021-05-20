@@ -2,7 +2,6 @@ import { Icon } from "@iconify/react";
 import { capitalCase } from "change-case";
 import { useEffect, useState } from "react";
 import heartFill from "@iconify/icons-eva/heart-fill";
-import { useDispatch, useSelector } from "react-redux";
 import peopleFill from "@iconify/icons-eva/people-fill";
 import roundPermMedia from "@iconify/icons-ic/round-perm-media";
 import roundAccountBox from "@iconify/icons-ic/round-account-box";
@@ -10,15 +9,7 @@ import roundAccountBox from "@iconify/icons-ic/round-account-box";
 import { experimentalStyled as styled } from "@material-ui/core/styles";
 import { Tab, Box, Card, Tabs, Container } from "@material-ui/core";
 // redux
-import { RootState } from "../redux/store";
-import {
-  getPosts,
-  getGallery,
-  getFriends,
-  getProfile,
-  getFollowers,
-  onToggleFollow,
-} from "../redux/slices/user";
+import { onToggleFollow, initialState } from "../cache/controllers/user";
 // routes
 import { PATH_DASHBOARD } from "../routes/paths";
 // hooks
@@ -55,28 +46,17 @@ const TabsWrapperStyle = styled("div")(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function UserProfile() {
-  const dispatch = useDispatch();
-  const { myProfile, posts, followers, friends, gallery } = useSelector(
-    (state: RootState) => state.user
-  );
+  const { myProfile, posts, followers, friends, gallery } = initialState;
   const { user } = useAuth();
   const [currentTab, setCurrentTab] = useState("profile");
   const [findFriends, setFindFriends] = useState("");
-
-  useEffect(() => {
-    dispatch(getProfile());
-    dispatch(getPosts());
-    dispatch(getFollowers());
-    dispatch(getFriends());
-    dispatch(getGallery());
-  }, [dispatch]);
 
   const handleChangeTab = (newValue: string) => {
     setCurrentTab(newValue);
   };
 
   const handleToggleFollow = (followerId: string) => {
-    dispatch(onToggleFollow(followerId));
+    onToggleFollow(followerId);
   };
 
   const handleFindFriends = (value: string) => {

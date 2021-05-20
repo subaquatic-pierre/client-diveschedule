@@ -3,21 +3,20 @@ import { capitalCase } from "change-case";
 import { useState, useEffect } from "react";
 import bellFill from "@iconify/icons-eva/bell-fill";
 import shareFill from "@iconify/icons-eva/share-fill";
-import { useDispatch, useSelector } from "react-redux";
 import roundVpnKey from "@iconify/icons-ic/round-vpn-key";
 import roundReceipt from "@iconify/icons-ic/round-receipt";
 import roundAccountBox from "@iconify/icons-ic/round-account-box";
 // material
 import { Container, Tab, Box, Tabs } from "@material-ui/core";
 // redux
-import { RootState } from "../redux/store";
 import {
   getCards,
   getProfile,
   getInvoices,
   getAddressBook,
-  getNotifications
-} from "../redux/slices/user";
+  getNotifications,
+  initialState,
+} from "../cache/controllers/user";
 // routes
 import { PATH_DASHBOARD } from "../routes/paths";
 // components
@@ -28,29 +27,20 @@ import {
   AccountBilling,
   AccountSocialLinks,
   AccountNotifications,
-  AccountChangePassword
+  AccountChangePassword,
 } from "../components/user/account";
 
 // ----------------------------------------------------------------------
 
 export default function UserAccount() {
   const [currentTab, setCurrentTab] = useState("general");
-  const dispatch = useDispatch();
   const {
     cards,
     invoices,
     myProfile,
     addressBook,
-    notifications
-  } = useSelector((state: RootState) => state.user);
-
-  useEffect(() => {
-    dispatch(getCards());
-    dispatch(getAddressBook());
-    dispatch(getInvoices());
-    dispatch(getNotifications());
-    dispatch(getProfile());
-  }, [dispatch]);
+    notifications,
+  } = initialState;
 
   if (!myProfile) {
     return null;
@@ -68,7 +58,7 @@ export default function UserAccount() {
     {
       value: "general",
       icon: <Icon icon={roundAccountBox} width={20} height={20} />,
-      component: <AccountGeneral />
+      component: <AccountGeneral />,
     },
     {
       value: "billing",
@@ -79,23 +69,23 @@ export default function UserAccount() {
           addressBook={addressBook}
           invoices={invoices}
         />
-      )
+      ),
     },
     {
       value: "notifications",
       icon: <Icon icon={bellFill} width={20} height={20} />,
-      component: <AccountNotifications notifications={notifications} />
+      component: <AccountNotifications notifications={notifications} />,
     },
     {
       value: "social_links",
       icon: <Icon icon={shareFill} width={20} height={20} />,
-      component: <AccountSocialLinks myProfile={myProfile} />
+      component: <AccountSocialLinks myProfile={myProfile} />,
     },
     {
       value: "change_password",
       icon: <Icon icon={roundVpnKey} width={20} height={20} />,
-      component: <AccountChangePassword />
-    }
+      component: <AccountChangePassword />,
+    },
   ];
 
   return (
@@ -106,7 +96,7 @@ export default function UserAccount() {
           links={[
             { name: "Dashboard", href: PATH_DASHBOARD.root },
             { name: "User", href: PATH_DASHBOARD.user.root },
-            { name: "Account Settings" }
+            { name: "Account Settings" },
           ]}
         />
 

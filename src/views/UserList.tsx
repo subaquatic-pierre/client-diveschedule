@@ -2,7 +2,6 @@ import { filter } from "lodash";
 import { Icon } from "@iconify/react";
 import { sentenceCase } from "change-case";
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import moreVerticalFill from "@iconify/icons-eva/more-vertical-fill";
 // material
 import { useTheme } from "@material-ui/core/styles";
@@ -19,11 +18,10 @@ import {
   IconButton,
   Typography,
   TableContainer,
-  TablePagination
+  TablePagination,
 } from "@material-ui/core";
 // redux
-import { RootState } from "../redux/store";
-import { getUserList } from "../redux/slices/user";
+import { getUserList, initialState } from "../cache/controllers/user";
 // routes
 import { PATH_DASHBOARD } from "../routes/paths";
 // @types
@@ -44,7 +42,7 @@ const TABLE_HEAD = [
   { id: "role", label: "Role", alignRight: false },
   { id: "isVerified", label: "Verified", alignRight: false },
   { id: "status", label: "Status", alignRight: false },
-  { id: "" }
+  { id: "" },
 ];
 
 // ----------------------------------------------------------------------
@@ -89,8 +87,7 @@ function applySortFilter(
 
 export default function UserList() {
   const theme = useTheme();
-  const dispatch = useDispatch();
-  const { userList } = useSelector((state: RootState) => state.user);
+  const { userList } = initialState;
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [selected, setSelected] = useState<string[]>([]);
@@ -99,8 +96,8 @@ export default function UserList() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(() => {
-    dispatch(getUserList());
-  }, [dispatch]);
+    getUserList();
+  });
 
   const handleRequestSort = (property: string) => {
     const isAsc = orderBy === property && order === "asc";
@@ -165,7 +162,7 @@ export default function UserList() {
           links={[
             { name: "Dashboard", href: PATH_DASHBOARD.root },
             { name: "User", href: PATH_DASHBOARD.user.root },
-            { name: "List" }
+            { name: "List" },
           ]}
         />
 
@@ -199,7 +196,7 @@ export default function UserList() {
                         status,
                         company,
                         avatarUrl,
-                        isVerified
+                        isVerified,
                       } = row;
                       const isItemSelected = selected.indexOf(name) !== -1;
 
@@ -221,7 +218,7 @@ export default function UserList() {
                               sx={{
                                 py: 2,
                                 display: "flex",
-                                alignItems: "center"
+                                alignItems: "center",
                               }}
                             >
                               <Box

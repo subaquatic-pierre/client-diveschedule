@@ -1,18 +1,12 @@
 import React from "react";
 import { createBrowserHistory } from "history";
 import { HelmetProvider } from "react-helmet-async";
-import { Provider as ReduxProvider } from "react-redux";
-import { PersistGate } from "redux-persist/lib/integration/react";
 
 // material
 import AdapterDateFns from "@material-ui/lab/AdapterDateFns";
 import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
 import { Router } from "react-router-dom";
-import { Color } from "@material-ui/lab/Alert";
 import { ApolloProvider } from "@apollo/client";
-
-// Redux
-import { store, persistor as reduxPersistor } from "./redux/store";
 
 // Routes
 import routes, { renderRoutes } from "./routes";
@@ -47,26 +41,22 @@ const App: React.FC = (props) => {
     <ApolloProvider client={client}>
       <HelmetProvider>
         <SetupCache>
-          <ReduxProvider store={store}>
-            <PersistGate loading={<LoadingScreen />} persistor={reduxPersistor}>
-              <ThemeConfig>
-                <RtlLayout>
-                  <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <NotistackProvider>
-                      <Router history={history}>
-                        <AuthProvider>
-                          <Settings />
-                          <ScrollToTop />
-                          <GoogleAnalytics />
-                          {renderRoutes(routes)}
-                        </AuthProvider>
-                      </Router>
-                    </NotistackProvider>
-                  </LocalizationProvider>
-                </RtlLayout>
-              </ThemeConfig>
-            </PersistGate>
-          </ReduxProvider>
+          <ThemeConfig>
+            <RtlLayout>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <NotistackProvider>
+                  <Router history={history}>
+                    <AuthProvider>
+                      <Settings />
+                      <ScrollToTop />
+                      <GoogleAnalytics />
+                      {renderRoutes(routes)}
+                    </AuthProvider>
+                  </Router>
+                </NotistackProvider>
+              </LocalizationProvider>
+            </RtlLayout>
+          </ThemeConfig>
         </SetupCache>
       </HelmetProvider>
     </ApolloProvider>

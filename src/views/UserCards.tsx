@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 // material
 import { Container, Grid, Skeleton } from "@material-ui/core";
 // redux
-import { RootState } from "../redux/store";
-import { getUsers } from "../redux/slices/user";
+import { getUsers, initialState } from "../cache/controllers/user";
 // routes
 import { PATH_DASHBOARD } from "../routes/paths";
 // components
@@ -30,7 +29,7 @@ const SkeletonLoad = (
 
 export default function UserCards() {
   const dispatch = useDispatch();
-  const { users } = useSelector((state: RootState) => state.user);
+  const { users } = initialState;
 
   useEffect(() => {
     dispatch(getUsers());
@@ -44,7 +43,7 @@ export default function UserCards() {
           links={[
             { name: "Dashboard", href: PATH_DASHBOARD.root },
             { name: "User", href: PATH_DASHBOARD.user.root },
-            { name: "Cards" }
+            { name: "Cards" },
           ]}
         />
         <Grid container spacing={3}>
