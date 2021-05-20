@@ -36,11 +36,6 @@ const sidebarConfig = [
         href: PATH_DASHBOARD.schedule,
         icon: ICONS.schedule,
       },
-      {
-        title: "calendar",
-        href: PATH_DASHBOARD.calendar,
-        icon: ICONS.calendar,
-      },
     ],
   },
 

@@ -16,7 +16,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { IDiveTripDetail } from "../../views/Schedule/schedule";
 import { EditTripDetailForm } from "./EditTripDetailForm";
 import { getToolbarHeading } from "./utils";
-import { useAuthContext } from "../../hooks";
 
 const useStyles = makeStyles((theme) => ({
   toolbarRoot: {
@@ -59,9 +58,7 @@ export const ScheduleTableToolbar: React.FC<IScheduleTableToolbarProps> = ({
   showCreateBookingRow,
   deleteBooking,
 }) => {
-  const {
-    viewer: { isAdmin },
-  } = useAuthContext();
+  const isAdmin = true;
   const classes = useStyles();
   const [moreMenuAnchorEl, setMoreMenuAnchorEl] = React.useState(null);
   const [

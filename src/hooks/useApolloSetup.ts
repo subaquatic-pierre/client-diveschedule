@@ -7,7 +7,7 @@ import {
   NormalizedCacheObject,
 } from "@apollo/client";
 import { CachePersistor, LocalStorageWrapper } from "apollo3-cache-persist";
-import { getAuthToken } from "../components/Auth/utils";
+import { getAuthToken } from "../utils/auth";
 import { getApiUri } from "../utils";
 
 // Authorization logic

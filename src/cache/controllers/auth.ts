@@ -1,5 +1,5 @@
 import { ApolloClient, DocumentNode, gql } from "@apollo/client";
-import { deleteAuthToken } from "../../components/Auth/utils";
+import { deleteAuthToken } from "../../utils/auth";
 import { AuthController } from "../controllers";
 
 export type User = {

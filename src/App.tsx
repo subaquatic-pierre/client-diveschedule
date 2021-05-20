@@ -34,15 +34,11 @@ import JwtProvider from "./components/authentication/JwtProvider";
 // import FirebaseProvider from './components/authentication/FirebaseProvider';
 
 // Auth
-import { Auth } from "./components/Auth";
 
 // Layout
 import useApolloSetup from "./hooks/useApolloSetup";
-import { getAuthToken } from "./components/Auth/utils";
 
 // ----------------------------------------------------------------------
-
-const token = getAuthToken();
 
 interface IAlert {
   state: boolean;
@@ -83,18 +79,16 @@ const App: React.FC = (props) => {
                 <RtlLayout>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <NotistackProvider>
-                      <Auth token={token}>
-                        <AlertContext.Provider value={{ alert, setAlert }}>
-                          <Router history={history}>
-                            {/* <JwtProvider> */}
-                            <Settings />
-                            <ScrollToTop />
-                            <GoogleAnalytics />
-                            {renderRoutes(routes)}
-                            {/* </JwtProvider> */}
-                          </Router>
-                        </AlertContext.Provider>
-                      </Auth>
+                      <AlertContext.Provider value={{ alert, setAlert }}>
+                        <Router history={history}>
+                          {/* <JwtProvider> */}
+                          <Settings />
+                          <ScrollToTop />
+                          <GoogleAnalytics />
+                          {renderRoutes(routes)}
+                          {/* </JwtProvider> */}
+                        </Router>
+                      </AlertContext.Provider>
                     </NotistackProvider>
                   </LocalizationProvider>
                 </RtlLayout>

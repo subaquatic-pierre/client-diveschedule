@@ -29,11 +29,6 @@ const DashboardRoutes = {
     // ----------------------------------------------------------------------
     {
       exact: true,
-      path: PATH_DASHBOARD.calendar,
-      component: lazy(() => import("../views/Calendar")),
-    },
-    {
-      exact: true,
       path: PATH_DASHBOARD.schedule,
       component: lazy(() => import("../views/Schedule/Schedule")),
     },

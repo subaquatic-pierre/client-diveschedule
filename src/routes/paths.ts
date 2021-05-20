@@ -38,7 +38,6 @@ export const PATH_DASHBOARD = {
   general: {
     app: path(ROOTS_DASHBOARD, "/app"),
   },
-  calendar: path(ROOTS_DASHBOARD, "/calendar"),
   schedule: path(ROOTS_DASHBOARD, "/schedule"),
   user: {
     root: path(ROOTS_DASHBOARD, "/user"),
