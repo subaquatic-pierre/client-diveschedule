@@ -1,6 +1,7 @@
 import { ApolloClient, DocumentNode, gql } from "@apollo/client";
 import { deleteAuthToken } from "../../utils/auth";
 import { AuthController } from "../controllers";
+// import { User } from "../../@types/account";
 
 export type User = {
   id: String;
@@ -45,7 +46,7 @@ export const AUTH_VIEWER_QUERY = gql`
   }
 `;
 
-const unAuthUser = {
+export const unAuthUser = {
   id: "AnonymousUser",
   email: "",
   isAdmin: false,
@@ -67,7 +68,6 @@ export const initAuth = (client: ApolloClient<any>): void => {
     const res = client.readQuery({
       query: AUTH_VIEWER_QUERY,
     });
-
     // Query dies exist raise error
     if (!res) throw new Error("There is no data in localStorage");
   } catch (error) {
@@ -148,9 +148,14 @@ export const authController = (
     return client.mutate({ mutation: LOGOUT_MUTATION });
   };
 
+  const resetPassword = (data: any) => {};
+  const updateProfile = (data: any) => {};
+
   return {
     login,
     register,
     logout,
+    resetPassword,
+    updateProfile,
   };
 };

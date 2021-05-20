@@ -15,4 +15,6 @@ export type AuthController = {
     lastName,
   }: RegisterParams) => Promise;
   logout: () => Promise;
+  resetPassword: (data: any) => void;
+  updateProfile: (data: any) => void;
 };
