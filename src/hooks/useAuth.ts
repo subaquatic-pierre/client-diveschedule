@@ -1,76 +1,46 @@
-import { useDispatch, useSelector } from "react-redux";
-
-// redux
-import { RootState } from "../redux/store";
-import { login, register, logout } from "../redux/slices/authJwt";
-// @types
-import { User } from "../@types/account";
+import { useApolloClient, useQuery } from "@apollo/client";
+import {
+  AUTH_VIEWER_QUERY,
+  initAuth,
+  authController,
+} from "../cache/controllers/auth";
 
 // ----------------------------------------------------------------------
 
-type LoginParams = {
-  email: string;
-  password: string;
-};
-
-type RegisterParams = {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-};
-
-type Method = "jwt" | "firebase";
-
-export default function useAuth(some: Method = "jwt") {
-  const method = "jwt";
-  // Firebase Auth
-  const auth = {};
-  const profile = {};
-
-  // JWT Auth
-  const dispatch = useDispatch();
-  const { user, isLoading, isAuthenticated } = useSelector(
-    (state: RootState) => state.authJwt
-  );
-
-  // JWT Auth
-  if (method === "jwt") {
-    return {
-      method: "jwt",
-      user,
-      isLoading,
-      isAuthenticated,
-
-      login: ({ email, password }: LoginParams) =>
-        dispatch(
-          login({
-            email,
-            password,
-          })
-        ),
-
-      register: ({ email, password, firstName, lastName }: RegisterParams) =>
-        dispatch(
-          register({
-            email,
-            password,
-            firstName,
-            lastName,
-          })
-        ),
-
-      logout: () => dispatch(logout()),
-
-      resetPassword: (data: any) => {},
-
-      updateProfile: (data: any) => {},
-
-      loginWithGoogle: () => {},
-
-      loginWithFaceBook: () => {},
-
-      loginWithTwitter: () => {},
-    };
+export default function useAuth() {
+  const client = useApolloClient();
+  const { data, loading, error } = useQuery(AUTH_VIEWER_QUERY, {
+    fetchPolicy: "cache-only",
+  });
+  if (!loading) {
+    if (!data) {
+      initAuth(client);
+    }
   }
+  const {
+    viewer: { user },
+  } = client.readQuery({
+    query: AUTH_VIEWER_QUERY,
+  });
+
+  const { login, logout, register } = authController(client);
+
+  const resetPassword = (data: any) => {};
+  const updateProfile = (data: any) => {};
+  const loginWithGoogle = () => {};
+  const loginWithFaceBook = () => {};
+  const loginWithTwitter = () => {};
+
+  return {
+    isLoading: loading,
+    user,
+    login,
+    logout,
+    register,
+    resetPassword,
+    updateProfile,
+    loginWithGoogle,
+    loginWithFaceBook,
+    loginWithTwitter,
+  };
 }

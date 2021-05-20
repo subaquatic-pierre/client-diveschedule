@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "@material-ui/core/Modal";
 
-import { useBaseMutation } from "../../hooks";
+import { useBaseMutation } from "../../hooks/baseMutation";
 import { CREATE_USER, EDIT_USER } from "./mutations";
 import { EditDiverForm } from "./EditDiverForm";
 import { IUser } from "../../views/Schedule/schedule";

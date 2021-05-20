@@ -16,7 +16,6 @@ import useAuth from "../../hooks/useAuth";
 import Page from "../../components/Page";
 import Logo from "../../components/Logo";
 import { LoginForm } from "../../components/authentication/login";
-import AuthWithSocial from "../../components/authentication/AuthWithSocial";
 
 // ----------------------------------------------------------------------
 
@@ -64,8 +63,6 @@ const ContentStyle = styled("div")(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Login() {
-  const { method } = useAuth();
-
   return (
     <RootStyle title="Login | Minimal-UI">
       <HeaderStyle>
@@ -112,18 +109,14 @@ export default function Login() {
                 Enter your details below.
               </Typography>
             </Box>
-            <Tooltip title={method === "firebase" ? "Firebase" : "JWT"}>
+            <Tooltip title="JWT">
               <Box
                 component="img"
-                src={`/static/icons/${
-                  method === "firebase" ? "ic_firebase" : "ic_jwt"
-                }.png`}
+                src="/static/icons/ic_jwt.png"
                 sx={{ width: 32, height: 32 }}
               />
             </Tooltip>
           </Box>
-
-          {method === "firebase" && <AuthWithSocial />}
 
           <Alert severity="info" sx={{ mb: 5 }}>
             Use email : <strong>demo@minimals.cc</strong> / password :

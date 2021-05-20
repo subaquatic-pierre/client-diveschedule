@@ -1,13 +1,13 @@
-import * as Yup from 'yup';
-import { Form, FormikProvider, useFormik } from 'formik';
+import * as Yup from "yup";
+import { Form, FormikProvider, useFormik } from "formik";
 // material
-import { TextField } from '@material-ui/core';
-import { LoadingButton } from '@material-ui/lab';
+import { TextField } from "@material-ui/core";
+import { LoadingButton } from "@material-ui/lab";
 // hooks
-import useAuth from '../../../hooks/useAuth';
-import useIsMountedRef from '../../../hooks/useIsMountedRef';
+import useAuth from "../../../hooks/useAuth";
+import useIsMountedRef from "../../../hooks/useIsMountedRef";
 // utils
-import { emailError } from '../../../utils/helpError';
+import { emailError } from "../../../utils/helpError";
 
 // ----------------------------------------------------------------------
 
@@ -23,20 +23,20 @@ type ResetPasswordFormProps = {
 
 export default function ResetPasswordForm({
   onSent,
-  onGetEmail
+  onGetEmail,
 }: ResetPasswordFormProps) {
   const { resetPassword } = useAuth();
   const isMountedRef = useIsMountedRef();
 
   const ResetPasswordSchema = Yup.object().shape({
     email: Yup.string()
-      .email('Email must be a valid email address')
-      .required('Email is required')
+      .email("Email must be a valid email address")
+      .required("Email is required"),
   });
 
   const formik = useFormik<InitialValues>({
     initialValues: {
-      email: 'demo@minimals.cc'
+      email: "demo@minimals.cc",
     },
     validationSchema: ResetPasswordSchema,
     onSubmit: async (values, { setErrors, setSubmitting }) => {
@@ -53,7 +53,7 @@ export default function ResetPasswordForm({
           setSubmitting(false);
         }
       }
-    }
+    },
   });
 
   const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik;
@@ -63,16 +63,16 @@ export default function ResetPasswordForm({
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <TextField
           fullWidth
-          {...getFieldProps('email')}
+          {...getFieldProps("email")}
           type="email"
           label="Email address"
           error={
             Boolean(touched.email && errors.email) ||
-            emailError(errors.afterSubmit || '').error
+            emailError(errors.afterSubmit || "").error
           }
           helperText={
             (touched.email && errors.email) ||
-            emailError(errors.afterSubmit || '').helperText
+            emailError(errors.afterSubmit || "").helperText
           }
           sx={{ mb: 3 }}
         />

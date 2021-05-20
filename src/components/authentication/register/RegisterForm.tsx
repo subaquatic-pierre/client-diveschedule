@@ -1,27 +1,27 @@
-import * as Yup from 'yup';
-import { useState } from 'react';
-import { Icon } from '@iconify/react';
-import { useSnackbar } from 'notistack';
-import { useFormik, Form, FormikProvider } from 'formik';
-import eyeFill from '@iconify/icons-eva/eye-fill';
-import closeFill from '@iconify/icons-eva/close-fill';
-import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
+import * as Yup from "yup";
+import { useState } from "react";
+import { Icon } from "@iconify/react";
+import { useSnackbar } from "notistack";
+import { useFormik, Form, FormikProvider } from "formik";
+import eyeFill from "@iconify/icons-eva/eye-fill";
+import closeFill from "@iconify/icons-eva/close-fill";
+import eyeOffFill from "@iconify/icons-eva/eye-off-fill";
 // material
 import {
   Box,
   Grid,
   TextField,
   IconButton,
-  InputAdornment
-} from '@material-ui/core';
-import { LoadingButton } from '@material-ui/lab';
+  InputAdornment,
+} from "@material-ui/core";
+import { LoadingButton } from "@material-ui/lab";
 // hooks
-import useAuth from '../../../hooks/useAuth';
-import useIsMountedRef from '../../../hooks/useIsMountedRef';
+import useAuth from "../../../hooks/useAuth";
+import useIsMountedRef from "../../../hooks/useIsMountedRef";
 // utils
-import { emailError, passwordError } from '../../../utils/helpError';
+import { emailError, passwordError } from "../../../utils/helpError";
 //
-import { MIconButton } from '../../@material-extend';
+import { MIconButton } from "../../@material-extend";
 
 // ----------------------------------------------------------------------
 
@@ -42,25 +42,25 @@ export default function RegisterForm() {
 
   const RegisterSchema = Yup.object().shape({
     firstName: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('First name required'),
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("First name required"),
     lastName: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Last name required'),
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Last name required"),
     email: Yup.string()
-      .email('Email must be a valid email address')
-      .required('Email is required'),
-    password: Yup.string().required('Password is required')
+      .email("Email must be a valid email address")
+      .required("Email is required"),
+    password: Yup.string().required("Password is required"),
   });
 
   const formik = useFormik<InitialValues>({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: ''
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
     },
     validationSchema: RegisterSchema,
     onSubmit: async (values, { setErrors, setSubmitting }) => {
@@ -69,15 +69,15 @@ export default function RegisterForm() {
           email: values.email,
           password: values.password,
           firstName: values.firstName,
-          lastName: values.lastName
+          lastName: values.lastName,
         });
-        enqueueSnackbar('Login success', {
-          variant: 'success',
+        enqueueSnackbar("Login success", {
+          variant: "success",
           action: (key) => (
             <MIconButton size="small" onClick={() => closeSnackbar(key)}>
               <Icon icon={closeFill} />
             </MIconButton>
-          )
+          ),
         });
         if (isMountedRef.current) {
           setSubmitting(false);
@@ -89,7 +89,7 @@ export default function RegisterForm() {
           setSubmitting(false);
         }
       }
-    }
+    },
   });
 
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
@@ -102,7 +102,7 @@ export default function RegisterForm() {
             <TextField
               fullWidth
               label="First name"
-              {...getFieldProps('firstName')}
+              {...getFieldProps("firstName")}
               error={Boolean(touched.firstName && errors.firstName)}
               helperText={touched.firstName && errors.firstName}
             />
@@ -111,7 +111,7 @@ export default function RegisterForm() {
             <TextField
               fullWidth
               label="Last name"
-              {...getFieldProps('lastName')}
+              {...getFieldProps("lastName")}
               error={Boolean(touched.lastName && errors.lastName)}
               helperText={touched.lastName && errors.lastName}
             />
@@ -122,14 +122,14 @@ export default function RegisterForm() {
           fullWidth
           autoComplete="username"
           label="Email address"
-          {...getFieldProps('email')}
+          {...getFieldProps("email")}
           error={
             Boolean(touched.email && errors.email) ||
-            emailError(errors.afterSubmit || '').error
+            emailError(errors.afterSubmit || "").error
           }
           helperText={
             (touched.email && errors.email) ||
-            emailError(errors.afterSubmit || '').helperText
+            emailError(errors.afterSubmit || "").helperText
           }
           sx={{ my: 3 }}
         />
@@ -137,9 +137,9 @@ export default function RegisterForm() {
         <TextField
           fullWidth
           autoComplete="current-password"
-          type={showPassword ? 'text' : 'password'}
+          type={showPassword ? "text" : "password"}
           label="Password"
-          {...getFieldProps('password')}
+          {...getFieldProps("password")}
           InputProps={{
             endAdornment: (
               <InputAdornment>
@@ -150,15 +150,15 @@ export default function RegisterForm() {
                   <Icon icon={showPassword ? eyeFill : eyeOffFill} />
                 </IconButton>
               </InputAdornment>
-            )
+            ),
           }}
           error={
             Boolean(touched.password && errors.password) ||
-            passwordError(errors.afterSubmit || '').error
+            passwordError(errors.afterSubmit || "").error
           }
           helperText={
             (touched.password && errors.password) ||
-            passwordError(errors.afterSubmit || '').helperText
+            passwordError(errors.afterSubmit || "").helperText
           }
         />
         <Box sx={{ mt: 3 }}>

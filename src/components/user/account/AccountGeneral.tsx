@@ -1,6 +1,6 @@
-import * as Yup from 'yup';
-import { useSnackbar } from 'notistack';
-import { Form, FormikProvider, useFormik } from 'formik';
+import * as Yup from "yup";
+import { useSnackbar } from "notistack";
+import { Form, FormikProvider, useFormik } from "formik";
 // material
 import {
   Box,
@@ -9,21 +9,21 @@ import {
   Switch,
   TextField,
   CardContent,
-  FormControlLabel
-} from '@material-ui/core';
-import { LoadingButton } from '@material-ui/lab';
+  FormControlLabel,
+} from "@material-ui/core";
+import { LoadingButton } from "@material-ui/lab";
 // hooks
-import useAuth from '../../../hooks/useAuth';
-import useIsMountedRef from '../../../hooks/useIsMountedRef';
-import { UploadAvatar } from '../../upload';
+import useAuth from "../../../hooks/useAuth";
+import useIsMountedRef from "../../../hooks/useIsMountedRef";
+import { UploadAvatar } from "../../upload";
 // @types
-import { User } from '../../../@types/account';
+import { User } from "../../../@types/account";
 //
-import countries from './countries';
+import countries from "./countries";
 
 // ----------------------------------------------------------------------
 
-interface InitialState extends Omit<User, 'password' | 'id' | 'role'> {
+interface InitialState extends Omit<User, "password" | "id" | "role"> {
   afterSubmit?: string;
 }
 
@@ -33,7 +33,7 @@ export default function AccountGeneral() {
   const { user, updateProfile } = useAuth();
 
   const UpdateUserSchema = Yup.object().shape({
-    displayName: Yup.string().required('Name is required')
+    displayName: Yup.string().required("Name is required"),
   });
 
   const formik = useFormik<InitialState>({
@@ -49,14 +49,14 @@ export default function AccountGeneral() {
       city: user.city,
       zipCode: user.zipCode,
       about: user.about,
-      isPublic: user.isPublic
+      isPublic: user.isPublic,
     },
 
     validationSchema: UpdateUserSchema,
     onSubmit: async (values, { setErrors, setSubmitting }) => {
       try {
         await updateProfile({ ...values });
-        enqueueSnackbar('Update success', { variant: 'success' });
+        enqueueSnackbar("Update success", { variant: "success" });
         if (isMountedRef.current) {
           setSubmitting(false);
         }
@@ -66,7 +66,7 @@ export default function AccountGeneral() {
           setSubmitting(false);
         }
       }
-    }
+    },
   });
 
   const {
@@ -76,7 +76,7 @@ export default function AccountGeneral() {
     isSubmitting,
     handleSubmit,
     getFieldProps,
-    setFieldValue
+    setFieldValue,
   } = formik;
 
   return (
@@ -88,20 +88,20 @@ export default function AccountGeneral() {
               <Box
                 sx={{
                   my: 10,
-                  display: 'flex',
-                  alignItems: 'center',
-                  flexDirection: 'column'
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
                 }}
               >
                 <UploadAvatar
-                  disabled={user.email === 'demo@minimals.cc'} // You can remove this
-                  value={values.photoURL || ''}
-                  onChange={(value) => setFieldValue('photoURL', value)}
+                  disabled={user.email === "demo@minimals.cc"} // You can remove this
+                  value={values.photoURL || ""}
+                  onChange={(value) => setFieldValue("photoURL", value)}
                 />
 
                 <FormControlLabel
                   control={
-                    <Switch {...getFieldProps('isPublic')} color="primary" />
+                    <Switch {...getFieldProps("isPublic")} color="primary" />
                   }
                   labelPlacement="start"
                   label="Public Profile"
@@ -116,10 +116,10 @@ export default function AccountGeneral() {
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <TextField
-                      disabled={user.email === 'demo@minimals.cc'} // You can remove this
+                      disabled={user.email === "demo@minimals.cc"} // You can remove this
                       fullWidth
                       label="Name"
-                      {...getFieldProps('displayName')}
+                      {...getFieldProps("displayName")}
                     />
                   </Grid>
 
@@ -128,7 +128,7 @@ export default function AccountGeneral() {
                       fullWidth
                       disabled
                       label="Email Address"
-                      {...getFieldProps('email')}
+                      {...getFieldProps("email")}
                     />
                   </Grid>
 
@@ -136,7 +136,7 @@ export default function AccountGeneral() {
                     <TextField
                       fullWidth
                       label="Phone Number"
-                      {...getFieldProps('phoneNumber')}
+                      {...getFieldProps("phoneNumber")}
                     />
                   </Grid>
 
@@ -144,7 +144,7 @@ export default function AccountGeneral() {
                     <TextField
                       fullWidth
                       label="Address"
-                      {...getFieldProps('address')}
+                      {...getFieldProps("address")}
                     />
                   </Grid>
 
@@ -154,7 +154,7 @@ export default function AccountGeneral() {
                       fullWidth
                       label="Country"
                       placeholder="Country"
-                      {...getFieldProps('country')}
+                      {...getFieldProps("country")}
                       SelectProps={{ native: true }}
                       error={Boolean(touched.country && errors.country)}
                       helperText={touched.country && errors.country}
@@ -172,7 +172,7 @@ export default function AccountGeneral() {
                     <TextField
                       fullWidth
                       label="State/Region"
-                      {...getFieldProps('state')}
+                      {...getFieldProps("state")}
                     />
                   </Grid>
 
@@ -180,7 +180,7 @@ export default function AccountGeneral() {
                     <TextField
                       fullWidth
                       label="City"
-                      {...getFieldProps('city')}
+                      {...getFieldProps("city")}
                     />
                   </Grid>
 
@@ -188,13 +188,13 @@ export default function AccountGeneral() {
                     <TextField
                       fullWidth
                       label="Zip/Code"
-                      {...getFieldProps('zipCode')}
+                      {...getFieldProps("zipCode")}
                     />
                   </Grid>
 
                   <Grid item xs={12}>
                     <TextField
-                      {...getFieldProps('about')}
+                      {...getFieldProps("about")}
                       fullWidth
                       multiline
                       minRows={4}
@@ -205,7 +205,7 @@ export default function AccountGeneral() {
                 </Grid>
 
                 <Box
-                  sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}
+                  sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}
                 >
                   <LoadingButton
                     type="submit"

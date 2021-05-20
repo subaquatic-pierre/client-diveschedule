@@ -1,8 +1,7 @@
 import { ReactNode, useEffect } from "react";
 import { useApolloClient, useQuery } from "@apollo/client";
-import { useDispatch } from "react-redux";
-import { AUTH_VIEWER_QUERY } from "../cache/controllers/auth";
-import useAuth from "../hooks/useAuthApollo";
+import { AUTH_VIEWER_QUERY } from "../../cache/controllers/auth";
+import useAuth from "../../hooks/useAuth.bak";
 // redux
 
 // ----------------------------------------------------------------------

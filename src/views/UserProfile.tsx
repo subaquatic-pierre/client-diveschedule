@@ -17,7 +17,7 @@ import {
   getFriends,
   getProfile,
   getFollowers,
-  onToggleFollow
+  onToggleFollow,
 } from "../redux/slices/user";
 // routes
 import { PATH_DASHBOARD } from "../routes/paths";
@@ -31,7 +31,7 @@ import {
   ProfileCover,
   ProfileFriends,
   ProfileGallery,
-  ProfileFollowers
+  ProfileFollowers,
 } from "../components/user/profile";
 
 // ----------------------------------------------------------------------
@@ -44,12 +44,12 @@ const TabsWrapperStyle = styled("div")(({ theme }) => ({
   position: "absolute",
   backgroundColor: theme.palette.background.paper,
   [theme.breakpoints.up("sm")]: {
-    justifyContent: "center"
+    justifyContent: "center",
   },
   [theme.breakpoints.up("md")]: {
     justifyContent: "flex-end",
-    paddingRight: theme.spacing(3)
-  }
+    paddingRight: theme.spacing(3),
+  },
 }));
 
 // ----------------------------------------------------------------------
@@ -91,7 +91,9 @@ export default function UserProfile() {
     {
       value: "profile",
       icon: <Icon icon={roundAccountBox} width={20} height={20} />,
-      component: <Profile myProfile={myProfile} posts={posts} authUser={user} />
+      component: (
+        <Profile myProfile={myProfile} posts={posts} authUser={user} />
+      ),
     },
     {
       value: "followers",
@@ -101,7 +103,7 @@ export default function UserProfile() {
           followers={followers}
           onToggleFollow={handleToggleFollow}
         />
-      )
+      ),
     },
     {
       value: "friends",
@@ -112,13 +114,13 @@ export default function UserProfile() {
           findFriends={findFriends}
           onFindFriends={handleFindFriends}
         />
-      )
+      ),
     },
     {
       value: "gallery",
       icon: <Icon icon={roundPermMedia} width={20} height={20} />,
-      component: <ProfileGallery gallery={gallery} />
-    }
+      component: <ProfileGallery gallery={gallery} />,
+    },
   ];
 
   return (
@@ -129,14 +131,14 @@ export default function UserProfile() {
           links={[
             { name: "Dashboard", href: PATH_DASHBOARD.root },
             { name: "User", href: PATH_DASHBOARD.user.root },
-            { name: user.displayName }
+            { name: user.displayName },
           ]}
         />
         <Card
           sx={{
             mb: 3,
             height: 280,
-            position: "relative"
+            position: "relative",
           }}
         >
           <ProfileCover myProfile={myProfile} authUser={user} />

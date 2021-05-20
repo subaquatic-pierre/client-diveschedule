@@ -21,7 +21,7 @@ import { LoadingButton } from "@material-ui/lab";
 // routes
 import { PATH_AUTH } from "../../../routes/paths";
 // hooks
-import useAuth from "../../../hooks/useAuthApollo";
+import useAuth from "../../../hooks/useAuth";
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
 // utils
 import { passwordError, emailError } from "../../../utils/helpError";

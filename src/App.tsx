@@ -29,40 +29,14 @@ import LoadingScreen from "./components/LoadingScreen";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 import NotistackProvider from "./components/NotistackProvider";
 
-// Using for Auth (Check doc https://minimals.cc/docs/authentication)
-import JwtProvider from "./components/authentication/JwtProvider";
-// import FirebaseProvider from './components/authentication/FirebaseProvider';
-
-// Auth
-
-// Layout
+import AuthProvider from "./components/authentication/AuthProvider";
 import useApolloSetup from "./hooks/useApolloSetup";
 
 // ----------------------------------------------------------------------
 
-interface IAlert {
-  state: boolean;
-  severity: Color | undefined;
-  message: string | undefined;
-}
-
-export interface IAlertContext {
-  alert: IAlert;
-  setAlert: React.Dispatch<React.SetStateAction<IAlert>>;
-}
-
-export const AlertContext = React.createContext({} as IAlertContext);
-
-export const initialAlert: IAlert = {
-  state: false,
-  severity: undefined,
-  message: undefined,
-};
-
 const history = createBrowserHistory();
 
 const App: React.FC = (props) => {
-  const [alert, setAlert] = React.useState(initialAlert);
   const client = useApolloSetup();
 
   if (!client) {
@@ -79,16 +53,14 @@ const App: React.FC = (props) => {
                 <RtlLayout>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <NotistackProvider>
-                      <AlertContext.Provider value={{ alert, setAlert }}>
-                        <Router history={history}>
-                          {/* <JwtProvider> */}
+                      <Router history={history}>
+                        <AuthProvider>
                           <Settings />
                           <ScrollToTop />
                           <GoogleAnalytics />
                           {renderRoutes(routes)}
-                          {/* </JwtProvider> */}
-                        </Router>
-                      </AlertContext.Provider>
+                        </AuthProvider>
+                      </Router>
                     </NotistackProvider>
                   </LocalizationProvider>
                 </RtlLayout>
