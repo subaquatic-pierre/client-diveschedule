@@ -11,7 +11,9 @@ import buildUser from "../utils/buildUser";
 export default function useAuth() {
   const client = useApolloClient();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const { data, loading, error } = useQuery(AUTH_VIEWER_QUERY);
+  const { data, loading, error } = useQuery(AUTH_VIEWER_QUERY, {
+    fetchPolicy: "network-only",
+  });
 
   let user = buildUser();
 

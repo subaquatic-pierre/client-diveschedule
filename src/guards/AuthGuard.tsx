@@ -1,8 +1,7 @@
 import { ReactNode } from "react";
-import { Redirect, useLocation } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { PATH_AUTH } from "../routes/paths";
 import LoadingScreen from "../components/LoadingScreen";
-import { useQuery } from "@apollo/client";
 import useAuth from "../hooks/useAuth";
 
 // ----------------------------------------------------------------------
@@ -12,7 +11,8 @@ type AuthProtectProps = {
 };
 
 export default function AuthProtect({ children }: AuthProtectProps) {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { user, isAuthenticated, isLoading } = useAuth();
+  console.log(user);
 
   if (isLoading) {
     return <LoadingScreen />;

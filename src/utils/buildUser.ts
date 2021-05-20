@@ -1,5 +1,3 @@
-import { userInfo } from "node:os";
-
 export const defaultUser = {
   id: "",
   displayName: "",
@@ -26,9 +24,9 @@ const defaultViewer = {
 
 export default function buildUser(user = defaultViewer) {
   return {
+    ...defaultUser,
     id: user.id,
     email: user.email,
-    displayName: user.profile.fullName.split(" ")[0],
-    ...defaultUser,
+    displayName: user.profile.fullName,
   };
 }

@@ -120,10 +120,14 @@ export const authController = (
       variables: { email: email, password: password },
     });
 
-    console.log(response);
     if (response.data) {
       localStorage.setItem("token", response.data.tokenAuth.token);
     }
+
+    if (response.errors) {
+      return new Error(response.errors[0].message);
+    }
+    window.location.reload();
   };
 
   const register = async ({
@@ -133,7 +137,7 @@ export const authController = (
     lastName,
   }: RegisterParams) => {
     const fullName = `${firstName} ${lastName}`;
-    return client.mutate({
+    await client.mutate({
       mutation: CREATE_USER_MUTATION,
       variables: {
         email: email,
@@ -141,11 +145,13 @@ export const authController = (
         fullName: fullName,
       },
     });
+    window.location.reload();
   };
 
   const logout = async () => {
     deleteAuthToken();
-    return client.mutate({ mutation: LOGOUT_MUTATION });
+    await client.mutate({ mutation: LOGOUT_MUTATION });
+    window.location.reload();
   };
 
   const resetPassword = (data: any) => {};
