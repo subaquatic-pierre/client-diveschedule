@@ -13,7 +13,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
   minHeight: "100%",
   alignItems: "center",
   paddingTop: theme.spacing(15),
-  paddingBottom: theme.spacing(10)
+  paddingBottom: theme.spacing(10),
 }));
 
 const HeaderStyle = styled("header")(({ theme }) => ({
@@ -23,14 +23,14 @@ const HeaderStyle = styled("header")(({ theme }) => ({
   width: "100%",
   position: "absolute",
   padding: theme.spacing(3, 3, 0),
-  [theme.breakpoints.up("sm")]: { padding: theme.spacing(5, 5, 0) }
+  [theme.breakpoints.up("sm")]: { padding: theme.spacing(5, 5, 0) },
 }));
 
 // ----------------------------------------------------------------------
 
 export default function Page500() {
   return (
-    <RootStyle title="500 Internal Server Error | Minimal-UI">
+    <RootStyle title="500 Internal Server Error | DiveSchedule">
       <HeaderStyle>
         <RouterLink to="/">
           <Logo />

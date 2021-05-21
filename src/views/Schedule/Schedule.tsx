@@ -98,7 +98,7 @@ export default function Schedule() {
   }, []);
 
   return (
-    <Page title="Schedule | Minimal-UI">
+    <Page title="Schedule | DiveSchedule">
       <Container maxWidth="xl">
         <HeaderDashboard
           heading="Schedule"

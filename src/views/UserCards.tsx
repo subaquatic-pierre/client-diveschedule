@@ -34,7 +34,7 @@ export default function UserCards() {
   });
 
   return (
-    <Page title="User: Cards | Minimal-UI">
+    <Page title="User: Cards | DiveSchedule">
       <Container>
         <HeaderDashboard
           heading="User Cards"

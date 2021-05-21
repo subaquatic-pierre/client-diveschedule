@@ -104,7 +104,7 @@ export default function UserProfile() {
   ];
 
   return (
-    <Page title="User: Profile | Minimal-UI">
+    <Page title="User: Profile | DiveSchedule">
       <Container>
         <HeaderDashboard
           heading="Profile"

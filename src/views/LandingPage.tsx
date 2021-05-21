@@ -9,19 +9,19 @@ import {
   LandingDarkMode,
   LandingAdvertisement,
   LandingCleanInterfaces,
-  LandingHugePackElements
+  LandingHugePackElements,
 } from "../components/landing-page";
 
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)(({ theme }) => ({
-  height: "100%"
+  height: "100%",
 }));
 
 const ContentStyle = styled("div")(({ theme }) => ({
   overflow: "hidden",
   position: "relative",
-  backgroundColor: theme.palette.background.default
+  backgroundColor: theme.palette.background.default,
 }));
 
 // ----------------------------------------------------------------------
@@ -29,7 +29,7 @@ const ContentStyle = styled("div")(({ theme }) => ({
 export default function LandingPage() {
   return (
     <RootStyle
-      title="The starting point for your next project | Minimal-UI"
+      title="The starting point for your next project | DiveSchedule"
       id="move_top"
     >
       <LandingHero />

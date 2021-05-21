@@ -26,7 +26,7 @@ export default function GeneralApp() {
   const { user } = useAuth();
 
   return (
-    <Page title="Dashboard: App | Minimal-UI">
+    <Page title="Dashboard: App | DiveSchedule">
       <Container maxWidth="xl">
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>

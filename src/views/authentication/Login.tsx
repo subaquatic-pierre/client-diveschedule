@@ -64,7 +64,7 @@ const ContentStyle = styled("div")(({ theme }) => ({
 
 export default function Login() {
   return (
-    <RootStyle title="Login | Minimal-UI">
+    <RootStyle title="Login | DiveSchedule">
       <HeaderStyle>
         <RouterLink to="/">
           <Logo />
