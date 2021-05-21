@@ -33,7 +33,7 @@ import MenuPopover from "../../components/MenuPopover";
 // ----------------------------------------------------------------------
 
 const MENU_LINKS = [
-  { title: "Home", icon: homeFill, href: "/" },
+  // { title: "Home", icon: homeFill, href: "/" },
   // { title: "Dashboard", icon: roundSpeed, href: PATH_HOME.dashboard },
 ];
 
@@ -169,7 +169,7 @@ export default function HomeNavbar() {
           </RouterLink>
           <Box sx={{ flexGrow: 1 }} />
 
-          <Hidden mdDown>{renderMenuDesktop}</Hidden>
+          {/* <Hidden mdDown>{renderMenuDesktop}</Hidden> */}
 
           <Button
             underline="none"
@@ -180,7 +180,7 @@ export default function HomeNavbar() {
             Dashboard
           </Button>
 
-          <Hidden mdUp>
+          {/* <Hidden mdUp>
             <MIconButton
               ref={anchorRef}
               onClick={() => setOpenMenu(true)}
@@ -193,7 +193,7 @@ export default function HomeNavbar() {
               <Icon icon={menu2Fill} />
             </MIconButton>
             {renderMenuMobile}
-          </Hidden>
+          </Hidden> */}
         </Container>
       </ToolbarStyle>
 

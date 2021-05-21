@@ -48,48 +48,61 @@ declare module "@material-ui/core" {
   }
 }
 
+// Curious Blue
+// #1B85D2
+
+// Chathams Blue
+// #13588A
+
+// Botticelli
+// #CFE1EC
+
+// Viking
+// #7CB4DC
+
 // SETUP COLORS
 const PRIMARY = {
-  lighter: "#C8FACD",
-  light: "#5BE584",
-  main: "#00AB55",
-  dark: "#007B55",
-  darker: "#005249"
+  lighter: "#d2e9f9",
+  light: "#77bcee",
+  main: "#1B85D2",
+  dark: "#115688",
+  darker: "#061d2d",
 };
 const SECONDARY = {
   lighter: "#D6E4FF",
   light: "#84A9FF",
   main: "#3366FF",
   dark: "#1939B7",
-  darker: "#091A7A"
+  darker: "#091A7A",
 };
 const INFO = {
   lighter: "#D0F2FF",
   light: "#74CAFF",
   main: "#1890FF",
   dark: "#0C53B7",
-  darker: "#04297A"
+  darker: "#04297A",
 };
 const SUCCESS = {
-  lighter: "#E9FCD4",
-  light: "#AAF27F",
-  main: "#54D62C",
-  dark: "#229A16",
-  darker: "#08660D"
+  lighter: "#d9f2e6",
+  light: "#8dd8b5",
+  main: "#62c999",
+  dark: "#27724f",
+  darker: "#0d261a",
 };
 const WARNING = {
   lighter: "#FFF7CD",
   light: "#FFE16A",
   main: "#FFC107",
   dark: "#B78103",
-  darker: "#7A4F01"
+  darker: "#7A4F01",
 };
+
 const ERROR = {
   lighter: "#FFE7D9",
   light: "#FFA48D",
   main: "#FF4842",
   dark: "#B72136",
-  darker: "#7A0C2E"
+  darker: "#7A0C2E",
 };
 const GREY = {
   100: "#F9FAFB",
@@ -108,14 +121,14 @@ const GREY = {
   500_32: alpha("#919EAB", 0.32),
   500_48: alpha("#919EAB", 0.48),
   500_56: alpha("#919EAB", 0.56),
-  500_80: alpha("#919EAB", 0.8)
+  500_80: alpha("#919EAB", 0.8),
 };
 const GRADIENTS = {
   primary: createGradient(PRIMARY.light, PRIMARY.main),
   info: createGradient(INFO.light, INFO.main),
   success: createGradient(SUCCESS.light, SUCCESS.main),
   warning: createGradient(WARNING.light, WARNING.main),
-  error: createGradient(ERROR.light, ERROR.main)
+  error: createGradient(ERROR.light, ERROR.main),
 };
 const COMMON = {
   common: { black: "#000", white: "#fff" },
@@ -135,8 +148,8 @@ const COMMON = {
     disabledBackground: GREY[500_24],
     focus: GREY[500_24],
     hoverOpacity: 0.08,
-    disabledOpacity: 0.48
-  }
+    disabledOpacity: 0.48,
+  },
 };
 
 const palette = {
@@ -144,14 +157,14 @@ const palette = {
     ...COMMON,
     text: { primary: GREY[800], secondary: GREY[600], disabled: GREY[500] },
     background: { paper: "#fff", default: "#fff", neutral: GREY[200] },
-    action: { active: GREY[600], ...COMMON.action }
+    action: { active: GREY[600], ...COMMON.action },
   },
   dark: {
     ...COMMON,
     text: { primary: "#fff", secondary: GREY[500], disabled: GREY[600] },
     background: { paper: GREY[800], default: GREY[900], neutral: GREY[500_16] },
-    action: { active: GREY[500], ...COMMON.action }
-  }
+    action: { active: GREY[500], ...COMMON.action },
+  },
 };
 
 export default palette;
