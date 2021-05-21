@@ -1,1 +1,22 @@
-<svg height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><linearGradient id="a" x1="100%" x2="50%" y1="5.663%" y2="50%"><stop offset="0" stop-color="#007b55"/><stop offset="1" stop-color="#00ab55"/></linearGradient><linearGradient id="b" x1="50%" x2="50%" y1="0%" y2="100%"><stop offset="0" stop-color="#5be584"/><stop offset="1" stop-color="#00ab55"/></linearGradient><g fill="none" fill-rule="evenodd" transform="translate(14 128)"><path d="m92.8065878 83.1065019c44.2888442 22.8889511 46.3079382 23.9345951 46.4006692 23.9799821.012248.008728.642121.333419 44.792743 23.152545-26.071507 48.53952-42.693165 77.265922-49.868472 86.179207-10.758587 13.369926-22.495227 23.492946-36.929824 29.333888-30.3458978 14.261953-68.070062 14.928791-97.201704-2.704011z" fill="url(#a)"/><g fill="url(#b)"><path d="m430.310491 101.726093c-46.270793-80.9559274-94.100378-157.2284394-149.043472-45.3437359-7.516227 14.3833977-12.994566 42.3366008-25.267019 42.3366008v-.1420279c-12.272453 0-17.749057-27.9532032-25.265283-42.3366009-54.94483-111.8847034-102.774415-35.6121915-149.0452076 45.3437359-3.4821132 6.105448-6.8270943 11.9321-9.6895094 16.99601 106.037811-67.1266136 97.11034 135.666494 184 137.277897v.142028c86.891396-1.611403 77.962189-204.4045106 184-137.27965-2.860679-5.062157-6.20566-10.888809-9.689509-16.994257"/><path d="m436 256c26.5088 0 48-21.4912 48-48s-21.4912-48-48-48-48 21.4912-48 48 21.4912 48 48 48"/></g></g></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" version="1.1" viewBox="0 0 800.00001 800.00001" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <mask id="e" maskUnits="userSpaceOnUse">
+   <circle cx="400" cy="400" r="400" color="#000000" color-rendering="auto" fill="#fff" fill-rule="evenodd" image-rendering="auto" shape-rendering="auto" solid-color="#000000" style="isolation:auto;mix-blend-mode:normal"/>
+  </mask>
+  <mask id="f" maskUnits="userSpaceOnUse">
+   <circle cx="400" cy="400" r="400" color="#000000" color-rendering="auto" fill="#fff" fill-rule="evenodd" image-rendering="auto" shape-rendering="auto" solid-color="#000000" style="isolation:auto;mix-blend-mode:normal"/>
+  </mask>
+  <linearGradient id="d" x1="452.68" x2="178.12" y1="367.24" y2="641.8" gradientUnits="userSpaceOnUse">
+   <stop offset="0"/>
+   <stop stop-opacity="0" offset="1"/>
+  </linearGradient>
+ </defs>
+ <g transform="translate(0 -252.36)">
+  <g transform="translate(-61.541 263.91)" fill-rule="evenodd" shape-rendering="auto">
+   <circle cx="461.54" cy="388.46" r="400" color="#000000" color-rendering="auto" fill="#1c8adb" image-rendering="auto" solid-color="#000000" style="isolation:auto;mix-blend-mode:normal"/>
+   <path transform="translate(61.541 -11.544)" d="m250 188.69-20.896 24.35h-20.684c-5.0319 0-9.4723 2.4872-12.193 6.2891l-196.09 196.09c5.9907 238.91 202.99 395.31 417.99 384.38l188.5-188.5v-344.05h-0.043v-39.217c0-8.2843-6.7157-15-15-15h-37.828l-3.752 6.9648v-31.314h-15.791l-20.896 24.35h-101.66l-3.75 6.9648v-31.314h-15.791l-20.896 24.35h-101.67l-3.752 6.9648v-31.314z" color="#000000" color-rendering="auto" fill="url(#d)" image-rendering="auto" mask="url(#f)" opacity=".42" solid-color="#000000" style="isolation:auto;mix-blend-mode:normal"/>
+   <path transform="translate(61.541 -11.544)" d="m250 188.69v61.18h15.789v-61.18h-15.789zm142.11 0v61.18h15.791v-61.18h-15.791zm142.1 0v61.18h15.791v-61.18h-15.791zm-325.79 24.35c-8.2843 0-15 6.7157-15 15v39.217h-0.04297v344.05h413.25v-344.05h-0.04297v-39.217c0-8.2843-6.7157-15-15-15h-37.828v40.58h-23.291v-40.58h-118.81v40.58h-23.289v-40.58h-118.82v40.58h-23.289v-40.58h-37.832zm9.1113 72.846h364.94v39.285h-364.94v-39.285zm0 77.145h61v61h-61v-61zm75.99 0h61v61h-61v-61zm75.979 0h61v61h-61v-61zm75.99 0h61v61h-61v-61zm75.98 0h61v61h-61v-61zm-303.94 82h61v61h-61v-61zm75.99 0h61v61h-61v-61zm75.979 0h61v61h-61v-61zm75.99 0h61v61h-61v-61zm75.98 0h61v61h-61v-61zm-303.94 82.01h61v61h-61v-61zm75.99 0h61v61h-61v-61zm75.979 0h61v61h-61v-61zm75.99 0h61v61h-61v-61zm75.98 0h61v61h-61v-61z" color="#000000" color-rendering="auto" fill="#fff" image-rendering="auto" mask="url(#e)" solid-color="#000000" style="isolation:auto;mix-blend-mode:normal"/>
+  </g>
+ </g>
+</svg>

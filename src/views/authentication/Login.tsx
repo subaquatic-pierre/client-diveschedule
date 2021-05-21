@@ -103,25 +103,13 @@ export default function Login() {
           <Box sx={{ mb: 5, display: "flex", alignItems: "center" }}>
             <Box sx={{ flexGrow: 1 }}>
               <Typography variant="h4" gutterBottom>
-                Sign in to Minimal
+                Sign in to Dive Schedule
               </Typography>
               <Typography sx={{ color: "text.secondary" }}>
                 Enter your details below.
               </Typography>
             </Box>
-            <Tooltip title="JWT">
-              <Box
-                component="img"
-                src="/static/icons/ic_jwt.png"
-                sx={{ width: 32, height: 32 }}
-              />
-            </Tooltip>
           </Box>
-
-          <Alert severity="info" sx={{ mb: 5 }}>
-            Use email : <strong>demo@minimals.cc</strong> / password :
-            <strong>&nbsp;demo1234</strong>
-          </Alert>
 
           <LoginForm />
 

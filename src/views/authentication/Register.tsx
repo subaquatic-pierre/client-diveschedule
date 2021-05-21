@@ -64,7 +64,7 @@ const ContentStyle = styled("div")(({ theme }) => ({
 
 export default function Register() {
   return (
-    <RootStyle title="Register | Minimal-UI">
+    <RootStyle title="Register | DiveSchedule">
       <HeaderStyle>
         <RouterLink to="/">
           <Logo />
@@ -87,7 +87,7 @@ export default function Register() {
       <Hidden mdDown>
         <SectionStyle>
           <Typography variant="h3" sx={{ px: 5, mt: 5, mb: 15 }}>
-            Manage the job more effectively with Minimal
+            Manage your diving schedule more effectively
           </Typography>
           <img
             alt="register"
@@ -101,17 +101,12 @@ export default function Register() {
           <Box sx={{ mb: 5, display: "flex", alignItems: "center" }}>
             <Box sx={{ flexGrow: 1 }}>
               <Typography variant="h4" gutterBottom>
-                Get started absolutely free.
+                Get started with Dive Schedule.
               </Typography>
               <Typography sx={{ color: "text.secondary" }}>
-                Free forever. No credit card needed.
+                Sign up for a free account.
               </Typography>
             </Box>
-            <Box
-              component="img"
-              src="/static/icons/ic_jwt.png"
-              sx={{ width: 32, height: 32 }}
-            />
           </Box>
 
           <RegisterForm />
@@ -121,12 +116,20 @@ export default function Register() {
             align="center"
             sx={{ color: "text.secondary", mt: 3 }}
           >
-            By registering, I agree to Minimal&nbsp;
-            <Link underline="always" sx={{ color: "text.primary" }}>
+            By registering, I agree to the&nbsp;
+            <Link
+              href="/terms-of-service"
+              underline="always"
+              sx={{ color: "text.primary" }}
+            >
               Terms of Service
             </Link>
             &nbsp;and&nbsp;
-            <Link underline="always" sx={{ color: "text.primary" }}>
+            <Link
+              href="/privacy-policy"
+              underline="always"
+              sx={{ color: "text.primary" }}
+            >
               Privacy Policy
             </Link>
             .
