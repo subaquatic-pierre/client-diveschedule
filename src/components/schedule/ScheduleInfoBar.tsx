@@ -2,17 +2,20 @@ import "date-fns";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useQuery } from "@apollo/client";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  Typography,
+  Popover,
+  Tooltip,
+} from "@material-ui/core";
 import "react-calendar/dist/Calendar.css";
 
 import IconButton from "@material-ui/core/IconButton";
 import TodayIcon from "@material-ui/icons/Today";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
-import Popover from "@material-ui/core/Popover";
 import Calendar from "react-calendar";
-import Tooltip from "@material-ui/core/Tooltip";
 import { formatDate } from "../../utils/date";
 
 import { DAY_QUERY } from "./queries";
@@ -74,7 +77,7 @@ export const ScheduleInfoBar: React.FC<IScheduleInfoBarProps> = ({
   const id = open ? "calendar-popover" : undefined;
 
   return (
-    <div>
+    <Box sx={{ mb: 3 }}>
       <AppBar color="inherit" position="static">
         <Toolbar className={classes.appBar}>
           <div onClick={openCalendar} className={classes.dateDiv}>
@@ -125,6 +128,6 @@ export const ScheduleInfoBar: React.FC<IScheduleInfoBarProps> = ({
           </Popover>
         </Toolbar>
       </AppBar>
-    </div>
+    </Box>
   );
 };

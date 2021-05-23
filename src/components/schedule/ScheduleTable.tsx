@@ -1,9 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableContainer from "@material-ui/core/TableContainer";
-import Paper from "@material-ui/core/Paper";
+import { Table, TableBody, TableContainer, Box, Card } from "@material-ui/core";
 
 import { ScheduleTableLoading } from "./ScheduleTableLoading";
 import { ScheduleTableHead } from "./ScheduleTableHead";
@@ -18,15 +15,10 @@ import { IBooking, IDiveTripDetail } from "../../views/Schedule/schedule";
 import { useBaseMutation } from "../../hooks/baseMutation";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    marginBottom: theme.spacing(2),
-  },
   boatTableContainer: {
-    width: "100%",
     minHeight: 700,
   },
   shoreContainer: {
-    width: "100%",
     minHeight: 400,
   },
   loading: {
@@ -121,8 +113,8 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   const isBoatTrip = tableType === "AM_BOAT" || tableType === "PM_BOAT";
 
   return (
-    <div className={classes.root}>
-      <Paper>
+    <Box dir="ltr">
+      <Card>
         <ScheduleTableToolbar
           tableType={tableType}
           diveTripDetail={diveTripDetail}
@@ -131,6 +123,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
           showCreateBookingRow={showCreateBookingRow}
           showAddBooking={!creatingBooking && editingBookingId === -1}
         />
+
         <TableContainer
           className={
             isBoatTrip ? classes.boatTableContainer : classes.shoreContainer
@@ -194,7 +187,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
             )}
           </Table>
         </TableContainer>
-      </Paper>
-    </div>
+      </Card>
+    </Box>
   );
 };
