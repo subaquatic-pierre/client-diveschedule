@@ -3,6 +3,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Checkbox from "@material-ui/core/Checkbox";
+import { makeStyles } from "@material-ui/core";
 
 interface IBoatScheduleTableHeadProps {
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -11,19 +12,37 @@ interface IBoatScheduleTableHeadProps {
   headFields: string[];
 }
 
+const useStyles = makeStyles((theme) => ({
+  head: {
+    "& .MuiTableCell-head": {
+      "&:first-of-type": {
+        borderTopLeftRadius: "0px",
+        borderBottomLeftRadius: "0px",
+        boxShadow: "inset 0 0 0 #fff;",
+      },
+      "&:last-of-type": {
+        borderTopRightRadius: "0px",
+        borderBottomRightRadius: "0px",
+        boxShadow: "inset 0 0 0 #fff;",
+      },
+    },
+  },
+}));
+
 export const ScheduleTableHead: React.FC<IBoatScheduleTableHeadProps> = ({
   onSelectAllClick,
   numSelected,
   rowCount,
-  headFields
+  headFields,
 }) => {
+  const classes = useStyles();
   const isFirstField = (index: number): boolean => {
     if (index === 0) return true;
     return false;
   };
   return (
     <TableHead>
-      <TableRow>
+      <TableRow className={classes.head}>
         <TableCell padding="checkbox">
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
