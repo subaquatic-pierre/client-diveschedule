@@ -10,17 +10,17 @@ import {
   TextField,
   CardContent,
   FormControlLabel,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
 } from "@material-ui/core";
 import { LoadingButton } from "@material-ui/lab";
 // hooks
 import useAuth from "../../../hooks/useAuth";
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
 import { UploadAvatar } from "../../upload";
-// @types
-import { User } from "../../../@types/user";
 //
-import countries from "./countries";
-
 // ----------------------------------------------------------------------
 
 interface InitialState {
@@ -137,6 +137,51 @@ export default function AccountGeneral() {
                       label="Phone Number"
                       {...getFieldProps("phoneNumber")}
                     />
+                  </Grid>
+
+                  <Grid item xs={12} sm={6}>
+                    <FormControl variant="outlined" fullWidth>
+                      <InputLabel id="certLevel">
+                        Certification Level
+                      </InputLabel>
+                      <Select
+                        labelId="certLevel"
+                        fullWidth
+                        label="Certification Level"
+                        {...getFieldProps("certificationLevel")}
+                      >
+                        <MenuItem value="openWater">Open Water</MenuItem>
+                        <MenuItem value="advancedOpenWater">
+                          Advanced Open Water
+                        </MenuItem>
+                        <MenuItem value="deepSpecialty">
+                          Deep Specialty
+                        </MenuItem>
+                        <MenuItem value="rescueDiver">Rescue Diver</MenuItem>
+                        <MenuItem value="diveMaster">Dive Master</MenuItem>
+                        <MenuItem value="instructor">Instructor</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+
+                  <Grid item xs={12} sm={6}>
+                    <FormControl variant="outlined" fullWidth>
+                      <InputLabel id="equipment">Equipment</InputLabel>
+                      <Select
+                        labelId="equipment"
+                        fullWidth
+                        label="Certification Level"
+                        {...getFieldProps("equipment")}
+                      >
+                        <MenuItem value="fullEquipment">
+                          Full Equipment
+                        </MenuItem>
+                        <MenuItem value="tanksAndWeights">
+                          Tanks and Weights
+                        </MenuItem>
+                        <MenuItem value="noEquipment">No Equipment</MenuItem>
+                      </Select>
+                    </FormControl>
                   </Grid>
                 </Grid>
 
