@@ -2,42 +2,21 @@
 
 import { FormikProps } from "formik";
 
-export type UserInvoice = {
+export type User = {
   id: string;
-  createdAt: Date;
-  price: number;
-};
-
-export type CreditCard = {
-  id: string;
-  cardNumber: string;
-  cardType: string;
-};
-
-export type Follower = {
-  id: string;
-  avatarUrl: string;
-  name: string;
-  country: string;
-  isFollowed: boolean;
-};
-
-export type Gallery = {
-  id: string;
-  title: string;
-  postAt: Date;
-  imageUrl: string;
-};
-
-export type UserAddressBook = {
-  id: string;
-  name: string;
-  phone: string;
-  country: string;
-  state: string;
-  city: string;
-  street: string;
-  zipCode: string;
+  displayName: string;
+  email: string;
+  password: string;
+  photoURL: string | null;
+  phoneNumber: string | null;
+  country: string | null;
+  address: string | null;
+  state: string | null;
+  city: string | null;
+  zipCode: string | null;
+  about: string | null;
+  role: string;
+  isPublic: boolean;
 };
 
 export type Profile = {
@@ -57,16 +36,6 @@ export type Profile = {
   twitterLink: string;
 };
 
-export type UserManager = {
-  id: string;
-  avatarUrl: string;
-  name: string;
-  company: string;
-  isVerified: boolean;
-  status: string;
-  role: string;
-};
-
 export type UserData = {
   id: string;
   avatarUrl: string;
@@ -78,52 +47,12 @@ export type UserData = {
   position: string;
 };
 
-export type NotificationSettings = {
-  activityComments: boolean;
-  activityAnswers: boolean;
-  activityFollows: boolean;
-  applicationNews: boolean;
-  applicationProduct: boolean;
-  applicationBlog: boolean;
-};
-
-export type Friend = {
+export type UserManager = {
   id: string;
   avatarUrl: string;
   name: string;
+  company: string;
+  isVerified: boolean;
+  status: string;
   role: string;
 };
-
-export type UserPost = {
-  id: string;
-  author: {
-    id: string;
-    avatarUrl: string;
-    name: string;
-  };
-  isLiked: boolean;
-  createdAt: Date;
-  media: string;
-  message: string;
-  personLikes: {
-    name: string;
-    avatarUrl: string;
-  }[];
-  comments: {
-    id: string;
-    author: {
-      id: string;
-      avatarUrl: string;
-      name: string;
-    };
-    createdAt: Date;
-    message: string;
-  }[];
-};
-
-export type AccountBillingFormikProps = FormikProps<{
-  cardName: string;
-  cardNumber: string;
-  cardExpired: string;
-  cardCvv: string;
-}>;

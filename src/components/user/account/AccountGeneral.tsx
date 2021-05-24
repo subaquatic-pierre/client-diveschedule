@@ -17,7 +17,7 @@ import useAuth from "../../../hooks/useAuth";
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
 import { UploadAvatar } from "../../upload";
 // @types
-import { User } from "../../../@types/account";
+import { User } from "../../../@types/user";
 //
 import countries from "./countries";
 

@@ -37,28 +37,23 @@ const DashboardRoutes = {
     // ----------------------------------------------------------------------
     {
       exact: true,
-      path: PATH_DASHBOARD.user.profile,
-      component: lazy(() => import("../views/UserProfile")),
-    },
-    {
-      exact: true,
-      path: PATH_DASHBOARD.user.cards,
-      component: lazy(() => import("../views/UserCards")),
-    },
-    {
-      exact: true,
       path: PATH_DASHBOARD.user.list,
-      component: lazy(() => import("../views/UserList")),
+      component: lazy(() => import("../views/user/UserList")),
     },
     {
       exact: true,
       path: PATH_DASHBOARD.user.account,
-      component: lazy(() => import("../views/UserAccount")),
+      component: lazy(() => import("../views/user/UserAccount")),
     },
     {
       exact: true,
-      path: PATH_DASHBOARD.user.root,
-      component: () => <Redirect to={PATH_DASHBOARD.user.profile} />,
+      path: PATH_DASHBOARD.user.create,
+      component: lazy(() => import("../views/user/UserCreate")),
+    },
+    {
+      exact: true,
+      path: PATH_DASHBOARD.user.edit,
+      component: lazy(() => import("../views/user/UserEdit")),
     },
 
     {

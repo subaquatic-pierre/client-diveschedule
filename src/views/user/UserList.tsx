@@ -21,18 +21,18 @@ import {
   TablePagination,
 } from "@material-ui/core";
 // redux
-import { getUserList, initialState } from "../controllers/user";
+import { getUserList, initialState } from "../../controllers/user";
 // routes
-import { PATH_DASHBOARD } from "../routes/paths";
+import { PATH_DASHBOARD } from "../../routes/paths";
 // @types
-import { UserManager } from "../@types/user";
+import { UserManager } from "../../@types/user";
 // components
-import Page from "../components/Page";
-import Label from "../components/Label";
-import Scrollbar from "../components/Scrollbar";
-import SearchNotFound from "../components/SearchNotFound";
-import HeaderDashboard from "../components/HeaderDashboard";
-import { UserListHead, UserListToolbar } from "../components/user/list";
+import Page from "../../components/Page";
+import Label from "../../components/Label";
+import Scrollbar from "../../components/Scrollbar";
+import SearchNotFound from "../../components/SearchNotFound";
+import HeaderDashboard from "../../components/HeaderDashboard";
+import { UserListHead, UserListToolbar } from "../../components/user/list";
 
 // ----------------------------------------------------------------------
 
@@ -161,8 +161,7 @@ export default function UserList() {
           heading="User List"
           links={[
             { name: "Dashboard", href: PATH_DASHBOARD.root },
-            { name: "User", href: PATH_DASHBOARD.user.root },
-            { name: "List" },
+            { name: "Users" },
           ]}
         />
 

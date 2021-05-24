@@ -45,60 +45,56 @@ const sidebarConfig = [
     subheader: "management",
     items: [
       {
-        title: "user",
+        title: "users",
         icon: ICONS.user,
         href: PATH_DASHBOARD.user.root,
         items: [
           {
-            title: "profile",
-            href: PATH_DASHBOARD.user.profile,
-          },
-          {
-            title: "cards",
-            href: PATH_DASHBOARD.user.cards,
-          },
-          {
-            title: "list",
+            title: "all users",
             href: PATH_DASHBOARD.user.list,
           },
           {
-            title: "account",
-            href: PATH_DASHBOARD.user.account,
+            title: "create user",
+            href: PATH_DASHBOARD.user.createUser,
           },
+          // {
+          //   title: "account",
+          //   href: PATH_DASHBOARD.user.account,
+          // },
         ],
       },
     ],
   },
   // PAGES
   // ----------------------------------------------------------------------
-  {
-    subheader: "pages",
-    items: [
-      {
-        title: "auth",
-        href: PATH_AUTH.loginUnprotected,
-        icon: ICONS.authenticator,
-        items: [
-          {
-            title: "login",
-            href: PATH_AUTH.loginUnprotected,
-          },
-          {
-            title: "register",
-            href: PATH_AUTH.registerUnprotected,
-          },
-          {
-            title: "reset password",
-            href: PATH_AUTH.resetPassword,
-          },
-          {
-            title: "verify code",
-            href: PATH_AUTH.verify,
-          },
-        ],
-      },
-    ],
-  },
+  // {
+  //   subheader: "pages",
+  //   items: [
+  //     {
+  //       title: "auth",
+  //       href: PATH_AUTH.loginUnprotected,
+  //       icon: ICONS.authenticator,
+  //       items: [
+  //         {
+  //           title: "login",
+  //           href: PATH_AUTH.loginUnprotected,
+  //         },
+  //         {
+  //           title: "register",
+  //           href: PATH_AUTH.registerUnprotected,
+  //         },
+  //         {
+  //           title: "reset password",
+  //           href: PATH_AUTH.resetPassword,
+  //         },
+  //         {
+  //           title: "verify code",
+  //           href: PATH_AUTH.verify,
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
 ];
 
 export default sidebarConfig;

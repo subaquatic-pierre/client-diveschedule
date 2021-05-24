@@ -1,10 +1,7 @@
 import { Icon } from "@iconify/react";
 import { capitalCase } from "change-case";
 import { useState, useEffect } from "react";
-import bellFill from "@iconify/icons-eva/bell-fill";
-import shareFill from "@iconify/icons-eva/share-fill";
 import roundVpnKey from "@iconify/icons-ic/round-vpn-key";
-import roundReceipt from "@iconify/icons-ic/round-receipt";
 import roundAccountBox from "@iconify/icons-ic/round-account-box";
 // material
 import { Container, Tab, Box, Tabs } from "@material-ui/core";
@@ -16,31 +13,22 @@ import {
   getAddressBook,
   getNotifications,
   initialState,
-} from "../controllers/user";
+} from "../../controllers/user";
 // routes
-import { PATH_DASHBOARD } from "../routes/paths";
+import { PATH_DASHBOARD } from "../../routes/paths";
 // components
-import Page from "../components/Page";
-import HeaderDashboard from "../components/HeaderDashboard";
+import Page from "../../components/Page";
+import HeaderDashboard from "../../components/HeaderDashboard";
 import {
   AccountGeneral,
-  AccountBilling,
-  AccountSocialLinks,
-  AccountNotifications,
   AccountChangePassword,
-} from "../components/user/account";
+} from "../../components/user/account";
 
 // ----------------------------------------------------------------------
 
 export default function UserAccount() {
   const [currentTab, setCurrentTab] = useState("general");
-  const {
-    cards,
-    invoices,
-    myProfile,
-    addressBook,
-    notifications,
-  } = initialState;
+  const { cards, myProfile, notifications } = initialState;
 
   if (!myProfile) {
     return null;
@@ -61,27 +49,6 @@ export default function UserAccount() {
       component: <AccountGeneral />,
     },
     {
-      value: "billing",
-      icon: <Icon icon={roundReceipt} width={20} height={20} />,
-      component: (
-        <AccountBilling
-          cards={cards}
-          addressBook={addressBook}
-          invoices={invoices}
-        />
-      ),
-    },
-    {
-      value: "notifications",
-      icon: <Icon icon={bellFill} width={20} height={20} />,
-      component: <AccountNotifications notifications={notifications} />,
-    },
-    {
-      value: "social_links",
-      icon: <Icon icon={shareFill} width={20} height={20} />,
-      component: <AccountSocialLinks myProfile={myProfile} />,
-    },
-    {
       value: "change_password",
       icon: <Icon icon={roundVpnKey} width={20} height={20} />,
       component: <AccountChangePassword />,
@@ -95,7 +62,7 @@ export default function UserAccount() {
           heading="Account"
           links={[
             { name: "Dashboard", href: PATH_DASHBOARD.root },
-            { name: "User", href: PATH_DASHBOARD.user.root },
+            { name: "Users", href: PATH_DASHBOARD.user.list },
             { name: "Account Settings" },
           ]}
         />

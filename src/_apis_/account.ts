@@ -5,7 +5,7 @@ import mock from "../utils/mock";
 import { codes } from "../utils/helpError";
 import fakeRequest from "../utils/fakeRequest";
 // @types
-import { User } from "../@types/account";
+import { User } from "../@types/user";
 
 // ----------------------------------------------------------------------
 
@@ -27,8 +27,8 @@ const users: User[] = [
     zipCode: "94116",
     about: "",
     role: "admin",
-    isPublic: true
-  }
+    isPublic: true,
+  },
 ];
 
 // ----------------------------------------------------------------------
@@ -49,7 +49,7 @@ mock.onPost("/api/account/login").reply(async (config) => {
     }
 
     const accessToken = jwt.sign({ userId: user.id }, JWT_SECRET, {
-      expiresIn: JWT_EXPIRES_IN
+      expiresIn: JWT_EXPIRES_IN,
     });
 
     return [200, { accessToken, user }];
@@ -86,11 +86,11 @@ mock.onPost("/api/account/register").reply(async (config) => {
       zipCode: null,
       about: null,
       role: "user",
-      isPublic: true
+      isPublic: true,
     };
 
     const accessToken = jwt.sign({ userId: user.id }, JWT_SECRET, {
-      expiresIn: JWT_EXPIRES_IN
+      expiresIn: JWT_EXPIRES_IN,
     });
 
     return [200, { accessToken, user }];

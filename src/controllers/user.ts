@@ -1,18 +1,6 @@
-import {
-  Friend,
-  Gallery,
-  Profile,
-  UserPost,
-  Follower,
-  UserData,
-  CreditCard,
-  UserInvoice,
-  UserManager,
-  UserAddressBook,
-  NotificationSettings,
-} from "../@types/user";
+import { Profile, UserData, UserManager } from "../@types/user";
 
-import { fetchNotifications, fetchCards, fetchProfile } from "../_apis_/user";
+import { fetchProfile } from "../_apis_/user";
 
 export type UserCache = {
   user: {
@@ -24,16 +12,16 @@ type UserState = {
   isLoading: boolean;
   error: boolean;
   myProfile: null | Profile;
-  posts: UserPost[];
+  posts: [];
   users: UserData[];
   userList: UserManager[];
-  followers: Follower[];
-  friends: Friend[];
-  gallery: Gallery[];
-  cards: CreditCard[] | null;
-  addressBook: UserAddressBook[];
-  invoices: UserInvoice[];
-  notifications: NotificationSettings | null;
+  followers: [];
+  friends: [];
+  gallery: [];
+  cards: [] | null;
+  addressBook: [];
+  invoices: [];
+  notifications: [] | null;
 };
 
 export const initialState: UserState = {
@@ -46,10 +34,10 @@ export const initialState: UserState = {
   followers: [],
   friends: [],
   gallery: [],
-  cards: fetchCards(),
+  cards: [],
   addressBook: [],
   invoices: [],
-  notifications: fetchNotifications(),
+  notifications: [],
 };
 
 const getUserList = () => {};

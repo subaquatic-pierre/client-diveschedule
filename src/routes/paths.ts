@@ -41,9 +41,8 @@ export const PATH_DASHBOARD = {
   schedule: path(ROOTS_DASHBOARD, "/schedule"),
   user: {
     root: path(ROOTS_DASHBOARD, "/user"),
-    profile: path(ROOTS_DASHBOARD, "/user/profile"),
-    cards: path(ROOTS_DASHBOARD, "/user/card"),
     list: path(ROOTS_DASHBOARD, "/user/list"),
     account: path(ROOTS_DASHBOARD, "/user/account"),
+    createUser: path(ROOTS_DASHBOARD, "/user/create-user"),
   },
 };
