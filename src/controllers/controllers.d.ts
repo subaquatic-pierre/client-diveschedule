@@ -22,5 +22,6 @@ export type AuthController = {
 
 export type UserController = {
   getUserList: () => void;
+  getUser: (id: string) => User;
   userList: User[];
 };

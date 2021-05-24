@@ -26,8 +26,14 @@ export const userController = (
     return [];
   };
 
+  const getUser = (id: string): User => {
+    console.log(id);
+    return defaultUser;
+  };
+
   return {
     userList: getUserList(),
+    getUser,
     getUserList,
   };
 };

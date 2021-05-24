@@ -21,17 +21,17 @@ import {
 
 export default function UserAccount() {
   const [currentTab, setCurrentTab] = useState("general");
-  const profile = defaultProfile;
+  // const profile = defaultProfile;
 
-  if (!profile) {
-    return null;
-  }
+  // if (!profile) {
+  //   return null;
+  // }
 
   const ACCOUNT_TABS = [
     {
       value: "general",
       icon: <Icon icon={roundAccountBox} width={20} height={20} />,
-      component: <AccountGeneral />,
+      component: <AccountGeneral mode="create" />,
     },
     {
       value: "change_password",

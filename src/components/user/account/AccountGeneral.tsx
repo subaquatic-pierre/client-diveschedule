@@ -1,5 +1,6 @@
 import * as Yup from "yup";
 import { useSnackbar } from "notistack";
+import { useApolloClient } from "@apollo/client";
 import { Form, FormikProvider, useFormik } from "formik";
 // material
 import {
@@ -20,37 +21,41 @@ import { LoadingButton } from "@material-ui/lab";
 import useAuth from "../../../hooks/useAuth";
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
 import { UploadAvatar } from "../../upload";
+import { User } from "../../../@types/user";
+import { userController } from "../../../controllers/user";
+import {
+  buildAccountFormData,
+  InitialFormState,
+} from "../../../utils/buildAccountFormData";
 //
 // ----------------------------------------------------------------------
 
-interface InitialState {
-  afterSubmit?: string;
-  fullName: string;
-  email: string;
-  equipment: string;
-  certificationLevel: string;
-  phoneNumber: string;
-}
+type AccountGeneralProps = {
+  mode?: string;
+  userId?: string;
+};
 
-export default function AccountGeneral() {
+export default function AccountGeneral({
+  mode = "account",
+  userId,
+}: AccountGeneralProps) {
   const isMountedRef = useIsMountedRef();
+  const client = useApolloClient();
   const { enqueueSnackbar } = useSnackbar();
   const { user, updateProfile } = useAuth();
 
+  // If mode is edit
+  const { getUser } = userController(client);
+
+  // If mode is create
+
   const UpdateUserSchema = Yup.object().shape({
-    displayName: Yup.string().required("Name is required"),
+    fullName: Yup.string().required("Name is required"),
   });
 
-  const formik = useFormik<InitialState>({
+  const formik = useFormik<InitialFormState>({
     enableReinitialize: true,
-    initialValues: {
-      fullName: user.profile.fullName,
-      email: user.email,
-      phoneNumber: user.profile.phoneNumber,
-      equipment: user.profile.equipment,
-      certificationLevel: user.profile.certificationLevel,
-    },
-
+    initialValues: buildAccountFormData({ mode, user, userId, getUser }),
     validationSchema: UpdateUserSchema,
     onSubmit: async (values, { setErrors, setSubmitting }) => {
       try {
@@ -97,14 +102,6 @@ export default function AccountGeneral() {
                   value={""}
                   onChange={(value) => setFieldValue("photoURL", value)}
                 />
-
-                <FormControlLabel
-                  control={
-                    <Switch {...getFieldProps("isPublic")} color="primary" />
-                  }
-                  labelPlacement="start"
-                  label="Public Profile"
-                />
               </Box>
             </Card>
           </Grid>
@@ -115,7 +112,6 @@ export default function AccountGeneral() {
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <TextField
-                      disabled={user.email === "demo@minimals.cc"} // You can remove this
                       fullWidth
                       label="Name"
                       {...getFieldProps("fullName")}
@@ -125,7 +121,7 @@ export default function AccountGeneral() {
                   <Grid item xs={12} sm={6}>
                     <TextField
                       fullWidth
-                      disabled
+                      disabled={mode !== "create"}
                       label="Email Address"
                       {...getFieldProps("email")}
                     />
@@ -193,7 +189,7 @@ export default function AccountGeneral() {
                     variant="contained"
                     pending={isSubmitting}
                   >
-                    Save Changes
+                    Create User
                   </LoadingButton>
                 </Box>
               </CardContent>
