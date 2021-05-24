@@ -119,7 +119,9 @@ export const authController = (
   };
 
   const resetPassword = (data: any) => {};
-  const updateProfile = (data: any) => {};
+  const updateProfile = (data: any) => {
+    console.log(data);
+  };
 
   return {
     login,

@@ -7,10 +7,8 @@ import {
   Box,
   Grid,
   Card,
-  Switch,
   TextField,
   CardContent,
-  FormControlLabel,
   Select,
   MenuItem,
   InputLabel,
@@ -42,7 +40,7 @@ export default function AccountGeneral({
   const isMountedRef = useIsMountedRef();
   const client = useApolloClient();
   const { enqueueSnackbar } = useSnackbar();
-  const { user, updateProfile } = useAuth();
+  const { user, updateProfile, register } = useAuth();
 
   // If mode is edit
   const { getUser } = userController(client);
@@ -59,14 +57,23 @@ export default function AccountGeneral({
     validationSchema: UpdateUserSchema,
     onSubmit: async (values, { setErrors, setSubmitting }) => {
       try {
-        await updateProfile({ ...values });
-        enqueueSnackbar("Update success", { variant: "success" });
+        switch (mode) {
+          case "create":
+            await register({ ...values });
+            enqueueSnackbar("Update success", { variant: "success" });
+            break;
+          default:
+            await updateProfile({ ...values });
+            enqueueSnackbar("Update success", { variant: "success" });
+            break;
+        }
         if (isMountedRef.current) {
           setSubmitting(false);
         }
       } catch (error) {
         if (isMountedRef.current) {
-          setErrors({ afterSubmit: "200" });
+          setErrors({ afterSubmit: "Error" });
+          enqueueSnackbar(error.message, { variant: "error" });
           setSubmitting(false);
         }
       }

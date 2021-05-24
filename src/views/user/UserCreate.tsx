@@ -16,17 +16,13 @@ import {
   AccountGeneral,
   AccountChangePassword,
 } from "../../components/user/account";
+import { useMutation } from "@apollo/client";
+import { CREATE_USER } from "../../components/schedule/mutations";
 
 // ----------------------------------------------------------------------
 
 export default function UserAccount() {
   const [currentTab, setCurrentTab] = useState("general");
-  // const profile = defaultProfile;
-
-  // if (!profile) {
-  //   return null;
-  // }
-
   const ACCOUNT_TABS = [
     {
       value: "general",
