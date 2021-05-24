@@ -9,7 +9,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 
 import { SEARCH_USERS } from "../queries";
 import { AutoCompleteSearch } from "../AutoCompleteSearch";
-import { IBooking, IUser } from "../../../views/Schedule/schedule";
+import { IBooking, IUser } from "../../../views/schedule/schedule";
 import { useFormData, IFormData } from "../hooks";
 import {
   ICreateBooking,

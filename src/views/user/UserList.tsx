@@ -21,11 +21,11 @@ import {
   TablePagination,
 } from "@material-ui/core";
 // redux
-import { getUserList, initialState } from "../../controllers/user";
+import { getUserList, userController } from "../../controllers/user";
 // routes
 import { PATH_DASHBOARD } from "../../routes/paths";
 // @types
-import { UserManager } from "../../@types/user";
+import { User } from "../../@types/user";
 // components
 import Page from "../../components/Page";
 import Label from "../../components/Label";
@@ -33,16 +33,16 @@ import Scrollbar from "../../components/Scrollbar";
 import SearchNotFound from "../../components/SearchNotFound";
 import HeaderDashboard from "../../components/HeaderDashboard";
 import { UserListHead, UserListToolbar } from "../../components/user/list";
+import { useApolloClient } from "@apollo/client";
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: "name", label: "Name", alignRight: false },
-  { id: "company", label: "Company", alignRight: false },
-  { id: "role", label: "Role", alignRight: false },
-  { id: "isVerified", label: "Verified", alignRight: false },
-  { id: "status", label: "Status", alignRight: false },
-  { id: "" },
+  // { id: "role", label: "Role", alignRight: false },
+  // { id: "isVerified", label: "Verified", alignRight: false },
+  // { id: "status", label: "Status", alignRight: false },
+  // { id: "" },
 ];
 
 // ----------------------------------------------------------------------
@@ -66,7 +66,7 @@ function getComparator(order: string, orderBy: string) {
 }
 
 function applySortFilter(
-  array: UserManager[],
+  array: User[],
   comparator: (a: any, b: any) => number,
   query: string
 ) {
@@ -79,7 +79,8 @@ function applySortFilter(
   if (query) {
     return filter(
       array,
-      (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (_user) =>
+        _user.profile.fullName.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
@@ -87,7 +88,8 @@ function applySortFilter(
 
 export default function UserList() {
   const theme = useTheme();
-  const { userList } = initialState;
+  const client = useApolloClient();
+  const { userList } = userController(client);
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [selected, setSelected] = useState<string[]>([]);
@@ -190,14 +192,9 @@ export default function UserList() {
                     .map((row, index) => {
                       const {
                         id,
-                        name,
-                        role,
-                        status,
-                        company,
-                        avatarUrl,
-                        isVerified,
+                        profile: { fullName },
                       } = row;
-                      const isItemSelected = selected.indexOf(name) !== -1;
+                      const isItemSelected = selected.indexOf(fullName) !== -1;
 
                       return (
                         <TableRow
@@ -207,7 +204,7 @@ export default function UserList() {
                           role="checkbox"
                           selected={isItemSelected}
                           aria-checked={isItemSelected}
-                          onClick={() => handleClick(name)}
+                          onClick={() => handleClick(fullName)}
                         >
                           <TableCell padding="checkbox">
                             <Checkbox checked={isItemSelected} />
@@ -222,16 +219,16 @@ export default function UserList() {
                             >
                               <Box
                                 component={Avatar}
-                                alt={name}
-                                src={avatarUrl}
+                                alt={fullName}
+                                src={""}
                                 sx={{ mx: 2 }}
                               />
                               <Typography variant="subtitle2" noWrap>
-                                {name}
+                                {fullName}
                               </Typography>
                             </Box>
                           </TableCell>
-                          <TableCell align="left">{company}</TableCell>
+                          {/* <TableCell align="left">{company}</TableCell>
                           <TableCell align="left">{role}</TableCell>
                           <TableCell align="left">
                             {isVerified ? "Yes" : "No"}
@@ -249,7 +246,7 @@ export default function UserList() {
                             >
                               {sentenceCase(status)}
                             </Label>
-                          </TableCell>
+                          </TableCell> */}
 
                           <TableCell align="right">
                             <IconButton>

@@ -1,5 +1,5 @@
 import React from "react";
-import { IBooking } from "../../views/Schedule/schedule";
+import { IBooking } from "../../views/schedule/schedule";
 
 export interface IFormData {
   [key: string]: string | number | undefined | any;

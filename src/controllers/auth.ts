@@ -1,36 +1,20 @@
 import { ApolloClient, DocumentNode, gql } from "@apollo/client";
 import { deleteAuthToken } from "../utils/auth";
 import { AuthController } from "./controllers";
-// import { User } from "../../@types/account";
+import {
+  User,
+  Auth,
+  AuthCache,
+  LoginParams,
+  RegisterParams,
+} from "../@types/user";
+import { defaultUser } from "./user";
 
-export type User = {
-  id: String;
-  email: String;
-  isAdmin: Boolean;
-  profile: {
-    fullName: String;
-  };
-};
-
-export type Auth = {
-  isAuthenticated?: boolean;
-  user?: User;
-};
-
-export type AuthCache = {
-  viewer: Auth;
-};
-
-export type LoginParams = {
-  email: string;
-  password: string;
-};
-
-export type RegisterParams = {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
+const initialAuthState: AuthCache = {
+  viewer: {
+    isAuthenticated: false,
+    user: defaultUser,
+  },
 };
 
 export const AUTH_VIEWER_QUERY = gql`
@@ -45,22 +29,6 @@ export const AUTH_VIEWER_QUERY = gql`
     }
   }
 `;
-
-export const unAuthUser = {
-  id: "AnonymousUser",
-  email: "",
-  isAdmin: false,
-  profile: {
-    fullName: "Default",
-  },
-};
-
-const initialAuthState: AuthCache = {
-  viewer: {
-    isAuthenticated: false,
-    user: unAuthUser,
-  },
-};
 
 export const initAuth = (client: ApolloClient<any>): void => {
   try {

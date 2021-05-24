@@ -55,46 +55,12 @@ const sidebarConfig = [
           },
           {
             title: "create user",
-            href: PATH_DASHBOARD.user.createUser,
+            href: PATH_DASHBOARD.user.create,
           },
-          // {
-          //   title: "account",
-          //   href: PATH_DASHBOARD.user.account,
-          // },
         ],
       },
     ],
   },
-  // PAGES
-  // ----------------------------------------------------------------------
-  // {
-  //   subheader: "pages",
-  //   items: [
-  //     {
-  //       title: "auth",
-  //       href: PATH_AUTH.loginUnprotected,
-  //       icon: ICONS.authenticator,
-  //       items: [
-  //         {
-  //           title: "login",
-  //           href: PATH_AUTH.loginUnprotected,
-  //         },
-  //         {
-  //           title: "register",
-  //           href: PATH_AUTH.registerUnprotected,
-  //         },
-  //         {
-  //           title: "reset password",
-  //           href: PATH_AUTH.resetPassword,
-  //         },
-  //         {
-  //           title: "verify code",
-  //           href: PATH_AUTH.verify,
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // },
 ];
 
 export default sidebarConfig;

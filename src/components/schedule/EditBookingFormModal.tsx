@@ -4,7 +4,7 @@ import Modal from "@material-ui/core/Modal";
 
 import { CREATE_USER, EDIT_USER } from "./mutations";
 import { EditBookingForm } from "./EditBookingForm";
-import { IUser } from "../../views/Schedule/schedule";
+import { IUser } from "../../views/schedule/schedule";
 
 interface IEditFormModalProps {
   open: boolean;

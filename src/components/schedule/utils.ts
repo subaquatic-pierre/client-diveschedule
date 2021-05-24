@@ -2,7 +2,7 @@ import {
   IBooking,
   IDiveTripDetail,
   IUser,
-} from "../../views/Schedule/schedule";
+} from "../../views/schedule/schedule";
 import { formatDate } from "../../utils/date";
 import { IFormData } from "./hooks";
 

@@ -11,7 +11,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import { IUser } from "../../views/Schedule/schedule";
+import { IUser } from "../../views/schedule/schedule";
 
 const MODAL_HEIGHT = 700;
 const MODAL_WIDTH = 700;

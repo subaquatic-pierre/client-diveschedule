@@ -9,7 +9,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 
-import { IBooking, IProfile } from "../../../views/Schedule/schedule";
+import { IBooking, IProfile } from "../../../views/schedule/schedule";
 
 const useStyles = makeStyles((theme) => ({
   guideRow: {

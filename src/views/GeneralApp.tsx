@@ -20,7 +20,7 @@ export default function GeneralApp() {
       <Container maxWidth="xl">
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
-            <AppWelcome displayName={user.displayName} />
+            <AppWelcome displayName={user.profile.fullName} />
           </Grid>
 
           <Grid item xs={12} md={4}>

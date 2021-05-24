@@ -1,58 +1,36 @@
-// ----------------------------------------------------------------------
-
-import { FormikProps } from "formik";
+export type Profile = {
+  fullName: string;
+  certificationLevel: string;
+  equipment: string;
+  phoneNumber: string;
+  photoURL?: string;
+  role?: string;
+};
 
 export type User = {
   id: string;
-  displayName: string;
+  email: string;
+  isAdmin: boolean;
+  profile: Profile;
+};
+
+export type Auth = {
+  isAuthenticated?: boolean;
+  user?: User;
+};
+
+export type AuthCache = {
+  viewer: Auth;
+};
+
+export type LoginParams = {
   email: string;
   password: string;
-  photoURL: string | null;
-  phoneNumber: string | null;
-  country: string | null;
-  address: string | null;
-  state: string | null;
-  city: string | null;
-  zipCode: string | null;
-  about: string | null;
-  role: string;
-  isPublic: boolean;
 };
 
-export type Profile = {
-  id: string;
-  cover: string;
-  position: string;
-  follower: number;
-  following: number;
-  quote: string;
-  country: string;
+export type RegisterParams = {
   email: string;
-  company: string;
-  school: string;
-  facebookLink: string;
-  instagramLink: string;
-  linkedinLink: string;
-  twitterLink: string;
-};
-
-export type UserData = {
-  id: string;
-  avatarUrl: string;
-  cover: string;
-  name: string;
-  follower: number;
-  following: number;
-  totalPost: number;
-  position: string;
-};
-
-export type UserManager = {
-  id: string;
-  avatarUrl: string;
-  name: string;
-  company: string;
-  isVerified: boolean;
-  status: string;
-  role: string;
+  password: string;
+  firstName: string;
+  lastName: string;
 };

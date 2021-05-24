@@ -23,8 +23,13 @@ import countries from "./countries";
 
 // ----------------------------------------------------------------------
 
-interface InitialState extends Omit<User, "password" | "id" | "role"> {
+interface InitialState {
   afterSubmit?: string;
+  fullName: string;
+  email: string;
+  equipment: string;
+  certificationLevel: string;
+  phoneNumber: string;
 }
 
 export default function AccountGeneral() {
@@ -39,17 +44,11 @@ export default function AccountGeneral() {
   const formik = useFormik<InitialState>({
     enableReinitialize: true,
     initialValues: {
-      displayName: user.displayName,
+      fullName: user.profile.fullName,
       email: user.email,
-      photoURL: user.photoURL,
-      phoneNumber: user.phoneNumber,
-      country: user.country,
-      address: user.address,
-      state: user.state,
-      city: user.city,
-      zipCode: user.zipCode,
-      about: user.about,
-      isPublic: user.isPublic,
+      phoneNumber: user.profile.phoneNumber,
+      equipment: user.profile.equipment,
+      certificationLevel: user.profile.certificationLevel,
     },
 
     validationSchema: UpdateUserSchema,
@@ -62,7 +61,7 @@ export default function AccountGeneral() {
         }
       } catch (error) {
         if (isMountedRef.current) {
-          setErrors({ afterSubmit: error.code });
+          setErrors({ afterSubmit: "200" });
           setSubmitting(false);
         }
       }
@@ -95,7 +94,7 @@ export default function AccountGeneral() {
               >
                 <UploadAvatar
                   disabled={user.email === "demo@minimals.cc"} // You can remove this
-                  value={values.photoURL || ""}
+                  value={""}
                   onChange={(value) => setFieldValue("photoURL", value)}
                 />
 
@@ -119,7 +118,7 @@ export default function AccountGeneral() {
                       disabled={user.email === "demo@minimals.cc"} // You can remove this
                       fullWidth
                       label="Name"
-                      {...getFieldProps("displayName")}
+                      {...getFieldProps("fullName")}
                     />
                   </Grid>
 
@@ -137,69 +136,6 @@ export default function AccountGeneral() {
                       fullWidth
                       label="Phone Number"
                       {...getFieldProps("phoneNumber")}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      fullWidth
-                      label="Address"
-                      {...getFieldProps("address")}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      select
-                      fullWidth
-                      label="Country"
-                      placeholder="Country"
-                      {...getFieldProps("country")}
-                      SelectProps={{ native: true }}
-                      error={Boolean(touched.country && errors.country)}
-                      helperText={touched.country && errors.country}
-                    >
-                      <option value="" />
-                      {countries.map((option) => (
-                        <option key={option.code} value={option.label}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </TextField>
-                  </Grid>
-
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      fullWidth
-                      label="State/Region"
-                      {...getFieldProps("state")}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      fullWidth
-                      label="City"
-                      {...getFieldProps("city")}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      fullWidth
-                      label="Zip/Code"
-                      {...getFieldProps("zipCode")}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <TextField
-                      {...getFieldProps("about")}
-                      fullWidth
-                      multiline
-                      minRows={4}
-                      maxRows={4}
-                      label="About"
                     />
                   </Grid>
                 </Grid>

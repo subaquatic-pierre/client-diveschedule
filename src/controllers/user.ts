@@ -1,43 +1,35 @@
-import { Profile, UserData, UserManager } from "../@types/user";
+import { ApolloClient, DocumentNode } from "@apollo/client";
+import { Profile, User } from "../@types/user";
+import { UserController } from "./controllers";
 
-import { fetchProfile } from "../_apis_/user";
+export const defaultProfile: Profile = {
+  fullName: "",
+  certificationLevel: "",
+  equipment: "",
+  phoneNumber: "",
+  role: null,
+};
 
-export type UserCache = {
-  user: {
-    userName: String;
+export const defaultUser: User = {
+  id: "AnonymousUser",
+  email: "",
+  isAdmin: true,
+  profile: defaultProfile,
+};
+
+export const userController = (
+  client: ApolloClient<any>,
+  mutation?: DocumentNode,
+  data?: User[]
+): UserController => {
+  const getUserList = (): User[] => {
+    return [];
   };
-};
 
-type UserState = {
-  isLoading: boolean;
-  error: boolean;
-  myProfile: null | Profile;
-  posts: [];
-  users: UserData[];
-  userList: UserManager[];
-  followers: [];
-  friends: [];
-  gallery: [];
-  cards: [] | null;
-  addressBook: [];
-  invoices: [];
-  notifications: [] | null;
-};
-
-export const initialState: UserState = {
-  isLoading: false,
-  error: false,
-  myProfile: fetchProfile(),
-  posts: [],
-  users: [],
-  userList: [],
-  followers: [],
-  friends: [],
-  gallery: [],
-  cards: [],
-  addressBook: [],
-  invoices: [],
-  notifications: [],
+  return {
+    userList: getUserList(),
+    getUserList,
+  };
 };
 
 const getUserList = () => {};

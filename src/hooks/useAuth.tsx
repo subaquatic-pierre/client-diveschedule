@@ -4,9 +4,21 @@ import { useSnackbar } from "notistack";
 import { Icon } from "@iconify/react";
 import closeFill from "@iconify/icons-eva/close-fill";
 import { MIconButton } from "../components/@material-extend";
-import buildUser from "../utils/buildUser";
+import { defaultUser } from "../controllers/user";
+import { User } from "../@types/user";
 
 // ----------------------------------------------------------------------
+
+const buildUser = (viewer: User = defaultUser) => ({
+  ...defaultUser,
+  id: viewer.id,
+  email: viewer.email,
+  profile: {
+    ...viewer.profile,
+    role: viewer.isAdmin ? "admin" : "user",
+    photoURL: viewer.profile.photoURL || "",
+  },
+});
 
 export default function useAuth() {
   const client = useApolloClient();

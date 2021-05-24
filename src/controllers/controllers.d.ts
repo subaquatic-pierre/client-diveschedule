@@ -1,4 +1,5 @@
 import { LoginParams, RegisterParams } from "./auth";
+import { User } from "./user";
 
 export type SettingsController = {
   handleToggleTheme: () => void;
@@ -17,4 +18,9 @@ export type AuthController = {
   logout: () => Promise;
   resetPassword: (data: any) => void;
   updateProfile: (data: any) => void;
+};
+
+export type UserController = {
+  getUserList: () => void;
+  userList: User[];
 };

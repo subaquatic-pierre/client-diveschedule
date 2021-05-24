@@ -5,15 +5,8 @@ import roundVpnKey from "@iconify/icons-ic/round-vpn-key";
 import roundAccountBox from "@iconify/icons-ic/round-account-box";
 // material
 import { Container, Tab, Box, Tabs } from "@material-ui/core";
-// redux
-import {
-  getCards,
-  getProfile,
-  getInvoices,
-  getAddressBook,
-  getNotifications,
-  initialState,
-} from "../../controllers/user";
+import { defaultProfile } from "../../controllers/user";
+
 // routes
 import { PATH_DASHBOARD } from "../../routes/paths";
 // components
@@ -28,17 +21,9 @@ import {
 
 export default function UserAccount() {
   const [currentTab, setCurrentTab] = useState("general");
-  const { cards, myProfile, notifications } = initialState;
+  const profile = defaultProfile;
 
-  if (!myProfile) {
-    return null;
-  }
-
-  if (!cards) {
-    return null;
-  }
-
-  if (!notifications) {
+  if (!profile) {
     return null;
   }
 
@@ -56,14 +41,14 @@ export default function UserAccount() {
   ];
 
   return (
-    <Page title="User: Account Settings | DiveSchedule">
+    <Page title="User: Edit | DiveSchedule">
       <Container>
         <HeaderDashboard
-          heading="Account"
+          heading="Edit User"
           links={[
             { name: "Dashboard", href: PATH_DASHBOARD.root },
             { name: "Users", href: PATH_DASHBOARD.user.list },
-            { name: "Create Account" },
+            { name: "Edit" },
           ]}
         />
 

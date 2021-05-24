@@ -21,7 +21,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import DoneIcon from "@material-ui/icons/Done";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { IDiveTripDetail, IUser } from "../../views/Schedule/schedule";
+import { IDiveTripDetail, IUser } from "../../views/schedule/schedule";
 import { UserSearchInput } from "./UserSearchInput";
 import { EDIT_DIVE_TRIP_DETAIL, CREATE_DIVE_TRIP_DETAIL } from "./mutations";
 import { buildFormData } from "./utils";

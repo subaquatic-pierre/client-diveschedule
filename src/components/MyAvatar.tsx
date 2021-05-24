@@ -23,16 +23,20 @@ const DefaultAvatar = (other: any) => {
 export default function MyAvatar({ ...other }: MAvatarProps) {
   const { user } = useAuth();
 
-  if (!user.photoURL) return <DefaultAvatar {...other} />;
+  if (!user.profile.photoURL) return <DefaultAvatar {...other} />;
 
   return (
     <MAvatar
-      src={user.photoURL}
-      alt={user.displayName}
-      color={user.photoURL ? "default" : createAvatar(user.displayName).color}
+      src={user.profile.photoURL}
+      alt={user.profile.fullName}
+      color={
+        user.profile.photoURL
+          ? "default"
+          : createAvatar(user.profile.fullName).color
+      }
       {...other}
     >
-      {createAvatar(user.displayName).name}
+      {createAvatar(user.profile.fullName).name}
     </MAvatar>
   );
 }

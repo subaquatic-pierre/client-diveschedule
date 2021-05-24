@@ -13,7 +13,7 @@ import Popover from "@material-ui/core/Popover";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import { IDiveTripDetail } from "../../../views/Schedule/schedule";
+import { IDiveTripDetail } from "../../../views/schedule/schedule";
 import { EditTripDetailForm } from "../EditTripDetailForm";
 import { getToolbarHeading } from "../utils";
 import useAuth from "../../../hooks/useAuth";
@@ -60,7 +60,9 @@ export const ScheduleTableToolbar: React.FC<IScheduleTableToolbarProps> = ({
   deleteBooking,
 }) => {
   const {
-    user: { role },
+    user: {
+      profile: { role },
+    },
   } = useAuth();
   const isAdmin = role === "admin";
   const classes = useStyles();
