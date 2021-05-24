@@ -1,11 +1,11 @@
 import { Icon } from "@iconify/react";
 import { capitalCase } from "change-case";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import roundVpnKey from "@iconify/icons-ic/round-vpn-key";
 import roundAccountBox from "@iconify/icons-ic/round-account-box";
 // material
 import { Container, Tab, Box, Tabs } from "@material-ui/core";
-import { defaultProfile } from "../../controllers/user";
+import useAuth from "../../hooks/useAuth";
 // routes
 import { PATH_DASHBOARD } from "../../routes/paths";
 // components
@@ -20,7 +20,9 @@ import {
 
 export default function UserAccount() {
   const [currentTab, setCurrentTab] = useState("general");
-  const profile = defaultProfile;
+  const {
+    user: { profile },
+  } = useAuth();
 
   if (!profile) {
     return null;

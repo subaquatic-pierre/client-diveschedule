@@ -9,16 +9,34 @@ import { User } from "../@types/user";
 
 // ----------------------------------------------------------------------
 
-const buildUser = (viewer: User = defaultUser) => ({
-  ...defaultUser,
-  id: viewer.id,
-  email: viewer.email,
-  profile: {
-    ...viewer.profile,
-    role: viewer.isAdmin ? "admin" : "user",
-    photoURL: viewer.profile.photoURL || "",
-  },
-});
+const replaceIfNull = (value: string | null): string => {
+  if (value === null || value === undefined) {
+    return "Default";
+  }
+  return value;
+};
+
+const buildUser = (viewer: User = defaultUser) => {
+  const {
+    id,
+    isAdmin,
+    email,
+    profile: { fullName, photoURL, certificationLevel, equipment },
+  } = viewer;
+  return {
+    ...defaultUser,
+    id: id,
+    email: email,
+    profile: {
+      fullName: replaceIfNull(fullName),
+      role: isAdmin ? "admin" : "user",
+      photoURL: replaceIfNull(photoURL),
+      certificationLevel: replaceIfNull(certificationLevel),
+      equipment: replaceIfNull(equipment),
+      phoneNumber: replaceIfNull(viewer.profile.phoneNumber),
+    },
+  };
+};
 
 export default function useAuth() {
   const client = useApolloClient();

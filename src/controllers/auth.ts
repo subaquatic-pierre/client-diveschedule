@@ -1,13 +1,7 @@
 import { ApolloClient, DocumentNode, gql } from "@apollo/client";
 import { deleteAuthToken } from "../utils/auth";
 import { AuthController } from "./controllers";
-import {
-  User,
-  Auth,
-  AuthCache,
-  LoginParams,
-  RegisterParams,
-} from "../@types/user";
+import { Auth, AuthCache, LoginParams, RegisterParams } from "../@types/user";
 import { defaultUser } from "./user";
 
 const initialAuthState: AuthCache = {
@@ -25,6 +19,8 @@ export const AUTH_VIEWER_QUERY = gql`
       isAdmin
       profile {
         fullName
+        equipment
+        certificationLevel
       }
     }
   }

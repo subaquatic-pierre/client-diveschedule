@@ -11,8 +11,7 @@ type AuthProtectProps = {
 };
 
 export default function AuthProtect({ children }: AuthProtectProps) {
-  const { user, isAuthenticated, isLoading } = useAuth();
-  console.log(user);
+  const { isAuthenticated, isLoading } = useAuth();
 
   if (isLoading) {
     return <LoadingScreen />;
