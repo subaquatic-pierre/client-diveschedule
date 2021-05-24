@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { useApolloClient } from "@apollo/client";
-import { initAuth } from "../cache/controllers/auth";
-import { initSettings } from "../cache/controllers/settings";
+import { initAuth } from "../controllers/auth";
+import { initSettings } from "../controllers/settings";
 
 type SetupCacheProps = {
   children?: ReactNode;

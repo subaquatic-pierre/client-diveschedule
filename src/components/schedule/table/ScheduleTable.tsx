@@ -8,11 +8,11 @@ import { ScheduleTableToolbar } from "./ScheduleTableToolbar";
 import { ScheduleTableRow } from "./ScheduleTableRow";
 import { ScheduleTableGuideRow } from "./ScheduleTableGuideRow";
 import { ScheduleTableEditRow } from "./ScheduleTableEditRow";
-import { getHeadFields } from "./utils";
+import { getHeadFields } from "../utils";
 
-import { EDIT_BOOKING, CREATE_BOOKING, DELETE_BOOKING } from "./mutations";
-import { IBooking, IDiveTripDetail } from "../../views/Schedule/schedule";
-import { useBaseMutation } from "../../hooks/baseMutation";
+import { EDIT_BOOKING, CREATE_BOOKING, DELETE_BOOKING } from "../mutations";
+import { IBooking, IDiveTripDetail } from "../../../views/Schedule/schedule";
+import { useBaseMutation } from "../../../hooks/baseMutation";
 
 const useStyles = makeStyles((theme) => ({
   boatTableContainer: {

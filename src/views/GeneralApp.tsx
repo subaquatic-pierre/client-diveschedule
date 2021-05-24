@@ -6,18 +6,8 @@ import useAuth from "../hooks/useAuth";
 import Page from "../components/Page";
 import {
   AppWelcome,
-  AppWidgets1,
-  AppWidgets2,
   AppFeatured,
-  AppNewInvoice,
-  AppTopAuthors,
-  AppTopRelated,
-  AppAreaInstalled,
-  AppTotalDownloads,
-  AppTotalInstalled,
-  AppCurrentDownload,
-  AppTotalActiveUsers,
-  AppTopInstalledCountries,
+  AppPlaceHolder,
 } from "../components/general/app";
 
 // ----------------------------------------------------------------------
@@ -38,50 +28,35 @@ export default function GeneralApp() {
           </Grid>
 
           <Grid item xs={12} md={4}>
-            <AppTotalActiveUsers />
+            <AppPlaceHolder />
           </Grid>
 
           <Grid item xs={12} md={4}>
-            <AppTotalInstalled />
+            <AppPlaceHolder />
           </Grid>
 
           <Grid item xs={12} md={4}>
-            <AppTotalDownloads />
+            <AppPlaceHolder />
           </Grid>
 
           <Grid item xs={12} md={6} lg={4}>
-            <AppCurrentDownload />
+            <AppPlaceHolder />
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>
-            <AppAreaInstalled />
+            <AppPlaceHolder />
           </Grid>
 
           <Grid item xs={12} lg={8}>
-            <AppNewInvoice />
+            <AppPlaceHolder />
           </Grid>
 
           <Grid item xs={12} md={6} lg={4}>
-            <AppTopRelated />
+            <AppPlaceHolder />
           </Grid>
 
           <Grid item xs={12} md={6} lg={4}>
-            <AppTopInstalledCountries />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={4}>
-            <AppTopAuthors />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={4}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <AppWidgets1 />
-              </Grid>
-              <Grid item xs={12}>
-                <AppWidgets2 />
-              </Grid>
-            </Grid>
+            <AppPlaceHolder />
           </Grid>
         </Grid>
       </Container>

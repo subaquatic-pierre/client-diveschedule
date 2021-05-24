@@ -14,7 +14,7 @@ import {
   UserManager,
   UserAddressBook,
   CreditCard,
-  UserInvoice
+  UserInvoice,
 } from "../@types/user";
 
 // ----------------------------------------------------------------------
@@ -40,7 +40,7 @@ mock.onGet("/api/user/profile").reply(() => {
     facebookLink: `https://www.facebook.com/caitlyn.kerluke`,
     instagramLink: `https://www.instagram.com/caitlyn.kerluke`,
     linkedinLink: `https://www.linkedin.com/in/caitlyn.kerluke`,
-    twitterLink: `https://www.twitter.com/caitlyn.kerluke`
+    twitterLink: `https://www.twitter.com/caitlyn.kerluke`,
   };
 
   return [200, { profile }];
@@ -70,8 +70,8 @@ mock.onGet("/api/user/all").reply(() => {
           "Backend Developer",
           "Full Stack Designer",
           "Front End Developer",
-          "Full Stack Developer"
-        ]) || "UI Designer"
+          "Full Stack Developer",
+        ]) || "UI Designer",
     };
   });
 
@@ -101,8 +101,8 @@ mock.onGet("/api/user/manage-users").reply(() => {
           "Backend Developer",
           "Full Stack Designer",
           "Front End Developer",
-          "Full Stack Developer"
-        ]) || "Leader"
+          "Full Stack Developer",
+        ]) || "Leader",
     };
   });
 
@@ -119,7 +119,7 @@ mock.onGet("/api/user/social/followers").reply(() => {
       avatarUrl: mockImgAvatar(setIndex),
       name: faker.name.findName(),
       country: faker.address.country(),
-      isFollowed: faker.datatype.boolean()
+      isFollowed: faker.datatype.boolean(),
     };
   });
 
@@ -146,8 +146,8 @@ mock.onGet("/api/user/social/friends").reply(() => {
           "Backend Developer",
           "Full Stack Designer",
           "Front End Developer",
-          "Full Stack Developer"
-        ]) || "Leader"
+          "Full Stack Developer",
+        ]) || "Leader",
     };
   });
 
@@ -163,7 +163,7 @@ mock.onGet("/api/user/social/gallery").reply(() => {
       id: createId(setIndex),
       title: faker.name.title(),
       postAt: faker.date.past(),
-      imageUrl: mockImgCover(setIndex)
+      imageUrl: mockImgCover(setIndex),
     };
   });
 
@@ -180,7 +180,9 @@ mock.onGet("/api/user/account/cards").reply(() => {
       (index === 1 && "**** **** **** 5678") ||
       "**** **** **** 5678",
     cardType:
-      (index === 0 && "master_card") || (index === 1 && "visa") || "master_card"
+      (index === 0 && "master_card") ||
+      (index === 1 && "visa") ||
+      "master_card",
   }));
 
   return [200, { cards }];
@@ -197,7 +199,7 @@ mock.onGet("/api/user/account/address-book").reply(() => {
     state: faker.address.state(),
     city: faker.address.city(),
     street: faker.address.streetAddress(),
-    zipCode: faker.address.zipCode()
+    zipCode: faker.address.zipCode(),
   }));
 
   return [200, { addressBook }];
@@ -209,7 +211,7 @@ mock.onGet("/api/user/account/invoices").reply(() => {
   const invoices: UserInvoice[] = [...Array(10)].map(() => ({
     id: faker.datatype.uuid(),
     createdAt: faker.date.past(),
-    price: faker.datatype.number({ min: 4, max: 99, precision: 0.01 })
+    price: faker.datatype.number({ min: 4, max: 99, precision: 0.01 }),
   }));
 
   return [200, { invoices }];
@@ -224,7 +226,7 @@ mock.onGet("/api/user/account/notifications-settings").reply(() => {
     activityFollows: false,
     applicationNews: true,
     applicationProduct: false,
-    applicationBlog: false
+    applicationBlog: false,
   };
 
   return [200, { notifications }];
@@ -240,7 +242,7 @@ mock.onGet("/api/user/posts").reply(() => {
       author: {
         id: createId(1),
         avatarUrl: mockImgAvatar(1),
-        name: "Caitlyn Kerluke"
+        name: "Caitlyn Kerluke",
       },
       isLiked: true,
       createdAt: faker.date.past(),
@@ -248,7 +250,7 @@ mock.onGet("/api/user/posts").reply(() => {
       message: faker.lorem.sentence(),
       personLikes: [...Array(50)].map((_, index) => ({
         name: faker.name.findName(),
-        avatarUrl: mockImgAvatar(index + 2)
+        avatarUrl: mockImgAvatar(index + 2),
       })),
       comments: (setIndex === 2 && []) || [
         {
@@ -256,24 +258,64 @@ mock.onGet("/api/user/posts").reply(() => {
           author: {
             id: createId(2),
             avatarUrl: mockImgAvatar(sample([2, 3, 4, 5, 6]) || 2),
-            name: faker.name.findName()
+            name: faker.name.findName(),
           },
           createdAt: faker.date.past(),
-          message: faker.lorem.sentence()
+          message: faker.lorem.sentence(),
         },
         {
           id: faker.datatype.uuid(),
           author: {
             id: createId(3),
             avatarUrl: mockImgAvatar(sample([7, 8, 9, 10, 11]) || 7),
-            name: faker.name.findName()
+            name: faker.name.findName(),
           },
           createdAt: faker.date.past(),
-          message: faker.lorem.sentence()
-        }
-      ]
+          message: faker.lorem.sentence(),
+        },
+      ],
     };
   });
 
   return [200, { posts }];
+});
+
+export const fetchNotifications = () => ({
+  activityComments: true,
+  activityAnswers: true,
+  activityFollows: false,
+  applicationNews: true,
+  applicationProduct: false,
+  applicationBlog: false,
+});
+
+export const fetchCards = () =>
+  [...Array(2)].map((_, index) => ({
+    id: faker.datatype.uuid(),
+    cardNumber:
+      (index === 0 && "**** **** **** 1234") ||
+      (index === 1 && "**** **** **** 5678") ||
+      "**** **** **** 5678",
+    cardType:
+      (index === 0 && "master_card") ||
+      (index === 1 && "visa") ||
+      "master_card",
+  }));
+
+export const fetchProfile = () => ({
+  id: createId(1),
+  cover: mockImgCover(1),
+  position: "UI Designer",
+  follower: faker.datatype.number(),
+  following: faker.datatype.number(),
+  quote:
+    "Tart I love sugar plum I love oat cake. Sweet roll caramels I love jujubes. Topping cake wafer..",
+  country: faker.address.country(),
+  email: faker.internet.email(),
+  company: faker.company.companyName(),
+  school: faker.company.companyName(),
+  facebookLink: `https://www.facebook.com/caitlyn.kerluke`,
+  instagramLink: `https://www.instagram.com/caitlyn.kerluke`,
+  linkedinLink: `https://www.linkedin.com/in/caitlyn.kerluke`,
+  twitterLink: `https://www.twitter.com/caitlyn.kerluke`,
 });

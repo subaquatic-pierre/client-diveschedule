@@ -16,7 +16,7 @@ import {
   getAddressBook,
   getNotifications,
   initialState,
-} from "../cache/controllers/user";
+} from "../controllers/user";
 // routes
 import { PATH_DASHBOARD } from "../routes/paths";
 // components

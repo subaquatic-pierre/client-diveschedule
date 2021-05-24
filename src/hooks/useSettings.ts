@@ -3,7 +3,7 @@ import {
   SETTINGS_CACHE_QUERY,
   SettingsCache,
   settingsController,
-} from "../cache/controllers/settings";
+} from "../controllers/settings";
 
 // ----------------------------------------------------------------------
 

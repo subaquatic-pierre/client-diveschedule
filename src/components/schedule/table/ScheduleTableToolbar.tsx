@@ -13,9 +13,10 @@ import Popover from "@material-ui/core/Popover";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import { IDiveTripDetail } from "../../views/Schedule/schedule";
-import { EditTripDetailForm } from "./EditTripDetailForm";
-import { getToolbarHeading } from "./utils";
+import { IDiveTripDetail } from "../../../views/Schedule/schedule";
+import { EditTripDetailForm } from "../EditTripDetailForm";
+import { getToolbarHeading } from "../utils";
+import useAuth from "../../../hooks/useAuth";
 
 const useStyles = makeStyles((theme) => ({
   toolbarRoot: {
@@ -58,7 +59,10 @@ export const ScheduleTableToolbar: React.FC<IScheduleTableToolbarProps> = ({
   showCreateBookingRow,
   deleteBooking,
 }) => {
-  const isAdmin = true;
+  const {
+    user: { role },
+  } = useAuth();
+  const isAdmin = role === "admin";
   const classes = useStyles();
   const [moreMenuAnchorEl, setMoreMenuAnchorEl] = React.useState(null);
   const [

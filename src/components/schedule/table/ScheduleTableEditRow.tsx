@@ -7,10 +7,10 @@ import TableRow from "@material-ui/core/TableRow";
 import CancelIcon from "@material-ui/icons/Cancel";
 import Tooltip from "@material-ui/core/Tooltip";
 
-import { SEARCH_USERS } from "./queries";
-import { AutoCompleteSearch } from "./AutoCompleteSearch";
-import { IBooking, IUser } from "../../views/Schedule/schedule";
-import { useFormData, IFormData } from "./hooks";
+import { SEARCH_USERS } from "../queries";
+import { AutoCompleteSearch } from "../AutoCompleteSearch";
+import { IBooking, IUser } from "../../../views/Schedule/schedule";
+import { useFormData, IFormData } from "../hooks";
 import {
   ICreateBooking,
   IEditBooking,
@@ -18,7 +18,7 @@ import {
   buildCreateBookingData,
   getUser,
   getUserOptions,
-} from "./utils";
+} from "../utils";
 
 const useStyles = makeStyles((theme) => ({
   saveButton: {

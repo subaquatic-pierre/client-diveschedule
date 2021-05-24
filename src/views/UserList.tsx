@@ -21,7 +21,7 @@ import {
   TablePagination,
 } from "@material-ui/core";
 // redux
-import { getUserList, initialState } from "../cache/controllers/user";
+import { getUserList, initialState } from "../controllers/user";
 // routes
 import { PATH_DASHBOARD } from "../routes/paths";
 // @types

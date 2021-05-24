@@ -27,6 +27,7 @@ export default function buildUser(user = defaultViewer) {
     ...defaultUser,
     id: user.id,
     email: user.email,
+    role: user.isAdmin ? "admin" : "user",
     displayName: user.profile.fullName,
   };
 }

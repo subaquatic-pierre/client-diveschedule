@@ -9,7 +9,7 @@ import roundAccountBox from "@iconify/icons-ic/round-account-box";
 import { experimentalStyled as styled } from "@material-ui/core/styles";
 import { Tab, Box, Card, Tabs, Container } from "@material-ui/core";
 // redux
-import { onToggleFollow, initialState } from "../cache/controllers/user";
+import { onToggleFollow, initialState } from "../controllers/user";
 // routes
 import { PATH_DASHBOARD } from "../routes/paths";
 // hooks

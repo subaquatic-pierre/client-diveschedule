@@ -1,6 +1,6 @@
 import { MockedProvider } from "@apollo/client/testing";
 import { render } from "@testing-library/react";
-import { ScheduleTable } from "../ScheduleTable";
+import { ScheduleTable } from "../table/ScheduleTable";
 
 describe("Autocomplete search tests", () => {
   it("renders without error", () => {

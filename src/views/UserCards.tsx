@@ -2,7 +2,7 @@ import { useEffect } from "react";
 // material
 import { Container, Grid, Skeleton } from "@material-ui/core";
 // redux
-import { getUsers, initialState } from "../cache/controllers/user";
+import { getUsers, initialState } from "../controllers/user";
 // routes
 import { PATH_DASHBOARD } from "../routes/paths";
 // components

@@ -1,5 +1,5 @@
 import { useApolloClient, useQuery } from "@apollo/client";
-import { AUTH_VIEWER_QUERY, authController } from "../cache/controllers/auth";
+import { AUTH_VIEWER_QUERY, authController } from "../controllers/auth";
 import { useSnackbar } from "notistack";
 import { Icon } from "@iconify/react";
 import closeFill from "@iconify/icons-eva/close-fill";

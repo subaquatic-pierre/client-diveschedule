@@ -10,7 +10,7 @@ import { formatDate } from "../../utils/date";
 import Page from "../../components/Page";
 import HeaderDashboard from "../../components/HeaderDashboard";
 import { IBooking, IDay, IDiveTripDetail } from "./schedule";
-import { ScheduleTable } from "../../components/schedule/ScheduleTable";
+import { ScheduleTable } from "../../components/schedule/table/ScheduleTable";
 import { ScheduleInfoBar } from "../../components/schedule/ScheduleInfoBar";
 import { EditDiverModal } from "../../components/schedule/EditDiverModal";
 

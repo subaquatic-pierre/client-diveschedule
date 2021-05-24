@@ -10,7 +10,9 @@ import {
   UserManager,
   UserAddressBook,
   NotificationSettings,
-} from "../../@types/user";
+} from "../@types/user";
+
+import { fetchNotifications, fetchCards, fetchProfile } from "../_apis_/user";
 
 export type UserCache = {
   user: {
@@ -37,17 +39,17 @@ type UserState = {
 export const initialState: UserState = {
   isLoading: false,
   error: false,
-  myProfile: null,
+  myProfile: fetchProfile(),
   posts: [],
   users: [],
   userList: [],
   followers: [],
   friends: [],
   gallery: [],
-  cards: null,
+  cards: fetchCards(),
   addressBook: [],
   invoices: [],
-  notifications: null,
+  notifications: fetchNotifications(),
 };
 
 const getUserList = () => {};
