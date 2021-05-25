@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import { LoginParams, RegisterParams } from "../controllers/auth/auth";
 import { User } from "../controllers/user";
 
@@ -18,6 +19,7 @@ export type AuthController = {
   logout: () => Promise;
   resetPassword: (data: any) => void;
   updateProfile: (data: any) => void;
+  getAuthId: (setState: Dispatch<SetStateAction<string>>) => void;
 };
 
 export type UserController = {

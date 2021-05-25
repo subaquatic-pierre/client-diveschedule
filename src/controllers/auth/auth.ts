@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import { ApolloClient, DocumentNode } from "@apollo/client";
 import { deleteAuthToken } from "../../utils/auth";
 import { AuthController } from "../../@types/controllers";
@@ -6,6 +7,7 @@ import {
   AuthCache,
   LoginParams,
   RegisterParams,
+  User,
 } from "../../@types/user";
 import {
   LOGIN_MUTATION,
@@ -14,6 +16,7 @@ import {
   AUTH_VIEWER_QUERY,
 } from "./queries";
 import { defaultUser } from "../user";
+import { errorController } from "../error";
 
 const initialAuthState: AuthCache = {
   viewer: {
@@ -44,6 +47,7 @@ export const authController = (
   mutation?: DocumentNode,
   data?: Auth
 ): AuthController => {
+  const { setError } = errorController(client);
   // Login user
   const login = async ({ email, password }: LoginParams) => {
     const response = await client.mutate({
@@ -92,7 +96,19 @@ export const authController = (
     console.log(data);
   };
 
+  const getAuthId = (setState: Dispatch<SetStateAction<string>>) => {
+    client
+      .query({ query: AUTH_VIEWER_QUERY })
+      .then((res) => {
+        setState(res.data.viewer.id);
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
+  };
+
   return {
+    getAuthId,
     login,
     register,
     logout,

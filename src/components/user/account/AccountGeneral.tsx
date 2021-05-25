@@ -17,10 +17,8 @@ import {
 } from "@material-ui/core";
 import { LoadingButton } from "@material-ui/lab";
 // hooks
-import useAuth from "../../../hooks/useAuth";
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
 import { UploadAvatar } from "../../upload";
-import { User } from "../../../@types/user";
 import { userController } from "../../../controllers/user";
 import {
   buildFormData,
@@ -28,40 +26,31 @@ import {
   FormState,
 } from "../../../utils/buildAccountFormData";
 import { authController } from "../../../controllers/auth";
+import useAuth from "../../../hooks/useAuth";
+import { errorController } from "../../../controllers/error";
 //
 // ----------------------------------------------------------------------
 
 type AccountGeneralProps = {
   mode?: string;
-  userId?: string;
+  userIdProp?: string;
 };
 
 export default function AccountGeneral({
   mode = "account",
-  userId,
+  userIdProp,
 }: AccountGeneralProps) {
-  const [editUser, setEditUser] = useState();
+  const [user, setUser] = useState();
+  const [userId, setUserId] = useState(userIdProp);
   const [formState, setFormState] = useState(emptyFormVals);
   const isMountedRef = useIsMountedRef();
   const client = useApolloClient();
   const { enqueueSnackbar } = useSnackbar();
-  const { user } = useAuth();
-  const { updateProfile, register } = authController(client);
 
-  switch (mode) {
-    case "edit":
-      const { getUser } = userController(client);
-      getUser(userId, setEditUser);
-      break;
-    case "create":
-      setFormState(emptyFormVals);
-      break;
-    default:
-      const formData = buildFormData(user);
-      setFormState(formData);
-  }
-
-  // If mode is create
+  // Controllers
+  const { getUser } = userController(client);
+  const { setError } = errorController(client);
+  const { updateProfile, register, getAuthId } = authController(client);
 
   const UpdateUserSchema = Yup.object().shape({
     fullName: Yup.string().required("Name is required"),
@@ -106,12 +95,20 @@ export default function AccountGeneral({
     setFieldValue,
   } = formik;
 
+  if (mode === "account") {
+    getAuthId(setUserId);
+  }
+
   useEffect(() => {
-    if (editUser) {
-      const formData = buildFormData(editUser);
+    if (userId) {
+      getUser(userId, setUser);
+    }
+
+    if (user) {
+      const formData = buildFormData(user, setError);
       setFormState(formData);
     }
-  }, [editUser]);
+  }, [userId, user]);
 
   return (
     <FormikProvider value={formik}>

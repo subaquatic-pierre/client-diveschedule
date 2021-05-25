@@ -25,8 +25,9 @@ const buildUser = (viewer: User = defaultUser) => {
   } = viewer;
   return {
     ...defaultUser,
-    id: id,
-    email: email,
+    id,
+    email,
+    isAdmin,
     profile: {
       fullName: replaceIfNull(fullName),
       role: isAdmin ? "admin" : "user",
@@ -39,7 +40,6 @@ const buildUser = (viewer: User = defaultUser) => {
 };
 
 export default function useAuth() {
-  const client = useApolloClient();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const { data, loading, error } = useQuery(AUTH_VIEWER_QUERY, {
     fetchPolicy: "network-only",

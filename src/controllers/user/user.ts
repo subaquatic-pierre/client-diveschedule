@@ -15,7 +15,7 @@ export const defaultProfile: Profile = {
 export const defaultUser: User = {
   id: "AnonymousUser",
   email: "",
-  isAdmin: true,
+  isAdmin: false,
   profile: defaultProfile,
 };
 
@@ -39,7 +39,7 @@ export const userController = (
         setState(res.data.user);
       })
       .catch((err) => {
-        setError("There was an error retrieving the user");
+        setError(err.message);
       });
   };
 

@@ -15,7 +15,10 @@ export const emptyFormVals: FormState = {
   certificationLevel: "",
 };
 
-export const buildFormData = (user): FormState => {
+export const buildFormData = (
+  user,
+  setError: (message: string) => void
+): FormState => {
   try {
     const {
       email,
@@ -25,10 +28,11 @@ export const buildFormData = (user): FormState => {
       fullName: fullName ? fullName : "Default",
       email: email,
       phoneNumber: "Default",
-      equipment: equipment ? equipment : "fullEquipment",
-      certificationLevel: certificationLevel ? certificationLevel : "openWater",
+      equipment: equipment ? equipment : "",
+      certificationLevel: certificationLevel ? certificationLevel : "",
     };
   } catch (error) {
+    setError(`Build from error: ${error.message}`);
     return emptyFormVals;
   }
 };
