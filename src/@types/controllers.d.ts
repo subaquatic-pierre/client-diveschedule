@@ -1,5 +1,5 @@
-import { LoginParams, RegisterParams } from "./auth";
-import { User } from "./user";
+import { LoginParams, RegisterParams } from "../controllers/auth/auth";
+import { User } from "../controllers/user";
 
 export type SettingsController = {
   handleToggleTheme: () => void;

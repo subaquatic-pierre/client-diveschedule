@@ -1,5 +1,6 @@
 import { useApolloClient, useQuery } from "@apollo/client";
-import { AUTH_VIEWER_QUERY, authController } from "../controllers/auth";
+import { authController } from "../controllers/auth/auth";
+import { AUTH_VIEWER_QUERY } from "../controllers/auth/queries";
 import { useSnackbar } from "notistack";
 import { Icon } from "@iconify/react";
 import closeFill from "@iconify/icons-eva/close-fill";
@@ -63,22 +64,9 @@ export default function useAuth() {
     });
   }
 
-  const {
-    login,
-    logout,
-    register,
-    resetPassword,
-    updateProfile,
-  } = authController(client);
-
   return {
     isAuthenticated: user.id !== "AnonymousUser",
     isLoading: loading,
     user: user,
-    login,
-    logout,
-    register,
-    resetPassword,
-    updateProfile,
   };
 }

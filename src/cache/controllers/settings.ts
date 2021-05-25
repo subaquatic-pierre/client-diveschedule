@@ -1,6 +1,6 @@
 import { ApolloClient, gql } from "@apollo/client";
-import { SettingsController } from "../@types/controllers";
-import { updateClient } from "./index";
+import { SettingsController } from "../../@types/controllers";
+import { updateClient } from "../../controllers/index";
 
 export type ThemeMode = "light" | "dark";
 export type ThemeDirection = "rtl" | "ltr";

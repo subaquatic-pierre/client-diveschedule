@@ -1,13 +1,11 @@
 import { Icon } from "@iconify/react";
 import { capitalCase } from "change-case";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import roundVpnKey from "@iconify/icons-ic/round-vpn-key";
 import roundAccountBox from "@iconify/icons-ic/round-account-box";
 // material
 import { Container, Tab, Box, Tabs } from "@material-ui/core";
 // redux
-import { defaultProfile } from "../../controllers/user";
-// routes
 import { PATH_DASHBOARD } from "../../routes/paths";
 // components
 import Page from "../../components/Page";
@@ -16,8 +14,6 @@ import {
   AccountGeneral,
   AccountChangePassword,
 } from "../../components/user/account";
-import { useMutation } from "@apollo/client";
-import { CREATE_USER } from "../../components/schedule/mutations";
 
 // ----------------------------------------------------------------------
 

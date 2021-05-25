@@ -25,6 +25,7 @@ import {
   buildAccountFormData,
   InitialFormState,
 } from "../../../utils/buildAccountFormData";
+import { authController } from "../../../controllers/auth";
 //
 // ----------------------------------------------------------------------
 
@@ -40,7 +41,8 @@ export default function AccountGeneral({
   const isMountedRef = useIsMountedRef();
   const client = useApolloClient();
   const { enqueueSnackbar } = useSnackbar();
-  const { user, updateProfile, register } = useAuth();
+  const { user } = useAuth();
+  const { updateProfile, register } = authController(client);
 
   // If mode is edit
   const { getUser } = userController(client);

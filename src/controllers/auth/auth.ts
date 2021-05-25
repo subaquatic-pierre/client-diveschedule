@@ -1,8 +1,19 @@
-import { ApolloClient, DocumentNode, gql } from "@apollo/client";
-import { deleteAuthToken } from "../utils/auth";
-import { AuthController } from "./controllers";
-import { Auth, AuthCache, LoginParams, RegisterParams } from "../@types/user";
-import { defaultUser } from "./user";
+import { ApolloClient, DocumentNode } from "@apollo/client";
+import { deleteAuthToken } from "../../utils/auth";
+import { AuthController } from "../../@types/controllers";
+import {
+  Auth,
+  AuthCache,
+  LoginParams,
+  RegisterParams,
+} from "../../@types/user";
+import {
+  LOGIN_MUTATION,
+  CREATE_USER_MUTATION,
+  LOGOUT_MUTATION,
+  AUTH_VIEWER_QUERY,
+} from "./queries";
+import { defaultUser } from "../user";
 
 const initialAuthState: AuthCache = {
   viewer: {
@@ -10,21 +21,6 @@ const initialAuthState: AuthCache = {
     user: defaultUser,
   },
 };
-
-export const AUTH_VIEWER_QUERY = gql`
-  query Viewer {
-    viewer {
-      id
-      email
-      isAdmin
-      profile {
-        fullName
-        equipment
-        certificationLevel
-      }
-    }
-  }
-`;
 
 export const initAuth = (client: ApolloClient<any>): void => {
   try {
@@ -43,41 +39,12 @@ export const initAuth = (client: ApolloClient<any>): void => {
   }
 };
 
-const LOGIN_MUTATION = gql`
-  mutation Login($email: String!, $password: String!) {
-    tokenAuth(email: $email, password: $password) {
-      payload
-      token
-    }
-  }
-`;
-
-const CREATE_USER_MUTATION = gql`
-  mutation CreateUser($email: String!, $password: String!, $fullName: String) {
-    createUser(email: $email, password: $password, fullName: $fullName) {
-      user {
-        email
-        profile {
-          fullName
-        }
-      }
-    }
-  }
-`;
-
-const LOGOUT_MUTATION = gql`
-  mutation Logout {
-    deleteTokenCookie {
-      deleted
-    }
-  }
-`;
-
 export const authController = (
   client: ApolloClient<any>,
   mutation?: DocumentNode,
   data?: Auth
 ): AuthController => {
+  // Login user
   const login = async ({ email, password }: LoginParams) => {
     const response = await client.mutate({
       mutation: LOGIN_MUTATION,
@@ -94,6 +61,14 @@ export const authController = (
     window.location.reload();
   };
 
+  // Logout user
+  const logout = async () => {
+    deleteAuthToken();
+    await client.mutate({ mutation: LOGOUT_MUTATION });
+    window.location.reload();
+  };
+
+  // Create new user
   const register = async ({
     email,
     password,
@@ -109,12 +84,6 @@ export const authController = (
         fullName: fullName,
       },
     });
-    window.location.reload();
-  };
-
-  const logout = async () => {
-    deleteAuthToken();
-    await client.mutate({ mutation: LOGOUT_MUTATION });
     window.location.reload();
   };
 

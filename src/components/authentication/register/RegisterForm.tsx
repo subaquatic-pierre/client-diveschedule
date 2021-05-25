@@ -16,12 +16,13 @@ import {
 } from "@material-ui/core";
 import { LoadingButton } from "@material-ui/lab";
 // hooks
-import useAuth from "../../../hooks/useAuth";
+import { authController } from "../../../controllers/auth";
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
 // utils
 import { emailError, passwordError } from "../../../utils/helpError";
 //
 import { MIconButton } from "../../@material-extend";
+import { useApolloClient } from "@apollo/client";
 
 // ----------------------------------------------------------------------
 
@@ -35,8 +36,8 @@ type InitialValues = {
 
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
-
-  const { register } = useAuth();
+  const client = useApolloClient();
+  const { register } = authController(client);
   const isMountedRef = useIsMountedRef();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 

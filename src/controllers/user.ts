@@ -1,6 +1,6 @@
 import { ApolloClient, DocumentNode } from "@apollo/client";
 import { Profile, User } from "../@types/user";
-import { UserController } from "./controllers";
+import { UserController } from "../@types/controllers";
 
 export const defaultProfile: Profile = {
   fullName: "",

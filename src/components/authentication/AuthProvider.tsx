@@ -1,6 +1,6 @@
 import { ReactNode, useEffect } from "react";
 import { useApolloClient } from "@apollo/client";
-import { initAuth } from "../../controllers/auth";
+import { initAuth } from "../../controllers/auth/auth";
 // redux
 
 // ----------------------------------------------------------------------

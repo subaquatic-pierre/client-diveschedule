@@ -16,6 +16,8 @@ import useIsMountedRef from "../../hooks/useIsMountedRef";
 import { MIconButton } from "../../components/@material-extend";
 import MyAvatar from "../../components/MyAvatar";
 import MenuPopover from "../../components/MenuPopover";
+import { authController } from "../../controllers/auth";
+import { useApolloClient } from "@apollo/client";
 
 // ----------------------------------------------------------------------
 
@@ -36,8 +38,10 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const history = useHistory();
+  const client = useApolloClient();
   const anchorRef = useRef(null);
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
+  const { logout } = authController(client);
   const isMountedRef = useIsMountedRef();
   const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = useState(false);

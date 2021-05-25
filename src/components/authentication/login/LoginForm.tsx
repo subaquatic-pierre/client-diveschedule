@@ -21,12 +21,13 @@ import { LoadingButton } from "@material-ui/lab";
 // routes
 import { PATH_AUTH } from "../../../routes/paths";
 // hooks
-import useAuth from "../../../hooks/useAuth";
+import { authController } from "../../../controllers/auth";
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
 // utils
 import { passwordError, emailError } from "../../../utils/helpError";
 //
 import { MIconButton } from "../../@material-extend";
+import { useApolloClient } from "@apollo/client";
 
 // ----------------------------------------------------------------------
 
@@ -38,7 +39,8 @@ type InitialValues = {
 };
 
 export default function LoginForm() {
-  const { login } = useAuth();
+  const client = useApolloClient();
+  const { login } = authController(client);
   const isMountedRef = useIsMountedRef();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [showPassword, setShowPassword] = useState(false);
