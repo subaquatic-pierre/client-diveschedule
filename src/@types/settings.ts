@@ -1,6 +1,17 @@
-// ----------------------------------------------------------------------
+export type ThemeMode = "light" | "dark";
+export type ThemeDirection = "rtl" | "ltr";
 
 export type SettingsState = {
-  themeMode: "light" | "dark";
-  themeDirection: "rlt" | "ltr";
+  themeMode: ThemeMode;
+  themeDirection: ThemeDirection;
+};
+
+export type Settings = {
+  __typename?: "Settings";
+  themeMode?: ThemeMode;
+  themeDirection?: ThemeDirection;
+};
+
+export type SettingsCache = {
+  settings: Settings;
 };

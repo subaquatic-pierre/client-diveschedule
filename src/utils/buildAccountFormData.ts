@@ -1,13 +1,4 @@
-import { User } from "../@types/user";
-
-type BuildAccountFormProps = {
-  mode: string;
-  user?: User;
-  userId?: string;
-  getUser: (id: string) => User;
-};
-
-export interface InitialFormState {
+export interface FormState {
   afterSubmit?: string;
   fullName: string;
   email: string;
@@ -16,7 +7,7 @@ export interface InitialFormState {
   phoneNumber: string;
 }
 
-const emptyFormVals: InitialFormState = {
+export const emptyFormVals: FormState = {
   fullName: "",
   email: "",
   phoneNumber: "",
@@ -24,26 +15,20 @@ const emptyFormVals: InitialFormState = {
   certificationLevel: "",
 };
 
-const _getUserVals = (user): InitialFormState => {
-  return {
-    fullName: user.profile.fullName,
-    email: user.email,
-    phoneNumber: user.profile.phoneNumber,
-    equipment: user.profile.equipment,
-    certificationLevel: user.profile.certificationLevel,
-  };
-};
-
-export const buildAccountFormData = ({
-  mode,
-  user,
-  userId,
-  getUser,
-}: BuildAccountFormProps): InitialFormState => {
-  if (user && mode === "account") return _getUserVals(user);
-  if (mode === "edit") {
-    const user = getUser(userId);
-    return _getUserVals(user);
+export const buildFormData = (user): FormState => {
+  try {
+    const {
+      email,
+      profile: { fullName, equipment, certificationLevel },
+    } = user;
+    return {
+      fullName: fullName ? fullName : "Default",
+      email: email,
+      phoneNumber: "Default",
+      equipment: equipment ? equipment : "fullEquipment",
+      certificationLevel: certificationLevel ? certificationLevel : "openWater",
+    };
+  } catch (error) {
+    return emptyFormVals;
   }
-  return emptyFormVals;
 };

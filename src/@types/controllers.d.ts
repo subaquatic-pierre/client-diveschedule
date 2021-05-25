@@ -22,6 +22,11 @@ export type AuthController = {
 
 export type UserController = {
   getUserList: () => void;
-  getUser: (id: string) => User;
+  getUser: (id: string, setState: (data: any) => void) => void;
   userList: User[];
+};
+
+export type ErrorController = {
+  setError: (message: string) => void;
+  clearError: () => void;
 };

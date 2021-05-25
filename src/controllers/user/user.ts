@@ -1,6 +1,8 @@
 import { ApolloClient, DocumentNode } from "@apollo/client";
-import { Profile, User } from "../@types/user";
-import { UserController } from "../@types/controllers";
+import { Profile, User } from "../../@types/user";
+import { UserController } from "../../@types/controllers";
+import { errorController } from "../error";
+import { GET_USER_QUERY } from "./queries";
 
 export const defaultProfile: Profile = {
   fullName: "",
@@ -22,13 +24,23 @@ export const userController = (
   mutation?: DocumentNode,
   data?: User[]
 ): UserController => {
+  const { setError } = errorController(client);
   const getUserList = (): User[] => {
     return [];
   };
 
-  const getUser = (id: string): User => {
-    console.log(id);
-    return defaultUser;
+  const getUser = (id: string, setState: any): void => {
+    client
+      .query({
+        query: GET_USER_QUERY,
+        variables: { id: parseInt(id) },
+      })
+      .then((res) => {
+        setState(res.data.user);
+      })
+      .catch((err) => {
+        setError("There was an error retrieving the user");
+      });
   };
 
   return {

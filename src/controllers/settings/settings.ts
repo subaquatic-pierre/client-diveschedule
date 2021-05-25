@@ -1,28 +1,8 @@
-import { ApolloClient, gql } from "@apollo/client";
-import { SettingsController } from "../@types/controllers";
-import { updateClient } from "./index";
-
-export type ThemeMode = "light" | "dark";
-export type ThemeDirection = "rtl" | "ltr";
-
-export type Settings = {
-  __typename?: "Settings";
-  themeMode?: ThemeMode;
-  themeDirection?: ThemeDirection;
-};
-
-export type SettingsCache = {
-  settings: Settings;
-};
-
-export const SETTINGS_CACHE_QUERY = gql`
-  query Settings {
-    settings {
-      themeMode
-      themeDirection
-    }
-  }
-`;
+import { ApolloClient } from "@apollo/client";
+import { SettingsController } from "../../@types/controllers";
+import { Settings, SettingsCache } from "../../@types/settings";
+import { updateClient } from "../index";
+import { SETTINGS_CACHE_QUERY } from "./queries";
 
 export const initialSettingsState: SettingsCache = {
   settings: {

@@ -7,7 +7,7 @@ import {
   createMuiTheme,
 } from "@material-ui/core/styles";
 import StyledEngineProvider from "@material-ui/core/StyledEngineProvider";
-import { ThemeDirection } from "../controllers/settings";
+import { ThemeDirection } from "../@types/settings";
 import shape from "./shape";
 import palette from "./palette";
 import typography from "./typography";

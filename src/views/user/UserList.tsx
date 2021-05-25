@@ -21,14 +21,13 @@ import {
   TablePagination,
 } from "@material-ui/core";
 // redux
-import { getUserList, userController } from "../../controllers/user";
+import { userController } from "../../controllers/user";
 // routes
 import { PATH_DASHBOARD } from "../../routes/paths";
 // @types
 import { User } from "../../@types/user";
 // components
 import Page from "../../components/Page";
-import Label from "../../components/Label";
 import Scrollbar from "../../components/Scrollbar";
 import SearchNotFound from "../../components/SearchNotFound";
 import HeaderDashboard from "../../components/HeaderDashboard";
@@ -89,7 +88,7 @@ function applySortFilter(
 export default function UserList() {
   const theme = useTheme();
   const client = useApolloClient();
-  const { userList } = userController(client);
+  const { userList, getUserList } = userController(client);
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [selected, setSelected] = useState<string[]>([]);

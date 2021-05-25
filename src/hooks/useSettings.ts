@@ -1,9 +1,9 @@
 import { useApolloClient, useQuery } from "@apollo/client";
 import {
   SETTINGS_CACHE_QUERY,
-  SettingsCache,
   settingsController,
 } from "../controllers/settings";
+import { SettingsCache } from "../@types/settings";
 
 // ----------------------------------------------------------------------
 

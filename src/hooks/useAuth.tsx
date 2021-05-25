@@ -1,11 +1,10 @@
 import { useApolloClient, useQuery } from "@apollo/client";
-import { authController } from "../controllers/auth/auth";
 import { AUTH_VIEWER_QUERY } from "../controllers/auth/queries";
 import { useSnackbar } from "notistack";
 import { Icon } from "@iconify/react";
 import closeFill from "@iconify/icons-eva/close-fill";
 import { MIconButton } from "../components/@material-extend";
-import { defaultUser } from "../controllers/user";
+import { defaultUser } from "../controllers/user/user";
 import { User } from "../@types/user";
 
 // ----------------------------------------------------------------------

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { useSnackbar } from "notistack";
 import { useApolloClient } from "@apollo/client";
@@ -22,8 +23,9 @@ import { UploadAvatar } from "../../upload";
 import { User } from "../../../@types/user";
 import { userController } from "../../../controllers/user";
 import {
-  buildAccountFormData,
-  InitialFormState,
+  buildFormData,
+  emptyFormVals,
+  FormState,
 } from "../../../utils/buildAccountFormData";
 import { authController } from "../../../controllers/auth";
 //
@@ -38,14 +40,26 @@ export default function AccountGeneral({
   mode = "account",
   userId,
 }: AccountGeneralProps) {
+  const [editUser, setEditUser] = useState();
+  const [formState, setFormState] = useState(emptyFormVals);
   const isMountedRef = useIsMountedRef();
   const client = useApolloClient();
   const { enqueueSnackbar } = useSnackbar();
   const { user } = useAuth();
   const { updateProfile, register } = authController(client);
 
-  // If mode is edit
-  const { getUser } = userController(client);
+  switch (mode) {
+    case "edit":
+      const { getUser } = userController(client);
+      getUser(userId, setEditUser);
+      break;
+    case "create":
+      setFormState(emptyFormVals);
+      break;
+    default:
+      const formData = buildFormData(user);
+      setFormState(formData);
+  }
 
   // If mode is create
 
@@ -53,9 +67,9 @@ export default function AccountGeneral({
     fullName: Yup.string().required("Name is required"),
   });
 
-  const formik = useFormik<InitialFormState>({
+  const formik = useFormik<FormState>({
     enableReinitialize: true,
-    initialValues: buildAccountFormData({ mode, user, userId, getUser }),
+    initialValues: formState,
     validationSchema: UpdateUserSchema,
     onSubmit: async (values, { setErrors, setSubmitting }) => {
       try {
@@ -92,6 +106,13 @@ export default function AccountGeneral({
     setFieldValue,
   } = formik;
 
+  useEffect(() => {
+    if (editUser) {
+      const formData = buildFormData(editUser);
+      setFormState(formData);
+    }
+  }, [editUser]);
+
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
@@ -107,7 +128,6 @@ export default function AccountGeneral({
                 }}
               >
                 <UploadAvatar
-                  disabled={user.email === "demo@minimals.cc"} // You can remove this
                   value={""}
                   onChange={(value) => setFieldValue("photoURL", value)}
                 />
