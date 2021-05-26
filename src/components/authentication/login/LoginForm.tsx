@@ -1,11 +1,9 @@
 import * as Yup from "yup";
 import { useState } from "react";
-import { useSnackbar } from "notistack";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useHistory } from "react-router-dom";
 import { useFormik, Form, FormikProvider } from "formik";
 import { Icon } from "@iconify/react";
 import eyeFill from "@iconify/icons-eva/eye-fill";
-import closeFill from "@iconify/icons-eva/close-fill";
 import eyeOffFill from "@iconify/icons-eva/eye-off-fill";
 // material
 import {
@@ -26,8 +24,8 @@ import useIsMountedRef from "../../../hooks/useIsMountedRef";
 // utils
 import { passwordError, emailError } from "../../../utils/helpError";
 //
-import { MIconButton } from "../../@material-extend";
 import { useApolloClient } from "@apollo/client";
+import { loadingController } from "../../../controllers/loading";
 
 // ----------------------------------------------------------------------
 
@@ -39,10 +37,12 @@ type InitialValues = {
 };
 
 export default function LoginForm() {
+  const history = useHistory();
   const client = useApolloClient();
   const { login } = authController(client);
   const isMountedRef = useIsMountedRef();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { setSuccess } = loadingController(client);
+  // const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
@@ -66,8 +66,10 @@ export default function LoginForm() {
           password: values.password,
         });
         if (isMountedRef.current) {
+          history.push("/");
           setSubmitting(false);
         }
+        // setSuccess("Login success");
       } catch (error) {
         resetForm();
         if (isMountedRef.current) {

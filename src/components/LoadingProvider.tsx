@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
-import { useQuery } from "@apollo/client";
-import { LOADING_QUERY } from "../controllers/loading";
+import { ReactNode, useEffect } from "react";
+import { useApolloClient, useQuery } from "@apollo/client";
+import { loadingController, LOADING_CACHE_QUERY } from "../controllers/loading";
 import { LoadingCache } from "../controllers/loading";
 import { useSnackbar } from "notistack";
 import BaseLoading from "./BaseLoading";
@@ -10,16 +10,32 @@ type AuthLoadingProps = {
 };
 
 export default function LoadingProvider({ children }: AuthLoadingProps) {
+  const client = useApolloClient();
   const { enqueueSnackbar } = useSnackbar();
-  const { loading, error } = useQuery<LoadingCache>(LOADING_QUERY, {
+  const { clearError, clearSuccess } = loadingController(client);
+  const { data, loading, error } = useQuery<LoadingCache>(LOADING_CACHE_QUERY, {
     fetchPolicy: "cache-only",
   });
 
-  if (loading) return <BaseLoading />;
+  const { state: loadingCache } = data.loading;
+  const { error: errorCache, success: successCache } = data.loading;
 
-  if (error) {
-    enqueueSnackbar(error.message, { variant: "error" });
-  }
+  if (error) enqueueSnackbar(error.message, { variant: "error" });
+
+  useEffect(() => {
+    if (errorCache) {
+      enqueueSnackbar(errorCache.message, { variant: "error" });
+      clearError();
+    }
+
+    if (successCache) {
+      enqueueSnackbar(successCache.message, { variant: "success" });
+      clearSuccess();
+    }
+  });
+
+  if (loading) return <BaseLoading />;
+  // if (loadingCache) return <BaseLoading />;
 
   return <>{children}</>;
 }

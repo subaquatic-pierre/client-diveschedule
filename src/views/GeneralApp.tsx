@@ -9,6 +9,7 @@ import {
   AppFeatured,
   AppPlaceHolder,
 } from "../components/general/app";
+import AppTest from "../components/general/app/AppTest";
 
 // ----------------------------------------------------------------------
 
@@ -28,7 +29,7 @@ export default function GeneralApp() {
           </Grid>
 
           <Grid item xs={12} md={4}>
-            <AppPlaceHolder />
+            <AppTest />
           </Grid>
 
           <Grid item xs={12} md={4}>

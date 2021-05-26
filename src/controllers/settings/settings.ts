@@ -34,7 +34,7 @@ export const settingsController = (
   data?: Settings
 ): SettingsController => {
   // Call root client update
-  const updateSettings = (updatedData: Settings) => {
+  const _updateSettings = (updatedData: Settings) => {
     const newData: SettingsCache = {
       settings: {
         ...data,
@@ -51,21 +51,21 @@ export const settingsController = (
     const newMode: Settings = {
       themeMode: isLight ? "dark" : "light",
     };
-    updateSettings(newMode);
+    _updateSettings(newMode);
   };
 
   const handleChangeTheme = (event) => {
     const newMode: Settings = {
       themeMode: event.target.value,
     };
-    updateSettings(newMode);
+    _updateSettings(newMode);
   };
 
   const handleChangeDirection = (event) => {
     const newDirection: Settings = {
       themeDirection: event.target.value,
     };
-    updateSettings(newDirection);
+    _updateSettings(newDirection);
   };
 
   return {

@@ -41,12 +41,8 @@ export const initAuth = (client: ApolloClient<any>): void => {
   }
 };
 
-export const authController = (
-  client: ApolloClient<any>,
-  mutation?: DocumentNode,
-  data?: Auth
-): AuthController => {
-  const { setError } = loadingController(client);
+export const authController = (client: ApolloClient<any>): AuthController => {
+  const { setError, setSuccess } = loadingController(client);
   // Login user
   const login = ({ email, password }: LoginParams) => {
     client
@@ -56,7 +52,7 @@ export const authController = (
       })
       .then((res) => {
         localStorage.setItem("token", res.data.tokenAuth.token);
-        window.location.reload();
+        setSuccess("Login success");
       })
       .catch((err) => {
         setError(err.message);
@@ -69,7 +65,7 @@ export const authController = (
       .mutate({ mutation: LOGOUT_MUTATION })
       .then((res) => {
         deleteAuthToken();
-        window.location.reload();
+        setSuccess("Logout successful");
       })
       .catch((err) => {
         setError(err.message);

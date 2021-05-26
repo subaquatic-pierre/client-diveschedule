@@ -1,12 +1,12 @@
 export type Loading = {
   __typename?: "Loading";
-  state: boolean;
-  error: {
+  state?: boolean;
+  error?: {
     message: string;
-  };
-  success: {
+  } | null;
+  success?: {
     message: string;
-  };
+  } | null;
 };
 
 export type LoadingCache = {

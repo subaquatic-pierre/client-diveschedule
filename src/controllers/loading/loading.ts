@@ -1,6 +1,7 @@
 import { ApolloClient } from "@apollo/client";
-import { LOADING_QUERY } from "./queries";
-import { LoadingCache, LoadingController } from "./types";
+import { LOADING_CACHE_QUERY } from "./queries";
+import { LoadingCache, LoadingController, Loading } from "./types";
+import { updateClient } from "../index";
 
 const initialLoadingState: LoadingCache = {
   loading: {
@@ -16,11 +17,10 @@ const initialLoadingState: LoadingCache = {
 };
 
 export const initLoading = (client: ApolloClient<any>): void => {
-  console.log("inside initialize loading");
   try {
     //   Read query from client
     const res = client.readQuery({
-      query: LOADING_QUERY,
+      query: LOADING_CACHE_QUERY,
     });
 
     // Query dies exist raise error
@@ -28,7 +28,7 @@ export const initLoading = (client: ApolloClient<any>): void => {
   } catch (error) {
     //   Write query to local storage
     client.writeQuery<LoadingCache>({
-      query: LOADING_QUERY,
+      query: LOADING_CACHE_QUERY,
       data: initialLoadingState,
     });
   }
@@ -38,46 +38,55 @@ export const loadingController = (
   client: ApolloClient<any>
 ): LoadingController => {
   const _getLoadingState = () => {
-    return client.readQuery({ query: LOADING_QUERY });
+    const data = client.readQuery({ query: LOADING_CACHE_QUERY });
+    return data.loading;
   };
+
+  const _updateLoading = (updatedData: Loading) => {
+    const currentState = _getLoadingState();
+    const newLoadingState: LoadingCache = {
+      loading: {
+        ...currentState,
+        ...updatedData,
+      },
+    };
+    console.log(newLoadingState);
+    updateClient(client, LOADING_CACHE_QUERY, newLoadingState);
+  };
+
   const setError = (message) => {
-    const loadingState = _getLoadingState();
-    // client.writeQuery({
-    //   query: LOADING_QUERY,
-    //   data: { ...loadingState, error: { message } },
-    // });
+    const newData = {
+      error: { message },
+    };
+    _updateLoading(newData);
   };
 
   const clearError = () => {
-    const loadingState = _getLoadingState();
-    // client.writeQuery({
-    //   query: LOADING_QUERY,
-    //   data: { ...loadingState, error: { message: "" } },
-    // });
+    const newData = {
+      error: null,
+    };
+    _updateLoading(newData);
   };
 
   const setSuccess = (message) => {
-    const loadingState = _getLoadingState();
-    // client.writeQuery({
-    //   query: LOADING_QUERY,
-    //   data: { ...loadingState, success: { message } },
-    // });
+    const newData = {
+      success: { message },
+    };
+    _updateLoading(newData);
   };
 
   const clearSuccess = () => {
-    const loadingState = _getLoadingState();
-    // client.writeQuery({
-    //   query: LOADING_QUERY,
-    //   data: { ...loadingState, success: { message: "" } },
-    // });
+    const newData = {
+      success: null,
+    };
+    _updateLoading(newData);
   };
 
-  const setLoading = () => {
-    const loadingState = _getLoadingState();
-    // client.writeQuery({
-    //   query: LOADING_QUERY,
-    //   data: { ...loadingState, loading: true },
-    // });
+  const setLoading = (state) => {
+    const newData = {
+      state: state,
+    };
+    _updateLoading(newData);
   };
 
   return {

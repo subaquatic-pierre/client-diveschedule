@@ -1,5 +1,4 @@
 import { Icon } from "@iconify/react";
-import { useSnackbar } from "notistack";
 import { useRef, useState } from "react";
 import homeFill from "@iconify/icons-eva/home-fill";
 import settings2Fill from "@iconify/icons-eva/settings-2-fill";
@@ -18,6 +17,7 @@ import MyAvatar from "../../components/MyAvatar";
 import MenuPopover from "../../components/MenuPopover";
 import { authController } from "../../controllers/auth";
 import { useApolloClient } from "@apollo/client";
+import { loadingController } from "../../controllers/loading";
 
 // ----------------------------------------------------------------------
 
@@ -42,8 +42,8 @@ export default function AccountPopover() {
   const anchorRef = useRef(null);
   const { user } = useAuth();
   const { logout } = authController(client);
+  const { setSuccess, setError } = loadingController(client);
   const isMountedRef = useIsMountedRef();
-  const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -60,9 +60,9 @@ export default function AccountPopover() {
         history.push("/");
         handleClose();
       }
+      // setSuccess("Logout successful");
     } catch (error) {
-      console.error(error);
-      enqueueSnackbar("Unable to logout", { variant: "error" });
+      setError("Unable to logout");
     }
   };
 
