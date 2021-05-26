@@ -27,7 +27,7 @@ import {
 } from "../../../utils/buildAccountFormData";
 import { authController } from "../../../controllers/auth";
 import useAuth from "../../../hooks/useAuth";
-import { errorController } from "../../../controllers/error";
+import { loadingController } from "../../../controllers/loading";
 import { RegisterParams } from "../../../@types/user";
 import useFetchStatus from "../../../hooks/useFetchStatus";
 //
@@ -61,7 +61,7 @@ export default function AccountGeneral({
 
   // Controllers
   const { getUser } = userController(client);
-  const { setError } = errorController(client);
+  const { setError } = loadingController(client);
   const { register } = authController(client);
 
   const UpdateUserSchema = Yup.object().shape({

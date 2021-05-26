@@ -24,9 +24,11 @@ export type UserController = {
   userList: User[];
 };
 
-export type ErrorController = {
+export type LoadingController = {
   setError: (message: string) => void;
   clearError: () => void;
   setSuccess: (message: string) => void;
   clearSuccess: () => void;
+  setLoading: () => void;
+  clearLoading: () => void;
 };

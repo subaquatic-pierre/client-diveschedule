@@ -6,7 +6,7 @@ import closeFill from "@iconify/icons-eva/close-fill";
 import { MIconButton } from "../components/@material-extend";
 import { defaultUser } from "../controllers/user/user";
 import { User } from "../@types/user";
-import { errorController } from "../controllers/error";
+import { loadingController } from "../controllers/loading";
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +42,7 @@ const buildUser = (viewer: User = defaultUser) => {
 
 export default function useAuth() {
   const client = useApolloClient();
-  const { setError } = errorController(client);
+  const { setError } = loadingController(client);
   const { data, loading, error } = useQuery(AUTH_VIEWER_QUERY, {
     fetchPolicy: "network-only",
   });

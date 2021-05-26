@@ -14,7 +14,7 @@ import {
   AUTH_VIEWER_QUERY,
 } from "./queries";
 import { defaultUser } from "../user";
-import { errorController } from "../error";
+import { loadingController } from "../loading";
 
 const initialAuthState: AuthCache = {
   viewer: {
@@ -45,7 +45,7 @@ export const authController = (
   mutation?: DocumentNode,
   data?: Auth
 ): AuthController => {
-  const { setError } = errorController(client);
+  const { setError } = loadingController(client);
   // Login user
   const login = async ({ email, password }: LoginParams) => {
     client

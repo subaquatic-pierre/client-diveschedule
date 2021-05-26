@@ -12,19 +12,20 @@ import { ApolloProvider } from "@apollo/client";
 import routes, { renderRoutes } from "./routes";
 
 // Theme
-import ThemeConfig, { BaseTheme } from "./theme";
+import ThemeConfig from "./theme";
 
 // Components
 import SetupCache from "./components/SetupCache";
 import Settings from "./components/settings";
 import RtlLayout from "./components/RtlLayout";
 import ScrollToTop from "./components/ScrollToTop";
-import LoadingScreen from "./components/LoadingScreen";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 import NotistackProvider from "./components/NotistackProvider";
 
 import AuthProvider from "./components/authentication/AuthProvider";
 import useApolloSetup from "./hooks/useApolloSetup";
+import BaseLoading from "./components/BaseLoading";
+import LoadingProvider from "./components/LoadingProvider";
 
 // ----------------------------------------------------------------------
 
@@ -34,11 +35,7 @@ const App: React.FC = (props) => {
   const client = useApolloSetup();
 
   if (!client) {
-    return (
-      <BaseTheme>
-        <LoadingScreen />
-      </BaseTheme>
-    );
+    return <BaseLoading />;
   }
 
   return (
@@ -51,10 +48,12 @@ const App: React.FC = (props) => {
                 <NotistackProvider>
                   <Router history={history}>
                     <AuthProvider>
-                      <Settings />
-                      <ScrollToTop />
-                      <GoogleAnalytics />
-                      {renderRoutes(routes)}
+                      <LoadingProvider>
+                        <Settings />
+                        <ScrollToTop />
+                        <GoogleAnalytics />
+                        {renderRoutes(routes)}
+                      </LoadingProvider>
                     </AuthProvider>
                   </Router>
                 </NotistackProvider>

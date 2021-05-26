@@ -1,7 +1,7 @@
 import { ApolloClient, DocumentNode } from "@apollo/client";
 import { Profile, User } from "../../@types/user";
 import { UserController } from "../../@types/controllers";
-import { errorController } from "../error";
+import { loadingController } from "../loading";
 import { GET_USER_QUERY } from "./queries";
 
 export const defaultProfile: Profile = {
@@ -24,7 +24,7 @@ export const userController = (
   mutation?: DocumentNode,
   data?: User[]
 ): UserController => {
-  const { setError } = errorController(client);
+  const { setError } = loadingController(client);
   const getUserList = (): User[] => {
     return [];
   };
