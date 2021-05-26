@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 import { ApolloClient, DocumentNode } from "@apollo/client";
 import { deleteAuthToken } from "../../utils/auth";
 import { AuthController } from "../../@types/controllers";
@@ -7,7 +6,6 @@ import {
   AuthCache,
   LoginParams,
   RegisterParams,
-  User,
 } from "../../@types/user";
 import {
   LOGIN_MUTATION,
@@ -50,26 +48,31 @@ export const authController = (
   const { setError } = errorController(client);
   // Login user
   const login = async ({ email, password }: LoginParams) => {
-    const response = await client.mutate({
-      mutation: LOGIN_MUTATION,
-      variables: { email: email, password: password },
-    });
-
-    if (response.data) {
-      localStorage.setItem("token", response.data.tokenAuth.token);
-    }
-
-    if (response.errors) {
-      return new Error(response.errors[0].message);
-    }
-    window.location.reload();
+    client
+      .mutate({
+        mutation: LOGIN_MUTATION,
+        variables: { email: email, password: password },
+      })
+      .then((res) => {
+        localStorage.setItem("token", res.data.tokenAuth.token);
+        window.location.reload();
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
   };
 
   // Logout user
   const logout = async () => {
-    deleteAuthToken();
-    await client.mutate({ mutation: LOGOUT_MUTATION });
-    window.location.reload();
+    client
+      .mutate({ mutation: LOGOUT_MUTATION })
+      .then((res) => {
+        deleteAuthToken();
+        window.location.reload();
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
   };
 
   // Create new user
@@ -80,39 +83,29 @@ export const authController = (
     lastName,
   }: RegisterParams) => {
     const fullName = `${firstName} ${lastName}`;
-    await client.mutate({
-      mutation: CREATE_USER_MUTATION,
-      variables: {
-        email: email,
-        password: password,
-        fullName: fullName,
-      },
-    });
-    window.location.reload();
-  };
-
-  const resetPassword = (data: any) => {};
-  const updateProfile = (data: any) => {
-    console.log(data);
-  };
-
-  const getAuthId = (setState: Dispatch<SetStateAction<string>>) => {
     client
-      .query({ query: AUTH_VIEWER_QUERY })
+      .mutate({
+        mutation: CREATE_USER_MUTATION,
+        variables: {
+          email: email,
+          password: password,
+          fullName: fullName,
+        },
+      })
       .then((res) => {
-        setState(res.data.viewer.id);
+        window.location.reload();
       })
       .catch((err) => {
         setError(err.message);
       });
   };
 
+  const resetPassword = (data: any) => {};
+
   return {
-    getAuthId,
     login,
-    register,
     logout,
+    register,
     resetPassword,
-    updateProfile,
   };
 };
