@@ -60,7 +60,7 @@ export default function useAuth() {
 
   return {
     isAuthenticated: user.id !== "AnonymousUser",
-    isLoading: loading,
+    loading: loading,
     user: user,
   };
 }

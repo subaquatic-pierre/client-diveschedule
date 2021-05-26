@@ -97,7 +97,7 @@ export default function UserList() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(() => {
-    getUserList();
+    getUserList(() => {});
   });
 
   const handleRequestSort = (property: string) => {
@@ -107,11 +107,11 @@ export default function UserList() {
   };
 
   const handleSelectAllClick = (checked: boolean) => {
-    if (checked) {
-      const newSelecteds = userList.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
+    // if (checked) {
+    //   const newSelecteds = userList.map((n) => n.name);
+    //   setSelected(newSelecteds);
+    //   return;
+    // }
     setSelected([]);
   };
 

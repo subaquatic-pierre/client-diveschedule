@@ -30,15 +30,17 @@ export const userController = (
   };
 
   const getUser = (id: string, setState: any): void => {
+    setState({ loading: true, data: null, error: null });
     client
       .query({
         query: GET_USER_QUERY,
         variables: { id: parseInt(id) },
       })
       .then((res) => {
-        setState(res.data.user);
+        setState({ loading: false, data: res.data.user, error: null });
       })
       .catch((err) => {
+        setState({ loading: false, data: null, error: err.message });
         setError(err.message);
       });
   };

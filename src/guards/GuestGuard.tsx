@@ -14,10 +14,10 @@ type GuestProtectProps = {
 };
 
 export default function GuestProtect({ children }: GuestProtectProps) {
-  const { user, isLoading, isAuthenticated } = useAuth();
+  const { user, loading, isAuthenticated } = useAuth();
   console.log(user);
 
-  if (isLoading) {
+  if (loading) {
     return <LoadingScreen />;
   }
 

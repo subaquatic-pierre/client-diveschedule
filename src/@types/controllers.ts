@@ -27,4 +27,6 @@ export type UserController = {
 export type ErrorController = {
   setError: (message: string) => void;
   clearError: () => void;
+  setSuccess: (message: string) => void;
+  clearSuccess: () => void;
 };

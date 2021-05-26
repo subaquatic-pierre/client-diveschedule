@@ -1,2 +1,2 @@
 export { errorController } from "./error";
-export { ERROR_QUERY } from "./queries";
+export { ERROR_QUERY, SUCCESS_QUERY } from "./queries";

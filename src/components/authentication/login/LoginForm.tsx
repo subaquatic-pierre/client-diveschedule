@@ -65,19 +65,10 @@ export default function LoginForm() {
           email: values.email,
           password: values.password,
         });
-        enqueueSnackbar("Login success", {
-          variant: "success",
-          action: (key) => (
-            <MIconButton size="small" onClick={() => closeSnackbar(key)}>
-              <Icon icon={closeFill} />
-            </MIconButton>
-          ),
-        });
         if (isMountedRef.current) {
           setSubmitting(false);
         }
       } catch (error) {
-        console.error(error);
         resetForm();
         if (isMountedRef.current) {
           setSubmitting(false);

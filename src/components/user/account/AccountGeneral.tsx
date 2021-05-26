@@ -28,6 +28,8 @@ import {
 import { authController } from "../../../controllers/auth";
 import useAuth from "../../../hooks/useAuth";
 import { errorController } from "../../../controllers/error";
+import { RegisterParams } from "../../../@types/user";
+import useFetchStatus from "../../../hooks/useFetchStatus";
 //
 // ----------------------------------------------------------------------
 
@@ -36,21 +38,31 @@ type AccountGeneralProps = {
   userIdProp?: string;
 };
 
+const updateProfile = (data: any) => {
+  console.log(data);
+};
+
 export default function AccountGeneral({
   mode = "account",
   userIdProp,
 }: AccountGeneralProps) {
-  const [user, setUser] = useState();
-  const [userId, setUserId] = useState(userIdProp);
-  const [formState, setFormState] = useState(emptyFormVals);
-  const isMountedRef = useIsMountedRef();
   const client = useApolloClient();
   const { enqueueSnackbar } = useSnackbar();
+
+  // Handle formik default and error values
+  const [formState, setFormState] = useState(emptyFormVals);
+  const isMountedRef = useIsMountedRef();
+
+  // Get logged in user details
+  const [userId, setUserId] = useState(userIdProp);
+  const { user: authUser, isAuthenticated } = useAuth();
+
+  const [{ data: user }, setState] = useFetchStatus();
 
   // Controllers
   const { getUser } = userController(client);
   const { setError } = errorController(client);
-  const { updateProfile, register, getAuthId } = authController(client);
+  const { register } = authController(client);
 
   const UpdateUserSchema = Yup.object().shape({
     fullName: Yup.string().required("Name is required"),
@@ -64,7 +76,8 @@ export default function AccountGeneral({
       try {
         switch (mode) {
           case "create":
-            await register({ ...values });
+            // await register({ ...values });
+            await register({} as RegisterParams);
             enqueueSnackbar("Update success", { variant: "success" });
             break;
           default:
@@ -95,20 +108,24 @@ export default function AccountGeneral({
     setFieldValue,
   } = formik;
 
-  if (mode === "account") {
-    getAuthId(setUserId);
-  }
+  useEffect(() => {
+    if (mode === "account") {
+      if (isAuthenticated) {
+        setUserId(authUser.id);
+      }
+    }
+  }, [authUser, isAuthenticated]);
 
   useEffect(() => {
-    if (userId) {
-      getUser(userId, setUser);
-    }
+    if (userId) getUser(userId, setState);
+  }, [userId]);
 
+  useEffect(() => {
     if (user) {
       const formData = buildFormData(user, setError);
       setFormState(formData);
     }
-  }, [userId, user]);
+  }, [user]);
 
   return (
     <FormikProvider value={formik}>

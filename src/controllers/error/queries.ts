@@ -7,3 +7,11 @@ export const ERROR_QUERY = gql`
     }
   }
 `;
+
+export const SUCCESS_QUERY = gql`
+  query Success {
+    success {
+      message
+    }
+  }
+`;

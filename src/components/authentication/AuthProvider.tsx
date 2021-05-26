@@ -1,7 +1,11 @@
 import { ReactNode, useEffect } from "react";
 import { useApolloClient, useQuery } from "@apollo/client";
 import { initAuth } from "../../controllers/auth/auth";
-import { errorController, ERROR_QUERY } from "../../controllers/error";
+import {
+  errorController,
+  ERROR_QUERY,
+  SUCCESS_QUERY,
+} from "../../controllers/error";
 import { useSnackbar } from "notistack";
 
 type AuthProviderProps = {
@@ -10,24 +14,35 @@ type AuthProviderProps = {
 
 export default function AuthProvider({ children }: AuthProviderProps) {
   const client = useApolloClient();
-  const { clearError } = errorController(client);
+  const { clearError, clearSuccess } = errorController(client);
   const { enqueueSnackbar } = useSnackbar();
-  const { data } = useQuery(ERROR_QUERY);
+  const { data: errorData } = useQuery(ERROR_QUERY);
+  const { data: successData } = useQuery(SUCCESS_QUERY);
   useEffect(() => {
     initAuth(client);
   }, [client]);
 
   useEffect(() => {
-    if (data) {
+    // Handle error data
+    if (errorData) {
       const {
         error: { message },
-      } = data;
+      } = errorData;
       if (message) enqueueSnackbar(message, { variant: "error" });
     }
-  }, [data, enqueueSnackbar]);
+
+    // Handle success Data
+    if (successData) {
+      const {
+        success: { message },
+      } = successData;
+      if (message) enqueueSnackbar(message, { variant: "success" });
+    }
+  }, [successData, errorData, enqueueSnackbar]);
 
   useEffect(() => {
     clearError();
-  }, [clearError]);
+    clearSuccess();
+  }, [clearError, clearSuccess]);
   return <>{children}</>;
 }
