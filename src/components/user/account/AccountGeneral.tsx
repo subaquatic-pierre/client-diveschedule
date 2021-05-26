@@ -28,7 +28,7 @@ import {
 import { authController } from "../../../controllers/auth";
 import useAuth from "../../../hooks/useAuth";
 import { loadingController } from "../../../controllers/loading";
-import { RegisterParams } from "../../../@types/user";
+import { RegisterParams } from "../../../controllers/auth";
 import useFetchStatus from "../../../hooks/useFetchStatus";
 //
 // ----------------------------------------------------------------------

@@ -1,8 +1,7 @@
 import { ApolloClient } from "@apollo/client";
-import { SettingsController } from "../../@types/controllers";
-import { Settings, SettingsCache } from "../../@types/settings";
 import { updateClient } from "../index";
 import { SETTINGS_CACHE_QUERY } from "./queries";
+import { Settings, SettingsCache, SettingsController } from "./types";
 
 export const initialSettingsState: SettingsCache = {
   settings: {

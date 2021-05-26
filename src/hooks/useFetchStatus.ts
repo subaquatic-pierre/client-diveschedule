@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SetState } from "../@types/controllers";
+import { SetState } from "../controllers";
 
 export type LoadingState = {
   loading: boolean;

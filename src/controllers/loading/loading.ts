@@ -1,23 +1,10 @@
 import { ApolloClient } from "@apollo/client";
-import { LoadingController } from "../../@types/controllers";
 import { LOADING_QUERY } from "./queries";
-
-type LoadingState = {
-  state: boolean;
-  error: {
-    message: string;
-  };
-  success: {
-    message: string;
-  };
-};
-
-type LoadingCache = {
-  loading: LoadingState;
-};
+import { LoadingCache, LoadingController } from "./types";
 
 const initialLoadingState: LoadingCache = {
   loading: {
+    __typename: "Loading",
     state: false,
     error: {
       message: "",
@@ -29,11 +16,13 @@ const initialLoadingState: LoadingCache = {
 };
 
 export const initLoading = (client: ApolloClient<any>): void => {
+  console.log("inside initialize loading");
   try {
     //   Read query from client
     const res = client.readQuery({
       query: LOADING_QUERY,
     });
+
     // Query dies exist raise error
     if (!res) throw new Error("There is no loading cache data in localStorage");
   } catch (error) {
@@ -53,55 +42,46 @@ export const loadingController = (
   };
   const setError = (message) => {
     const loadingState = _getLoadingState();
-    client.writeQuery({
-      query: LOADING_QUERY,
-      data: { ...loadingState, error: { message } },
-    });
+    // client.writeQuery({
+    //   query: LOADING_QUERY,
+    //   data: { ...loadingState, error: { message } },
+    // });
   };
 
   const clearError = () => {
     const loadingState = _getLoadingState();
-    client.writeQuery({
-      query: LOADING_QUERY,
-      data: { ...loadingState, error: { message: "" } },
-    });
+    // client.writeQuery({
+    //   query: LOADING_QUERY,
+    //   data: { ...loadingState, error: { message: "" } },
+    // });
   };
 
   const setSuccess = (message) => {
     const loadingState = _getLoadingState();
-    client.writeQuery({
-      query: LOADING_QUERY,
-      data: { ...loadingState, success: { message } },
-    });
+    // client.writeQuery({
+    //   query: LOADING_QUERY,
+    //   data: { ...loadingState, success: { message } },
+    // });
   };
 
   const clearSuccess = () => {
     const loadingState = _getLoadingState();
-    client.writeQuery({
-      query: LOADING_QUERY,
-      data: { ...loadingState, success: { message: "" } },
-    });
+    // client.writeQuery({
+    //   query: LOADING_QUERY,
+    //   data: { ...loadingState, success: { message: "" } },
+    // });
   };
 
   const setLoading = () => {
     const loadingState = _getLoadingState();
-    client.writeQuery({
-      query: LOADING_QUERY,
-      data: { ...loadingState, loading: true },
-    });
-  };
-
-  const clearLoading = () => {
-    const loadingState = _getLoadingState();
-    client.writeQuery({
-      query: LOADING_QUERY,
-      data: { ...loadingState, loading: false },
-    });
+    // client.writeQuery({
+    //   query: LOADING_QUERY,
+    //   data: { ...loadingState, loading: true },
+    // });
   };
 
   return {
     setLoading,
-    clearLoading,
     setSuccess,
     clearSuccess,
     setError,

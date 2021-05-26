@@ -1,18 +1,19 @@
 import { ApolloClient, DocumentNode } from "@apollo/client";
 import { deleteAuthToken } from "../../utils/auth";
-import { AuthController } from "../../@types/controllers";
 import {
   Auth,
   AuthCache,
+  AuthController,
   LoginParams,
   RegisterParams,
-} from "../../@types/user";
+} from "./types";
 import {
   LOGIN_MUTATION,
   CREATE_USER_MUTATION,
   LOGOUT_MUTATION,
   AUTH_VIEWER_QUERY,
 } from "./queries";
+
 import { defaultUser } from "../user";
 import { loadingController } from "../loading";
 
@@ -47,7 +48,7 @@ export const authController = (
 ): AuthController => {
   const { setError } = loadingController(client);
   // Login user
-  const login = async ({ email, password }: LoginParams) => {
+  const login = ({ email, password }: LoginParams) => {
     client
       .mutate({
         mutation: LOGIN_MUTATION,
@@ -63,7 +64,7 @@ export const authController = (
   };
 
   // Logout user
-  const logout = async () => {
+  const logout = () => {
     client
       .mutate({ mutation: LOGOUT_MUTATION })
       .then((res) => {
@@ -76,7 +77,7 @@ export const authController = (
   };
 
   // Create new user
-  const register = async ({
+  const register = ({
     email,
     password,
     firstName,

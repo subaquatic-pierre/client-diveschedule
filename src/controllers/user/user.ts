@@ -1,6 +1,6 @@
 import { ApolloClient, DocumentNode } from "@apollo/client";
 import { Profile, User } from "../../@types/user";
-import { UserController } from "../../@types/controllers";
+import { UserController } from "./types";
 import { loadingController } from "../loading";
 import { GET_USER_QUERY } from "./queries";
 

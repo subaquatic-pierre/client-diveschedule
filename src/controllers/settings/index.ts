@@ -1,2 +1,3 @@
-export { settingsController, initSettings } from "./settings";
-export { SETTINGS_CACHE_QUERY } from "./queries";
+export * from "./settings";
+export * from "./queries";
+export * from "./types";
