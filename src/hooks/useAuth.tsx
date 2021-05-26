@@ -6,6 +6,7 @@ import closeFill from "@iconify/icons-eva/close-fill";
 import { MIconButton } from "../components/@material-extend";
 import { defaultUser } from "../controllers/user/user";
 import { User } from "../@types/user";
+import { errorController } from "../controllers/error";
 
 // ----------------------------------------------------------------------
 
@@ -40,7 +41,8 @@ const buildUser = (viewer: User = defaultUser) => {
 };
 
 export default function useAuth() {
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const client = useApolloClient();
+  const { setError } = errorController(client);
   const { data, loading, error } = useQuery(AUTH_VIEWER_QUERY, {
     fetchPolicy: "network-only",
   });
@@ -53,14 +55,7 @@ export default function useAuth() {
   }
 
   if (error) {
-    enqueueSnackbar("Login error", {
-      variant: "error",
-      action: (key) => (
-        <MIconButton size="small" onClick={() => closeSnackbar(key)}>
-          <Icon icon={closeFill} />
-        </MIconButton>
-      ),
-    });
+    setError(error.message);
   }
 
   return {

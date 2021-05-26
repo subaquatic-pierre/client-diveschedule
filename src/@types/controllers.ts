@@ -2,7 +2,8 @@ import { Dispatch, SetStateAction } from "react";
 import { LoginParams, RegisterParams } from "./user";
 import { User } from "./user";
 
-interface SetState<TData> extends Dispatch<SetStateAction<TData | undefined>> {}
+export interface SetState<TData>
+  extends Dispatch<SetStateAction<TData | undefined>> {}
 
 export type SettingsController = {
   handleToggleTheme: () => void;
