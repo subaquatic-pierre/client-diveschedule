@@ -1,12 +1,11 @@
 import { ApolloClient } from "@apollo/client";
-import { LOADING_CACHE_QUERY } from "./queries";
-import { LoadingCache, LoadingController, Loading } from "./types";
+import { MESSAGE_CACHE_QUERY } from "./queries";
+import { MessagesCache, MessagesController, Messages } from "./types";
 import { updateClient } from "../index";
 
-const initialLoadingState: LoadingCache = {
-  loading: {
-    __typename: "Loading",
-    state: false,
+const initialMessagesState: MessagesCache = {
+  messages: {
+    __typename: "Messages",
     error: {
       message: "",
     },
@@ -16,42 +15,41 @@ const initialLoadingState: LoadingCache = {
   },
 };
 
-export const initLoading = (client: ApolloClient<any>): void => {
+export const initMessages = (client: ApolloClient<any>): void => {
   try {
     //   Read query from client
     const res = client.readQuery({
-      query: LOADING_CACHE_QUERY,
+      query: MESSAGE_CACHE_QUERY,
     });
 
     // Query dies exist raise error
     if (!res) throw new Error("There is no loading cache data in localStorage");
   } catch (error) {
     //   Write query to local storage
-    client.writeQuery<LoadingCache>({
-      query: LOADING_CACHE_QUERY,
-      data: initialLoadingState,
+    client.writeQuery<MessagesCache>({
+      query: MESSAGE_CACHE_QUERY,
+      data: initialMessagesState,
     });
   }
 };
 
-export const loadingController = (
+export const messagesController = (
   client: ApolloClient<any>
-): LoadingController => {
-  const _getLoadingState = () => {
-    const data = client.readQuery({ query: LOADING_CACHE_QUERY });
-    return data.loading;
+): MessagesController => {
+  const _getMessagesState = (): MessagesCache => {
+    const data = client.readQuery({ query: MESSAGE_CACHE_QUERY });
+    return data.messages;
   };
 
-  const _updateLoading = (updatedData: Loading) => {
-    const currentState = _getLoadingState();
-    const newLoadingState: LoadingCache = {
-      loading: {
+  const _updateLoading = (updatedData: Messages) => {
+    const currentState = _getMessagesState();
+    const newLoadingState: MessagesCache = {
+      messages: {
         ...currentState,
         ...updatedData,
       },
     };
-    console.log(newLoadingState);
-    updateClient(client, LOADING_CACHE_QUERY, newLoadingState);
+    updateClient(client, MESSAGE_CACHE_QUERY, newLoadingState);
   };
 
   const setError = (message) => {
@@ -82,15 +80,7 @@ export const loadingController = (
     _updateLoading(newData);
   };
 
-  const setLoading = (state) => {
-    const newData = {
-      state: state,
-    };
-    _updateLoading(newData);
-  };
-
   return {
-    setLoading,
     setSuccess,
     clearSuccess,
     setError,

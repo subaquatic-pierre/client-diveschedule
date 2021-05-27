@@ -1,12 +1,6 @@
-import { ApolloClient, DocumentNode } from "@apollo/client";
+import { ApolloClient } from "@apollo/client";
 import { deleteAuthToken } from "../../utils/auth";
-import {
-  Auth,
-  AuthCache,
-  AuthController,
-  LoginParams,
-  RegisterParams,
-} from "./types";
+import { AuthCache, AuthController } from "./types";
 import {
   LOGIN_MUTATION,
   CREATE_USER_MUTATION,
@@ -15,7 +9,7 @@ import {
 } from "./queries";
 
 import { defaultUser } from "../user";
-import { loadingController } from "../loading";
+import { messagesController } from "../messages";
 
 const initialAuthState: AuthCache = {
   viewer: {
@@ -42,9 +36,9 @@ export const initAuth = (client: ApolloClient<any>): void => {
 };
 
 export const authController = (client: ApolloClient<any>): AuthController => {
-  const { setError, setSuccess } = loadingController(client);
+  const { setError, setSuccess } = messagesController(client);
   // Login user
-  const login = ({ email, password }: LoginParams) => {
+  const login = ({ email, password }, history) => {
     client
       .mutate({
         mutation: LOGIN_MUTATION,
@@ -53,6 +47,7 @@ export const authController = (client: ApolloClient<any>): AuthController => {
       .then((res) => {
         localStorage.setItem("token", res.data.tokenAuth.token);
         setSuccess("Login success");
+        history.push("/");
       })
       .catch((err) => {
         setError(err.message);
@@ -60,12 +55,13 @@ export const authController = (client: ApolloClient<any>): AuthController => {
   };
 
   // Logout user
-  const logout = () => {
+  const logout = (history) => {
     client
       .mutate({ mutation: LOGOUT_MUTATION })
       .then((res) => {
         deleteAuthToken();
         setSuccess("Logout successful");
+        history.push("/");
       })
       .catch((err) => {
         setError(err.message);
@@ -73,12 +69,7 @@ export const authController = (client: ApolloClient<any>): AuthController => {
   };
 
   // Create new user
-  const register = ({
-    email,
-    password,
-    firstName,
-    lastName,
-  }: RegisterParams) => {
+  const register = ({ email, password, firstName, lastName }) => {
     const fullName = `${firstName} ${lastName}`;
     client
       .mutate({

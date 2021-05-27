@@ -1,12 +1,8 @@
 import { useApolloClient, useQuery } from "@apollo/client";
 import { AUTH_VIEWER_QUERY } from "../controllers/auth/queries";
-import { useSnackbar } from "notistack";
-import { Icon } from "@iconify/react";
-import closeFill from "@iconify/icons-eva/close-fill";
-import { MIconButton } from "../components/@material-extend";
 import { defaultUser } from "../controllers/user/user";
 import { User } from "../@types/user";
-import { loadingController } from "../controllers/loading";
+import { messagesController } from "../controllers/messages";
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +38,7 @@ const buildUser = (viewer: User = defaultUser) => {
 
 export default function useAuth() {
   const client = useApolloClient();
-  const { setError } = loadingController(client);
+  const { setError } = messagesController(client);
   const { data, loading, error } = useQuery(AUTH_VIEWER_QUERY, {
     fetchPolicy: "network-only",
   });

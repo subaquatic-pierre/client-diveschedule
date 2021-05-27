@@ -1,3 +1,3 @@
-export * from "./loading";
+export * from "./messages";
 export * from "./queries";
 export * from "./types";

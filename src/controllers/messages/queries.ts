@@ -1,9 +1,8 @@
 import { gql } from "@apollo/client";
 
-export const LOADING_CACHE_QUERY = gql`
-  query Loading {
-    loading {
-      state
+export const MESSAGE_CACHE_QUERY = gql`
+  query Messages {
+    messages {
       error {
         message
       }

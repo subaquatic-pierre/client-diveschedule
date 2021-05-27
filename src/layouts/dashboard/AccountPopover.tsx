@@ -17,7 +17,7 @@ import MyAvatar from "../../components/MyAvatar";
 import MenuPopover from "../../components/MenuPopover";
 import { authController } from "../../controllers/auth";
 import { useApolloClient } from "@apollo/client";
-import { loadingController } from "../../controllers/loading";
+import { messagesController } from "../../controllers/messages";
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +42,7 @@ export default function AccountPopover() {
   const anchorRef = useRef(null);
   const { user } = useAuth();
   const { logout } = authController(client);
-  const { setSuccess, setError } = loadingController(client);
+  const { setError } = messagesController(client);
   const isMountedRef = useIsMountedRef();
   const [open, setOpen] = useState(false);
 
@@ -55,9 +55,8 @@ export default function AccountPopover() {
 
   const handleLogout = async () => {
     try {
-      await logout();
+      await logout(history);
       if (isMountedRef.current) {
-        history.push("/");
         handleClose();
       }
       // setSuccess("Logout successful");

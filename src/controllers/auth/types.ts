@@ -11,9 +11,9 @@ export type AuthCache = {
 };
 
 export type AuthController = {
-  login: ({ email, password }: LoginParams) => void;
+  login: ({ email, password }: LoginParams, history: any) => void;
   register: ({ email, password, firstName, lastName }: RegisterParams) => void;
-  logout: () => void;
+  logout: (history: any) => void;
   resetPassword: (data: any) => void;
 };
 

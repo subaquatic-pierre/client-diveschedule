@@ -1,19 +1,13 @@
-import React, { ReactNode, useEffect } from "react";
 import { useApolloClient } from "@apollo/client";
 import { initAuth } from "../controllers/auth/auth";
 import { initSettings } from "../controllers/settings";
-import { initLoading } from "../controllers/loading/loading";
+import { initMessages } from "../controllers/messages";
 
-type SetupCacheProps = {
-  children?: ReactNode;
-};
-
-export default function SetupCache({ children }: SetupCacheProps) {
+export default function SetupCache() {
   const client = useApolloClient();
 
   initSettings(client);
   initAuth(client);
-  initLoading(client);
-
-  return <>{children}</>;
+  initMessages(client);
+  return <></>;
 }

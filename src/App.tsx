@@ -22,10 +22,9 @@ import ScrollToTop from "./components/ScrollToTop";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 import NotistackProvider from "./components/NotistackProvider";
 
-import AuthProvider from "./components/authentication/AuthProvider";
 import useApolloSetup from "./hooks/useApolloSetup";
 import BaseLoading from "./components/BaseLoading";
-import LoadingProvider from "./components/LoadingProvider";
+import Messages from "./components/Messages";
 
 // ----------------------------------------------------------------------
 
@@ -41,26 +40,22 @@ const App: React.FC = (props) => {
   return (
     <ApolloProvider client={client}>
       <HelmetProvider>
-        <SetupCache>
-          <ThemeConfig>
-            <RtlLayout>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <NotistackProvider>
-                  <Router history={history}>
-                    <AuthProvider>
-                      <LoadingProvider>
-                        <Settings />
-                        <ScrollToTop />
-                        <GoogleAnalytics />
-                        {renderRoutes(routes)}
-                      </LoadingProvider>
-                    </AuthProvider>
-                  </Router>
-                </NotistackProvider>
-              </LocalizationProvider>
-            </RtlLayout>
-          </ThemeConfig>
-        </SetupCache>
+        <ThemeConfig>
+          <RtlLayout>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <NotistackProvider>
+                <Router history={history}>
+                  <SetupCache />
+                  <Messages />
+                  <Settings />
+                  <ScrollToTop />
+                  <GoogleAnalytics />
+                  {renderRoutes(routes)}
+                </Router>
+              </NotistackProvider>
+            </LocalizationProvider>
+          </RtlLayout>
+        </ThemeConfig>
       </HelmetProvider>
     </ApolloProvider>
   );

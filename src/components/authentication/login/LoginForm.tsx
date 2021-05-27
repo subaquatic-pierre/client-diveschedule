@@ -25,7 +25,6 @@ import useIsMountedRef from "../../../hooks/useIsMountedRef";
 import { passwordError, emailError } from "../../../utils/helpError";
 //
 import { useApolloClient } from "@apollo/client";
-import { loadingController } from "../../../controllers/loading";
 
 // ----------------------------------------------------------------------
 
@@ -41,7 +40,6 @@ export default function LoginForm() {
   const client = useApolloClient();
   const { login } = authController(client);
   const isMountedRef = useIsMountedRef();
-  const { setSuccess } = loadingController(client);
   // const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -61,12 +59,14 @@ export default function LoginForm() {
     validationSchema: LoginSchema,
     onSubmit: async (values, { setErrors, setSubmitting, resetForm }) => {
       try {
-        await login({
-          email: values.email,
-          password: values.password,
-        });
+        await login(
+          {
+            email: values.email,
+            password: values.password,
+          },
+          history
+        );
         if (isMountedRef.current) {
-          history.push("/");
           setSubmitting(false);
         }
         // setSuccess("Login success");
