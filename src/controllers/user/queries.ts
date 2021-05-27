@@ -13,3 +13,22 @@ export const GET_USER_QUERY = gql`
     }
   }
 `;
+
+export const USER_LIST_QUERY = gql`
+  query UserListQuery {
+    allUsers {
+      edges {
+        node {
+          id
+          email
+          password
+          profile {
+            fullName
+            certificationLevel
+            equipment
+          }
+        }
+      }
+    }
+  }
+`;

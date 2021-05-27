@@ -46,8 +46,7 @@ export const authController = (client: ApolloClient<any>): AuthController => {
       })
       .then((res) => {
         localStorage.setItem("token", res.data.tokenAuth.token);
-        setSuccess("Login success");
-        history.push("/");
+        window.location.reload();
       })
       .catch((err) => {
         setError(err.message);

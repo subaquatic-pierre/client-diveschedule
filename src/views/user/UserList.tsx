@@ -1,10 +1,9 @@
 import { filter } from "lodash";
 import { Icon } from "@iconify/react";
-import { sentenceCase } from "change-case";
+import plusFill from "@iconify/icons-eva/plus-fill";
 import { useState, useEffect } from "react";
 import moreVerticalFill from "@iconify/icons-eva/more-vertical-fill";
 // material
-import { useTheme } from "@material-ui/core/styles";
 import {
   Box,
   Card,
@@ -19,13 +18,14 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Button,
 } from "@material-ui/core";
 // redux
 import { userController } from "../../controllers/user";
+import { User } from "../../@types/user";
 // routes
 import { PATH_DASHBOARD } from "../../routes/paths";
 // @types
-import { User } from "../../@types/user";
 // components
 import Page from "../../components/Page";
 import Scrollbar from "../../components/Scrollbar";
@@ -86,9 +86,12 @@ function applySortFilter(
 }
 
 export default function UserList() {
-  const theme = useTheme();
   const client = useApolloClient();
-  const { userList, getUserList } = userController(client);
+
+  // Data State
+  const [userList, setUserList] = useState([] as User[]);
+
+  // Filter State
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [selected, setSelected] = useState<string[]>([]);
@@ -96,9 +99,8 @@ export default function UserList() {
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  useEffect(() => {
-    getUserList(() => {});
-  });
+  // Controllers
+  const { getUserList } = userController(client);
 
   const handleRequestSort = (property: string) => {
     const isAsc = orderBy === property && order === "asc";
@@ -155,6 +157,10 @@ export default function UserList() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
+  useEffect(() => {
+    getUserList(setUserList);
+  }, []);
+
   return (
     <Page title="User: List | DiveSchedule">
       <Container>
@@ -164,6 +170,15 @@ export default function UserList() {
             { name: "Dashboard", href: PATH_DASHBOARD.root },
             { name: "Users" },
           ]}
+          action={
+            <Button
+              variant="contained"
+              startIcon={<Icon icon={plusFill} width={20} height={20} />}
+              href={PATH_DASHBOARD.user.create}
+            >
+              New User
+            </Button>
+          }
         />
 
         <Card>
@@ -227,25 +242,6 @@ export default function UserList() {
                               </Typography>
                             </Box>
                           </TableCell>
-                          {/* <TableCell align="left">{company}</TableCell>
-                          <TableCell align="left">{role}</TableCell>
-                          <TableCell align="left">
-                            {isVerified ? "Yes" : "No"}
-                          </TableCell>
-                          <TableCell align="left">
-                            <Label
-                              variant={
-                                theme.palette.mode === "light"
-                                  ? "ghost"
-                                  : "filled"
-                              }
-                              color={
-                                (status === "banned" && "error") || "success"
-                              }
-                            >
-                              {sentenceCase(status)}
-                            </Label>
-                          </TableCell> */}
 
                           <TableCell align="right">
                             <IconButton>
@@ -265,6 +261,8 @@ export default function UserList() {
                     </TableRow>
                   )}
                 </TableBody>
+
+                {/* If no users found */}
                 {isUserNotFound && (
                   <TableBody>
                     <TableRow>

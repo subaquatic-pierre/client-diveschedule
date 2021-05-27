@@ -1,8 +1,8 @@
-import { ApolloClient, DocumentNode } from "@apollo/client";
+import { ApolloClient } from "@apollo/client";
 import { Profile, User } from "../../@types/user";
 import { UserController } from "./types";
 import { messagesController } from "../messages";
-import { GET_USER_QUERY } from "./queries";
+import { GET_USER_QUERY, USER_LIST_QUERY } from "./queries";
 
 export const defaultProfile: Profile = {
   fullName: "",
@@ -19,14 +19,18 @@ export const defaultUser: User = {
   profile: defaultProfile,
 };
 
-export const userController = (
-  client: ApolloClient<any>,
-  mutation?: DocumentNode,
-  data?: User[]
-): UserController => {
+export const userController = (client: ApolloClient<any>): UserController => {
   const { setError } = messagesController(client);
-  const getUserList = (): User[] => {
-    return [];
+  const getUserList = (setState): void => {
+    client
+      .query({ query: USER_LIST_QUERY })
+      .then((res) => {
+        const users: User[] = res.data.allUsers.edges.map((edge) => edge.node);
+        setState(users);
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
   };
 
   const getUser = (id: string, setState: any): void => {
@@ -46,7 +50,6 @@ export const userController = (
   };
 
   return {
-    userList: getUserList(),
     getUser,
     getUserList,
   };

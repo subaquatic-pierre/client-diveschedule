@@ -40,12 +40,12 @@ const App: React.FC = (props) => {
   return (
     <ApolloProvider client={client}>
       <HelmetProvider>
+        <SetupCache />
         <ThemeConfig>
           <RtlLayout>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <NotistackProvider>
                 <Router history={history}>
-                  <SetupCache />
                   <Messages />
                   <Settings />
                   <ScrollToTop />

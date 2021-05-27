@@ -20,12 +20,12 @@ export default function Messages() {
   if (error) enqueueSnackbar(error.message, { variant: "error" });
 
   useEffect(() => {
-    if (errorCache) {
+    if (errorCache && errorCache.message) {
       enqueueSnackbar(errorCache.message, { variant: "error" });
       clearError();
     }
 
-    if (successCache) {
+    if (successCache && successCache.message) {
       enqueueSnackbar(successCache.message, { variant: "success" });
       clearSuccess();
     }

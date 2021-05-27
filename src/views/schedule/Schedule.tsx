@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 import plusFill from "@iconify/icons-eva/plus-fill";
 import { PATH_DASHBOARD } from "../../routes/paths";
 import { useQuery } from "@apollo/client";
-import { Grid, Card, Button, Container } from "@material-ui/core";
+import { Grid, Button, Container } from "@material-ui/core";
 import { formatDate } from "../../utils/date";
 
 // components
@@ -28,6 +28,8 @@ export default function Schedule() {
       },
     }
   );
+
+  const handleAddBooking = () => {};
 
   const handleOpenEditDiverModal = () => {
     setEditDiverModalOpen(true);
@@ -110,8 +112,9 @@ export default function Schedule() {
             <Button
               variant="contained"
               startIcon={<Icon icon={plusFill} width={20} height={20} />}
+              onClick={handleAddBooking}
             >
-              New Event
+              New Booking
             </Button>
           }
         />
