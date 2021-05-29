@@ -31,6 +31,7 @@ import Page from "../../components/Page";
 import Scrollbar from "../../components/Scrollbar";
 import SearchNotFound from "../../components/SearchNotFound";
 import HeaderDashboard from "../../components/HeaderDashboard";
+import UserListRow from "./UserListRow";
 import { UserListHead, UserListToolbar } from "../../components/user/list";
 import { useApolloClient } from "@apollo/client";
 import useFetchStatus from "../../hooks/useFetchStatus";
@@ -232,56 +233,18 @@ export default function UserList() {
                 <TableBody>
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row, index) => {
-                      const {
-                        id: userId,
-                        profile: { fullName },
-                      } = row;
+                    .map((user, index) => {
+                      const { id: userId } = user;
                       const isItemSelected = selectedIds.indexOf(userId) !== -1;
 
                       return (
-                        <TableRow
-                          hover
-                          key={userId}
-                          tabIndex={-1}
-                          role="checkbox"
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}
-                          onClick={() => handleSelectUserClick(userId)}
-                        >
-                          <TableCell padding="checkbox">
-                            <Checkbox checked={isItemSelected} />
-                          </TableCell>
-                          <TableCell component="th" scope="row" padding="none">
-                            <Box
-                              sx={{
-                                py: 2,
-                                display: "flex",
-                                alignItems: "center",
-                              }}
-                            >
-                              <Box
-                                component={Avatar}
-                                alt={fullName}
-                                src={""}
-                                sx={{ mx: 2 }}
-                              />
-                              <Typography variant="subtitle2" noWrap>
-                                {fullName}
-                              </Typography>
-                            </Box>
-                          </TableCell>
-
-                          <TableCell align="right">
-                            <IconButton>
-                              <Icon
-                                width={20}
-                                height={20}
-                                icon={moreVerticalFill}
-                              />
-                            </IconButton>
-                          </TableCell>
-                        </TableRow>
+                        <UserListRow
+                          key={index}
+                          user={user}
+                          handleSelectUserClick={handleSelectUserClick}
+                          isItemSelected={isItemSelected}
+                          noUsersSelected={selectedIds.length <= 0}
+                        />
                       );
                     })}
                   {emptyRows > 0 && (
