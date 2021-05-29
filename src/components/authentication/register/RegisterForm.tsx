@@ -17,11 +17,11 @@ import {
 import { LoadingButton } from "@material-ui/lab";
 // hooks
 import { authController } from "../../../controllers/auth";
+import { messagesController } from "../../../controllers/messages";
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
 // utils
 import { emailError, passwordError } from "../../../utils/helpError";
 //
-import { MIconButton } from "../../@material-extend";
 import { useApolloClient } from "@apollo/client";
 
 // ----------------------------------------------------------------------
@@ -36,10 +36,12 @@ type InitialValues = {
 
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const client = useApolloClient();
-  const { register } = authController(client);
   const isMountedRef = useIsMountedRef();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const client = useApolloClient();
+
+  // Initialize controllers
+  const { register } = authController(client);
+  const { setSuccess } = messagesController(client);
 
   const RegisterSchema = Yup.object().shape({
     firstName: Yup.string()
@@ -72,19 +74,11 @@ export default function RegisterForm() {
           firstName: values.firstName,
           lastName: values.lastName,
         });
-        enqueueSnackbar("Login success", {
-          variant: "success",
-          action: (key) => (
-            <MIconButton size="small" onClick={() => closeSnackbar(key)}>
-              <Icon icon={closeFill} />
-            </MIconButton>
-          ),
-        });
+        setSuccess("Login successful");
         if (isMountedRef.current) {
           setSubmitting(false);
         }
       } catch (error) {
-        console.error(error);
         if (isMountedRef.current) {
           setErrors({ afterSubmit: error.code || error.message });
           setSubmitting(false);

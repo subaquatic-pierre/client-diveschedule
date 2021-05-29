@@ -29,11 +29,11 @@ export const userController = (client: ApolloClient<any>): UserController => {
         setState(users);
       })
       .catch((err) => {
-        setError(err.message);
+        setState({ loading: false, data: null, error: err.message });
       });
   };
 
-  const getUser = (id: string, setState: any): void => {
+  const getUserProfile = (id: string, setState: any): void => {
     setState({ loading: true, data: null, error: null });
     client
       .query({
@@ -45,12 +45,11 @@ export const userController = (client: ApolloClient<any>): UserController => {
       })
       .catch((err) => {
         setState({ loading: false, data: null, error: err.message });
-        setError(err.message);
       });
   };
 
   return {
-    getUser,
+    getUserProfile,
     getUserList,
   };
 };

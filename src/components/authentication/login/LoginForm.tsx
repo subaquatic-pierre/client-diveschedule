@@ -40,7 +40,6 @@ export default function LoginForm() {
   const client = useApolloClient();
   const { login } = authController(client);
   const isMountedRef = useIsMountedRef();
-  // const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
@@ -69,7 +68,6 @@ export default function LoginForm() {
         if (isMountedRef.current) {
           setSubmitting(false);
         }
-        // setSuccess("Login success");
       } catch (error) {
         resetForm();
         if (isMountedRef.current) {

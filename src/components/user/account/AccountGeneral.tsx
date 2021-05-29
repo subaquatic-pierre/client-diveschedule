@@ -30,6 +30,7 @@ import useAuth from "../../../hooks/useAuth";
 import { messagesController } from "../../../controllers/messages";
 import { RegisterParams } from "../../../controllers/auth";
 import useFetchStatus from "../../../hooks/useFetchStatus";
+import LoadingScreen from "../../LoadingScreen";
 //
 // ----------------------------------------------------------------------
 
@@ -53,14 +54,14 @@ export default function AccountGeneral({
   const [formState, setFormState] = useState(emptyFormVals);
   const isMountedRef = useIsMountedRef();
 
-  // Get logged in user details
+  // Get logged in user details or User ID prop for edit user view
   const [userId, setUserId] = useState(userIdProp);
   const { user: authUser, isAuthenticated } = useAuth();
 
-  const [{ data: user }, setState] = useFetchStatus();
+  const [{ data: user, loading, error }, setState] = useFetchStatus();
 
   // Controllers
-  const { getUser } = userController(client);
+  const { getUserProfile } = userController(client);
   const { setError } = messagesController(client);
   const { register } = authController(client);
 
@@ -108,6 +109,7 @@ export default function AccountGeneral({
     setFieldValue,
   } = formik;
 
+  // Get user info for authenticated user
   useEffect(() => {
     if (mode === "account") {
       if (isAuthenticated) {
@@ -116,8 +118,9 @@ export default function AccountGeneral({
     }
   }, [authUser, isAuthenticated]);
 
+  // Get user info on initial page load
   useEffect(() => {
-    if (userId) getUser(userId, setState);
+    if (userId) getUserProfile(userId, setState);
   }, [userId]);
 
   useEffect(() => {
@@ -126,6 +129,14 @@ export default function AccountGeneral({
       setFormState(formData);
     }
   }, [user]);
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
+  if (error) {
+    setError(error.message);
+  }
 
   return (
     <FormikProvider value={formik}>
@@ -232,7 +243,7 @@ export default function AccountGeneral({
                     variant="contained"
                     pending={isSubmitting}
                   >
-                    Create User
+                    {mode === "create" ? "Create User" : "Update profile"}
                   </LoadingButton>
                 </Box>
               </CardContent>

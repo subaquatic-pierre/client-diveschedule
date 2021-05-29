@@ -1,12 +1,11 @@
 import { Icon } from "@iconify/react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { capitalCase } from "change-case";
 import { useState } from "react";
 import roundVpnKey from "@iconify/icons-ic/round-vpn-key";
 import roundAccountBox from "@iconify/icons-ic/round-account-box";
 // material
 import { Container, Tab, Box, Tabs } from "@material-ui/core";
-import { defaultProfile } from "../../controllers/user/user";
 
 // routes
 import { PATH_DASHBOARD } from "../../routes/paths";
@@ -23,11 +22,6 @@ import {
 export default function UserAccount() {
   const [currentTab, setCurrentTab] = useState("general");
   const { id } = useParams() as { id: string };
-  const profile = defaultProfile;
-
-  if (!profile) {
-    return null;
-  }
 
   const ACCOUNT_TABS = [
     {
