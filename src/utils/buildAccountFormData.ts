@@ -16,14 +16,11 @@ export const emptyFormVals: FormState = {
 };
 
 export const buildFormData = (
-  user,
+  profile,
   setError: (message: string) => void
 ): FormState => {
   try {
-    const {
-      email,
-      profile: { fullName, equipment, certificationLevel },
-    } = user;
+    const { fullName, equipment, certificationLevel, email } = profile;
     return {
       fullName: fullName ? fullName : "Default",
       email: email,

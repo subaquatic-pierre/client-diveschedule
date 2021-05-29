@@ -1,7 +1,7 @@
 import { filter } from "lodash";
 import { Icon } from "@iconify/react";
 import plusFill from "@iconify/icons-eva/plus-fill";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import moreVerticalFill from "@iconify/icons-eva/more-vertical-fill";
 // material
 import {
@@ -86,6 +86,18 @@ function applySortFilter(
   return stabilizedThis.map((el) => el[0]);
 }
 
+const getUsersFromIds = (userIds: string[], users: User[]): User[] => {
+  const filteredUsers: User[] = [];
+  userIds.forEach((id) => {
+    users.forEach((user) => {
+      if (user.id === id) {
+        filteredUsers.push(user);
+      }
+    });
+  });
+  return filteredUsers;
+};
+
 export default function UserList() {
   const client = useApolloClient();
 
@@ -97,10 +109,11 @@ export default function UserList() {
   // Filter State
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState<"asc" | "desc">("asc");
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
   const [orderBy, setOrderBy] = useState("name");
   const [filterName, setFilterName] = useState("");
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // Controllers
   const { getUserList } = userController(client);
@@ -111,35 +124,40 @@ export default function UserList() {
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = (checked: boolean) => {
-    // if (checked) {
-    //   const newSelecteds = userList.map((n) => n.name);
-    //   setSelected(newSelecteds);
-    //   return;
-    // }
-    setSelected([]);
+  const handleSetSelectedIds = (newSelected: string[]): void => {
+    setSelectedIds(newSelected);
+    setSelectedUsers(getUsersFromIds(newSelected, filteredUsers));
   };
 
-  const handleClick = (name: string) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleSelectAllClick = (checked: boolean) => {
+    if (checked) {
+      const newSelecteds = userList.map((n) => n.id);
+      handleSetSelectedIds(newSelecteds);
+      return;
+    }
+    handleSetSelectedIds([]);
+  };
+
+  const handleSelectUserClick = (userId: string) => {
+    const selectedIndex = selectedIds.indexOf(userId);
     let newSelected: string[] = [];
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selectedIds, userId);
     } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
+      newSelected = newSelected.concat(selectedIds.slice(1));
+    } else if (selectedIndex === selectedIds.length - 1) {
+      newSelected = newSelected.concat(selectedIds.slice(0, -1));
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
+        selectedIds.slice(0, selectedIndex),
+        selectedIds.slice(selectedIndex + 1)
       );
     }
-    setSelected(newSelected);
+    handleSetSelectedIds(newSelected);
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -186,9 +204,10 @@ export default function UserList() {
 
         <Card>
           <UserListToolbar
-            numSelected={selected.length}
+            numSelected={selectedIds.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
+            selectedUsers={selectedUsers}
           />
 
           <Scrollbar>
@@ -199,7 +218,7 @@ export default function UserList() {
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
                   rowCount={userList.length}
-                  numSelected={selected.length}
+                  numSelected={selectedIds.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
                 />
@@ -208,20 +227,20 @@ export default function UserList() {
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, index) => {
                       const {
-                        id,
+                        id: userId,
                         profile: { fullName },
                       } = row;
-                      const isItemSelected = selected.indexOf(fullName) !== -1;
+                      const isItemSelected = selectedIds.indexOf(userId) !== -1;
 
                       return (
                         <TableRow
                           hover
-                          key={id}
+                          key={userId}
                           tabIndex={-1}
                           role="checkbox"
                           selected={isItemSelected}
                           aria-checked={isItemSelected}
-                          onClick={() => handleClick(fullName)}
+                          onClick={() => handleSelectUserClick(userId)}
                         >
                           <TableCell padding="checkbox">
                             <Checkbox checked={isItemSelected} />
@@ -288,7 +307,7 @@ export default function UserList() {
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={(e, page) => setPage(page)}
-            onRowsPerPageChange={(e) => handleChangeRowsPerPage}
+            onRowsPerPageChange={(e) => handleChangeRowsPerPage(e)}
           />
         </Card>
       </Container>

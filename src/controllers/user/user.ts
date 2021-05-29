@@ -20,7 +20,9 @@ export const defaultUser: User = {
 };
 
 export const userController = (client: ApolloClient<any>): UserController => {
+  const { setError, setSuccess } = messagesController(client);
   const getUserList = (setState): void => {
+    setState({ loading: true, data: [], error: null });
     client
       .query({ query: USER_LIST_QUERY })
       .then((res) => {
@@ -32,22 +34,38 @@ export const userController = (client: ApolloClient<any>): UserController => {
       });
   };
 
-  const getUserProfile = (id, setState): void => {
+  const getUserProfile = (userId, setState): void => {
     setState({ loading: true, data: null, error: null });
     client
       .query({
         query: GET_USER_PROFILE,
-        variables: { id: parseInt(id) },
+        variables: { id: parseInt(userId) },
       })
       .then((res) => {
-        setState({ loading: false, data: res.data.user, error: null });
+        setState({ loading: false, data: res.data.userProfile, error: null });
       })
       .catch((err) => {
         setState({ loading: false, data: null, error: err.message });
       });
   };
 
+  const deleteUsers = (userId): void => {
+    client
+      .query({
+        query: GET_USER_PROFILE,
+        variables: { id: parseInt(userId) },
+      })
+      .then((res) => {
+        window.location.reload();
+        setSuccess("Users successfully deleted");
+      })
+      .catch((err) => {
+        setError(`Unable to delete users: ${err.message}`);
+      });
+  };
+
   return {
+    deleteUsers,
     getUserProfile,
     getUserList,
   };
