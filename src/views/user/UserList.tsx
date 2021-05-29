@@ -49,11 +49,13 @@ const TABLE_HEAD = [
 
 type Anonymous = Record<string | number, string>;
 
-function descendingComparator(a: Anonymous, b: Anonymous, orderBy: string) {
-  if (b[orderBy] < a[orderBy]) {
+function descendingComparator(a: User, b: User, orderBy: string) {
+  const second = b.profile.fullName;
+  const first = a.profile.fullName;
+  if (second < first) {
     return -1;
   }
-  if (b[orderBy] > a[orderBy]) {
+  if (second > first) {
     return 1;
   }
   return 0;
@@ -61,8 +63,8 @@ function descendingComparator(a: Anonymous, b: Anonymous, orderBy: string) {
 
 function getComparator(order: string, orderBy: string) {
   return order === "desc"
-    ? (a: Anonymous, b: Anonymous) => descendingComparator(a, b, orderBy)
-    : (a: Anonymous, b: Anonymous) => -descendingComparator(a, b, orderBy);
+    ? (a: User, b: User) => descendingComparator(a, b, orderBy)
+    : (a: User, b: User) => -descendingComparator(a, b, orderBy);
 }
 
 function applySortFilter(
@@ -111,7 +113,7 @@ export default function UserList() {
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
-  const [orderBy, setOrderBy] = useState("name");
+  const [orderBy, setOrderBy] = useState("fullName");
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -131,9 +133,14 @@ export default function UserList() {
 
   const handleSelectAllClick = (checked: boolean) => {
     if (checked) {
-      const newSelecteds = userList.map((n) => n.id);
-      handleSetSelectedIds(newSelecteds);
-      return;
+      if (selectedIds.length > 0) {
+        handleSetSelectedIds([]);
+        return;
+      } else {
+        const newSelecteds = userList.map((n) => n.id);
+        handleSetSelectedIds(newSelecteds);
+        return;
+      }
     }
     handleSetSelectedIds([]);
   };

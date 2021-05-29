@@ -1,18 +1,18 @@
 // material
-import { visuallyHidden } from '@material-ui/utils';
+import { visuallyHidden } from "@material-ui/utils";
 import {
   Box,
   Checkbox,
   TableRow,
   TableCell,
   TableHead,
-  TableSortLabel
-} from '@material-ui/core';
+  TableSortLabel,
+} from "@material-ui/core";
 
 // ----------------------------------------------------------------------
 
 type UserListHeadProps = {
-  order: 'asc' | 'desc';
+  order: "asc" | "desc";
   orderBy: string;
   rowCount: number;
   headLabel: any[];
@@ -28,7 +28,7 @@ export default function UserListHead({
   headLabel,
   numSelected,
   onRequestSort,
-  onSelectAllClick
+  onSelectAllClick,
 }: UserListHeadProps) {
   return (
     <TableHead>
@@ -43,19 +43,18 @@ export default function UserListHead({
         {headLabel.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.alignRight ? 'right' : 'left'}
+            align={headCell.alignRight ? "right" : "left"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
-              hideSortIcon
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
+              direction={orderBy === headCell.id ? order : "asc"}
               onClick={() => onRequestSort(headCell.id)}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
                 <Box sx={{ ...visuallyHidden }}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </Box>
               ) : null}
             </TableSortLabel>
