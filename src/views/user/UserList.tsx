@@ -33,6 +33,7 @@ import SearchNotFound from "../../components/SearchNotFound";
 import HeaderDashboard from "../../components/HeaderDashboard";
 import { UserListHead, UserListToolbar } from "../../components/user/list";
 import { useApolloClient } from "@apollo/client";
+import useFetchStatus from "../../hooks/useFetchStatus";
 
 // ----------------------------------------------------------------------
 
@@ -89,7 +90,9 @@ export default function UserList() {
   const client = useApolloClient();
 
   // Data State
-  const [userList, setUserList] = useState([] as User[]);
+  const [{ data: userList, loading, error }, setUserList] = useFetchStatus<
+    User[]
+  >([]);
 
   // Filter State
   const [page, setPage] = useState(0);

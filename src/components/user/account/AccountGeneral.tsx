@@ -31,6 +31,7 @@ import { messagesController } from "../../../controllers/messages";
 import { RegisterParams } from "../../../controllers/auth";
 import useFetchStatus from "../../../hooks/useFetchStatus";
 import LoadingScreen from "../../LoadingScreen";
+import { User } from "../../../@types/user";
 //
 // ----------------------------------------------------------------------
 
@@ -58,7 +59,7 @@ export default function AccountGeneral({
   const [userId, setUserId] = useState(userIdProp);
   const { user: authUser, isAuthenticated } = useAuth();
 
-  const [{ data: user, loading, error }, setState] = useFetchStatus();
+  const [{ data: user, loading, error }, setState] = useFetchStatus<User>();
 
   // Controllers
   const { getUserProfile } = userController(client);
@@ -135,7 +136,7 @@ export default function AccountGeneral({
   }
 
   if (error) {
-    setError(error.message);
+    setError(error);
   }
 
   return (

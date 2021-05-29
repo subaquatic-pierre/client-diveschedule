@@ -1,11 +1,10 @@
 import { gql } from "@apollo/client";
 
-export const GET_USER_QUERY = gql`
+export const GET_USER_PROFILE = gql`
   query GetUser($id: ID!) {
     user(id: $id) {
-      email
-      isAdmin
       profile {
+        email
         fullName
         certificationLevel
         equipment

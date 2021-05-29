@@ -5,6 +5,7 @@ export type Profile = {
   phoneNumber: string;
   photoURL?: string;
   role?: string;
+  email?: string;
 };
 
 export type User = {
