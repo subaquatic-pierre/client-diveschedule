@@ -14,9 +14,9 @@ import {
   ListItem,
   ListItemText,
 } from "@material-ui/core";
-import { User } from "../../@types/user";
+import { User } from "../../../@types/user";
 import { useState, MouseEvent } from "react";
-import { PATH_DASHBOARD } from "../../routes/paths";
+import { PATH_DASHBOARD } from "../../../routes/paths";
 
 type UserListRowProps = {
   user: User;
@@ -99,7 +99,7 @@ export default function UserListRow({
           horizontal: "right",
         }}
       >
-        <Box sx={{ px: "0.5rem", minWidth: "200px" }}>
+        <Box sx={{ px: 1, minWidth: "200px" }}>
           <List>
             <ListItem
               button

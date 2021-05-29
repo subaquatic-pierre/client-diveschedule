@@ -2,20 +2,15 @@ import { filter } from "lodash";
 import { Icon } from "@iconify/react";
 import plusFill from "@iconify/icons-eva/plus-fill";
 import { useState, useEffect, ChangeEvent } from "react";
-import moreVerticalFill from "@iconify/icons-eva/more-vertical-fill";
 // material
 import {
   Box,
   Card,
   Table,
-  Avatar,
-  Checkbox,
   TableRow,
   TableBody,
   TableCell,
   Container,
-  IconButton,
-  Typography,
   TableContainer,
   TablePagination,
   Button,
@@ -31,7 +26,7 @@ import Page from "../../components/Page";
 import Scrollbar from "../../components/Scrollbar";
 import SearchNotFound from "../../components/SearchNotFound";
 import HeaderDashboard from "../../components/HeaderDashboard";
-import UserListRow from "./UserListRow";
+import UserListRow from "../../components/user/list/UserListRow";
 import { UserListHead, UserListToolbar } from "../../components/user/list";
 import { useApolloClient } from "@apollo/client";
 import useFetchStatus from "../../hooks/useFetchStatus";
