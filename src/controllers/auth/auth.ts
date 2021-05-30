@@ -38,56 +38,52 @@ export const initAuth = (client: ApolloClient<any>): void => {
 export const authController = (client: ApolloClient<any>): AuthController => {
   const { setError, setSuccess } = messagesController(client);
   // Login user
-  const login = ({ email, password }, history) => {
-    client
-      .mutate({
+  const login = async ({ email, password }, history) => {
+    try {
+      const res = await client.mutate({
         mutation: LOGIN_MUTATION,
         variables: { email: email, password: password },
-      })
-      .then((res) => {
-        localStorage.setItem("token", res.data.tokenAuth.token);
-        window.location.reload();
-      })
-      .catch((err) => {
-        setError(err.message);
       });
+      localStorage.setItem("token", res.data.tokenAuth.token);
+      window.location.reload();
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   // Logout user
-  const logout = (history) => {
-    client
-      .mutate({ mutation: LOGOUT_MUTATION })
-      .then((res) => {
-        deleteAuthToken();
-        setSuccess("Logout successful");
-        history.push("/");
-      })
-      .catch((err) => {
-        setError(err.message);
-      });
+  const logout = async (history) => {
+    try {
+      await client.mutate({ mutation: LOGOUT_MUTATION });
+      deleteAuthToken();
+      setSuccess("Logout successful");
+      history.push("/");
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   // Create new user
-  const register = ({ email, password, firstName, lastName }) => {
+  const register = async ({ email, password, firstName, lastName }) => {
     const fullName = `${firstName} ${lastName}`;
-    client
-      .mutate({
+    try {
+      await client.mutate({
         mutation: CREATE_USER_MUTATION,
         variables: {
           email: email,
           password: password,
           fullName: fullName,
         },
-      })
-      .then((res) => {
-        window.location.reload();
-      })
-      .catch((err) => {
-        setError(err.message);
       });
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
-  const resetPassword = (data: any) => {};
+  const resetPassword = async (data: any) => {
+    try {
+    } catch (err) {}
+  };
 
   return {
     login,
