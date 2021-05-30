@@ -46,8 +46,7 @@ function RouteProgress(props: RouteProps) {
   nprogressStyle();
 
   NProgress.configure({
-    speed: 500,
-    showSpinner: false,
+    showSpinner: true,
   });
 
   useMemo(() => {

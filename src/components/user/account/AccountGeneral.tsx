@@ -14,21 +14,20 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
+  Button,
 } from "@material-ui/core";
 import { LoadingButton } from "@material-ui/lab";
 // hooks
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
 import { UploadAvatar } from "../../upload";
-import { userController } from "../../../controllers/user";
+import { CreateUserParams, UserController } from "../../../controllers/user";
 import {
   buildFormData,
   emptyFormVals,
   FormState,
 } from "../../../utils/buildAccountFormData";
-import { authController } from "../../../controllers/auth";
 import useAuth from "../../../hooks/useAuth";
 import { messagesController } from "../../../controllers/messages";
-import { RegisterParams } from "../../../controllers/auth";
 import useFetchStatus from "../../../hooks/useFetchStatus";
 import LoadingScreen from "../../LoadingScreen";
 import { Profile } from "../../../@types/user";
@@ -62,9 +61,8 @@ export default function AccountGeneral({
   const [{ data: user, loading, error }, setState] = useFetchStatus<Profile>();
 
   // Controllers
-  const { getUserProfile } = userController(client);
+  const { getUserProfile, createUser } = UserController.getControls(client);
   const { setError } = messagesController(client);
-  const { register } = authController(client);
 
   const UpdateUserSchema = Yup.object().shape({
     fullName: Yup.string().required("Name is required"),
@@ -74,16 +72,16 @@ export default function AccountGeneral({
     enableReinitialize: true,
     initialValues: formState,
     validationSchema: UpdateUserSchema,
-    onSubmit: async (values, { setErrors, setSubmitting }) => {
+    onSubmit: (values, { setErrors, setSubmitting }) => {
       try {
+        createUser({} as CreateUserParams, setState);
         switch (mode) {
           case "create":
             // await register({ ...values });
-            await register({} as RegisterParams);
-            enqueueSnackbar("Update success", { variant: "success" });
+            createUser({} as CreateUserParams, setState);
             break;
           default:
-            await updateProfile({ ...values });
+            updateProfile({ ...values });
             enqueueSnackbar("Update success", { variant: "success" });
             break;
         }
@@ -246,6 +244,13 @@ export default function AccountGeneral({
                   >
                     {mode === "create" ? "Create User" : "Update profile"}
                   </LoadingButton>
+                  <Button
+                    onClick={() => createUser({} as CreateUserParams, setState)}
+                    variant="contained"
+                    sx={{ mx: 2 }}
+                  >
+                    Practice
+                  </Button>
                 </Box>
               </CardContent>
             </Card>

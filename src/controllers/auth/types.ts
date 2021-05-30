@@ -1,5 +1,12 @@
 import { User } from "../../@types/user";
 
+export type RegisterParams = {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+};
+
 export type Auth = {
   __typename?: "UserType";
   isAuthenticated?: boolean;
@@ -20,11 +27,4 @@ export type AuthController = {
 export type LoginParams = {
   email: string;
   password: string;
-};
-
-export type RegisterParams = {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
 };

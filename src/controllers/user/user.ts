@@ -1,9 +1,9 @@
-import { ApolloClient } from "@apollo/client";
 import { Profile, User } from "../../@types/user";
-import { UserController } from "./types";
-import { messagesController } from "../messages";
+import { IUserControls } from "./types";
 import { GET_USER_PROFILE, USER_LIST_QUERY, DELETE_USERS } from "./queries";
 import { normalizeUserList, filterDeletedUsers } from "./utils";
+import { CREATE_USER } from "./queries";
+import { BaseController } from "..";
 
 export const defaultProfile: Profile = {
   fullName: "",
@@ -20,90 +20,82 @@ export const defaultUser: User = {
   profile: defaultProfile,
 };
 
-export const userController = (client: ApolloClient<any>): UserController => {
-  const { setSuccess } = messagesController(client);
-
-  // Get all users for admin list view
-  const getUserList = async (setState) => {
+export class UserController extends BaseController {
+  // Get user list
+  getUserList = async (setState) => {
     setState({ loading: true, data: [], error: null });
-    try {
-      const { data } = await client.query({
-        query: USER_LIST_QUERY,
-        fetchPolicy: "network-only",
-      });
+
+    const { data, error } = await this._performApolloRequest({
+      query: USER_LIST_QUERY,
+      fetchPolicy: "network-only",
+    });
+
+    if (data) {
       const users: User[] = normalizeUserList(data.allUsers);
       setState({ loading: false, data: users, error: null });
-    } catch (err) {
-      setState({ loading: false, data: [], error: err.message });
+    } else if (error) {
+      setState({ loading: false, data: [], error: error.message });
     }
   };
 
   // Get single user profile
-  const getUserProfile = async (userId, setState) => {
+  getUserProfile = async (userId, setState) => {
     setState({ loading: true, data: null, error: null });
-    const { data } = await client.query({
+
+    const { data, error } = await this._performApolloRequest({
       query: GET_USER_PROFILE,
       variables: { id: parseInt(userId) },
     });
-    try {
+
+    if (data) {
       setState({ loading: false, data: data.userProfile, error: null });
-    } catch (err) {
-      setState({ loading: false, data: null, error: err.message });
+    } else if (error) {
+      setState({ loading: false, data: null, error: error.message });
     }
   };
 
   // Delete list of users
-  const deleteUsers = async (userIds, setState) => {
+  deleteUsers = async (userIds, setState, userList) => {
     const ids = userIds.map((userId) => parseInt(userId));
-    const currentUsers = normalizeUserList(
-      client.readQuery({ query: USER_LIST_QUERY }).allUsers
-    );
-    const filteredUsers = filterDeletedUsers(userIds, currentUsers);
+    const filteredUsers = filterDeletedUsers(userIds, userList);
+    setState({ loading: true, data: filteredUsers, error: null });
 
-    try {
-      await client.mutate({
-        mutation: DELETE_USERS,
-        variables: { ids },
-      });
-      client.writeQuery({ query: USER_LIST_QUERY, data: filteredUsers });
-      getUserList(setState);
-      setSuccess(`User${userIds.length > 1 ? "'s" : ""} successfully deleted`);
-    } catch (err) {
-      setState({ loading: false, data: currentUsers, error: err.message });
+    const { data, error } = await this._performApolloRequest({
+      mutation: DELETE_USERS,
+      variables: { ids },
+    });
+
+    if (data) {
+      setState({ loading: false, data: filteredUsers, error: null });
+      this.setSuccess(
+        `User${userIds.length > 1 ? "'s" : ""} successfully deleted`
+      );
+    } else if (error) {
+      setState({ loading: false, data: userList, error: error.message });
+      this.setError(error.message);
     }
   };
 
-  return {
-    deleteUsers,
-    getUserProfile,
-    getUserList,
+  createUser = async (variables, setState) => {
+    const { data, error } = await this._performApolloRequest({
+      mutation: CREATE_USER,
+      variables,
+    });
+    if (data) {
+      console.log(data);
+      // setState({ data });
+    } else if (error) {
+      console.log(error);
+    }
   };
-};
 
-const getUserList = () => {};
-const getUsers = () => {};
-const getCards = () => {};
-const getProfile = () => {};
-const getInvoices = () => {};
-const getAddressBook = () => {};
-const getNotifications = () => {};
-const getPosts = () => {};
-const getGallery = () => {};
-const getFriends = () => {};
-const getFollowers = () => {};
-const onToggleFollow = (followerId: string) => {};
-
-export {
-  getUsers,
-  getUserList,
-  getCards,
-  getInvoices,
-  getAddressBook,
-  getNotifications,
-  getPosts,
-  getGallery,
-  getFriends,
-  getProfile,
-  getFollowers,
-  onToggleFollow,
-};
+  public static getControls(client): IUserControls {
+    const controller = new UserController(client);
+    return {
+      createUser: controller.createUser,
+      getUserList: controller.getUserList,
+      getUserProfile: controller.getUserProfile,
+      deleteUsers: controller.deleteUsers,
+    };
+  }
+}

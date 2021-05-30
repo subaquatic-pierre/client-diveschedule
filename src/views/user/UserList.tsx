@@ -1,4 +1,5 @@
 import { useState, useEffect, ChangeEvent } from "react";
+import NProgress from "nprogress";
 import { useApolloClient } from "@apollo/client";
 import { Icon } from "@iconify/react";
 import plusFill from "@iconify/icons-eva/plus-fill";
@@ -19,8 +20,8 @@ import {
 // types
 import { User } from "../../@types/user";
 
-import { messagesController } from "../../controllers/messages";
-import { userController } from "../../controllers/user";
+// controllers
+import { UserController } from "../../controllers/user";
 
 // hooks
 import useFetchStatus from "../../hooks/useFetchStatus";
@@ -33,7 +34,6 @@ import Page from "../../components/Page";
 import Scrollbar from "../../components/Scrollbar";
 import SearchNotFound from "../../components/SearchNotFound";
 import HeaderDashboard from "../../components/HeaderDashboard";
-import LoadingScreen from "../../components/LoadingScreen";
 import UserListRow from "../../components/user/list/UserListRow";
 import { UserListHead, UserListToolbar } from "../../components/user/list";
 
@@ -42,7 +42,8 @@ import {
   getComparator,
   applySortFilter,
   getUsersFromIds,
-} from "../../utils/userListView";
+} from "../../utils/userListVIew";
+import LoadingScreen from "../../components/LoadingScreen";
 
 // ----------------------------------------------------------------------
 
@@ -60,13 +61,11 @@ export default function UserList() {
   const client = useApolloClient();
 
   // Controllers
-  const { setError } = messagesController(client);
-  const { getUserList, deleteUsers } = userController(client);
+
+  const { getUserList, deleteUsers } = UserController.getControls(client);
 
   // Data State
-  const [{ data: userList, loading, error }, setUserList] = useFetchStatus<
-    User[]
-  >([]);
+  const [{ data: userList, loading }, setUserList] = useFetchStatus<User[]>([]);
 
   // Filter State
   const [page, setPage] = useState(0);
@@ -137,7 +136,7 @@ export default function UserList() {
   };
 
   const handleConfirmDelete = () => {
-    deleteUsers(selectedIds, setUserList);
+    deleteUsers(selectedIds, setUserList, userList);
     setSelectedIds([]);
     setDeleteDialogOpen(false);
   };
@@ -158,12 +157,14 @@ export default function UserList() {
     getUserList(setUserList);
   }, []);
 
-  // If error or loading state
-  if (loading) return <LoadingScreen />;
+  useEffect(() => {
+    if (loading) NProgress.start();
+    if (!loading) {
+      NProgress.done();
+    }
+  }, [loading]);
 
-  if (error) {
-    setError(error);
-  }
+  if (loading) return <LoadingScreen />;
 
   return (
     <Page title="User: List | DiveSchedule">

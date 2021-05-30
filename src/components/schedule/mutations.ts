@@ -109,27 +109,6 @@ export const EDIT_USER = gql`
   }
 `;
 
-export const CREATE_USER = gql`
-  ${UserFragment}
-  mutation CreateUser(
-    $fullName: String
-    $email: String
-    $certificationLevel: String
-    $equipment: String
-  ) {
-    createUser(
-      fullName: $fullName
-      email: $email
-      certificationLevel: $certificationLevel
-      equipment: $equipment
-    ) {
-      user {
-        ...UserFragment
-      }
-    }
-  }
-`;
-
 export const EDIT_DIVE_TRIP_DETAIL = gql`
   mutation EditDiveTripDetail(
     $id: ID!
@@ -169,6 +148,27 @@ export const CREATE_DIVE_TRIP_DETAIL = gql`
     ) {
       tripDetail {
         id
+      }
+    }
+  }
+`;
+
+export const CREATE_USER = gql`
+  ${UserFragment}
+  mutation CreateUser(
+    $fullName: String
+    $email: String
+    $certificationLevel: String
+    $equipment: String
+  ) {
+    createUser(
+      fullName: $fullName
+      email: $email
+      certificationLevel: $certificationLevel
+      equipment: $equipment
+    ) {
+      user {
+        ...UserFragment
       }
     }
   }
