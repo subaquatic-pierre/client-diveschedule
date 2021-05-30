@@ -34,7 +34,8 @@ export default function UserListRow({
   const [editPopoverAnchorEl, setEditPopoverAnchorEl] = useState(null);
   const {
     id: userId,
-    profile: { fullName },
+    email,
+    profile: { fullName, equipment, certificationLevel },
   } = user;
 
   const handleMorePopoverOpen = (event: MouseEvent<HTMLButtonElement>) => {
@@ -76,6 +77,16 @@ export default function UserListRow({
             {fullName}
           </Typography>
         </Box>
+      </TableCell>
+
+      <TableCell>
+        <Typography noWrap>{email}</Typography>
+      </TableCell>
+      <TableCell>
+        <Typography noWrap>{certificationLevel}</Typography>
+      </TableCell>
+      <TableCell>
+        <Typography noWrap>{equipment}</Typography>
       </TableCell>
 
       <TableCell align="right">

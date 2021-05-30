@@ -59,6 +59,7 @@ type UserListToolbarProps = {
   filterName: string;
   selectedUsers?: User[];
   onFilterName: (value: string) => void;
+  deleteUsers: () => void;
 };
 
 export default function UserListToolbar({
@@ -66,10 +67,9 @@ export default function UserListToolbar({
   filterName,
   selectedUsers,
   onFilterName,
+  deleteUsers,
 }: UserListToolbarProps) {
   const theme = useTheme();
-  const client = useApolloClient();
-  const { deleteUsers } = userController(client);
   const isLight = theme.palette.mode === "light";
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
@@ -83,8 +83,7 @@ export default function UserListToolbar({
   };
 
   const handleConfirmDelete = () => {
-    // const userIds = selectedUsers.map((user) => user.id);
-    // deleteUsers(userIds);
+    deleteUsers();
     setDeleteDialogOpen(false);
   };
 

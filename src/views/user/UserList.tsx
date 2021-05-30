@@ -1,7 +1,9 @@
+import { useState, useEffect, ChangeEvent } from "react";
+import { useApolloClient } from "@apollo/client";
+import { Redirect } from "react-router";
 import { filter } from "lodash";
 import { Icon } from "@iconify/react";
 import plusFill from "@iconify/icons-eva/plus-fill";
-import { useState, useEffect, ChangeEvent } from "react";
 // material
 import {
   Box,
@@ -15,38 +17,39 @@ import {
   TablePagination,
   Button,
 } from "@material-ui/core";
-// redux
-import { userController } from "../../controllers/user";
+
+// types
 import { User } from "../../@types/user";
+
+import { messagesController } from "../../controllers/messages";
+import { userController } from "../../controllers/user";
+
+// hooks
+import useFetchStatus from "../../hooks/useFetchStatus";
+
 // routes
 import { PATH_DASHBOARD } from "../../routes/paths";
-// @types
+
 // components
 import Page from "../../components/Page";
 import Scrollbar from "../../components/Scrollbar";
 import SearchNotFound from "../../components/SearchNotFound";
 import HeaderDashboard from "../../components/HeaderDashboard";
+import LoadingScreen from "../../components/LoadingScreen";
 import UserListRow from "../../components/user/list/UserListRow";
 import { UserListHead, UserListToolbar } from "../../components/user/list";
-import { useApolloClient } from "@apollo/client";
-import useFetchStatus from "../../hooks/useFetchStatus";
-import LoadingScreen from "../../components/LoadingScreen";
-import { messagesController } from "../../controllers/messages";
-import { Redirect } from "react-router";
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: "name", label: "Name", alignRight: false },
-  // { id: "role", label: "Role", alignRight: false },
-  // { id: "isVerified", label: "Verified", alignRight: false },
-  // { id: "status", label: "Status", alignRight: false },
+  { id: "email", label: "Email", alignRight: false },
+  { id: "certificationLevel", label: "Certification Level", alignRight: false },
+  { id: "equipment", label: "Equipment", alignRight: false },
   { id: "" },
 ];
 
 // ----------------------------------------------------------------------
-
-// type Anonymous = Record<string | number, string>;
 
 function descendingComparator(a: User, b: User, orderBy: string) {
   const second = b.profile.fullName;
@@ -102,8 +105,11 @@ const getUsersFromIds = (userIds: string[], users: User[]): User[] => {
 export default function UserList() {
   const client = useApolloClient();
 
-  // Data State
+  // Controllers
   const { setError } = messagesController(client);
+  const { getUserList, deleteUsers } = userController(client);
+
+  // Data State
   const [{ data: userList, loading, error }, setUserList] = useFetchStatus<
     User[]
   >([]);
@@ -116,9 +122,6 @@ export default function UserList() {
   const [orderBy, setOrderBy] = useState("fullName");
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  // Controllers
-  const { getUserList } = userController(client);
 
   const handleRequestSort = (property: string) => {
     const isAsc = orderBy === property && order === "asc";
@@ -174,6 +177,10 @@ export default function UserList() {
     setFilterName(filterName);
   };
 
+  const handleDeleteUsers = () => {
+    deleteUsers(selectedIds, setUserList);
+  };
+
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - userList.length) : 0;
 
@@ -222,6 +229,7 @@ export default function UserList() {
             filterName={filterName}
             onFilterName={handleFilterByName}
             selectedUsers={selectedUsers}
+            deleteUsers={handleDeleteUsers}
           />
 
           <Scrollbar>

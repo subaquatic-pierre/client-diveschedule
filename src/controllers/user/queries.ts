@@ -29,3 +29,12 @@ export const USER_LIST_QUERY = gql`
     }
   }
 `;
+
+export const DELETE_USERS = gql`
+  mutation DeleteUsers($ids: [ID]!) {
+    deleteUsers(ids: $ids) {
+      deleted
+      ids
+    }
+  }
+`;
