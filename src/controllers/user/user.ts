@@ -56,15 +56,13 @@ export const userController = (client: ApolloClient<any>): UserController => {
   // Delete list of users
   const deleteUsers = (userIds, setState): void => {
     const ids = userIds.map((userId) => parseInt(userId));
+    const currentUsers = normalizeUserList(
+      client.readQuery({ query: USER_LIST_QUERY }).data.allUsers
+    );
 
     const optimisticResponse = {
       loading: false,
-      data: filterDeletedUsers(
-        userIds,
-        normalizeUserList(
-          client.readQuery({ query: USER_LIST_QUERY }).data.allUsers
-        )
-      ),
+      data: filterDeletedUsers(userIds, currentUsers),
       error: null,
     };
     setState(optimisticResponse);
@@ -78,7 +76,7 @@ export const userController = (client: ApolloClient<any>): UserController => {
         setSuccess("Users successfully deleted");
       })
       .catch((err) => {
-        setState({ loading: false, data: [], error: err.message });
+        setState({ loading: false, data: currentUsers, error: err.message });
       });
   };
 
