@@ -179,6 +179,7 @@ export default function UserList() {
 
   const handleDeleteUsers = () => {
     deleteUsers(selectedIds, setUserList);
+    setSelectedIds([]);
   };
 
   const emptyRows =

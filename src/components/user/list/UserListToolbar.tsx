@@ -74,7 +74,6 @@ export default function UserListToolbar({
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const handleDeleteDialogClickOpen = () => {
-    console.log(filterName);
     setDeleteDialogOpen(true);
   };
 

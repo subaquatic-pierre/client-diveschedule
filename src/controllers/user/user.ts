@@ -54,30 +54,24 @@ export const userController = (client: ApolloClient<any>): UserController => {
   };
 
   // Delete list of users
-  const deleteUsers = (userIds, setState): void => {
+  const deleteUsers = async (userIds, setState): Promise<any> => {
     const ids = userIds.map((userId) => parseInt(userId));
+    console.log(userIds);
     const currentUsers = normalizeUserList(
-      client.readQuery({ query: USER_LIST_QUERY }).data.allUsers
+      client.readQuery({ query: USER_LIST_QUERY }).allUsers
     );
+    const allUsers = filterDeletedUsers(userIds, currentUsers);
 
-    const optimisticResponse = {
-      loading: false,
-      data: filterDeletedUsers(userIds, currentUsers),
-      error: null,
-    };
-    setState(optimisticResponse);
-
-    client
-      .mutate({
+    try {
+      await client.mutate({
         mutation: DELETE_USERS,
         variables: { ids },
-      })
-      .then((res) => {
-        setSuccess("Users successfully deleted");
-      })
-      .catch((err) => {
-        setState({ loading: false, data: currentUsers, error: err.message });
       });
+      client.writeQuery({ query: USER_LIST_QUERY, data: allUsers });
+      getUserList(setState);
+    } catch (err) {
+      setState({ loading: false, data: [], error: err.message });
+    }
   };
 
   return {

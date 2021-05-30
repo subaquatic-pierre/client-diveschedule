@@ -2,8 +2,8 @@ import { User } from "../../@types/user";
 import { UserConnection } from "./types";
 
 export const normalizeUserList = (allUsers: UserConnection): User[] => {
-  console.log(allUsers);
-  return allUsers.edges.map((edge) => edge.node);
+  if (allUsers.edges) return allUsers.edges.map((edge) => edge.node);
+  return [];
 };
 
 export const filterDeletedUsers = (
