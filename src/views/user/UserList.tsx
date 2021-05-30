@@ -1,7 +1,5 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import { useApolloClient } from "@apollo/client";
-import { Redirect } from "react-router";
-import { filter } from "lodash";
 import { Icon } from "@iconify/react";
 import plusFill from "@iconify/icons-eva/plus-fill";
 // material
@@ -39,6 +37,13 @@ import LoadingScreen from "../../components/LoadingScreen";
 import UserListRow from "../../components/user/list/UserListRow";
 import { UserListHead, UserListToolbar } from "../../components/user/list";
 
+// utils
+import {
+  getComparator,
+  applySortFilter,
+  getUsersFromIds,
+} from "../../utils/userListView";
+
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -50,57 +55,6 @@ const TABLE_HEAD = [
 ];
 
 // ----------------------------------------------------------------------
-
-function descendingComparator(a: User, b: User, orderBy: string) {
-  const second = b.profile.fullName;
-  const first = a.profile.fullName;
-  if (second < first) {
-    return -1;
-  }
-  if (second > first) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order: string, orderBy: string) {
-  return order === "desc"
-    ? (a: User, b: User) => descendingComparator(a, b, orderBy)
-    : (a: User, b: User) => -descendingComparator(a, b, orderBy);
-}
-
-function applySortFilter(
-  array: User[],
-  comparator: (a: any, b: any) => number,
-  query: string
-) {
-  const stabilizedThis = array.map((el, index) => [el, index] as const);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  if (query) {
-    return filter(
-      array,
-      (_user) =>
-        _user.profile.fullName.toLowerCase().indexOf(query.toLowerCase()) !== -1
-    );
-  }
-  return stabilizedThis.map((el) => el[0]);
-}
-
-const getUsersFromIds = (userIds: string[], users: User[]): User[] => {
-  const filteredUsers: User[] = [];
-  userIds.forEach((id) => {
-    users.forEach((user) => {
-      if (user.id === id) {
-        filteredUsers.push(user);
-      }
-    });
-  });
-  return filteredUsers;
-};
 
 export default function UserList() {
   const client = useApolloClient();
@@ -123,6 +77,9 @@ export default function UserList() {
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
+  // Delete Dialog State
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
   const handleRequestSort = (property: string) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -130,8 +87,10 @@ export default function UserList() {
   };
 
   const handleSetSelectedIds = (newSelected: string[]): void => {
-    setSelectedIds(newSelected);
-    setSelectedUsers(getUsersFromIds(newSelected, filteredUsers));
+    setSelectedIds((oldState) => {
+      setSelectedUsers(getUsersFromIds(newSelected, filteredUsers));
+      return newSelected;
+    });
   };
 
   const handleSelectAllClick = (checked: boolean) => {
@@ -177,9 +136,10 @@ export default function UserList() {
     setFilterName(filterName);
   };
 
-  const handleDeleteUsers = () => {
+  const handleConfirmDelete = () => {
     deleteUsers(selectedIds, setUserList);
     setSelectedIds([]);
+    setDeleteDialogOpen(false);
   };
 
   const emptyRows =
@@ -193,15 +153,16 @@ export default function UserList() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
+  // Get user list on page load
   useEffect(() => {
     getUserList(setUserList);
   }, []);
 
+  // If error or loading state
   if (loading) return <LoadingScreen />;
 
   if (error) {
     setError(error);
-    return <Redirect to={PATH_DASHBOARD.general.app} />;
   }
 
   return (
@@ -230,7 +191,10 @@ export default function UserList() {
             filterName={filterName}
             onFilterName={handleFilterByName}
             selectedUsers={selectedUsers}
-            deleteUsers={handleDeleteUsers}
+            deleteDialogOpen={deleteDialogOpen}
+            setDeleteDialogOpen={setDeleteDialogOpen}
+            handleConfirmDelete={handleConfirmDelete}
+            setSelectedUsers={handleSetSelectedIds}
           />
 
           <Scrollbar>
@@ -259,6 +223,7 @@ export default function UserList() {
                           handleSelectUserClick={handleSelectUserClick}
                           isItemSelected={isItemSelected}
                           noUsersSelected={selectedIds.length <= 0}
+                          openDeleteDialog={() => setDeleteDialogOpen(true)}
                         />
                       );
                     })}

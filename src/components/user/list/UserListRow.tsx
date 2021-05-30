@@ -22,6 +22,7 @@ type UserListRowProps = {
   user: User;
   isItemSelected: boolean;
   noUsersSelected: boolean;
+  openDeleteDialog: () => void;
   handleSelectUserClick: (userId: string) => void;
 };
 
@@ -30,6 +31,7 @@ export default function UserListRow({
   isItemSelected,
   noUsersSelected,
   handleSelectUserClick,
+  openDeleteDialog,
 }: UserListRowProps) {
   const [editPopoverAnchorEl, setEditPopoverAnchorEl] = useState(null);
   const {
@@ -48,6 +50,12 @@ export default function UserListRow({
 
   const open = Boolean(editPopoverAnchorEl);
   const id = open ? "edit-popover" : undefined;
+
+  const handleDeleteUser = () => {
+    setEditPopoverAnchorEl(null);
+    handleSelectUserClick(userId);
+    openDeleteDialog();
+  };
 
   return (
     <TableRow
@@ -118,6 +126,9 @@ export default function UserListRow({
               href={`${PATH_DASHBOARD.user.root}/edit/${userId}`}
             >
               <ListItemText primary="Edit User" />
+            </ListItem>
+            <ListItem button onClick={handleDeleteUser}>
+              <ListItemText primary="Delete User" />
             </ListItem>
           </List>
         </Box>

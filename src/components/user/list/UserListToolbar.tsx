@@ -1,8 +1,6 @@
-import { useState } from "react";
 import { Icon } from "@iconify/react";
 import searchFill from "@iconify/icons-eva/search-fill";
 import trash2Fill from "@iconify/icons-eva/trash-2-fill";
-import roundFilterList from "@iconify/icons-ic/round-filter-list";
 // material
 import {
   useTheme,
@@ -27,8 +25,6 @@ import {
 } from "@material-ui/core";
 
 import { User } from "../../../@types/user";
-import { useApolloClient } from "@apollo/client";
-import { userController } from "../../../controllers/user";
 
 // ----------------------------------------------------------------------
 
@@ -58,32 +54,29 @@ type UserListToolbarProps = {
   numSelected: number;
   filterName: string;
   selectedUsers?: User[];
+  deleteDialogOpen: boolean;
+  setSelectedUsers: (users: string[]) => void;
   onFilterName: (value: string) => void;
-  deleteUsers: () => void;
+  setDeleteDialogOpen: (value: boolean) => void;
+  handleConfirmDelete: () => void;
 };
 
 export default function UserListToolbar({
   numSelected,
   filterName,
   selectedUsers,
+  deleteDialogOpen,
   onFilterName,
-  deleteUsers,
+  setDeleteDialogOpen,
+  handleConfirmDelete,
+  setSelectedUsers,
 }: UserListToolbarProps) {
   const theme = useTheme();
   const isLight = theme.palette.mode === "light";
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-  const handleDeleteDialogClickOpen = () => {
-    setDeleteDialogOpen(true);
-  };
-
-  const handleDeleteDialogClose = () => {
+  const handleCancelClick = () => {
     setDeleteDialogOpen(false);
-  };
-
-  const handleConfirmDelete = () => {
-    deleteUsers();
-    setDeleteDialogOpen(false);
+    setSelectedUsers([]);
   };
 
   return (
@@ -118,7 +111,7 @@ export default function UserListToolbar({
 
       {numSelected > 0 && (
         <Tooltip title="Delete">
-          <IconButton onClick={handleDeleteDialogClickOpen}>
+          <IconButton onClick={() => setDeleteDialogOpen(true)}>
             <Icon icon={trash2Fill} />
           </IconButton>
         </Tooltip>
@@ -127,12 +120,14 @@ export default function UserListToolbar({
       {/* Confirm delete dialog */}
       <Dialog
         open={deleteDialogOpen}
-        onClose={handleDeleteDialogClose}
+        onClose={() => setDeleteDialogOpen(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Are you sure you want to delete these users?"}
+          {selectedUsers.length > 1
+            ? "Are you sure you want to delete these users?"
+            : "Are you sure you want to delete this user?"}
         </DialogTitle>
         <DialogContent>
           <List aria-label="user list">
@@ -145,7 +140,7 @@ export default function UserListToolbar({
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={handleDeleteDialogClose}
+            onClick={handleCancelClick}
             variant="contained"
             color="error"
             autoFocus
