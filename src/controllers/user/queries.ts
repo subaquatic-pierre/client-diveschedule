@@ -68,3 +68,21 @@ export const CREATE_USER = gql`
     }
   }
 `;
+
+export const UPDATE_PROFILE = gql`
+  mutation UpdateProfile(
+    $fullName: String
+    $email: String
+    $certLevel: String
+    $equipment: String
+  ) {
+    updateProfile(
+      fullName: $fullName
+      email: $email
+      certLevel: $certLevel
+      equipment: $equipment
+    ) {
+      dummy
+    }
+  }
+`;

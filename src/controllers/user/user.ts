@@ -2,7 +2,7 @@ import { Profile, User } from "../../@types/user";
 import { IUserControls } from "./types";
 import { GET_USER_PROFILE, USER_LIST_QUERY, DELETE_USERS } from "./queries";
 import { normalizeUserList, filterDeletedUsers } from "./utils";
-import { CREATE_USER } from "./queries";
+import { CREATE_USER, UPDATE_PROFILE } from "./queries";
 import { BaseController } from "..";
 
 export const defaultProfile: Profile = {
@@ -76,9 +76,26 @@ export class UserController extends BaseController {
     }
   };
 
+  // Create new user from dashboard
   createUser = async (variables, setState) => {
+    console.log(variables);
     const { data, error } = await this._performApolloRequest({
       mutation: CREATE_USER,
+      variables,
+    });
+    if (data) {
+      console.log(data);
+      // setState({ data });
+    } else if (error) {
+      console.log(error);
+    }
+  };
+
+  // Create new user from dashboard
+  updateProfile = async (variables, setState) => {
+    console.log(variables);
+    const { data, error } = await this._performApolloRequest({
+      mutation: UPDATE_PROFILE,
       variables,
     });
     if (data) {
@@ -96,6 +113,7 @@ export class UserController extends BaseController {
       getUserList: controller.getUserList,
       getUserProfile: controller.getUserProfile,
       deleteUsers: controller.deleteUsers,
+      updateProfile: controller.updateProfile,
     };
   }
 }

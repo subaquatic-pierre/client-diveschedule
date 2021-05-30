@@ -14,7 +14,6 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
-  Button,
 } from "@material-ui/core";
 import { LoadingButton } from "@material-ui/lab";
 // hooks
@@ -39,16 +38,11 @@ type AccountGeneralProps = {
   userIdProp?: string;
 };
 
-const updateProfile = (data: any) => {
-  console.log(data);
-};
-
 export default function AccountGeneral({
   mode = "account",
   userIdProp,
 }: AccountGeneralProps) {
   const client = useApolloClient();
-  const { enqueueSnackbar } = useSnackbar();
 
   // Handle formik default and error values
   const [formState, setFormState] = useState(emptyFormVals);
@@ -61,28 +55,42 @@ export default function AccountGeneral({
   const [{ data: user, loading, error }, setState] = useFetchStatus<Profile>();
 
   // Controllers
-  const { getUserProfile, createUser } = UserController.getControls(client);
+  const {
+    getUserProfile,
+    createUser,
+    updateProfile,
+  } = UserController.getControls(client);
   const { setError } = messagesController(client);
 
   const UpdateUserSchema = Yup.object().shape({
-    fullName: Yup.string().required("Name is required"),
+    fullName: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Name is required"),
+    email: Yup.string()
+      .email("Email must be a valid email address")
+      .required("Email is required"),
+    certificationLevel: Yup.string().required(
+      "Certification Level is required"
+    ),
+    equipment: Yup.string().required("Equipment is required"),
   });
 
   const formik = useFormik<FormState>({
     enableReinitialize: true,
     initialValues: formState,
     validationSchema: UpdateUserSchema,
-    onSubmit: (values, { setErrors, setSubmitting }) => {
+    onSubmit: async (values, { setErrors, setSubmitting }) => {
       try {
-        createUser({} as CreateUserParams, setState);
         switch (mode) {
           case "create":
-            // await register({ ...values });
-            createUser({} as CreateUserParams, setState);
+            await createUser({ ...values } as CreateUserParams, setState);
+            break;
+          case "account":
+            await updateProfile({ ...values } as CreateUserParams, setState);
             break;
           default:
-            updateProfile({ ...values });
-            enqueueSnackbar("Update success", { variant: "success" });
+            setError("Account create mode not defined");
             break;
         }
         if (isMountedRef.current) {
@@ -91,7 +99,6 @@ export default function AccountGeneral({
       } catch (error) {
         if (isMountedRef.current) {
           setErrors({ afterSubmit: "Error" });
-          enqueueSnackbar(error.message, { variant: "error" });
           setSubmitting(false);
         }
       }
@@ -99,7 +106,6 @@ export default function AccountGeneral({
   });
 
   const {
-    values,
     errors,
     touched,
     isSubmitting,
@@ -168,6 +174,8 @@ export default function AccountGeneral({
                       fullWidth
                       label="Name"
                       {...getFieldProps("fullName")}
+                      error={Boolean(touched.fullName && errors.fullName)}
+                      helperText={touched.fullName && errors.fullName}
                     />
                   </Grid>
 
@@ -177,6 +185,8 @@ export default function AccountGeneral({
                       disabled={mode !== "create"}
                       label="Email Address"
                       {...getFieldProps("email")}
+                      error={Boolean(touched.email && errors.email)}
+                      helperText={touched.email && errors.email}
                     />
                   </Grid>
 
@@ -185,6 +195,8 @@ export default function AccountGeneral({
                       fullWidth
                       label="Phone Number"
                       {...getFieldProps("phoneNumber")}
+                      error={Boolean(touched.phoneNumber && errors.phoneNumber)}
+                      helperText={touched.phoneNumber && errors.phoneNumber}
                     />
                   </Grid>
 
@@ -244,13 +256,6 @@ export default function AccountGeneral({
                   >
                     {mode === "create" ? "Create User" : "Update profile"}
                   </LoadingButton>
-                  <Button
-                    onClick={() => createUser({} as CreateUserParams, setState)}
-                    variant="contained"
-                    sx={{ mx: 2 }}
-                  >
-                    Practice
-                  </Button>
                 </Box>
               </CardContent>
             </Card>

@@ -28,6 +28,11 @@ export interface IUserControls {
     params: CreateUserParams,
     setState: SetState<LoadingState<any>>
   ) => void;
+
+  updateProfile: (
+    params: CreateUserParams,
+    setState: SetState<LoadingState<any>>
+  ) => void;
 }
 
 export type UserEdge = {
