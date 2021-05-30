@@ -30,6 +30,9 @@ import UserListRow from "../../components/user/list/UserListRow";
 import { UserListHead, UserListToolbar } from "../../components/user/list";
 import { useApolloClient } from "@apollo/client";
 import useFetchStatus from "../../hooks/useFetchStatus";
+import LoadingScreen from "../../components/LoadingScreen";
+import { messagesController } from "../../controllers/messages";
+import { Redirect } from "react-router";
 
 // ----------------------------------------------------------------------
 
@@ -43,7 +46,7 @@ const TABLE_HEAD = [
 
 // ----------------------------------------------------------------------
 
-type Anonymous = Record<string | number, string>;
+// type Anonymous = Record<string | number, string>;
 
 function descendingComparator(a: User, b: User, orderBy: string) {
   const second = b.profile.fullName;
@@ -100,6 +103,7 @@ export default function UserList() {
   const client = useApolloClient();
 
   // Data State
+  const { setError } = messagesController(client);
   const [{ data: userList, loading, error }, setUserList] = useFetchStatus<
     User[]
   >([]);
@@ -184,6 +188,13 @@ export default function UserList() {
   useEffect(() => {
     getUserList(setUserList);
   }, []);
+
+  if (loading) return <LoadingScreen />;
+
+  if (error) {
+    setError(error);
+    return <Redirect to={PATH_DASHBOARD.general.app} />;
+  }
 
   return (
     <Page title="User: List | DiveSchedule">
