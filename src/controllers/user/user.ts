@@ -4,6 +4,7 @@ import { GET_USER_PROFILE, USER_LIST_QUERY, DELETE_USERS } from "./queries";
 import { normalizeUserList, filterDeletedUsers } from "./utils";
 import { CREATE_USER, UPDATE_PROFILE } from "./queries";
 import { BaseController } from "..";
+import { PATH_DASHBOARD } from "../../routes/paths";
 
 export const defaultProfile: Profile = {
   fullName: "",
@@ -80,18 +81,23 @@ export class UserController extends BaseController {
 
   // Create new user from dashboard
   createUser = async (variables, setState) => {
-    console.log(variables);
     const { data, error } = await this._performApolloRequest({
       mutation: CREATE_USER,
       variables,
     });
     if (data) {
+      const userId = data.createUser.user.id;
       setState({
         loading: false,
         data: data.createUser.user.profile,
         error: null,
       });
       this.setSuccess("User successfully created");
+      try {
+        this.history.push(`${PATH_DASHBOARD.user.root}/edit/${userId}`);
+      } catch (err) {
+        console.log(err);
+      }
     } else if (error) {
       this.setError(error.message);
     }
@@ -115,8 +121,8 @@ export class UserController extends BaseController {
     }
   };
 
-  public static getControls(client): IUserControls {
-    const controller = new UserController(client);
+  public static getControls(client, history?): IUserControls {
+    const controller = new UserController(client, history);
     return {
       createUser: controller.createUser,
       getUserList: controller.getUserList,

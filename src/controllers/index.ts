@@ -26,11 +26,13 @@ export function updateClient(
 
 export class BaseController {
   protected client: ApolloClient<any>;
+  protected history: any;
   protected setError: (any?: any) => any;
   protected setSuccess: (any?: any) => any;
 
-  constructor(client) {
+  constructor(client, history = null) {
     this.client = client;
+    this.history = history;
     const { setError, setSuccess } = messagesController(client);
     this.setError = setError;
     this.setSuccess = setSuccess;
@@ -65,5 +67,5 @@ export class BaseController {
     }
   }
 
-  public static getControls(client: ApolloClient<any>) {}
+  public static getControls(client: ApolloClient<any>, history?: any) {}
 }

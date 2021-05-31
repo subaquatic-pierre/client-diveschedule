@@ -24,7 +24,7 @@ export const buildFormData = (
     return {
       fullName: fullName ? fullName : "Default",
       email: email,
-      phoneNumber: phoneNumber ? phoneNumber : "Default",
+      phoneNumber: phoneNumber ? phoneNumber : "",
       equipment: equipment ? equipment : "",
       certLevel: certLevel ? certLevel : "",
     };

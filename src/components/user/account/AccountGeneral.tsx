@@ -30,6 +30,7 @@ import { messagesController } from "../../../controllers/messages";
 import useFetchStatus from "../../../hooks/useFetchStatus";
 import LoadingScreen from "../../LoadingScreen";
 import { Profile } from "../../../@types/user";
+import { useHistory } from "react-router";
 //
 // ----------------------------------------------------------------------
 
@@ -65,6 +66,15 @@ export default function AccountGeneral({
   userIdProp,
 }: AccountGeneralProps) {
   const client = useApolloClient();
+  const history = useHistory();
+
+  // Controllers
+  const {
+    getUserProfile,
+    createUser,
+    updateProfile,
+  } = UserController.getControls(client, history);
+  const { setError } = messagesController(client);
 
   // Handle formik default and error values
   const [formState, setFormState] = useState(emptyFormVals);
@@ -75,14 +85,6 @@ export default function AccountGeneral({
   const { user: authUser, isAuthenticated } = useAuth();
 
   const [{ data: userProfile, loading }, setState] = useFetchStatus<Profile>();
-
-  // Controllers
-  const {
-    getUserProfile,
-    createUser,
-    updateProfile,
-  } = UserController.getControls(client);
-  const { setError } = messagesController(client);
 
   const UpdateUserSchema = Yup.object().shape({
     fullName: Yup.string()
@@ -269,7 +271,7 @@ export default function AccountGeneral({
                     variant="contained"
                     pending={isSubmitting}
                   >
-                    {mode === "create" ? "Create User" : "Update profile"}
+                    {mode === "create" ? "Create User" : "Save Changes"}
                   </LoadingButton>
                 </Box>
               </CardContent>

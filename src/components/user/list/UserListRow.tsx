@@ -46,8 +46,7 @@ export default function UserListRow({
   const [editPopoverAnchorEl, setEditPopoverAnchorEl] = useState(null);
   const {
     id: userId,
-    email,
-    profile: { fullName, equipment, certLevel, phoneNumber },
+    profile: { email, fullName, equipment, certLevel, phoneNumber },
   } = user;
 
   const handleMorePopoverOpen = (event: MouseEvent<HTMLButtonElement>) => {

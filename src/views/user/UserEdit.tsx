@@ -5,6 +5,9 @@ import { useState } from "react";
 import plusFill from "@iconify/icons-eva/plus-fill";
 import roundVpnKey from "@iconify/icons-ic/round-vpn-key";
 import roundAccountBox from "@iconify/icons-ic/round-account-box";
+import rawaccesslogsIcon from "@iconify-icons/whh/rawaccesslogs";
+import certificateLine from "@iconify-icons/clarity/certificate-line";
+import accountBoxMultiple from "@iconify-icons/mdi/account-box-multiple";
 // material
 import { Container, Tab, Box, Tabs, Button } from "@material-ui/core";
 
@@ -15,7 +18,11 @@ import Page from "../../components/Page";
 import HeaderDashboard from "../../components/HeaderDashboard";
 import {
   AccountGeneral,
+  AccountDiveLog,
   AccountChangePassword,
+  AccountBuddies,
+  AccountCertification,
+  AccountEquipment,
 } from "../../components/user/account";
 
 // ----------------------------------------------------------------------
@@ -29,6 +36,26 @@ export default function UserAccount() {
       value: "general",
       icon: <Icon icon={roundAccountBox} width={20} height={20} />,
       component: <AccountGeneral mode="edit" userIdProp={id} />,
+    },
+    {
+      value: "certifications",
+      icon: <Icon icon={certificateLine} width={20} height={20} />,
+      component: <AccountCertification />,
+    },
+    {
+      value: "equipment",
+      icon: <Icon icon={accountBoxMultiple} width={20} height={20} />,
+      component: <AccountEquipment />,
+    },
+    {
+      value: "dive_buddies",
+      icon: <Icon icon={accountBoxMultiple} width={20} height={20} />,
+      component: <AccountBuddies />,
+    },
+    {
+      value: "dive_log",
+      icon: <Icon icon={rawaccesslogsIcon} width={20} height={20} />,
+      component: <AccountDiveLog />,
     },
     {
       value: "change_password",

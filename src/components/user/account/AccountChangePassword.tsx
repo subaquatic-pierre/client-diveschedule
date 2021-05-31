@@ -1,13 +1,13 @@
-import * as Yup from 'yup';
-import { useSnackbar } from 'notistack';
-import { useFormik, Form, FormikProvider } from 'formik';
+import * as Yup from "yup";
+import { useSnackbar } from "notistack";
+import { useFormik, Form, FormikProvider } from "formik";
 // material
-import { Theme } from '@material-ui/core/styles';
-import { Box, Card, TextField } from '@material-ui/core';
-import { SxProps } from '@material-ui/system';
-import { LoadingButton } from '@material-ui/lab';
+import { Theme } from "@material-ui/core/styles";
+import { Box, Card, TextField } from "@material-ui/core";
+import { SxProps } from "@material-ui/system";
+import { LoadingButton } from "@material-ui/lab";
 // utils
-import fakeRequest from '../../../utils/fakeRequest';
+import fakeRequest from "../../../utils/fakeRequest";
 
 // ----------------------------------------------------------------------
 
@@ -16,34 +16,34 @@ type AccountChangePasswordProps = {
 };
 
 export default function AccountChangePassword({
-  sx
+  sx,
 }: AccountChangePasswordProps) {
   const { enqueueSnackbar } = useSnackbar();
 
   const ChangePassWordSchema = Yup.object().shape({
-    oldPassword: Yup.string().required('Old Password is required'),
+    oldPassword: Yup.string().required("Old Password is required"),
     newPassword: Yup.string()
-      .min(6, 'Password must be at least 6 characters')
-      .required('New Password is required'),
+      .min(6, "Password must be at least 6 characters")
+      .required("New Password is required"),
     confirmNewPassword: Yup.string().oneOf(
-      [Yup.ref('newPassword'), null],
-      'Passwords must match'
-    )
+      [Yup.ref("newPassword"), null],
+      "Passwords must match"
+    ),
   });
 
   const formik = useFormik({
     initialValues: {
-      oldPassword: '',
-      newPassword: '',
-      confirmNewPassword: ''
+      oldPassword: "",
+      newPassword: "",
+      confirmNewPassword: "",
     },
     validationSchema: ChangePassWordSchema,
     onSubmit: async (values, { setSubmitting }) => {
       await fakeRequest(500);
       setSubmitting(false);
       alert(JSON.stringify(values, null, 2));
-      enqueueSnackbar('Save success', { variant: 'success' });
-    }
+      enqueueSnackbar("Save success", { variant: "success" });
+    },
   });
 
   const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik;
@@ -53,7 +53,7 @@ export default function AccountChangePassword({
       <FormikProvider value={formik}>
         <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
           <TextField
-            {...getFieldProps('oldPassword')}
+            {...getFieldProps("oldPassword")}
             fullWidth
             autoComplete="on"
             type="password"
@@ -64,7 +64,7 @@ export default function AccountChangePassword({
           />
 
           <TextField
-            {...getFieldProps('newPassword')}
+            {...getFieldProps("newPassword")}
             fullWidth
             autoComplete="on"
             type="password"
@@ -72,13 +72,13 @@ export default function AccountChangePassword({
             error={Boolean(touched.newPassword && errors.newPassword)}
             helperText={
               (touched.newPassword && errors.newPassword) ||
-              'Password must be minimum 6+'
+              "Password must be minimum 6+"
             }
             sx={{ mb: 3 }}
           />
 
           <TextField
-            {...getFieldProps('confirmNewPassword')}
+            {...getFieldProps("confirmNewPassword")}
             fullWidth
             autoComplete="on"
             type="password"
@@ -90,7 +90,7 @@ export default function AccountChangePassword({
             sx={{ mb: 3 }}
           />
 
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
             <LoadingButton
               type="submit"
               variant="contained"
