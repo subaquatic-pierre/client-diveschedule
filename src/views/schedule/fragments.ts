@@ -4,7 +4,7 @@ export const profileFragment = gql`
   fragment ProfileFragment on UserType {
     profile {
       fullName
-      certificationLevel
+      certLevel
     }
   }
 `;

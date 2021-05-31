@@ -1,8 +1,8 @@
 export type Profile = {
   fullName: string;
-  certificationLevel: string;
+  certLevel: string;
   equipment: string;
-  phoneNumber: string;
+  phoneNumber?: string;
   photoURL?: string;
   role?: string;
   email?: string;

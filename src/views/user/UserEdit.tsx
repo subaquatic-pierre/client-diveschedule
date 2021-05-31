@@ -2,10 +2,11 @@ import { Icon } from "@iconify/react";
 import { useParams } from "react-router-dom";
 import { capitalCase } from "change-case";
 import { useState } from "react";
+import plusFill from "@iconify/icons-eva/plus-fill";
 import roundVpnKey from "@iconify/icons-ic/round-vpn-key";
 import roundAccountBox from "@iconify/icons-ic/round-account-box";
 // material
-import { Container, Tab, Box, Tabs } from "@material-ui/core";
+import { Container, Tab, Box, Tabs, Button } from "@material-ui/core";
 
 // routes
 import { PATH_DASHBOARD } from "../../routes/paths";
@@ -46,6 +47,15 @@ export default function UserAccount() {
             { name: "Users", href: PATH_DASHBOARD.user.list },
             { name: "Edit" },
           ]}
+          action={
+            <Button
+              variant="contained"
+              startIcon={<Icon icon={plusFill} width={20} height={20} />}
+              href={PATH_DASHBOARD.user.create}
+            >
+              New User
+            </Button>
+          }
         />
 
         <Tabs

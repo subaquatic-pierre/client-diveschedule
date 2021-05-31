@@ -119,7 +119,7 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
         return {
           ...oldData,
           userId: user?.id,
-          certificationLevel: user.profile.certificationLevel,
+          certLevel: user.profile.certLevel,
           equipment: user.profile.equipment,
           fullName: user?.profile?.fullName,
           instructorId: instructor?.id,
@@ -177,14 +177,14 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
           <TextField
             size="small"
             variant="outlined"
-            value={formData.certificationLevel}
+            value={formData.certLevel}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               handleFormChange(event)
             }
             onKeyUp={(event: React.KeyboardEvent) => handleEnterKeyUp(event)}
-            name="certificationLevel"
+            name="certLevel"
           >
-            {formData.certificationLevel}
+            {formData.certLevel}
           </TextField>
         </TableCell>
       ) : (

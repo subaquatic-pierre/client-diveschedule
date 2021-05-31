@@ -7,7 +7,7 @@ import { BaseController } from "..";
 
 export const defaultProfile: Profile = {
   fullName: "",
-  certificationLevel: "",
+  certLevel: "",
   equipment: "",
   phoneNumber: "",
   role: null,
@@ -35,6 +35,7 @@ export class UserController extends BaseController {
       setState({ loading: false, data: users, error: null });
     } else if (error) {
       setState({ loading: false, data: [], error: error.message });
+      this.setError(error.message);
     }
   };
 
@@ -45,6 +46,7 @@ export class UserController extends BaseController {
     const { data, error } = await this._performApolloRequest({
       query: GET_USER_PROFILE,
       variables: { id: parseInt(userId) },
+      fetchPolicy: "network-only",
     });
 
     if (data) {
@@ -84,25 +86,32 @@ export class UserController extends BaseController {
       variables,
     });
     if (data) {
-      console.log(data);
-      // setState({ data });
+      setState({
+        loading: false,
+        data: data.createUser.user.profile,
+        error: null,
+      });
+      this.setSuccess("User successfully created");
     } else if (error) {
-      console.log(error);
+      this.setError(error.message);
     }
   };
 
   // Create new user from dashboard
   updateProfile = async (variables, setState) => {
-    console.log(variables);
     const { data, error } = await this._performApolloRequest({
       mutation: UPDATE_PROFILE,
       variables,
     });
     if (data) {
-      console.log(data);
-      // setState({ data });
+      setState({
+        loading: false,
+        data: data.updateProfile.user.profile,
+        error: null,
+      });
+      this.setSuccess("User successfully updated");
     } else if (error) {
-      console.log(error);
+      this.setError(error.message);
     }
   };
 

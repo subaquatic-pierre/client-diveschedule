@@ -64,7 +64,7 @@ interface IProps extends WithStyles<typeof styles> {
 interface IFormData {
   equipment: string;
   fullName: string;
-  certificationLevel: string;
+  certLevel: string;
   email?: string;
 }
 
@@ -81,9 +81,7 @@ class Form extends React.Component<IProps, IState> {
       formData: {
         equipment: initialData ? initialData.profile.equipment : "",
         fullName: initialData ? initialData.profile.fullName : "",
-        certificationLevel: initialData
-          ? initialData.profile.certificationLevel
-          : "",
+        certLevel: initialData ? initialData.profile.certLevel : "",
         email: initialData ? initialData.email : "",
       },
       modalStyle: getModalStyle(),
@@ -107,7 +105,7 @@ class Form extends React.Component<IProps, IState> {
       ...oldState,
       formData: {
         ...oldState.formData,
-        certificationLevel: event.target.value,
+        certLevel: event.target.value,
       },
     }));
   };
@@ -191,8 +189,8 @@ class Form extends React.Component<IProps, IState> {
                   <Select
                     labelId="certification-level-input-label"
                     id="certification-level-input"
-                    value={formData.certificationLevel}
-                    name="certificationLevel"
+                    value={formData.certLevel}
+                    name="certLevel"
                     onChange={this.handleCertLevelChange}
                   >
                     <MenuItem value="OW">Open Water</MenuItem>

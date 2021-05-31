@@ -18,7 +18,7 @@ const buildUser = (viewer: User = defaultUser) => {
     id,
     isAdmin,
     email,
-    profile: { fullName, photoURL, certificationLevel, equipment },
+    profile: { fullName, photoURL, certLevel, equipment },
   } = viewer;
   return {
     ...defaultUser,
@@ -29,7 +29,7 @@ const buildUser = (viewer: User = defaultUser) => {
       fullName: replaceIfNull(fullName),
       role: isAdmin ? "admin" : "user",
       photoURL: replaceIfNull(photoURL),
-      certificationLevel: replaceIfNull(certificationLevel),
+      certLevel: replaceIfNull(certLevel),
       equipment: replaceIfNull(equipment),
       phoneNumber: replaceIfNull(viewer.profile.phoneNumber),
     },

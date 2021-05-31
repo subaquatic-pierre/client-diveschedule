@@ -5,14 +5,14 @@ export interface IFormData {
   [key: string]: string | number | undefined | any;
   fullName?: string;
   activity?: string;
-  certificationLevel?: string;
+  certLevel?: string;
   equipment?: string;
   instructorName?: string;
 }
 
 const initialFormData: IFormData = {
   fullName: "",
-  certificationLevel: "",
+  certLevel: "",
   instructorName: "",
   activity: "",
   equipment: "",
@@ -25,7 +25,7 @@ const buildFormData = (bookingData: IBooking): IFormData => {
     equipment,
     diver: {
       id,
-      profile: { fullName, certificationLevel },
+      profile: { fullName, certLevel },
     },
     instructor: {
       profile: { fullName: instructorName },
@@ -37,7 +37,7 @@ const buildFormData = (bookingData: IBooking): IFormData => {
     fullName,
     activity,
     equipment,
-    certificationLevel,
+    certLevel,
   };
 };
 

@@ -39,7 +39,7 @@ export const AUTH_VIEWER_QUERY = gql`
       profile {
         fullName
         equipment
-        certificationLevel
+        certLevel
       }
     }
   }

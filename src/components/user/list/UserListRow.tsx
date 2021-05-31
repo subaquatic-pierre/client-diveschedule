@@ -17,6 +17,11 @@ import {
 import { User } from "../../../@types/user";
 import { useState, MouseEvent } from "react";
 import { PATH_DASHBOARD } from "../../../routes/paths";
+import {
+  certLevelChoices,
+  equipmentChoices,
+  ModelChoiceField,
+} from "../account/AccountGeneral";
 
 type UserListRowProps = {
   user: User;
@@ -24,6 +29,11 @@ type UserListRowProps = {
   noUsersSelected: boolean;
   openDeleteDialog: () => void;
   handleSelectUserClick: (userId: string) => void;
+};
+
+const getLabel = (labelList: ModelChoiceField[], value): string => {
+  const choice = labelList.find((el) => el.value === value);
+  return choice.label;
 };
 
 export default function UserListRow({
@@ -37,7 +47,7 @@ export default function UserListRow({
   const {
     id: userId,
     email,
-    profile: { fullName, equipment, certificationLevel },
+    profile: { fullName, equipment, certLevel, phoneNumber },
   } = user;
 
   const handleMorePopoverOpen = (event: MouseEvent<HTMLButtonElement>) => {
@@ -78,7 +88,12 @@ export default function UserListRow({
             py: 2,
             display: "flex",
             alignItems: "center",
+            textDecoration: "none",
+            textTransform: "none",
+            color: "inherit",
           }}
+          component="a"
+          href={`${PATH_DASHBOARD.user.root}/edit/${userId}`}
         >
           <Box component={Avatar} alt={fullName} src={""} sx={{ mx: 2 }} />
           <Typography variant="subtitle2" noWrap>
@@ -88,13 +103,16 @@ export default function UserListRow({
       </TableCell>
 
       <TableCell>
+        <Typography noWrap>{phoneNumber}</Typography>
+      </TableCell>
+      <TableCell>
         <Typography noWrap>{email}</Typography>
       </TableCell>
       <TableCell>
-        <Typography noWrap>{certificationLevel}</Typography>
+        <Typography noWrap>{getLabel(certLevelChoices, certLevel)}</Typography>
       </TableCell>
       <TableCell>
-        <Typography noWrap>{equipment}</Typography>
+        <Typography noWrap>{getLabel(equipmentChoices, equipment)}</Typography>
       </TableCell>
 
       <TableCell align="right">

@@ -38,7 +38,7 @@ export const ScheduleTableGuideRow: React.FC<IBookingRowProps> = ({
         {profile.fullName}
       </TableCell>
       <TableCell align="right">GUIDE</TableCell>
-      <TableCell align="right">{profile.certificationLevel}</TableCell>
+      <TableCell align="right">{profile.certLevel}</TableCell>
       <TableCell align="right">{profile.equipment}</TableCell>
     </TableRow>
   );

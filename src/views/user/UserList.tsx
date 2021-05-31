@@ -49,8 +49,9 @@ import LoadingScreen from "../../components/LoadingScreen";
 
 const TABLE_HEAD = [
   { id: "name", label: "Name", alignRight: false },
+  { id: "phoneNumber", label: "Phone Number", alignRight: false },
   { id: "email", label: "Email", alignRight: false },
-  { id: "certificationLevel", label: "Certification Level", alignRight: false },
+  { id: "certLevel", label: "Certification Level", alignRight: false },
   { id: "equipment", label: "Equipment", alignRight: false },
   { id: "" },
 ];

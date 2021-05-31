@@ -10,7 +10,7 @@ const UserFragment = gql`
     password
     profile {
       fullName
-      certificationLevel
+      certLevel
       equipment
     }
   }
@@ -92,14 +92,14 @@ export const EDIT_USER = gql`
     $id: ID!
     $fullName: String
     $email: String
-    $certificationLevel: String
+    $certLevel: String
     $equipment: String
   ) {
     editUser(
       id: $id
       fullName: $fullName
       email: $email
-      certificationLevel: $certificationLevel
+      certLevel: $certLevel
       equipment: $equipment
     ) {
       user {
@@ -158,13 +158,13 @@ export const CREATE_USER = gql`
   mutation CreateUser(
     $fullName: String
     $email: String
-    $certificationLevel: String
+    $certLevel: String
     $equipment: String
   ) {
     createUser(
       fullName: $fullName
       email: $email
-      certificationLevel: $certificationLevel
+      certLevel: $certLevel
       equipment: $equipment
     ) {
       user {

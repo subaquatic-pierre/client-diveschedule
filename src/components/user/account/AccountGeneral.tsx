@@ -33,6 +33,28 @@ import { Profile } from "../../../@types/user";
 //
 // ----------------------------------------------------------------------
 
+export interface ModelChoiceField {
+  value: string;
+  label: string;
+}
+
+export const equipmentChoices: ModelChoiceField[] = [
+  { value: "FK", label: "Full Kit" },
+  { value: "TW", label: "Tanks and Weights" },
+  { value: "NO", label: "No Equipment" },
+];
+
+export const certLevelChoices: ModelChoiceField[] = [
+  { value: "OW", label: "Open Water" },
+  { value: "AOW", label: "Advanced Open Water" },
+  { value: "RD", label: "Rescue Diver" },
+  { value: "DEEP", label: "Deep Diver" },
+  { value: "TEC50", label: "Technical 50m" },
+  { value: "TRIMIX90", label: "Trimix 90m" },
+  { value: "DM", label: "Divemaster" },
+  { value: "INST", label: "Instructor" },
+];
+
 type AccountGeneralProps = {
   mode?: string;
   userIdProp?: string;
@@ -52,7 +74,7 @@ export default function AccountGeneral({
   const [userId, setUserId] = useState(userIdProp);
   const { user: authUser, isAuthenticated } = useAuth();
 
-  const [{ data: user, loading, error }, setState] = useFetchStatus<Profile>();
+  const [{ data: userProfile, loading }, setState] = useFetchStatus<Profile>();
 
   // Controllers
   const {
@@ -70,10 +92,6 @@ export default function AccountGeneral({
     email: Yup.string()
       .email("Email must be a valid email address")
       .required("Email is required"),
-    certificationLevel: Yup.string().required(
-      "Certification Level is required"
-    ),
-    equipment: Yup.string().required("Equipment is required"),
   });
 
   const formik = useFormik<FormState>({
@@ -86,8 +104,17 @@ export default function AccountGeneral({
           case "create":
             await createUser({ ...values } as CreateUserParams, setState);
             break;
+          case "edit":
+            await updateProfile(
+              { ...values, userId } as CreateUserParams,
+              setState
+            );
+            break;
           case "account":
-            await updateProfile({ ...values } as CreateUserParams, setState);
+            await updateProfile(
+              { ...values, userId } as CreateUserParams,
+              setState
+            );
             break;
           default:
             setError("Account create mode not defined");
@@ -129,18 +156,14 @@ export default function AccountGeneral({
   }, [userId]);
 
   useEffect(() => {
-    if (user) {
-      const formData = buildFormData(user, setError);
+    if (userProfile) {
+      const formData = buildFormData(userProfile, setError);
       setFormState(formData);
     }
-  }, [user]);
+  }, [userProfile]);
 
   if (loading) {
     return <LoadingScreen />;
-  }
-
-  if (error) {
-    setError(error);
   }
 
   return (
@@ -182,7 +205,6 @@ export default function AccountGeneral({
                   <Grid item xs={12} sm={6}>
                     <TextField
                       fullWidth
-                      disabled={mode !== "create"}
                       label="Email Address"
                       {...getFieldProps("email")}
                       error={Boolean(touched.email && errors.email)}
@@ -209,18 +231,13 @@ export default function AccountGeneral({
                         labelId="certLevel"
                         fullWidth
                         label="Certification Level"
-                        {...getFieldProps("certificationLevel")}
+                        {...getFieldProps("certLevel")}
                       >
-                        <MenuItem value="openWater">Open Water</MenuItem>
-                        <MenuItem value="advancedOpenWater">
-                          Advanced Open Water
-                        </MenuItem>
-                        <MenuItem value="deepSpecialty">
-                          Deep Specialty
-                        </MenuItem>
-                        <MenuItem value="rescueDiver">Rescue Diver</MenuItem>
-                        <MenuItem value="diveMaster">Dive Master</MenuItem>
-                        <MenuItem value="instructor">Instructor</MenuItem>
+                        {certLevelChoices.map((choice) => (
+                          <MenuItem key={choice.value} value={choice.value}>
+                            {choice.label}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   </Grid>
@@ -234,13 +251,11 @@ export default function AccountGeneral({
                         label="Certification Level"
                         {...getFieldProps("equipment")}
                       >
-                        <MenuItem value="fullEquipment">
-                          Full Equipment
-                        </MenuItem>
-                        <MenuItem value="tanksAndWeights">
-                          Tanks and Weights
-                        </MenuItem>
-                        <MenuItem value="noEquipment">No Equipment</MenuItem>
+                        {equipmentChoices.map((choice) => (
+                          <MenuItem key={choice.value} value={choice.value}>
+                            {choice.label}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   </Grid>

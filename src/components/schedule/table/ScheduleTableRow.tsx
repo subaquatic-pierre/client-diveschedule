@@ -50,7 +50,7 @@ export const ScheduleTableRow: React.FC<IBookingRowProps> = ({
     time,
     diver: {
       email,
-      profile: { fullName, certificationLevel },
+      profile: { fullName, certLevel },
     },
     activity,
     equipment,
@@ -110,7 +110,7 @@ export const ScheduleTableRow: React.FC<IBookingRowProps> = ({
       </TableCell>
       <TableCell align="right">{activity}</TableCell>
       {isBoatBooking ? (
-        <TableCell align="right">{certificationLevel}</TableCell>
+        <TableCell align="right">{certLevel}</TableCell>
       ) : (
         <TableCell align="right">{instructorName}</TableCell>
       )}

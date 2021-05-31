@@ -20,8 +20,8 @@ const mocks: IMocks[] = [
     request: {
       query: GET_DAY,
       variables: {
-        name: "Buck"
-      }
+        name: "Buck",
+      },
     },
     result: () => ({
       data: {
@@ -37,9 +37,9 @@ const mocks: IMocks[] = [
                 {
                   profile: {
                     fullName: "Pierre du Toit",
-                    certificationLevel: "OW"
-                  }
-                }
+                    certLevel: "OW",
+                  },
+                },
               ],
               bookingSet: [
                 {
@@ -50,9 +50,9 @@ const mocks: IMocks[] = [
                   diver: {
                     profile: {
                       fullName: "Pierre du Toit",
-                      certificationLevel: "OW"
-                    }
-                  }
+                      certLevel: "OW",
+                    },
+                  },
                 },
                 {
                   id: "39",
@@ -62,11 +62,11 @@ const mocks: IMocks[] = [
                   diver: {
                     profile: {
                       fullName: "Hilton Life",
-                      certificationLevel: "AOW"
-                    }
-                  }
-                }
-              ]
+                      certLevel: "AOW",
+                    },
+                  },
+                },
+              ],
             },
             {
               tripType: "POOL",
@@ -81,23 +81,23 @@ const mocks: IMocks[] = [
                   instructor: {
                     profile: {
                       fullName: "Edward Gunson",
-                      certificationLevel: "DM"
-                    }
+                      certLevel: "DM",
+                    },
                   },
                   diver: {
                     profile: {
                       fullName: "Luke Eee",
-                      certificationLevel: "OW"
-                    }
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      }
-    })
-  }
+                      certLevel: "OW",
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      },
+    }),
+  },
 ];
 
 describe("Blank schedule page layout test", () => {

@@ -3,7 +3,7 @@ export interface FormState {
   fullName: string;
   email: string;
   equipment: string;
-  certificationLevel: string;
+  certLevel: string;
   phoneNumber: string;
 }
 
@@ -12,7 +12,7 @@ export const emptyFormVals: FormState = {
   email: "",
   phoneNumber: "",
   equipment: "",
-  certificationLevel: "",
+  certLevel: "",
 };
 
 export const buildFormData = (
@@ -20,13 +20,13 @@ export const buildFormData = (
   setError: (message: string) => void
 ): FormState => {
   try {
-    const { fullName, equipment, certificationLevel, email } = profile;
+    const { fullName, equipment, certLevel, email, phoneNumber } = profile;
     return {
       fullName: fullName ? fullName : "Default",
       email: email,
-      phoneNumber: "Default",
+      phoneNumber: phoneNumber ? phoneNumber : "Default",
       equipment: equipment ? equipment : "",
-      certificationLevel: certificationLevel ? certificationLevel : "",
+      certLevel: certLevel ? certLevel : "",
     };
   } catch (error) {
     setError(`Build from error: ${error.message}`);

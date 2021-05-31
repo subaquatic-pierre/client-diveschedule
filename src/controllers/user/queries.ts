@@ -6,7 +6,7 @@ const UserFragment = gql`
     password
     profile {
       fullName
-      certificationLevel
+      certLevel
       equipment
     }
   }
@@ -17,7 +17,8 @@ export const GET_USER_PROFILE = gql`
     userProfile(userId: $id) {
       email
       fullName
-      certificationLevel
+      certLevel
+      phoneNumber
       equipment
     }
   }
@@ -33,7 +34,8 @@ export const USER_LIST_QUERY = gql`
           password
           profile {
             fullName
-            certificationLevel
+            certLevel
+            phoneNumber
             equipment
           }
         }
@@ -53,36 +55,59 @@ export const DELETE_USERS = gql`
 
 export const CREATE_USER = gql`
   mutation CreateUser(
+    $email: String!
     $fullName: String
-    $email: String
     $certLevel: String
     $equipment: String
+    $phoneNumber: String
   ) {
     createUser(
-      fullName: $fullName
       email: $email
+      fullName: $fullName
       certLevel: $certLevel
       equipment: $equipment
+      phoneNumber: $phoneNumber
     ) {
-      dummy
+      user {
+        id
+        email
+        profile {
+          fullName
+          email
+        }
+      }
     }
   }
 `;
 
 export const UPDATE_PROFILE = gql`
   mutation UpdateProfile(
+    $userId: ID!
     $fullName: String
     $email: String
     $certLevel: String
     $equipment: String
+    $phoneNumber: String
   ) {
     updateProfile(
+      userId: $userId
       fullName: $fullName
       email: $email
       certLevel: $certLevel
+      phoneNumber: $phoneNumber
       equipment: $equipment
     ) {
-      dummy
+      user {
+        id
+        email
+        profile {
+          fullName
+          email
+          certLevel
+          phoneNumber
+          equipment
+        }
+      }
     }
   }
 `;

@@ -11,7 +11,7 @@ export const CREATE_BOOKING = gql`
           email
           profile {
             fullName
-            certificationLevel
+            certLevel
           }
         }
       }
@@ -30,7 +30,7 @@ export const EDIT_BOOKING = gql`
           email
           profile {
             fullName
-            certificationLevel
+            certLevel
           }
         }
       }

@@ -25,7 +25,7 @@ export interface INote {
 export interface IProfile {
   id: number;
   fullName: string;
-  certificationLevel: string;
+  certLevel: string;
   equipment: string;
 }
 
