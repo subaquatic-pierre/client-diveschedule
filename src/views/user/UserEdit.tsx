@@ -3,10 +3,11 @@ import { useParams } from "react-router-dom";
 import { capitalCase } from "change-case";
 import { useState } from "react";
 import plusFill from "@iconify/icons-eva/plus-fill";
+import divingScubaFlag from "@iconify-icons/mdi/diving-scuba-flag";
 import roundVpnKey from "@iconify/icons-ic/round-vpn-key";
 import roundAccountBox from "@iconify/icons-ic/round-account-box";
 import rawaccesslogsIcon from "@iconify-icons/whh/rawaccesslogs";
-import certificateLine from "@iconify-icons/clarity/certificate-line";
+import divingScubaTankMultiple from "@iconify-icons/mdi/diving-scuba-tank-multiple";
 import accountBoxMultiple from "@iconify-icons/mdi/account-box-multiple";
 // material
 import { Container, Tab, Box, Tabs, Button } from "@material-ui/core";
@@ -39,12 +40,12 @@ export default function UserAccount() {
     },
     {
       value: "certifications",
-      icon: <Icon icon={certificateLine} width={20} height={20} />,
+      icon: <Icon icon={divingScubaFlag} width={20} height={20} />,
       component: <AccountCertification />,
     },
     {
       value: "equipment",
-      icon: <Icon icon={accountBoxMultiple} width={20} height={20} />,
+      icon: <Icon icon={divingScubaTankMultiple} width={20} height={20} />,
       component: <AccountEquipment />,
     },
     {
