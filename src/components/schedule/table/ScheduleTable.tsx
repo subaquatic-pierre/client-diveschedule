@@ -145,7 +145,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
                 numCol={getHeadFields(tableType).length + 2}
               />
             ) : (
-              <TableBody>
+              <TableBody sx={{ minHeight: "400px" }}>
                 {bookings.map((bookingData: IBooking, index) => {
                   if (bookingData.id === editingBookingId) {
                     return (

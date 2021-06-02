@@ -14,6 +14,7 @@ import { IBooking, IProfile } from "../../../views/schedule/schedule";
 const useStyles = makeStyles((theme) => ({
   guideRow: {
     backgroundColor: "#FAFF88",
+    marginTop: "100px",
   },
 }));
 

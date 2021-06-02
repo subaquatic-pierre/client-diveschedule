@@ -301,7 +301,7 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
           <Grid item xs={12} />
         </Grid>
       </Grid>
-      {/* <Grid className={classes.buttonContainer} container justify="center">
+      <Grid className={classes.buttonContainer} container justify="center">
         <Button
           variant="contained"
           color="primary"
@@ -312,7 +312,7 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
         <Button variant="contained" onClick={handleClose} color="secondary">
           Cancel
         </Button>
-      </Grid> */}
+      </Grid>
     </>
   );
 };
