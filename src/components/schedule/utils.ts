@@ -1,8 +1,4 @@
-import {
-  IBooking,
-  IDiveTripDetail,
-  IUser,
-} from "../../views/schedule/schedule";
+import { IBooking, IDiveTripDetail, IUser } from "../../@types/schedule";
 import { formatDate } from "../../utils/date";
 import { IFormData } from "./hooks";
 

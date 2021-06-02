@@ -10,7 +10,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { SEARCH_USERS } from "../queries";
 import { AutoCompleteSearch } from "../../AutoCompleteSearch";
 import { UserSearchInput } from "../UserSearchInput";
-import { IBooking, IUser } from "../../../views/schedule/schedule";
+import { IBooking, IDiveTripDetail, IUser } from "../../../@types/schedule";
 import { useFormData, IFormData } from "../hooks";
 import {
   ICreateBooking,

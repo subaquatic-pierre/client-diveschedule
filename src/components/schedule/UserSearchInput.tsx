@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from "react";
 
 import { AutoCompleteSearch } from "../AutoCompleteSearch";
 import { getUser, getUserOptions } from "./utils";
-import { IUser } from "../../views/schedule/schedule";
+import { IUser } from "../../@types/schedule";
 import { SEARCH_USERS } from "./queries";
 
 interface IUserSearchInputProps {

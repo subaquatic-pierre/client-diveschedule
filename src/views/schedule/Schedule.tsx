@@ -7,7 +7,7 @@ import { formatDate } from "../../utils/date";
 // components
 import Page from "../../components/Page";
 import HeaderDashboard from "../../components/HeaderDashboard";
-import { IBooking, IDay, IDiveTripDetail } from "./schedule";
+import { IBooking, IDay, IDiveTripDetail } from "../../@types/schedule";
 import { ScheduleTable } from "../../components/schedule/table/ScheduleTable";
 import { ScheduleInfoBar } from "../../components/schedule/ScheduleInfoBar";
 

@@ -1,4 +1,4 @@
-import { IBooking } from "./schedule";
+import { IBooking } from "../../@types/schedule";
 
 export const filterBookings = (
   bookings: IBooking[],
