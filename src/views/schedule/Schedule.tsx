@@ -1,9 +1,7 @@
-import React from "react";
-import { Icon } from "@iconify/react";
-import plusFill from "@iconify/icons-eva/plus-fill";
+import React, { useState } from "react";
 import { PATH_DASHBOARD } from "../../routes/paths";
 import { useQuery } from "@apollo/client";
-import { Grid, Button, Container } from "@material-ui/core";
+import { Grid, Container } from "@material-ui/core";
 import { formatDate } from "../../utils/date";
 
 // components
@@ -12,7 +10,6 @@ import HeaderDashboard from "../../components/HeaderDashboard";
 import { IBooking, IDay, IDiveTripDetail } from "./schedule";
 import { ScheduleTable } from "../../components/schedule/table/ScheduleTable";
 import { ScheduleInfoBar } from "../../components/schedule/ScheduleInfoBar";
-import { EditDiverModal } from "../../components/schedule/EditDiverModal";
 
 import { GET_DAY } from "./queries";
 
@@ -29,14 +26,8 @@ export default function Schedule() {
     }
   );
 
-  const handleAddBooking = () => {};
-
   const handleOpenEditDiverModal = () => {
     setEditDiverModalOpen(true);
-  };
-
-  const handleCloseEditDiverModal = () => {
-    setEditDiverModalOpen(false);
   };
 
   const isDayReady = (): boolean => {
@@ -108,15 +99,6 @@ export default function Schedule() {
             { name: "Dashboard", href: PATH_DASHBOARD.root },
             { name: "Schedule" },
           ]}
-          action={
-            <Button
-              variant="contained"
-              startIcon={<Icon icon={plusFill} width={20} height={20} />}
-              onClick={handleAddBooking}
-            >
-              New Booking
-            </Button>
-          }
         />
 
         <Grid item xs={12}>
@@ -178,11 +160,6 @@ export default function Schedule() {
               handleOpenEditDiverModal={handleOpenEditDiverModal}
             />
           </Grid>
-
-          <EditDiverModal
-            open={editDiverModalOpen}
-            handleClose={handleCloseEditDiverModal}
-          />
         </Grid>
       </Container>
     </Page>

@@ -19,6 +19,8 @@ import Calendar from "react-calendar";
 import { formatDate } from "../../utils/date";
 
 import { DAY_QUERY } from "./queries";
+import { PATH_DASHBOARD } from "../../routes/paths";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -52,6 +54,7 @@ export const ScheduleInfoBar: React.FC<IScheduleInfoBarProps> = ({
   selectedDate,
   handleOpenEditDiverModal,
 }) => {
+  const history = useHistory();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   useQuery(DAY_QUERY, {
@@ -98,7 +101,7 @@ export const ScheduleInfoBar: React.FC<IScheduleInfoBarProps> = ({
           <div>
             <Tooltip title="Create Diver">
               <IconButton
-                onClick={handleOpenEditDiverModal}
+                onClick={() => history.push(PATH_DASHBOARD.user.create)}
                 aria-label="create diver"
               >
                 <PersonAddIcon />

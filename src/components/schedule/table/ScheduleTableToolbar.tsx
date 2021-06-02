@@ -14,7 +14,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { IDiveTripDetail } from "../../../views/schedule/schedule";
-import { EditTripDetailForm } from "../EditTripDetailForm";
+import { EditTripDetailForm } from "./ScheduleTableEditTripDetailForm";
 import { getToolbarHeading } from "../utils";
 import useAuth from "../../../hooks/useAuth";
 

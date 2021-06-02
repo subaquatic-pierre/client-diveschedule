@@ -8,7 +8,8 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import Tooltip from "@material-ui/core/Tooltip";
 
 import { SEARCH_USERS } from "../queries";
-import { AutoCompleteSearch } from "../AutoCompleteSearch";
+import { AutoCompleteSearch } from "../../AutoCompleteSearch";
+import { UserSearchInput } from "../UserSearchInput";
 import { IBooking, IUser } from "../../../views/schedule/schedule";
 import { useFormData, IFormData } from "../hooks";
 import {
@@ -145,18 +146,7 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
         style={{ minWidth: "200px" }}
         padding="none"
       >
-        <AutoCompleteSearch
-          name="user"
-          label="Full Name"
-          handleOpenEditDiverModal={handleOpenEditDiverModal}
-          setObject={setUser}
-          getObject={getUser}
-          getOptions={getUserOptions}
-          createObjectPlaceholder="Create User"
-          queryFieldName="fullName"
-          gqlQuery={SEARCH_USERS}
-          autoFocus
-        />
+        <UserSearchInput size="small" setObject={setUser as any} />
       </TableCell>
       <TableCell style={{ maxWidth: "100px" }} align="right">
         <TextField

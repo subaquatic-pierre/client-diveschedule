@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
 
-import { AutoCompleteSearch } from "../schedule/AutoCompleteSearch";
+import { AutoCompleteSearch } from "../AutoCompleteSearch";
 import { getUser, getUserOptions } from "./utils";
 import { IUser } from "../../views/schedule/schedule";
 import { SEARCH_USERS } from "./queries";

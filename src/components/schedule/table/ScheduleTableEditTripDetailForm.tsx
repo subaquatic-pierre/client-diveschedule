@@ -21,11 +21,11 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import DoneIcon from "@material-ui/icons/Done";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { IDiveTripDetail, IUser } from "../../views/schedule/schedule";
-import { UserSearchInput } from "./UserSearchInput";
-import { EDIT_DIVE_TRIP_DETAIL, CREATE_DIVE_TRIP_DETAIL } from "./mutations";
-import { buildFormData } from "./utils";
-import { useBaseMutation } from "../../hooks/baseMutation";
+import { IDiveTripDetail, IUser } from "../../../views/schedule/schedule";
+import { UserSearchInput } from "../UserSearchInput";
+import { EDIT_DIVE_TRIP_DETAIL, CREATE_DIVE_TRIP_DETAIL } from "../mutations";
+import { buildFormData } from "../utils";
+import { useBaseMutation } from "../../../hooks/baseMutation";
 
 const siteOptions = [
   "Artificial Reef",
@@ -301,16 +301,13 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
           <Grid item xs={12} />
         </Grid>
       </Grid>
-      <Grid className={classes.buttonContainer} container justify="center">
+      <Grid>
         <Button
           variant="contained"
           color="primary"
           onClick={handleSaveTripDetail}
         >
           Confirm
-        </Button>
-        <Button variant="contained" onClick={handleClose} color="secondary">
-          Cancel
         </Button>
       </Grid>
     </>
