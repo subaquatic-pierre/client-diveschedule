@@ -1,6 +1,8 @@
 import { ApolloClient, DocumentNode, FetchPolicy } from "@apollo/client";
 import { Dispatch, SetStateAction } from "react";
 import { messagesController } from "./messages";
+import { LoadingState } from "../hooks/useFetchStatus";
+
 import NProgress from "nprogress";
 
 export interface SetState<TData>

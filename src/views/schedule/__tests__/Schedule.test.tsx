@@ -1,7 +1,10 @@
 import { DocumentNode } from "@apollo/client";
 import { render } from "../../../testUtils";
-import { CREATE_BOOKING, DELETE_BOOKING } from "../mutations";
-import { GET_DAY } from "../queries";
+import {
+  CREATE_BOOKING,
+  DELETE_BOOKING,
+  GET_DAY,
+} from "../../../controllers/schedule/queries";
 import { Schedule } from "../Schedule";
 
 // Test the pipeline works on push
@@ -28,9 +31,9 @@ const mocks: IMocks[] = [
         day: {
           teamMembersOff: [],
           noteSet: [],
-          tripdetailSet: [
+          activitydetailSet: [
             {
-              tripType: "AM_BOAT",
+              activityType: "AM_BOAT",
               diveSite1: "Inchcape 1",
               diveSite2: "Inchcape 2",
               diveGuides: [
@@ -44,7 +47,7 @@ const mocks: IMocks[] = [
               bookingSet: [
                 {
                   id: "38",
-                  activity: "PD",
+                  diverRole: "PD",
                   equipment: "FK",
                   instructor: null,
                   diver: {
@@ -56,7 +59,7 @@ const mocks: IMocks[] = [
                 },
                 {
                   id: "39",
-                  activity: "PD",
+                  diverRole: "PD",
                   equipment: "FK",
                   instructor: null,
                   diver: {
@@ -69,14 +72,14 @@ const mocks: IMocks[] = [
               ],
             },
             {
-              tripType: "POOL",
+              activityType: "POOL",
               diveSite1: null,
               diveSite2: null,
               diveGuides: [],
               bookingSet: [
                 {
                   id: "40",
-                  activity: "OWC",
+                  diverRole: "OWC",
                   equipment: "FK",
                   instructor: {
                     profile: {

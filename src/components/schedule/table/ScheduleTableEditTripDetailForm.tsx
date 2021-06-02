@@ -91,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
 export interface IFormData {
   [key: string]: any;
   id?: number;
-  tripType?: string;
+  activityType?: string;
   date?: string;
   diveSite1?: string;
   diveSite2?: string;
@@ -160,7 +160,7 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
       diveSite2: formData.diveSite2,
       id: formData.id,
       time: formData.time,
-      tripType: formData.tripType,
+      activityType: formData.activityType,
     };
     console.log(vars);
     if (isEditTrip()) {

@@ -45,14 +45,14 @@ export const ScheduleTableRow: React.FC<IBookingRowProps> = ({
   bookingData,
 }) => {
   const {
-    tripDetail: { tripType },
+    activityDetail: { activityType },
     id,
     time,
     diver: {
       email,
       profile: { fullName, certLevel },
     },
-    activity,
+    diverRole,
     equipment,
   } = bookingData;
 
@@ -88,7 +88,8 @@ export const ScheduleTableRow: React.FC<IBookingRowProps> = ({
     handleMoreMenuClose();
   };
 
-  const isBoatBooking = tripType === "AM_BOAT" || tripType === "PM_BOAT";
+  const isBoatBooking =
+    activityType === "AM_BOAT" || activityType === "PM_BOAT";
 
   return (
     <TableRow
@@ -108,7 +109,7 @@ export const ScheduleTableRow: React.FC<IBookingRowProps> = ({
       <TableCell component="th" id={email} scope="row" padding="none">
         {fullName}
       </TableCell>
-      <TableCell align="right">{activity}</TableCell>
+      <TableCell align="right">{diverRole}</TableCell>
       {isBoatBooking ? (
         <TableCell align="right">{certLevel}</TableCell>
       ) : (

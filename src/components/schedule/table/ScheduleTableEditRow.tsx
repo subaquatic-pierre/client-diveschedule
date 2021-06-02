@@ -67,10 +67,13 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
   const isBoatBooking = tableType === "AM_BOAT" || tableType === "PM_BOAT";
 
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((oldState: IFormData) => ({
-      ...oldState,
-      [event.target.name]: event.target.value,
-    }));
+    setFormData((oldState: IFormData) => {
+      console.log(oldState);
+      return {
+        ...oldState,
+        [event.target.name]: event.target.value,
+      };
+    });
   };
 
   const isValidBookingData = (data: IFormData) => {
@@ -152,14 +155,14 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
         <TextField
           size="small"
           variant="outlined"
-          value={formData.activity}
+          value={formData.diverRole}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
             handleFormChange(event)
           }
           onKeyUp={(event: React.KeyboardEvent) => handleEnterKeyUp(event)}
-          name="activity"
+          name="diverRole"
         >
-          {formData.activity}
+          {formData.diverRole}
         </TextField>
       </TableCell>
       {isBoatBooking ? (

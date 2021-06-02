@@ -4,7 +4,7 @@ import { IBooking } from "../../@types/schedule";
 export interface IFormData {
   [key: string]: string | number | undefined | any;
   fullName?: string;
-  activity?: string;
+  diverRole?: string;
   certLevel?: string;
   equipment?: string;
   instructorName?: string;
@@ -14,14 +14,14 @@ const initialFormData: IFormData = {
   fullName: "",
   certLevel: "",
   instructorName: "",
-  activity: "",
+  diverRole: "",
   equipment: "",
   time: "",
 };
 
 const buildFormData = (bookingData: IBooking): IFormData => {
   const {
-    activity,
+    diverRole,
     equipment,
     diver: {
       id,
@@ -35,7 +35,7 @@ const buildFormData = (bookingData: IBooking): IFormData => {
     userId: id,
     instructorName,
     fullName,
-    activity,
+    diverRole,
     equipment,
     certLevel,
   };

@@ -1,8 +1,13 @@
 import { Profile, User } from "../../@types/user";
 import { IUserControls } from "./types";
-import { GET_USER_PROFILE, USER_LIST_QUERY, DELETE_USERS } from "./queries";
+import {
+  GET_USER_PROFILE,
+  USER_LIST_QUERY,
+  DELETE_USERS,
+  CREATE_USER,
+  UPDATE_PROFILE,
+} from "./queries";
 import { normalizeUserList, filterDeletedUsers } from "./utils";
-import { CREATE_USER, UPDATE_PROFILE } from "./queries";
 import { BaseController } from "..";
 import { PATH_DASHBOARD } from "../../routes/paths";
 

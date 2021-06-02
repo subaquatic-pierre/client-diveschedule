@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { PATH_DASHBOARD } from "../../routes/paths";
-import { useQuery } from "@apollo/client";
+import { useApolloClient, useQuery } from "@apollo/client";
 import { Grid, Container } from "@material-ui/core";
 import { formatDate } from "../../utils/date";
 
@@ -8,14 +8,24 @@ import { formatDate } from "../../utils/date";
 import Page from "../../components/Page";
 import HeaderDashboard from "../../components/HeaderDashboard";
 import { IBooking, IDay, IDiveTripDetail } from "../../@types/schedule";
+
+// schedule components
 import { ScheduleTable } from "../../components/schedule/table/ScheduleTable";
 import { ScheduleInfoBar } from "../../components/schedule/ScheduleInfoBar";
 
-import { GET_DAY } from "./queries";
+import { GET_DAY } from "../../controllers/schedule/queries";
+import { BookingMeta } from "../../controllers/schedule/types";
+import useFetchStatus from "../../hooks/useFetchStatus";
+import { ScheduleController } from "../../controllers/schedule";
 
 export default function Schedule() {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
+  const client = useApolloClient();
   const [editDiverModalOpen, setEditDiverModalOpen] = React.useState(false);
+
+  const [{ data: bookingData }, setData] = useFetchStatus<BookingMeta[]>();
+  const { getDailyActivityMeta } = ScheduleController.getControls(client);
+
   const { data: dayData, loading: loadingDay, refetch: refetchDay } = useQuery(
     GET_DAY,
     {
@@ -62,15 +72,15 @@ export default function Schedule() {
       time: getTripTime(tableType),
       day: { date: selectedDate },
       bookingSet: [] as IBooking[],
-      tripType: tableType,
+      activityType: tableType,
     };
     if (!isDayReady()) return blankTripDetail;
     const day = getDay();
-    const tripDetail = day.tripdetailSet?.filter(
-      (trip: IDiveTripDetail) => trip.tripType === tableType
+    const activityDetail = day.activitydetailSet?.filter(
+      (trip: IDiveTripDetail) => trip.activityType === tableType
     );
-    if (tripDetail && tripDetail.length === 0) return blankTripDetail;
-    if (tripDetail) return tripDetail[0];
+    if (activityDetail && activityDetail.length === 0) return blankTripDetail;
+    if (activityDetail) return activityDetail[0];
   };
 
   React.useEffect(() => {
@@ -88,6 +98,10 @@ export default function Schedule() {
       const date = new Date(currentDay);
       setSelectedDate(date);
     }
+
+    // Use schedule controller
+    console.log(currentDay);
+    // getDailyActivityMeta(formatDate(new Date(currentDay), "server"), setData);
   }, []);
 
   return (

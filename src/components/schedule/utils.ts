@@ -5,7 +5,7 @@ import { IFormData } from "./hooks";
 export const buildFormData = (diveTripDetail: IDiveTripDetail): IFormData => {
   const date = formatDate(diveTripDetail.day.date, "server");
   const initialFormData: IFormData = {
-    tripType: diveTripDetail.tripType,
+    activityType: diveTripDetail.activityType,
     date,
     diveSite1: "",
     diveSite2: "",
@@ -27,7 +27,7 @@ export const buildFormData = (diveTripDetail: IDiveTripDetail): IFormData => {
     id: diveTripDetail.id,
     time: diveTripDetail.time,
     date,
-    tripType: diveTripDetail.tripType,
+    activityType: diveTripDetail.activityType,
     diveSite1: site1,
     diveSite2: site2,
     diveGuides: diveTripDetail.diveGuides as IUser[],
@@ -69,14 +69,14 @@ export const formatSiteName = (siteName: string | undefined): string => {
 
 export const getToolbarHeading = (
   tableType: string,
-  tripDetail?: IDiveTripDetail
+  activityDetail?: IDiveTripDetail
 ): string => {
-  const { id, diveSite1, diveSite2, time } = tripDetail as IDiveTripDetail;
+  const { id, diveSite1, diveSite2, time } = activityDetail as IDiveTripDetail;
 
   const diveSites = diveSite1 !== null || diveSite2 !== null;
   const isTripDefined = id !== -1;
 
-  // console.log(tripDetail);
+  // console.log(activityDetail);
 
   switch (tableType) {
     case "AM_BOAT":
@@ -106,21 +106,21 @@ export const getToolbarHeading = (
 
 export const boatBookingHeadFields: string[] = [
   "Diver Name",
-  "Activity",
+  "Role",
   "Cert Level",
   "Equipment",
 ];
 
 export const trainingHeadFields: string[] = [
   "Diver Name",
-  "Activity",
+  "Role",
   "Instructor",
   "Equipment",
   "Time",
 ];
 
-export const getHeadFields = (tripType: string): string[] => {
-  switch (tripType) {
+export const getHeadFields = (activityType: string): string[] => {
+  switch (activityType) {
     case "AM_BOAT":
       return boatBookingHeadFields;
     case "PM_BOAT":
@@ -146,10 +146,10 @@ export const getUser = (userName: string, data: any): IUser | undefined => {
 
 export interface IBaseBooking {
   [key: string]: any | undefined;
-  activity: string;
+  diverRole: string;
   equipment: string;
   id?: number;
-  tripType?: string;
+  activityType?: string;
   date?: string;
   time?: string;
   instructorId?: number;
@@ -161,13 +161,13 @@ export interface IEditBooking extends IBaseBooking {}
 
 export const buildCreateBookingData = (
   formData: IFormData,
-  tripType: string,
+  activityType: string,
   date: Date
 ): ICreateBooking => {
-  const { userId, activity, equipment, time, instructorId } = formData;
+  const { userId, diverRole, equipment, time, instructorId } = formData;
   return {
-    activity: activity as string,
-    tripType,
+    diverRole: diverRole as string,
+    activityType,
     date: formatDate(date, "server"),
     userId,
     equipment: equipment as string,
@@ -180,11 +180,11 @@ export const buildEditBookingData = (
   formData: IFormData,
   bookingData: IBooking
 ): IEditBooking => {
-  const { equipment, activity } = formData;
+  const { equipment, diverRole } = formData;
   const mutationData = {
     id: bookingData.id,
     equipment,
-    activity,
+    diverRole,
   };
 
   return mutationData as any;

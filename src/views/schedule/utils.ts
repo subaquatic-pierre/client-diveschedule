@@ -4,4 +4,4 @@ export const filterBookings = (
   bookings: IBooking[],
   filterString: string
 ): IBooking[] =>
-  bookings.filter((booking: IBooking) => booking.tripType === filterString);
+  bookings.filter((booking: IBooking) => booking.activityType === filterString);

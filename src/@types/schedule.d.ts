@@ -12,7 +12,7 @@ export interface IDay {
   date: Date;
   teamMembersOff?: IUser[];
   noteSet?: INote[];
-  tripdetailSet?: ITripDetail[];
+  activitydetailSet?: ITripDetail[];
 }
 
 export interface INote {
@@ -37,11 +37,11 @@ export interface IUser {
 
 export interface IBooking extends IObjectKeys {
   id: number;
-  tripDetail: IDiveTripDetail;
+  activityDetail: IDiveTripDetail;
   time: string;
   initiatedDate: Date;
   bookedBy: IUser;
-  activity: string;
+  diverRole: string;
   bookingStatus: string;
   equipment: string;
   diver: IUser;
@@ -52,7 +52,7 @@ export interface IBooking extends IObjectKeys {
 export interface IDiveTripDetail {
   id: number;
   day: IDay;
-  tripType?: string;
+  activityType?: string;
   bookingSet: IBooking[];
   diveSite1?: string;
   diveSite2?: string;

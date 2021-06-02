@@ -32,18 +32,18 @@ export const CREATE_BOOKING = gql`
   ${bookingFragment}
   ${profileFragment}
   mutation CreateBooking(
-    $activity: String!
+    $diverRole: String!
     $userId: ID!
-    $tripType: String!
+    $activityType: String!
     $date: Date!
     $equipment: String
     $time: String!
     $instructorId: ID
   ) {
     createBooking(
-      activity: $activity
+      diverRole: $diverRole
       userId: $userId
-      tripType: $tripType
+      activityType: $activityType
       date: $date
       equipment: $equipment
       time: $time
@@ -61,8 +61,8 @@ export const EDIT_BOOKING = gql`
   ${profileFragment}
   mutation EditBooking(
     $id: ID!
-    $activity: String
-    $tripType: String
+    $diverRole: String
+    $activityType: String
     $date: Date
     $email: String
     $equipment: String
@@ -71,8 +71,8 @@ export const EDIT_BOOKING = gql`
   ) {
     editBooking(
       id: $id
-      activity: $activity
-      tripType: $tripType
+      diverRole: $diverRole
+      activityType: $activityType
       date: $date
       email: $email
       equipment: $equipment
@@ -122,7 +122,7 @@ export const EDIT_DIVE_TRIP_DETAIL = gql`
       diveSite2: $diveSite2
       diveGuides: $diveGuides
     ) {
-      tripDetail {
+      activityDetail {
         id
       }
     }
@@ -136,7 +136,7 @@ export const CREATE_DIVE_TRIP_DETAIL = gql`
     $diveGuides: [ID]
     $date: Date
     $time: String
-    $tripType: String
+    $activityType: String
   ) {
     createTripDetail(
       diveSite1: $diveSite1
@@ -144,9 +144,9 @@ export const CREATE_DIVE_TRIP_DETAIL = gql`
       diveGuides: $diveGuides
       date: $date
       time: $time
-      tripType: $tripType
+      activityType: $activityType
     ) {
-      tripDetail {
+      activityDetail {
         id
       }
     }
