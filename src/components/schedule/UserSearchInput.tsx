@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import { AutoCompleteSearch } from "../AutoCompleteSearch";
 import { getUser, getUserOptions } from "./utils";
 import { IUser } from "../../@types/schedule";
-import { SEARCH_USERS } from "./queries";
+import { SEARCH_USERS } from "../../controllers/user/queries";
 
 interface IUserSearchInputProps {
   setObject: Dispatch<SetStateAction<IUser>>;

@@ -30,7 +30,7 @@ export const bookingFragment = gql`
 `;
 
 export const activityDetailFragment = gql`
-  fragment ActivityDetailFragment on TripDetailType {
+  fragment ActivityDetailFragment on ActivityDetailType {
     id
     activityType
     time

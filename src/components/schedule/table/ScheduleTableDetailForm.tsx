@@ -23,7 +23,10 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { ActivityDetail, IUser } from "../../../@types/schedule";
 import { UserSearchInput } from "../UserSearchInput";
-import { EDIT_DIVE_TRIP_DETAIL, CREATE_DIVE_TRIP_DETAIL } from "../mutations";
+import {
+  EDIT_DIVE_TRIP_DETAIL,
+  CREATE_DIVE_TRIP_DETAIL,
+} from "../../../controllers/schedule/queries";
 import { buildFormData } from "../utils";
 import { useBaseMutation } from "../../../hooks/baseMutation";
 

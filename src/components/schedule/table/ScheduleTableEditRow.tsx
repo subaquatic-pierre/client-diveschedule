@@ -7,10 +7,10 @@ import TableRow from "@material-ui/core/TableRow";
 import CancelIcon from "@material-ui/icons/Cancel";
 import Tooltip from "@material-ui/core/Tooltip";
 
-import { SEARCH_USERS } from "../queries";
+import { SEARCH_USERS } from "../../../controllers/user/queries";
 import { AutoCompleteSearch } from "../../AutoCompleteSearch";
 import { UserSearchInput } from "../UserSearchInput";
-import { Booking, ActivityDetail, IUser } from "../../../@types/schedule";
+import { Booking, IUser } from "../../../@types/schedule";
 import { useFormData, IFormData } from "../hooks";
 import {
   ICreateBooking,

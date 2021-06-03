@@ -18,7 +18,7 @@ import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import Calendar from "react-calendar";
 import { formatDate } from "../../utils/date";
 
-import { DAY_QUERY } from "./queries";
+import { DAY_QUERY } from "../../controllers/schedule/queries";
 import { PATH_DASHBOARD } from "../../routes/paths";
 import { useHistory } from "react-router";
 

@@ -10,7 +10,11 @@ import { ScheduleTableGuideRow } from "./ScheduleTableGuideRow";
 import { ScheduleTableEditRow } from "./ScheduleTableEditRow";
 import { getHeadFields } from "../utils";
 
-import { EDIT_BOOKING, CREATE_BOOKING, DELETE_BOOKING } from "../mutations";
+import {
+  EDIT_BOOKING,
+  CREATE_BOOKING,
+  DELETE_BOOKING,
+} from "../../../controllers/schedule/queries";
 import { Booking, ActivityDetail } from "../../../@types/schedule";
 import { useBaseMutation } from "../../../hooks/baseMutation";
 import useFetchStatus from "../../../hooks/useFetchStatus";

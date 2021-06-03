@@ -1,12 +1,12 @@
 import { BaseController } from "../index";
 import { IScheduleControls } from "./types";
-import { DAILY_ACTIVITY_META, ACTIVITY_BOOKINGS } from "./queries";
+import { DAILY_ACTIVITY_META, ACTIVITY_DATA } from "./queries";
 
 export class ScheduleController extends BaseController {
   getActivityBookings = async (activityId, setState) => {
     setState({ loading: true, data: [], error: null });
     const { data, error } = await this._performApolloRequest({
-      query: ACTIVITY_BOOKINGS,
+      query: ACTIVITY_DATA,
       variables: { activityId: 2 },
     });
 
