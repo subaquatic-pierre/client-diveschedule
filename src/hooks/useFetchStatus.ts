@@ -9,7 +9,7 @@ export interface LoadingState<TData> {
 
 const getInitialState = <TData>(defaultData?: TData): LoadingState<TData> => {
   const initialLoadingState: LoadingState<TData> = {
-    loading: false,
+    loading: true,
     error: null,
     data: defaultData ? defaultData : null,
   };

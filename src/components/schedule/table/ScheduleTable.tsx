@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Table, TableBody, TableContainer, Box, Card } from "@material-ui/core";
 
@@ -23,34 +23,44 @@ import { ScheduleController } from "../../../controllers/schedule";
 import { useApolloClient } from "@apollo/client";
 
 const useStyles = makeStyles((theme) => ({
-  boatTableContainer: {
+  tableContainer: {
     minHeight: 700,
-  },
-  shoreContainer: {
-    minHeight: 400,
   },
   loading: {
     width: 300,
   },
 }));
 
+const isBoatTrip = (activityType: string): boolean => {
+  if (activityType === "AM_BOAT" || activityType === "PM_BOAT") {
+    return true;
+  }
+  return false;
+};
+
+const getTripTime = (tableType: string): string | undefined => {
+  switch (tableType) {
+    case "AM_BOAT":
+      return "9am";
+    case "PM_BOAT":
+      return "1:30pm";
+    default:
+      return undefined;
+  }
+};
+
 interface IScheduleTableProps {
-  diveTripDetail: ActivityDetail;
-  loading: boolean;
-  date: Date;
   tableType: string;
+  date: Date;
   activityId?: string;
 }
 
 export const ScheduleTable: React.FC<IScheduleTableProps> = ({
-  loading,
-  diveTripDetail,
-  date,
   tableType,
+  date,
   activityId,
 }) => {
   const classes = useStyles();
-  const { bookingSet: bookings } = diveTripDetail;
 
   // Hooks
   const { mutation: deleteBooking } = useBaseMutation(DELETE_BOOKING);
@@ -63,10 +73,12 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
 
   // Schedule controller
   const client = useApolloClient();
-  const { getActivityBookings } = ScheduleController.getControls(client);
-  const [{ data, loading: loadingFetch, error }, setBookings] = useFetchStatus<
-    Booking[]
-  >([]);
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const { getActivityData } = ScheduleController.getControls(client);
+  const [
+    { data: activity, loading },
+    setActivityData,
+  ] = useFetchStatus<ActivityDetail>();
 
   const handleDeleteBooking = (): void => {
     deleteBooking({
@@ -126,86 +138,99 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   };
 
   useEffect(() => {
-    getActivityBookings(activityId, setBookings);
+    if (activityId !== "-1") {
+      getActivityData(activityId, setActivityData);
+    } else {
+      const blankTripDetail: ActivityDetail = {
+        id: -1,
+        time: getTripTime(tableType),
+        day: { date },
+        bookingSet: [] as Booking[],
+        activityType: tableType,
+      };
+      setActivityData({ loading: false, data: blankTripDetail, error: null });
+    }
   }, []);
 
-  const isBoatTrip = tableType === "AM_BOAT" || tableType === "PM_BOAT";
+  useEffect(() => {
+    if (activity && activity.bookingSet) {
+      setBookings(activity.bookingSet);
+    }
+  }, [activity, bookings]);
 
   return (
     <Box dir="ltr">
-      <Card>
-        <ScheduleTableToolbar
-          tableType={tableType}
-          diveTripDetail={diveTripDetail}
-          deleteBooking={handleDeleteBooking}
-          numSelected={selected.length}
-          showCreateBookingRow={showCreateBookingRow}
-          showAddBooking={!creatingBooking && editingBookingId === -1}
-        />
+      {activity && (
+        <Card>
+          <ScheduleTableToolbar
+            tableType={activity.activityType}
+            diveTripDetail={activity}
+            deleteBooking={handleDeleteBooking}
+            numSelected={selected.length}
+            showCreateBookingRow={showCreateBookingRow}
+            showAddBooking={!creatingBooking && editingBookingId === -1}
+          />
 
-        <TableContainer
-          className={
-            isBoatTrip ? classes.boatTableContainer : classes.shoreContainer
-          }
-        >
-          <Table
-            aria-labelledby="tableTitle"
-            size="small"
-            aria-label="enhanced table"
-          >
-            <ScheduleTableHead
-              numSelected={selected.length}
-              onSelectAllClick={handleSelectAllClick}
-              rowCount={bookings.length}
-              headFields={getHeadFields(tableType)}
-            />
-            {loading ? (
-              <ScheduleTableLoading
-                numCol={getHeadFields(tableType).length + 2}
+          <TableContainer className={classes.tableContainer}>
+            <Table
+              aria-labelledby="tableTitle"
+              size="small"
+              aria-label="enhanced table"
+            >
+              <ScheduleTableHead
+                numSelected={selected.length}
+                onSelectAllClick={handleSelectAllClick}
+                rowCount={bookings.length}
+                headFields={getHeadFields(activity.activityType)}
               />
-            ) : (
-              <TableBody sx={{ minHeight: "400px" }}>
-                {bookings.map((bookingData: Booking, index) => {
-                  if (bookingData.id === editingBookingId) {
+              {loading ? (
+                <ScheduleTableLoading
+                  numCol={getHeadFields(activity.activityType).length + 2}
+                />
+              ) : (
+                <TableBody sx={{ minHeight: "400px" }}>
+                  {bookings.map((bookingData: Booking, index) => {
+                    if (bookingData.id === editingBookingId) {
+                      return (
+                        <ScheduleTableEditRow
+                          key={index}
+                          bookingData={bookingData}
+                          editBooking={handleEditBooking}
+                          cancelEditingBooking={cancelEditingBooking}
+                        />
+                      );
+                    }
                     return (
-                      <ScheduleTableEditRow
+                      <ScheduleTableRow
                         key={index}
                         bookingData={bookingData}
-                        editBooking={handleEditBooking}
-                        cancelEditingBooking={cancelEditingBooking}
+                        setEditingBookingId={setEditingBookingId}
+                        handleSelectClick={handleSelectClick}
+                        selected={selected}
                       />
                     );
-                  }
-                  return (
-                    <ScheduleTableRow
-                      key={index}
-                      bookingData={bookingData}
-                      setEditingBookingId={setEditingBookingId}
-                      handleSelectClick={handleSelectClick}
-                      selected={selected}
+                  })}
+                  {isBoatTrip(activity.activityType) &&
+                    activity.diveGuides?.map((guide, index) => (
+                      <ScheduleTableGuideRow
+                        key={index}
+                        profile={guide.profile}
+                      />
+                    ))}
+                  {creatingBooking && editingBookingId === -1 && (
+                    <ScheduleTableEditRow
+                      date={date}
+                      tableType={activity.activityType}
+                      createBooking={handleCreateBooking}
+                      cancelEditingBooking={cancelEditingBooking}
                     />
-                  );
-                })}
-                {isBoatTrip &&
-                  diveTripDetail.diveGuides?.map((guide, index) => (
-                    <ScheduleTableGuideRow
-                      key={index}
-                      profile={guide.profile}
-                    />
-                  ))}
-                {creatingBooking && editingBookingId === -1 && (
-                  <ScheduleTableEditRow
-                    date={date}
-                    tableType={tableType}
-                    createBooking={handleCreateBooking}
-                    cancelEditingBooking={cancelEditingBooking}
-                  />
-                )}
-              </TableBody>
-            )}
-          </Table>
-        </TableContainer>
-      </Card>
+                  )}
+                </TableBody>
+              )}
+            </Table>
+          </TableContainer>
+        </Card>
+      )}
     </Box>
   );
 };

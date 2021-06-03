@@ -190,6 +190,10 @@ export const ACTIVITY_DATA = gql`
   ${profileFragment}
   query ActivityData($activityId: ID!) {
     activityData(activityId: $activityId) {
+      id
+      day {
+        date
+      }
       activityType
       time
       diveSite1

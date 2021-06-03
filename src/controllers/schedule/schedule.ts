@@ -3,21 +3,23 @@ import { IScheduleControls } from "./types";
 import { DAILY_ACTIVITY_META, ACTIVITY_DATA } from "./queries";
 
 export class ScheduleController extends BaseController {
-  getActivityBookings = async (activityId, setState) => {
+  getActivityData = async (activityId, setState) => {
     setState({ loading: true, data: [], error: null });
     const { data, error } = await this._performApolloRequest({
       query: ACTIVITY_DATA,
-      variables: { activityId: 2 },
+      variables: { activityId: parseInt(activityId) },
     });
 
     if (data) {
-      setState({ loading: false, data: data.activityBookings, error: null });
+      console.log(data);
+      setState({ loading: false, data: data.activityData, error: null });
     }
     if (error) {
       this.setError(error.message);
       setState({ loading: true, data: [], error: error.message });
     }
   };
+
   getDailyActivityMeta = async (date, setState) => {
     setState({ loading: true, data: [], error: null });
     const { data, error } = await this._performApolloRequest({
@@ -26,7 +28,7 @@ export class ScheduleController extends BaseController {
     });
 
     if (data) {
-      setState({ loading: false, data: data, error: null });
+      setState({ loading: false, data: data.dailyActivityMeta, error: null });
     }
     if (error) {
       this.setError(error.message);
@@ -38,7 +40,7 @@ export class ScheduleController extends BaseController {
     const controller = new ScheduleController(client, history);
     return {
       getDailyActivityMeta: controller.getDailyActivityMeta,
-      getActivityBookings: controller.getActivityBookings,
+      getActivityData: controller.getActivityData,
     };
   }
 }

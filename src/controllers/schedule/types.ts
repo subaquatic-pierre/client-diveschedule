@@ -1,4 +1,4 @@
-import { Booking } from "../../@types/schedule";
+import { ActivityDetail } from "../../@types/schedule";
 import { LoadingState } from "../../hooks/useFetchStatus";
 import { SetState } from "../index";
 
@@ -13,8 +13,8 @@ export interface IScheduleControls {
     setState: SetState<LoadingState<BookingMeta[]>>
   ) => void;
 
-  getActivityBookings: (
+  getActivityData: (
     activityId: string,
-    setState: SetState<LoadingState<Booking[]>>
+    setState: SetState<LoadingState<ActivityDetail>>
   ) => void;
 }
