@@ -12,7 +12,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 
-import { IBooking } from "../../../@types/schedule";
+import { Booking } from "../../../@types/schedule";
 import { buildEditBookingData } from "../utils";
 
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +35,7 @@ interface IBookingRowProps {
   handleSelectClick: (name: number) => void;
   setEditingBookingId: (id: number) => void;
   selected: number[];
-  bookingData: IBooking;
+  bookingData: Booking;
 }
 
 export const ScheduleTableRow: React.FC<IBookingRowProps> = ({

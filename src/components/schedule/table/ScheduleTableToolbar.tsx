@@ -13,7 +13,7 @@ import Popover from "@material-ui/core/Popover";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import { IDiveTripDetail } from "../../../@types/schedule";
+import { ActivityDetail } from "../../../@types/schedule";
 import { EditTripDetailForm } from "./ScheduleTableEditTripDetailForm";
 import { getToolbarHeading } from "../utils";
 import useAuth from "../../../hooks/useAuth";
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IScheduleTableToolbarProps {
-  diveTripDetail?: IDiveTripDetail;
+  diveTripDetail?: ActivityDetail;
   numSelected: number;
   tableType: string;
   showAddBooking: boolean;

@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 import {
   bookingFragment,
   profileFragment,
-} from "../../views/schedule/fragments";
+} from "../../controllers/schedule/fragments";
 
 const UserFragment = gql`
   fragment UserFragment on UserType {

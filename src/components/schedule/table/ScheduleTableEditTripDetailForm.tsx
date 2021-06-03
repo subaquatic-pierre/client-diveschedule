@@ -21,7 +21,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import DoneIcon from "@material-ui/icons/Done";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { IDiveTripDetail, IUser } from "../../../@types/schedule";
+import { ActivityDetail, IUser } from "../../../@types/schedule";
 import { UserSearchInput } from "../UserSearchInput";
 import { EDIT_DIVE_TRIP_DETAIL, CREATE_DIVE_TRIP_DETAIL } from "../mutations";
 import { buildFormData } from "../utils";
@@ -99,7 +99,7 @@ export interface IFormData {
 }
 
 interface IEditTripDetailFormProps {
-  diveTripDetail?: IDiveTripDetail;
+  diveTripDetail?: ActivityDetail;
   handleClose: any;
 }
 

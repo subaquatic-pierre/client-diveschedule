@@ -1,5 +1,5 @@
 import React from "react";
-import { IBooking } from "../../@types/schedule";
+import { Booking } from "../../@types/schedule";
 
 export interface IFormData {
   [key: string]: string | number | undefined | any;
@@ -19,7 +19,7 @@ const initialFormData: IFormData = {
   time: "",
 };
 
-const buildFormData = (bookingData: IBooking): IFormData => {
+const buildFormData = (bookingData: Booking): IFormData => {
   const {
     diverRole,
     equipment,
@@ -46,9 +46,7 @@ type IHooksReturn = [
   React.Dispatch<React.SetStateAction<IFormData>>
 ];
 
-export const useFormData = (
-  bookingData: IBooking | undefined
-): IHooksReturn => {
+export const useFormData = (bookingData: Booking | undefined): IHooksReturn => {
   const initialData: IFormData = bookingData
     ? buildFormData(bookingData)
     : initialFormData;

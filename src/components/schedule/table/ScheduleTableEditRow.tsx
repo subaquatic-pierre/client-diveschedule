@@ -10,7 +10,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { SEARCH_USERS } from "../queries";
 import { AutoCompleteSearch } from "../../AutoCompleteSearch";
 import { UserSearchInput } from "../UserSearchInput";
-import { IBooking, IDiveTripDetail, IUser } from "../../../@types/schedule";
+import { Booking, ActivityDetail, IUser } from "../../../@types/schedule";
 import { useFormData, IFormData } from "../hooks";
 import {
   ICreateBooking,
@@ -47,7 +47,7 @@ interface IScheduleTableEditRowProps {
   editBooking?: (data: IEditBooking) => void;
   createBooking?: (data: ICreateBooking) => void;
   cancelEditingBooking?: () => void;
-  bookingData?: IBooking;
+  bookingData?: Booking;
   handleOpenEditDiverModal?: () => void;
 }
 

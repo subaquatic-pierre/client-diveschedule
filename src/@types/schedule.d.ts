@@ -35,9 +35,9 @@ export interface IUser {
   profile: Profile;
 }
 
-export interface IBooking extends IObjectKeys {
+export type Booking = {
   id: number;
-  activityDetail: IDiveTripDetail;
+  activityDetail: ActivityDetail;
   time: string;
   initiatedDate: Date;
   bookedBy: IUser;
@@ -47,15 +47,15 @@ export interface IBooking extends IObjectKeys {
   diver: IUser;
   instructor?: IUser;
   cancellationReason?: string;
-}
+};
 
-export interface IDiveTripDetail {
+export type ActivityDetail = {
   id: number;
   day: IDay;
   activityType?: string;
-  bookingSet: IBooking[];
+  bookingSet: Booking[];
   diveSite1?: string;
   diveSite2?: string;
   time?: string;
   diveGuides?: IUser[];
-}
+};

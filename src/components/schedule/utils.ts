@@ -1,8 +1,8 @@
-import { IBooking, IDiveTripDetail, IUser } from "../../@types/schedule";
+import { Booking, ActivityDetail, IUser } from "../../@types/schedule";
 import { formatDate } from "../../utils/date";
 import { IFormData } from "./hooks";
 
-export const buildFormData = (diveTripDetail: IDiveTripDetail): IFormData => {
+export const buildFormData = (diveTripDetail: ActivityDetail): IFormData => {
   const date = formatDate(diveTripDetail.day.date, "server");
   const initialFormData: IFormData = {
     activityType: diveTripDetail.activityType,
@@ -69,9 +69,9 @@ export const formatSiteName = (siteName: string | undefined): string => {
 
 export const getToolbarHeading = (
   tableType: string,
-  activityDetail?: IDiveTripDetail
+  activityDetail?: ActivityDetail
 ): string => {
-  const { id, diveSite1, diveSite2, time } = activityDetail as IDiveTripDetail;
+  const { id, diveSite1, diveSite2, time } = activityDetail as ActivityDetail;
 
   const diveSites = diveSite1 !== null || diveSite2 !== null;
   const isTripDefined = id !== -1;
@@ -178,7 +178,7 @@ export const buildCreateBookingData = (
 
 export const buildEditBookingData = (
   formData: IFormData,
-  bookingData: IBooking
+  bookingData: Booking
 ): IEditBooking => {
   const { equipment, diverRole } = formData;
   const mutationData = {

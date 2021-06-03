@@ -1,7 +1,9 @@
-import { IBooking } from "../../@types/schedule";
+import { Booking } from "../../@types/schedule";
 
 export const filterBookings = (
-  bookings: IBooking[],
+  bookings: Booking[],
   filterString: string
-): IBooking[] =>
-  bookings.filter((booking: IBooking) => booking.activityType === filterString);
+): Booking[] =>
+  bookings.filter(
+    (booking: Booking) => booking.activityDetail.activityType === filterString
+  );

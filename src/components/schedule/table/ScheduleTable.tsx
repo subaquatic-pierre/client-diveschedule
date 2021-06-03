@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Table, TableBody, TableContainer, Box, Card } from "@material-ui/core";
 
@@ -11,8 +11,12 @@ import { ScheduleTableEditRow } from "./ScheduleTableEditRow";
 import { getHeadFields } from "../utils";
 
 import { EDIT_BOOKING, CREATE_BOOKING, DELETE_BOOKING } from "../mutations";
-import { IBooking, IDiveTripDetail } from "../../../@types/schedule";
+import { Booking, ActivityDetail } from "../../../@types/schedule";
 import { useBaseMutation } from "../../../hooks/baseMutation";
+import useFetchStatus from "../../../hooks/useFetchStatus";
+
+import { ScheduleController } from "../../../controllers/schedule";
+import { useApolloClient } from "@apollo/client";
 
 const useStyles = makeStyles((theme) => ({
   boatTableContainer: {
@@ -27,11 +31,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IScheduleTableProps {
-  diveTripDetail: IDiveTripDetail;
+  diveTripDetail: ActivityDetail;
   loading: boolean;
   date: Date;
   tableType: string;
   handleOpenEditDiverModal: () => void;
+  activityID?: string;
 }
 
 export const ScheduleTable: React.FC<IScheduleTableProps> = ({
@@ -40,6 +45,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   date,
   tableType,
   handleOpenEditDiverModal,
+  activityID,
 }) => {
   const classes = useStyles();
   const { bookingSet: bookings } = diveTripDetail;
@@ -52,6 +58,13 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   const [selected, setSelected] = React.useState<number[]>([]);
   const [creatingBooking, setCreatingBooking] = React.useState<boolean>(false);
   const [editingBookingId, setEditingBookingId] = React.useState(-1);
+
+  // Schedule controller
+  const client = useApolloClient();
+  const { getActivityBookings } = ScheduleController.getControls(client);
+  const [{ data, loading: loadingFetch, error }, setBookings] = useFetchStatus<
+    Booking[]
+  >([]);
 
   const handleDeleteBooking = (): void => {
     deleteBooking({
@@ -110,6 +123,11 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
     setCreatingBooking(false);
   };
 
+  useEffect(() => {
+    getActivityBookings(activityID, setBookings);
+    console.log(data);
+  }, [data]);
+
   const isBoatTrip = tableType === "AM_BOAT" || tableType === "PM_BOAT";
 
   return (
@@ -146,7 +164,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
               />
             ) : (
               <TableBody sx={{ minHeight: "400px" }}>
-                {bookings.map((bookingData: IBooking, index) => {
+                {bookings.map((bookingData: Booking, index) => {
                   if (bookingData.id === editingBookingId) {
                     return (
                       <ScheduleTableEditRow

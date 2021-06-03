@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PATH_DASHBOARD } from "../../routes/paths";
 import { useApolloClient, useQuery } from "@apollo/client";
 import { Grid, Container } from "@material-ui/core";
@@ -7,7 +7,7 @@ import { formatDate } from "../../utils/date";
 // components
 import Page from "../../components/Page";
 import HeaderDashboard from "../../components/HeaderDashboard";
-import { IBooking, IDay, IDiveTripDetail } from "../../@types/schedule";
+import { Booking, IDay, ActivityDetail } from "../../@types/schedule";
 
 // schedule components
 import { ScheduleTable } from "../../components/schedule/table/ScheduleTable";
@@ -17,13 +17,16 @@ import { GET_DAY } from "../../controllers/schedule/queries";
 import { BookingMeta } from "../../controllers/schedule/types";
 import useFetchStatus from "../../hooks/useFetchStatus";
 import { ScheduleController } from "../../controllers/schedule";
+import LoadingScreen from "../../components/LoadingScreen";
 
 export default function Schedule() {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
   const client = useApolloClient();
   const [editDiverModalOpen, setEditDiverModalOpen] = React.useState(false);
 
-  const [{ data: bookingData }, setData] = useFetchStatus<BookingMeta[]>();
+  const [{ data: activityMeta, loading }, setActivityMeta] = useFetchStatus<
+    BookingMeta[]
+  >();
   const { getDailyActivityMeta } = ScheduleController.getControls(client);
 
   const { data: dayData, loading: loadingDay, refetch: refetchDay } = useQuery(
@@ -66,18 +69,18 @@ export default function Schedule() {
     }
   };
 
-  const getTripDetail = (tableType: string): IDiveTripDetail => {
-    const blankTripDetail: IDiveTripDetail = {
+  const getTripDetail = (tableType: string): ActivityDetail => {
+    const blankTripDetail: ActivityDetail = {
       id: -1,
       time: getTripTime(tableType),
       day: { date: selectedDate },
-      bookingSet: [] as IBooking[],
+      bookingSet: [] as Booking[],
       activityType: tableType,
     };
     if (!isDayReady()) return blankTripDetail;
     const day = getDay();
     const activityDetail = day.activitydetailSet?.filter(
-      (trip: IDiveTripDetail) => trip.activityType === tableType
+      (trip: ActivityDetail) => trip.activityType === tableType
     );
     if (activityDetail && activityDetail.length === 0) return blankTripDetail;
     if (activityDetail) return activityDetail[0];
@@ -98,11 +101,17 @@ export default function Schedule() {
       const date = new Date(currentDay);
       setSelectedDate(date);
     }
-
-    // Use schedule controller
-    console.log(currentDay);
-    // getDailyActivityMeta(formatDate(new Date(currentDay), "server"), setData);
   }, []);
+
+  // Use schedule controller to get all activities for the day
+  useEffect(() => {
+    getDailyActivityMeta(
+      formatDate(new Date(selectedDate), "server"),
+      setActivityMeta
+    );
+  }, [selectedDate]);
+
+  if (loading) return <LoadingScreen />;
 
   return (
     <Page title="Schedule | DiveSchedule">
@@ -172,6 +181,9 @@ export default function Schedule() {
               date={selectedDate}
               loading={loadingDay}
               handleOpenEditDiverModal={handleOpenEditDiverModal}
+              activityID={
+                activityMeta && activityMeta.length > 0 && activityMeta[0].id
+              }
             />
           </Grid>
         </Grid>

@@ -2,17 +2,17 @@ import { gql } from "@apollo/client";
 import {
   bookingFragment,
   profileFragment,
-  tripDetailFragment,
+  activityDetailFragment,
 } from "./fragments";
 
 export const BOOKING_QUERY = gql`
-  ${tripDetailFragment}
+  ${activityDetailFragment}
   ${profileFragment}
   query Bookings($date: String!) {
     bookings(date: $date) {
       id
       activityDetail {
-        ...TripDetailFragment
+        ...ActivityDetailFragment
       }
       activity
       equipment
@@ -30,7 +30,7 @@ export const BOOKING_QUERY = gql`
 
 export const GET_DAY = gql`
   ${profileFragment}
-  ${tripDetailFragment}
+  ${activityDetailFragment}
   ${bookingFragment}
   query GetDay($date: Date!) {
     day(date: $date) {
@@ -49,7 +49,7 @@ export const GET_DAY = gql`
           day {
             date
           }
-          ...TripDetailFragment
+          ...ActivityDetailFragment
           bookingSet {
             ...BookingFragment
           }
@@ -103,13 +103,11 @@ export const DELETE_BOOKING = gql`
   }
 `;
 
-// export const GET_DAILY_ACTIVITY_META = gql`
-//   query GetDailyActivityMeta($date: Date!) {
-//     dailyActivityMeta(date: $date) {
-//       activity {
-//         id
-//         activityType
-//       }
-//     }
-//   }
-// `;
+export const DAILY_ACTIVITY_META = gql`
+  query DailyBookingMeta($date: Date!) {
+    dailyActivityMeta(date: $date) {
+      id
+      activityType
+    }
+  }
+`;

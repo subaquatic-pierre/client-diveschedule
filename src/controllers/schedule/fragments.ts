@@ -27,8 +27,8 @@ export const bookingFragment = gql`
   }
 `;
 
-export const tripDetailFragment = gql`
-  fragment TripDetailFragment on TripDetailType {
+export const activityDetailFragment = gql`
+  fragment ActivityDetailFragment on TripDetailType {
     id
     activityType
     time
