@@ -5,6 +5,8 @@ export const profileFragment = gql`
     profile {
       fullName
       certLevel
+      equipment
+      phoneNumber
     }
   }
 `;

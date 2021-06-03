@@ -111,3 +111,13 @@ export const DAILY_ACTIVITY_META = gql`
     }
   }
 `;
+
+export const ACTIVITY_BOOKINGS = gql`
+  ${bookingFragment}
+  ${profileFragment}
+  query ActivityBookings($activityId: ID!) {
+    activityBookings(activityId: $activityId) {
+      ...BookingFragment
+    }
+  }
+`;

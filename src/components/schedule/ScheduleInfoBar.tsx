@@ -45,14 +45,11 @@ const useStyles = makeStyles((theme) => ({
 interface IScheduleInfoBarProps {
   selectedDate: Date;
   setSelectedDate: (date: any) => void;
-  editDiverModalOpen: boolean;
-  handleOpenEditDiverModal: () => void;
 }
 
 export const ScheduleInfoBar: React.FC<IScheduleInfoBarProps> = ({
   setSelectedDate,
   selectedDate,
-  handleOpenEditDiverModal,
 }) => {
   const history = useHistory();
   const classes = useStyles();

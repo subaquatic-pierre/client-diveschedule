@@ -39,10 +39,6 @@ export default function Schedule() {
     }
   );
 
-  const handleOpenEditDiverModal = () => {
-    setEditDiverModalOpen(true);
-  };
-
   const isDayReady = (): boolean => {
     if (loadingDay) return false;
     try {
@@ -126,8 +122,6 @@ export default function Schedule() {
 
         <Grid item xs={12}>
           <ScheduleInfoBar
-            handleOpenEditDiverModal={handleOpenEditDiverModal}
-            editDiverModalOpen={editDiverModalOpen}
             selectedDate={selectedDate}
             setSelectedDate={handleSetSelectedDate}
           />
@@ -140,7 +134,6 @@ export default function Schedule() {
               tableType="AM_BOAT"
               date={selectedDate}
               loading={loadingDay}
-              handleOpenEditDiverModal={handleOpenEditDiverModal}
             />
           </Grid>
 
@@ -150,7 +143,6 @@ export default function Schedule() {
               tableType="PM_BOAT"
               date={selectedDate}
               loading={loadingDay}
-              handleOpenEditDiverModal={handleOpenEditDiverModal}
             />
           </Grid>
 
@@ -160,7 +152,6 @@ export default function Schedule() {
               tableType="POOL"
               date={selectedDate}
               loading={loadingDay}
-              handleOpenEditDiverModal={handleOpenEditDiverModal}
             />
           </Grid>
 
@@ -170,7 +161,6 @@ export default function Schedule() {
               tableType="SHORE"
               date={selectedDate}
               loading={loadingDay}
-              handleOpenEditDiverModal={handleOpenEditDiverModal}
             />
           </Grid>
 
@@ -180,9 +170,10 @@ export default function Schedule() {
               tableType="CLASS"
               date={selectedDate}
               loading={loadingDay}
-              handleOpenEditDiverModal={handleOpenEditDiverModal}
-              activityID={
+              activityId={
                 activityMeta && activityMeta.length > 0 && activityMeta[0].id
+                  ? activityMeta[0].id
+                  : "1"
               }
             />
           </Grid>

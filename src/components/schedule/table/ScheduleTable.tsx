@@ -35,8 +35,7 @@ interface IScheduleTableProps {
   loading: boolean;
   date: Date;
   tableType: string;
-  handleOpenEditDiverModal: () => void;
-  activityID?: string;
+  activityId?: string;
 }
 
 export const ScheduleTable: React.FC<IScheduleTableProps> = ({
@@ -44,8 +43,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   diveTripDetail,
   date,
   tableType,
-  handleOpenEditDiverModal,
-  activityID,
+  activityId,
 }) => {
   const classes = useStyles();
   const { bookingSet: bookings } = diveTripDetail;
@@ -124,9 +122,8 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   };
 
   useEffect(() => {
-    getActivityBookings(activityID, setBookings);
-    console.log(data);
-  }, [data]);
+    getActivityBookings(activityId, setBookings);
+  }, []);
 
   const isBoatTrip = tableType === "AM_BOAT" || tableType === "PM_BOAT";
 
@@ -194,7 +191,6 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
                   ))}
                 {creatingBooking && editingBookingId === -1 && (
                   <ScheduleTableEditRow
-                    handleOpenEditDiverModal={handleOpenEditDiverModal}
                     date={date}
                     tableType={tableType}
                     createBooking={handleCreateBooking}
