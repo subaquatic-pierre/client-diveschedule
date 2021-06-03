@@ -26,7 +26,10 @@ export default function Schedule() {
   >([]);
   const { getDailyActivityMeta } = ScheduleController.getControls(client);
 
-  const getActivityId = (activityType: string): string => {
+  const getActivityId = (
+    activityMeta: BookingMeta[],
+    activityType: string
+  ): string => {
     const activity = activityMeta.find(
       (activity) => activity.activityType === activityType
     );
@@ -78,11 +81,11 @@ export default function Schedule() {
           />
         </Grid>
 
-        {!loading && activityMeta && (
+        {activityMeta && (
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <ScheduleTable
-                activityId={getActivityId("AM_BOAT")}
+                activityId={getActivityId(activityMeta, "AM_BOAT")}
                 tableType="AM_BOAT"
                 date={selectedDate}
               />
@@ -90,7 +93,7 @@ export default function Schedule() {
 
             <Grid item xs={12} sm={6}>
               <ScheduleTable
-                activityId={getActivityId("PM_BOAT")}
+                activityId={getActivityId(activityMeta, "PM_BOAT")}
                 tableType="PM_BOAT"
                 date={selectedDate}
               />
@@ -98,7 +101,7 @@ export default function Schedule() {
 
             <Grid item xs={12} sm={6}>
               <ScheduleTable
-                activityId={getActivityId("POOL")}
+                activityId={getActivityId(activityMeta, "POOL")}
                 tableType="POOL"
                 date={selectedDate}
               />
@@ -106,7 +109,7 @@ export default function Schedule() {
 
             <Grid item xs={12} sm={6}>
               <ScheduleTable
-                activityId={getActivityId("SHORE")}
+                activityId={getActivityId(activityMeta, "SHORE")}
                 tableType="SHORE"
                 date={selectedDate}
               />
@@ -114,7 +117,7 @@ export default function Schedule() {
 
             <Grid item xs={12} sm={6}>
               <ScheduleTable
-                activityId={getActivityId("CLASS")}
+                activityId={getActivityId(activityMeta, "CLASS")}
                 tableType="CLASS"
                 date={selectedDate}
               />

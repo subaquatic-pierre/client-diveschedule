@@ -11,7 +11,6 @@ import { ScheduleTableEditRow } from "./ScheduleTableEditRow";
 import { getHeadFields } from "../utils";
 
 import {
-  EDIT_BOOKING,
   CREATE_BOOKING,
   DELETE_BOOKING,
 } from "../../../controllers/schedule/queries";
@@ -134,23 +133,23 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
     if (activityId !== "-1") {
       getActivityData(activityId, setActivityData);
     } else {
-      const blankTripDetail: ActivityDetail = {
+      const blankActivityData: ActivityDetail = {
         id: -1,
         time: getTripTime(tableType),
         day: { date },
         bookingSet: [] as Booking[],
         activityType: tableType,
       };
-      setActivityData({ loading: false, data: blankTripDetail, error: null });
+      setActivityData({ loading: false, data: blankActivityData, error: null });
     }
-  }, []);
+  }, [activityId]);
 
   // Populate booking array on activity change
   useEffect(() => {
     if (activity && activity.bookingSet) {
       setBookings(activity.bookingSet);
     }
-  }, [activity, bookings]);
+  }, [activity]);
 
   return (
     <Box dir="ltr">
