@@ -64,7 +64,6 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
 
   // Hooks
   const { mutation: deleteBooking } = useBaseMutation(DELETE_BOOKING);
-  const { mutation: editBooking } = useBaseMutation(EDIT_BOOKING);
   const { mutation: createBooking } = useBaseMutation(CREATE_BOOKING);
 
   const [selected, setSelected] = React.useState<number[]>([]);
@@ -88,12 +87,6 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
 
   const handleCreateBooking = (data: any): void => {
     createBooking({
-      variables: data,
-    });
-  };
-
-  const handleEditBooking = (data: any): void => {
-    editBooking({
       variables: data,
     });
   };
@@ -133,10 +126,10 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   };
 
   const cancelEditingBooking = () => {
-    setEditingBookingId(-1);
     setCreatingBooking(false);
   };
 
+  // No data is available on activity, set activity data to blank
   useEffect(() => {
     if (activityId !== "-1") {
       getActivityData(activityId, setActivityData);
@@ -152,6 +145,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
     }
   }, []);
 
+  // Populate booking array on activity change
   useEffect(() => {
     if (activity && activity.bookingSet) {
       setBookings(activity.bookingSet);
@@ -195,7 +189,6 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
                         <ScheduleTableEditRow
                           key={index}
                           bookingData={bookingData}
-                          editBooking={handleEditBooking}
                           cancelEditingBooking={cancelEditingBooking}
                         />
                       );

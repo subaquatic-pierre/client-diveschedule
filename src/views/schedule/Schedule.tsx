@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { PATH_DASHBOARD } from "../../routes/paths";
-import { useApolloClient, useQuery } from "@apollo/client";
+import { useApolloClient } from "@apollo/client";
 import { Grid, Container } from "@material-ui/core";
 import { formatDate } from "../../utils/date";
 
 // components
 import Page from "../../components/Page";
 import HeaderDashboard from "../../components/HeaderDashboard";
-import { Booking, IDay, ActivityDetail } from "../../@types/schedule";
 
 // schedule components
 import { ScheduleTable } from "../../components/schedule/table/ScheduleTable";
 import { ScheduleInfoBar } from "../../components/schedule/ScheduleInfoBar";
 
-import { GET_DAY } from "../../controllers/schedule/queries";
 import { BookingMeta } from "../../controllers/schedule/types";
 import useFetchStatus from "../../hooks/useFetchStatus";
 import { ScheduleController } from "../../controllers/schedule";

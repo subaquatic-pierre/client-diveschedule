@@ -44,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
 interface IScheduleTableEditRowProps {
   tableType?: string;
   date?: Date;
-  editBooking?: (data: IEditBooking) => void;
   createBooking?: (data: ICreateBooking) => void;
   cancelEditingBooking?: () => void;
   bookingData?: Booking;
@@ -54,7 +53,6 @@ interface IScheduleTableEditRowProps {
 export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
   tableType,
   date,
-  editBooking,
   createBooking,
   cancelEditingBooking,
   handleOpenEditDiverModal,
@@ -90,10 +88,7 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
 
   const handleSaveBooking = () => {
     if (isValidBookingData(formData)) {
-      if (editBooking && bookingData) {
-        const editBookingData = buildEditBookingData(formData, bookingData);
-        editBooking(editBookingData);
-      } else if (createBooking) {
+      if (createBooking) {
         const createBookingData = buildCreateBookingData(
           formData,
           tableType as string,

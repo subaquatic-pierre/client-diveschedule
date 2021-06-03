@@ -8,10 +8,10 @@ export class ScheduleController extends BaseController {
     const { data, error } = await this._performApolloRequest({
       query: ACTIVITY_DATA,
       variables: { activityId: parseInt(activityId) },
+      fetchPolicy: "network-only",
     });
 
     if (data) {
-      console.log(data);
       setState({ loading: false, data: data.activityData, error: null });
     }
     if (error) {
@@ -21,7 +21,6 @@ export class ScheduleController extends BaseController {
   };
 
   getDailyActivityMeta = async (date, setState) => {
-    setState({ loading: true, data: [], error: null });
     const { data, error } = await this._performApolloRequest({
       query: DAILY_ACTIVITY_META,
       variables: { date },

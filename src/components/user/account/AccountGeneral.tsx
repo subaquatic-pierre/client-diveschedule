@@ -164,10 +164,6 @@ export default function AccountGeneral({
     }
   }, [userProfile]);
 
-  if (loading) {
-    return <LoadingScreen />;
-  }
-
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>

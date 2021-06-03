@@ -29,8 +29,6 @@ export const defaultUser: User = {
 export class UserController extends BaseController {
   // Get user list
   getUserList = async (setState) => {
-    setState({ loading: true, data: [], error: null });
-
     const { data, error } = await this._performApolloRequest({
       query: USER_LIST_QUERY,
       fetchPolicy: "network-only",
@@ -47,8 +45,6 @@ export class UserController extends BaseController {
 
   // Get single user profile
   getUserProfile = async (userId, setState) => {
-    setState({ loading: true, data: null, error: null });
-
     const { data, error } = await this._performApolloRequest({
       query: GET_USER_PROFILE,
       variables: { id: parseInt(userId) },
@@ -66,7 +62,6 @@ export class UserController extends BaseController {
   deleteUsers = async (userIds, setState, userList) => {
     const ids = userIds.map((userId) => parseInt(userId));
     const filteredUsers = filterDeletedUsers(userIds, userList);
-    setState({ loading: true, data: filteredUsers, error: null });
 
     const { data, error } = await this._performApolloRequest({
       mutation: DELETE_USERS,
