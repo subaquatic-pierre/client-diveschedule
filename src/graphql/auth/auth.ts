@@ -8,7 +8,7 @@ import {
   AUTH_VIEWER_QUERY,
 } from "./queries";
 
-import { defaultUser } from "../user";
+import { defaultUser } from "../../hooks/useAuth";
 import { messageController } from "../../controllers/messages";
 
 const initialAuthState: AuthCache = {

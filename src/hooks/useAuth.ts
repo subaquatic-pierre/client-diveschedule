@@ -1,10 +1,25 @@
 import { useApolloClient, useQuery } from "@apollo/client";
 import { AUTH_VIEWER_QUERY } from "../graphql/auth/queries";
-import { defaultUser } from "../graphql/user/user";
+import { Profile } from "../@types/user";
 import { User } from "../@types/user";
 import { messageController } from "../controllers/messages";
 
 // ----------------------------------------------------------------------
+
+export const defaultProfile: Profile = {
+  fullName: "",
+  certLevel: "",
+  equipment: "",
+  phoneNumber: "",
+  role: null,
+};
+
+export const defaultUser: User = {
+  id: "AnonymousUser",
+  email: "",
+  isAdmin: false,
+  profile: defaultProfile,
+};
 
 const replaceIfNull = (value: string | null): string => {
   if (value === null || value === undefined) {
