@@ -1,31 +1,30 @@
-import React, { useEffect } from "react";
-import { PATH_DASHBOARD } from "../../routes/paths";
-import { useApolloClient } from "@apollo/client";
+import React, { useEffect, useState } from "react";
+import { useLazyQuery } from "@apollo/client";
 import { Grid, Container } from "@material-ui/core";
 import { formatDate } from "../../utils/date";
 
 // components
 import Page from "../../components/Page";
 import HeaderDashboard from "../../components/HeaderDashboard";
-
-// schedule components
+import LoadingScreen from "../../components/LoadingScreen";
 import { ScheduleTable } from "../../components/schedule/table/ScheduleTable";
 import { ScheduleInfoBar } from "../../components/schedule/ScheduleInfoBar";
 
-import { BookingMeta } from "../../graphql/schedule/types";
-import useFetchStatus from "../../hooks/useFetchStatus";
-import { ScheduleController } from "../../graphql/schedule";
-import LoadingScreen from "../../components/LoadingScreen";
+// paths
+import { PATH_DASHBOARD } from "../../routes/paths";
+
+// graphql
+import { DAILY_ACTIVITY_META, BookingMeta } from "../../graphql/schedule";
 
 export default function Schedule() {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
-  const client = useApolloClient();
-
-  // Schedule controller
-  const [{ data: activityMeta, loading }, setActivityMeta] = useFetchStatus<
-    BookingMeta[]
-  >([]);
-  const { getDailyActivityMeta } = ScheduleController.getControls(client);
+  const [activityMeta, setActivityMeta] = useState<BookingMeta[]>([]);
+  const [getData, { loading }] = useLazyQuery(DAILY_ACTIVITY_META, {
+    variables: { date: formatDate(new Date(selectedDate), "server") },
+    onCompleted: (data: any) => {
+      setActivityMeta(data.dailyActivityMeta);
+    },
+  });
 
   const getActivityId = (activityType: string): string => {
     const activity = activityMeta.find(
@@ -51,13 +50,11 @@ export default function Schedule() {
     }
   }, []);
 
-  // Use schedule controller to get all activities for the day
   useEffect(() => {
-    getDailyActivityMeta(
-      formatDate(new Date(selectedDate), "server"),
-      setActivityMeta
-    );
-  }, [selectedDate]);
+    if (selectedDate) {
+      getData();
+    }
+  }, [selectedDate, getData]);
 
   if (loading) return <LoadingScreen />;
 

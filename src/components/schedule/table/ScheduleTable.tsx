@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { useApolloClient, useLazyQuery } from "@apollo/client";
 import { Table, TableBody, TableContainer, Box, Card } from "@material-ui/core";
 
 import { ScheduleTableLoading } from "./ScheduleTableLoading";
@@ -10,16 +11,10 @@ import { ScheduleTableGuideRow } from "./ScheduleTableGuideRow";
 import { ScheduleTableEditRow } from "./ScheduleTableEditRow";
 import { getHeadFields } from "../utils";
 
-import {
-  CREATE_BOOKING,
-  DELETE_BOOKING,
-} from "../../../graphql/schedule/queries";
 import { Booking, ActivityDetail } from "../../../@types/schedule";
-import useBaseMutation from "../../../hooks/useBaseMutation";
-import useFetchStatus from "../../../hooks/useFetchStatus";
 
-import { ScheduleController } from "../../../graphql/schedule";
-import { useApolloClient } from "@apollo/client";
+import { ACTIVITY_DATA } from "../../../graphql/schedule";
+import { messageController } from "../../../controllers/messages";
 
 const useStyles = makeStyles((theme) => ({
   tableContainer: {
@@ -59,36 +54,29 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   date,
   activityId,
 }) => {
+  const blankActivityData: ActivityDetail = {
+    id: -1,
+    time: getTripTime(tableType),
+    day: { date },
+    bookingSet: [] as Booking[],
+    activityType: tableType,
+  };
   const classes = useStyles();
-
-  // Hooks
-  const { mutation: deleteBooking } = useBaseMutation(DELETE_BOOKING);
-  const { mutation: createBooking } = useBaseMutation(CREATE_BOOKING);
-
   const [selected, setSelected] = React.useState<number[]>([]);
   const [creatingBooking, setCreatingBooking] = React.useState<boolean>(false);
   const [editingBookingId, setEditingBookingId] = React.useState(-1);
 
-  // Schedule controller
   const client = useApolloClient();
+  const { setError } = messageController(client);
+
+  // Data state
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const { getActivityData } = ScheduleController.getControls(client);
-  const [
-    { data: activity, loading },
-    setActivityData,
-  ] = useFetchStatus<ActivityDetail>();
-
-  const handleDeleteBooking = (): void => {
-    deleteBooking({
-      variables: { ids: selected },
-    });
-  };
-
-  const handleCreateBooking = (data: any): void => {
-    createBooking({
-      variables: data,
-    });
-  };
+  const [activity, setActivity] = useState<ActivityDetail>(blankActivityData);
+  const [getData, { data, loading }] = useLazyQuery(ACTIVITY_DATA, {
+    onError: (error: any) => {
+      setError(error.message);
+    },
+  });
 
   const handleSelectAllClick = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -128,29 +116,19 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
     setCreatingBooking(false);
   };
 
-  // No data is available on activity, set activity data to blank
+  // Get table data, populate booking array or set blank
   useEffect(() => {
     if (activityId !== "-1") {
-      getActivityData(activityId, setActivityData);
+      getData({ variables: { activityId } });
+      if (data) {
+        setActivity(data.activityData);
+        setBookings(data.activityData.bookingSet);
+      }
     } else {
-      const blankActivityData: ActivityDetail = {
-        id: -1,
-        time: getTripTime(tableType),
-        day: { date },
-        bookingSet: [] as Booking[],
-        activityType: tableType,
-      };
-      setActivityData({ loading: false, data: blankActivityData, error: null });
+      setActivity(blankActivityData);
+      setBookings([]);
     }
-  }, [activityId]);
-
-  // Populate booking array on activity change
-  useEffect(() => {
-    if (activity && activity.bookingSet) {
-      setBookings(activity.bookingSet);
-    }
-    console.log(activity);
-  }, [activity]);
+  }, [activityId, data]);
 
   return (
     <Box dir="ltr">
@@ -159,7 +137,6 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
           <ScheduleTableToolbar
             tableType={activity.activityType}
             diveTripDetail={activity}
-            deleteBooking={handleDeleteBooking}
             numSelected={selected.length}
             showCreateBookingRow={showCreateBookingRow}
             showAddBooking={!creatingBooking && editingBookingId === -1}
@@ -214,7 +191,6 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
                     <ScheduleTableEditRow
                       date={date}
                       tableType={activity.activityType}
-                      createBooking={handleCreateBooking}
                       cancelEditingBooking={cancelEditingBooking}
                     />
                   )}

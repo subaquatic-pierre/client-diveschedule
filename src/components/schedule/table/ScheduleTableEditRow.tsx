@@ -18,6 +18,16 @@ import {
   getUser,
   getUserOptions,
 } from "../utils";
+import useBaseMutation from "../../../hooks/useBaseMutation";
+
+import {
+  DAILY_ACTIVITY_META,
+  ACTIVITY_DATA,
+  CREATE_BOOKING,
+  DELETE_BOOKING,
+  CREATE_ACTIVITY_DETAIL,
+  EDIT_ACTIVITY_DETAIL,
+} from "../../../graphql/schedule";
 
 const useStyles = makeStyles((theme) => ({
   saveButton: {
@@ -42,18 +52,14 @@ const useStyles = makeStyles((theme) => ({
 interface IScheduleTableEditRowProps {
   tableType?: string;
   date?: Date;
-  createBooking?: (data: ICreateBooking) => void;
   cancelEditingBooking?: () => void;
   bookingData?: Booking;
-  handleOpenEditDiverModal?: () => void;
 }
 
 export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
   tableType,
   date,
-  createBooking,
   cancelEditingBooking,
-  handleOpenEditDiverModal,
   bookingData,
 }) => {
   const [user, setUser] = React.useState<IUser>();
@@ -61,6 +67,8 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
   const classes = useStyles();
   const [formData, setFormData] = useFormData(bookingData);
   const isBoatBooking = tableType === "AM_BOAT" || tableType === "PM_BOAT";
+
+  const { mutation: createBooking } = useBaseMutation(CREATE_BOOKING);
 
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((oldState: IFormData) => {
@@ -178,7 +186,6 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
           <AutoCompleteSearch
             name="instructorName"
             label="Full Name"
-            handleOpenEditDiverModal={handleOpenEditDiverModal}
             setObject={setInstructor}
             getObject={getUser}
             createObjectPlaceholder="Create User"
