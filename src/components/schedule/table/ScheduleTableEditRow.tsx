@@ -12,22 +12,10 @@ import { AutoCompleteSearch } from "../../AutoCompleteSearch";
 import { UserSearchInput } from "../UserSearchInput";
 import { Booking, IUser } from "../../../@types/schedule";
 import { useFormData, IFormData } from "../hooks";
-import {
-  ICreateBooking,
-  buildCreateBookingData,
-  getUser,
-  getUserOptions,
-} from "../utils";
+import { buildCreateBookingData, getUser, getUserOptions } from "../utils";
 import useBaseMutation from "../../../hooks/useBaseMutation";
 
-import {
-  DAILY_ACTIVITY_META,
-  ACTIVITY_DATA,
-  CREATE_BOOKING,
-  DELETE_BOOKING,
-  CREATE_ACTIVITY_DETAIL,
-  EDIT_ACTIVITY_DETAIL,
-} from "../../../graphql/schedule";
+import { CREATE_BOOKING } from "../../../graphql/schedule";
 
 const useStyles = makeStyles((theme) => ({
   saveButton: {
@@ -54,6 +42,7 @@ interface IScheduleTableEditRowProps {
   date?: Date;
   cancelEditingBooking?: () => void;
   bookingData?: Booking;
+  refetchBookings?: () => void;
 }
 
 export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
@@ -61,6 +50,7 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
   date,
   cancelEditingBooking,
   bookingData,
+  refetchBookings,
 }) => {
   const [user, setUser] = React.useState<IUser>();
   const [instructor, setInstructor] = React.useState<IUser>();
@@ -68,7 +58,12 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
   const [formData, setFormData] = useFormData(bookingData);
   const isBoatBooking = tableType === "AM_BOAT" || tableType === "PM_BOAT";
 
-  const { mutation: createBooking } = useBaseMutation(CREATE_BOOKING);
+  const { mutation: createBooking } = useBaseMutation(CREATE_BOOKING, {
+    onCompleted: (data: any) => {
+      refetchBookings();
+      cancelEditingBooking();
+    },
+  });
 
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((oldState: IFormData) => {
@@ -94,16 +89,12 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
 
   const handleSaveBooking = () => {
     if (isValidBookingData(formData)) {
-      if (createBooking) {
-        const createBookingData = buildCreateBookingData(
-          formData,
-          tableType as string,
-          date as Date
-        );
-        createBooking(createBookingData);
-      }
-    } else {
-      console.log("Alert in schedule table edit row");
+      const createBookingData = buildCreateBookingData(
+        formData,
+        tableType as string,
+        date as Date
+      );
+      createBooking({ variables: createBookingData });
     }
   };
 

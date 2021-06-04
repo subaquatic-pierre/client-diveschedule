@@ -4,7 +4,7 @@ import {
   DAILY_ACTIVITY_META,
   ACTIVITY_DATA,
   CREATE_BOOKING,
-  DELETE_BOOKING,
+  DELETE_BOOKINGS,
   CREATE_ACTIVITY_DETAIL,
   EDIT_ACTIVITY_DETAIL,
 } from "./queries";
@@ -65,7 +65,7 @@ export class ScheduleController extends BaseController {
 
   deleteBooking = async (bookingId, setState) => {
     const { data, error } = await this._performApolloRequest({
-      mutation: DELETE_BOOKING,
+      mutation: DELETE_BOOKINGS,
       variables: { bookingId: parseInt(bookingId) },
     });
 

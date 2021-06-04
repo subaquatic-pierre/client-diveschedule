@@ -30,6 +30,11 @@ export default function useApolloSetup() {
                   return incoming;
                 },
               },
+              bookingSet: {
+                merge(existing, incoming) {
+                  return incoming;
+                },
+              },
             },
           },
         },

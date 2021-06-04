@@ -13,7 +13,8 @@ import { getHeadFields } from "../utils";
 
 import { Booking, ActivityDetail } from "../../../@types/schedule";
 
-import { ACTIVITY_DATA } from "../../../graphql/schedule";
+import { ACTIVITY_DATA, DELETE_BOOKINGS } from "../../../graphql/schedule";
+import useBaseMutation from "../../../hooks/useBaseMutation";
 import { messageController } from "../../../controllers/messages";
 
 const useStyles = makeStyles((theme) => ({
@@ -72,11 +73,22 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   // Data state
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [activity, setActivity] = useState<ActivityDetail>(blankActivityData);
-  const [getData, { data, loading }] = useLazyQuery(ACTIVITY_DATA, {
+  const [getData, { data, loading, refetch }] = useLazyQuery(ACTIVITY_DATA, {
     onError: (error: any) => {
       setError(error.message);
     },
   });
+
+  const { mutation: deleteBookings } = useBaseMutation(DELETE_BOOKINGS, {
+    onCompleted: (data: any) => {
+      refetch();
+      setSelected([]);
+    },
+  });
+
+  const handleDeleteBookings = () => {
+    deleteBookings({ variables: { ids: selected } });
+  };
 
   const handleSelectAllClick = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -118,17 +130,19 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
 
   // Get table data, populate booking array or set blank
   useEffect(() => {
-    if (activityId !== "-1") {
+    if (activityId === "-1") {
+      setActivity(blankActivityData);
+      setBookings([]);
+    } else {
       getData({ variables: { activityId } });
       if (data) {
         setActivity(data.activityData);
         setBookings(data.activityData.bookingSet);
       }
-    } else {
-      setActivity(blankActivityData);
-      setBookings([]);
     }
   }, [activityId, data]);
+
+  console.log(bookings);
 
   return (
     <Box dir="ltr">
@@ -140,6 +154,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
             numSelected={selected.length}
             showCreateBookingRow={showCreateBookingRow}
             showAddBooking={!creatingBooking && editingBookingId === -1}
+            deleteBookings={handleDeleteBookings}
           />
 
           <TableContainer className={classes.tableContainer}>
@@ -192,6 +207,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
                       date={date}
                       tableType={activity.activityType}
                       cancelEditingBooking={cancelEditingBooking}
+                      refetchBookings={refetch}
                     />
                   )}
                 </TableBody>

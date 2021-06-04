@@ -131,9 +131,13 @@ export const BOOKING_QUERY = gql`
   }
 `;
 
-export const DELETE_BOOKING = gql`
-  mutation DeleteBooking($id: ID!) {
-    deleted
+export const DELETE_BOOKINGS = gql`
+  mutation DeleteBooking($ids: [ID]!) {
+    deleteBookings(ids: $ids) {
+      bookings {
+        id
+      }
+    }
   }
 `;
 

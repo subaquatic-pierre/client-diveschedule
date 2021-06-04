@@ -17,9 +17,6 @@ import { ActivityDetail } from "../../../@types/schedule";
 import { EditTripDetailForm } from "./ScheduleTableDetailForm";
 import { getToolbarHeading } from "../utils";
 import useAuth from "../../../hooks/useAuth";
-import useBaseMutation from "../../../hooks/useBaseMutation";
-
-import { DELETE_BOOKING } from "../../../graphql/schedule";
 
 const useStyles = makeStyles((theme) => ({
   toolbarRoot: {
@@ -51,6 +48,7 @@ interface IScheduleTableToolbarProps {
   tableType: string;
   showAddBooking: boolean;
   showCreateBookingRow: () => void;
+  deleteBookings: () => void;
 }
 
 export const ScheduleTableToolbar: React.FC<IScheduleTableToolbarProps> = ({
@@ -59,13 +57,13 @@ export const ScheduleTableToolbar: React.FC<IScheduleTableToolbarProps> = ({
   tableType,
   showAddBooking,
   showCreateBookingRow,
+  deleteBookings,
 }) => {
   const {
     user: {
       profile: { role },
     },
   } = useAuth();
-  const { mutation: deleteBooking } = useBaseMutation(DELETE_BOOKING);
   const isAdmin = role === "admin";
   const classes = useStyles();
   const [moreMenuAnchorEl, setMoreMenuAnchorEl] = React.useState(null);
@@ -128,7 +126,7 @@ export const ScheduleTableToolbar: React.FC<IScheduleTableToolbarProps> = ({
       {numSelected > 0 ? (
         <>
           <Tooltip title="Delete">
-            <IconButton aria-label="delete" onClick={deleteBooking}>
+            <IconButton aria-label="delete" onClick={deleteBookings}>
               <DeleteIcon />
             </IconButton>
           </Tooltip>
