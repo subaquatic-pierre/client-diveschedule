@@ -1,15 +1,15 @@
 import { ApolloClient } from "@apollo/client";
-import { deleteAuthToken } from "../../utils/auth";
-import { AuthCache, AuthController } from "./types";
+import { deleteAuthToken } from "../utils/auth";
+import { AuthCache, AuthController } from "../graphql/auth/";
 import {
   LOGIN_MUTATION,
   CREATE_USER_MUTATION,
   LOGOUT_MUTATION,
   AUTH_VIEWER_QUERY,
-} from "./queries";
+} from "../graphql/auth";
 
-import { defaultUser } from "../../hooks/useAuth";
-import { messageController } from "../../controllers/messages";
+import { defaultUser } from "../hooks/useAuth";
+import { messageController } from "../controllers/messages";
 
 const initialAuthState: AuthCache = {
   viewer: {

@@ -8,7 +8,7 @@ import useIsMountedRef from "../../../hooks/useIsMountedRef";
 // utils
 import { emailError } from "../../../utils/helpError";
 import { useApolloClient } from "@apollo/client";
-import { authController } from "../../../graphql/auth";
+import { authController } from "../../../controllers/auth";
 
 // ----------------------------------------------------------------------
 

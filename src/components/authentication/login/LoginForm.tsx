@@ -19,7 +19,7 @@ import { LoadingButton } from "@material-ui/lab";
 // routes
 import { PATH_AUTH } from "../../../routes/paths";
 // hooks
-import { authController } from "../../../graphql/auth";
+import { authController } from "../../../controllers/auth";
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
 // utils
 import { passwordError, emailError } from "../../../utils/helpError";

@@ -1,5 +1,5 @@
 import { useApolloClient } from "@apollo/client";
-import { initAuth } from "../graphql/auth/auth";
+import { initAuth } from "../controllers/auth";
 import { initSettings } from "../controllers/settings";
 import { initMessages } from "../controllers/messages";
 

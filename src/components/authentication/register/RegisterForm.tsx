@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import { LoadingButton } from "@material-ui/lab";
 // hooks
-import { authController } from "../../../graphql/auth";
+import { authController } from "../../../controllers/auth";
 import { messageController } from "../../../controllers/messages";
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
 // utils
