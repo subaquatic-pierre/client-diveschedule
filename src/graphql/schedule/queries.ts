@@ -1,18 +1,6 @@
 import { gql } from "@apollo/client";
-import {
-  bookingFragment,
-  profileFragment,
-  activityDetailFragment,
-} from "./fragments";
-
-const UserFragment = gql`
-  ${profileFragment}
-  fragment UserFragment on UserType {
-    email
-    password
-    ...ProfileFragment
-  }
-`;
+import { bookingFragment, activityDetailFragment } from "./fragments";
+import { profileFragment } from "../user";
 
 export const CREATE_BOOKING = gql`
   ${bookingFragment}
@@ -129,11 +117,15 @@ export const BOOKING_QUERY = gql`
       equipment
       time
       instructor {
-        ...ProfileFragment
+        profile {
+          ...ProfileFragment
+        }
       }
       diver {
         email
-        ...ProfileFragment
+        profile {
+          ...ProfileFragment
+        }
       }
     }
   }
@@ -168,7 +160,9 @@ export const ACTIVITY_DATA = gql`
       diveSite1
       diveSite2
       diveGuides {
-        ...ProfileFragment
+        profile {
+          ...ProfileFragment
+        }
       }
       bookingSet {
         ...BookingFragment

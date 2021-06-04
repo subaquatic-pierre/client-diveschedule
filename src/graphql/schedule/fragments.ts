@@ -1,17 +1,8 @@
 import { gql } from "@apollo/client";
-
-export const profileFragment = gql`
-  fragment ProfileFragment on UserType {
-    profile {
-      fullName
-      certLevel
-      equipment
-      phoneNumber
-    }
-  }
-`;
+import { profileFragment } from "../user";
 
 export const bookingFragment = gql`
+  ${profileFragment}
   fragment BookingFragment on BookingType {
     id
     diverRole
@@ -21,15 +12,20 @@ export const bookingFragment = gql`
       activityType
     }
     instructor {
-      ...ProfileFragment
+      profile {
+        ...ProfileFragment
+      }
     }
     diver {
-      ...ProfileFragment
+      profile {
+        ...ProfileFragment
+      }
     }
   }
 `;
 
 export const activityDetailFragment = gql`
+  ${profileFragment}
   fragment ActivityDetailFragment on ActivityDetailType {
     id
     activityType
@@ -38,7 +34,9 @@ export const activityDetailFragment = gql`
     diveSite2
     diveGuides {
       id
-      ...ProfileFragment
+      profile {
+        ...ProfileFragment
+      }
     }
   }
 `;

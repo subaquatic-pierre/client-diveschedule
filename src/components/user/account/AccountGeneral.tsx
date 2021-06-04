@@ -39,7 +39,7 @@ import { messageController } from "../../../controllers/messages";
 import { Profile } from "../../../@types/user";
 
 // graphql
-import { CreateUserParams } from "../../../graphql/user";
+import { CreateUserParams } from "../../../@types/user";
 import {
   GET_USER_PROFILE,
   CREATE_USER,

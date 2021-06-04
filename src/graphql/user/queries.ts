@@ -1,27 +1,8 @@
 import { gql } from "@apollo/client";
-
-const ProfileFragment = gql`
-  fragment ProfileFragment on ProfileType {
-    email
-    fullName
-    certLevel
-    equipment
-    phoneNumber
-  }
-`;
-
-const UserFragment = gql`
-  ${ProfileFragment}
-  fragment UserFragment on UserType {
-    id
-    profile {
-      ...ProfileFragment
-    }
-  }
-`;
+import { profileFragment, userFragment } from "./fragments";
 
 export const GET_USER_PROFILE = gql`
-  ${ProfileFragment}
+  ${profileFragment}
   query UserProfile($id: ID!) {
     userProfile(userId: $id) {
       ...ProfileFragment
@@ -30,7 +11,7 @@ export const GET_USER_PROFILE = gql`
 `;
 
 export const USER_LIST_QUERY = gql`
-  ${UserFragment}
+  ${userFragment}
   query UserListQuery {
     allUsers {
       edges {
@@ -52,7 +33,7 @@ export const DELETE_USERS = gql`
 `;
 
 export const CREATE_USER = gql`
-  ${UserFragment}
+  ${userFragment}
   mutation CreateUser(
     $email: String!
     $fullName: String
@@ -75,7 +56,7 @@ export const CREATE_USER = gql`
 `;
 
 export const UPDATE_PROFILE = gql`
-  ${UserFragment}
+  ${userFragment}
   mutation UpdateProfile(
     $userId: ID!
     $fullName: String

@@ -1,9 +1,10 @@
 import { ApolloClient } from "@apollo/client";
 import { deleteAuthToken } from "../utils/auth";
-import { AuthCache, AuthController } from "../graphql/auth/";
+import { AuthCache } from "../graphql/auth/";
+import { AuthController } from "../@types/controllers";
 import {
   LOGIN_MUTATION,
-  CREATE_USER_MUTATION,
+  REGISTER_MUTATION,
   LOGOUT_MUTATION,
   AUTH_VIEWER_QUERY,
 } from "../graphql/auth";
@@ -68,7 +69,7 @@ export const authController = (client: ApolloClient<any>): AuthController => {
     const fullName = `${firstName} ${lastName}`;
     try {
       await client.mutate({
-        mutation: CREATE_USER_MUTATION,
+        mutation: REGISTER_MUTATION,
         variables: {
           email: email,
           password: password,

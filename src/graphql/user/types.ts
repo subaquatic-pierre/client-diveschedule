@@ -1,14 +1,6 @@
 import { SetState } from "../index";
-import { Profile, User } from "../../@types/user";
+import { Profile, User, CreateUserParams } from "../../@types/user";
 import { LoadingState } from "../../hooks/useFetchStatus";
-
-export type CreateUserParams = {
-  fullName: string;
-  email: string;
-  phoneNumber?: string;
-  certLevel?: string;
-  equipment?: string;
-};
 
 export interface IUserControls {
   getUserList: (setState: SetState<LoadingState<User[]>>) => void;

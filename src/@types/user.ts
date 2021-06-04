@@ -14,3 +14,11 @@ export type User = {
   isAdmin: boolean;
   profile: Profile;
 };
+
+export type CreateUserParams = {
+  fullName: string;
+  email: string;
+  phoneNumber?: string;
+  certLevel?: string;
+  equipment?: string;
+};
