@@ -17,7 +17,7 @@ import MyAvatar from "../../components/MyAvatar";
 import MenuPopover from "../../components/MenuPopover";
 import { authController } from "../../graphql/auth";
 import { useApolloClient } from "@apollo/client";
-import { messagesController } from "../../graphql/messages";
+import { messagesController } from "../../controllers/messages";
 
 // ----------------------------------------------------------------------
 

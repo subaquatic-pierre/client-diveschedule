@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { useApolloClient, useQuery } from "@apollo/client";
 import { AuthCache } from "../../graphql/auth";
 import { AUTH_VIEWER_QUERY } from "../../graphql/auth";
-import { messagesController } from "../../graphql/messages";
+import { messagesController } from "../../controllers/messages";
 
 type AuthProviderProps = {
   children: ReactNode;

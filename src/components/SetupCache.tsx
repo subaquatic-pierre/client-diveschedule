@@ -1,7 +1,7 @@
 import { useApolloClient } from "@apollo/client";
 import { initAuth } from "../graphql/auth/auth";
 import { initSettings } from "../graphql/settings";
-import { initMessages } from "../graphql/messages";
+import { initMessages } from "../controllers/messages";
 
 export default function SetupCache() {
   const client = useApolloClient();

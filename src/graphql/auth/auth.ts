@@ -9,7 +9,7 @@ import {
 } from "./queries";
 
 import { defaultUser } from "../user";
-import { messagesController } from "../messages";
+import { messagesController } from "../../controllers/messages";
 
 const initialAuthState: AuthCache = {
   viewer: {

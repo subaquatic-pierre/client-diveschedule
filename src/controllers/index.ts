@@ -1,6 +1,6 @@
 import { ApolloClient, DocumentNode, FetchPolicy } from "@apollo/client";
 import { Dispatch, SetStateAction } from "react";
-import { messagesController } from "../controllers/messages";
+import { messagesController } from "./messages";
 
 import NProgress from "nprogress";
 

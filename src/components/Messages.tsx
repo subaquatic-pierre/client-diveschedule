@@ -1,10 +1,7 @@
 import { useEffect } from "react";
 import { useApolloClient, useQuery } from "@apollo/client";
-import {
-  messagesController,
-  MESSAGE_CACHE_QUERY,
-  MessagesCache,
-} from "../graphql/messages";
+import { MESSAGE_CACHE_QUERY, MessagesCache } from "../graphql/messages";
+import { messagesController } from "../controllers/messages";
 import { useSnackbar } from "notistack";
 
 export default function Messages() {

@@ -26,7 +26,7 @@ import {
   FormState,
 } from "../../../utils/buildAccountFormData";
 import useAuth from "../../../hooks/useAuth";
-import { messagesController } from "../../../graphql/messages";
+import { messagesController } from "../../../controllers/messages";
 import useFetchStatus from "../../../hooks/useFetchStatus";
 import LoadingScreen from "../../LoadingScreen";
 import { Profile } from "../../../@types/user";
