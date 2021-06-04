@@ -25,7 +25,7 @@ import { formatDate } from "../../../utils/date";
 import { ActivityDetail, IUser } from "../../../@types/schedule";
 import { UserSearchInput } from "../UserSearchInput";
 import { useApolloClient } from "@apollo/client";
-import { ScheduleController } from "../../../controllers/schedule";
+import { ScheduleController } from "../../../graphql/schedule";
 import useFetchStatus from "../../../hooks/useFetchStatus";
 
 const siteOptions = [

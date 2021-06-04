@@ -7,7 +7,7 @@ import TableRow from "@material-ui/core/TableRow";
 import CancelIcon from "@material-ui/icons/Cancel";
 import Tooltip from "@material-ui/core/Tooltip";
 
-import { SEARCH_USERS } from "../../../controllers/user/queries";
+import { SEARCH_USERS } from "../../../graphql/user/queries";
 import { AutoCompleteSearch } from "../../AutoCompleteSearch";
 import { UserSearchInput } from "../UserSearchInput";
 import { Booking, IUser } from "../../../@types/schedule";

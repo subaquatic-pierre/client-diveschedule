@@ -1,9 +1,6 @@
 import { useApolloClient, useQuery } from "@apollo/client";
-import {
-  SETTINGS_CACHE_QUERY,
-  settingsController,
-} from "../controllers/settings";
-import { SettingsCache } from "../controllers/settings";
+import { SETTINGS_CACHE_QUERY, settingsController } from "../graphql/settings";
+import { SettingsCache } from "../graphql/settings";
 
 // ----------------------------------------------------------------------
 

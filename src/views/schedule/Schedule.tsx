@@ -12,9 +12,9 @@ import HeaderDashboard from "../../components/HeaderDashboard";
 import { ScheduleTable } from "../../components/schedule/table/ScheduleTable";
 import { ScheduleInfoBar } from "../../components/schedule/ScheduleInfoBar";
 
-import { BookingMeta } from "../../controllers/schedule/types";
+import { BookingMeta } from "../../graphql/schedule/types";
 import useFetchStatus from "../../hooks/useFetchStatus";
-import { ScheduleController } from "../../controllers/schedule";
+import { ScheduleController } from "../../graphql/schedule";
 import LoadingScreen from "../../components/LoadingScreen";
 
 export default function Schedule() {

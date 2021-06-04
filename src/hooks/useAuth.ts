@@ -1,8 +1,8 @@
 import { useApolloClient, useQuery } from "@apollo/client";
-import { AUTH_VIEWER_QUERY } from "../controllers/auth/queries";
-import { defaultUser } from "../controllers/user/user";
+import { AUTH_VIEWER_QUERY } from "../graphql/auth/queries";
+import { defaultUser } from "../graphql/user/user";
 import { User } from "../@types/user";
-import { messagesController } from "../controllers/messages";
+import { messagesController } from "../graphql/messages";
 
 // ----------------------------------------------------------------------
 

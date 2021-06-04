@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SetState } from "../controllers";
+import { SetState } from "../graphql";
 
 export interface LoadingState<TData> {
   loading: boolean;

@@ -21,7 +21,7 @@ import {
 import { User } from "../../@types/user";
 
 // controllers
-import { UserController } from "../../controllers/user";
+import { UserController } from "../../graphql/user";
 
 // hooks
 import useFetchStatus from "../../hooks/useFetchStatus";

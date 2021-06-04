@@ -19,14 +19,14 @@ import { LoadingButton } from "@material-ui/lab";
 // hooks
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
 import { UploadAvatar } from "../../upload";
-import { CreateUserParams, UserController } from "../../../controllers/user";
+import { CreateUserParams, UserController } from "../../../graphql/user";
 import {
   buildFormData,
   emptyFormVals,
   FormState,
 } from "../../../utils/buildAccountFormData";
 import useAuth from "../../../hooks/useAuth";
-import { messagesController } from "../../../controllers/messages";
+import { messagesController } from "../../../graphql/messages";
 import useFetchStatus from "../../../hooks/useFetchStatus";
 import LoadingScreen from "../../LoadingScreen";
 import { Profile } from "../../../@types/user";

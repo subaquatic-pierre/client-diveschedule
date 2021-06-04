@@ -4,7 +4,7 @@ import {
   messagesController,
   MESSAGE_CACHE_QUERY,
   MessagesCache,
-} from "../controllers/messages";
+} from "../graphql/messages";
 import { useSnackbar } from "notistack";
 
 export default function Messages() {

@@ -15,9 +15,9 @@ import useIsMountedRef from "../../hooks/useIsMountedRef";
 import { MIconButton } from "../../components/@material-extend";
 import MyAvatar from "../../components/MyAvatar";
 import MenuPopover from "../../components/MenuPopover";
-import { authController } from "../../controllers/auth";
+import { authController } from "../../graphql/auth";
 import { useApolloClient } from "@apollo/client";
-import { messagesController } from "../../controllers/messages";
+import { messagesController } from "../../graphql/messages";
 
 // ----------------------------------------------------------------------
 

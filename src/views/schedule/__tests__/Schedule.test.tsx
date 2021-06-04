@@ -4,7 +4,7 @@ import {
   CREATE_BOOKING,
   DELETE_BOOKING,
   GET_DAY,
-} from "../../../controllers/schedule/queries";
+} from "../../../graphql/schedule/queries";
 import { Schedule } from "../Schedule";
 
 // Test the pipeline works on push

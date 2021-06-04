@@ -13,12 +13,12 @@ import { getHeadFields } from "../utils";
 import {
   CREATE_BOOKING,
   DELETE_BOOKING,
-} from "../../../controllers/schedule/queries";
+} from "../../../graphql/schedule/queries";
 import { Booking, ActivityDetail } from "../../../@types/schedule";
 import { useBaseMutation } from "../../../hooks/baseMutation";
 import useFetchStatus from "../../../hooks/useFetchStatus";
 
-import { ScheduleController } from "../../../controllers/schedule";
+import { ScheduleController } from "../../../graphql/schedule";
 import { useApolloClient } from "@apollo/client";
 
 const useStyles = makeStyles((theme) => ({

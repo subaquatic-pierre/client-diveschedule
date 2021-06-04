@@ -1,6 +1,6 @@
 import { useApolloClient } from "@apollo/client";
 import { Box, Card, Typography, Button } from "@material-ui/core";
-import { messagesController } from "../../../controllers/messages";
+import { messagesController } from "../../../graphql/messages";
 // ----------------------------------------------------------------------
 
 export default function AppTest() {
