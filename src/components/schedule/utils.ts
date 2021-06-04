@@ -2,38 +2,6 @@ import { Booking, ActivityDetail, IUser } from "../../@types/schedule";
 import { formatDate } from "../../utils/date";
 import { IFormData } from "./hooks";
 
-export const buildFormData = (diveTripDetail: ActivityDetail): IFormData => {
-  const date = formatDate(diveTripDetail.day.date, "server");
-  const initialFormData: IFormData = {
-    activityType: diveTripDetail.activityType,
-    date,
-    diveSite1: "",
-    diveSite2: "",
-    diveGuides: [],
-  };
-
-  if (diveTripDetail.id === -1) {
-    return initialFormData;
-  }
-  const site1 =
-    diveTripDetail.diveSite1 !== null
-      ? diveTripDetail.diveSite1
-      : initialFormData.diveSite1;
-  const site2 =
-    diveTripDetail.diveSite2 !== null
-      ? diveTripDetail.diveSite2
-      : initialFormData.diveSite2;
-  return {
-    id: diveTripDetail.id,
-    time: diveTripDetail.time,
-    date,
-    activityType: diveTripDetail.activityType,
-    diveSite1: site1,
-    diveSite2: site2,
-    diveGuides: diveTripDetail.diveGuides as IUser[],
-  };
-};
-
 const capitalizeWord = (word: string): string => {
   const firstLetter = word.slice(0, 1).toUpperCase();
   const restWord = word.slice(1);
@@ -174,18 +142,4 @@ export const buildCreateBookingData = (
     instructorId: instructorId as number,
     time: time as string,
   };
-};
-
-export const buildEditBookingData = (
-  formData: IFormData,
-  bookingData: Booking
-): IEditBooking => {
-  const { equipment, diverRole } = formData;
-  const mutationData = {
-    id: bookingData.id,
-    equipment,
-    diverRole,
-  };
-
-  return mutationData as any;
 };

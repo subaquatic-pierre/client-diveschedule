@@ -14,8 +14,6 @@ import { Booking, IUser } from "../../../@types/schedule";
 import { useFormData, IFormData } from "../hooks";
 import {
   ICreateBooking,
-  IEditBooking,
-  buildEditBookingData,
   buildCreateBookingData,
   getUser,
   getUserOptions,

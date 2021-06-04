@@ -190,10 +190,7 @@ export const ScheduleTableToolbar: React.FC<IScheduleTableToolbarProps> = ({
         }}
       >
         <div className={classes.popoverContainer}>
-          <EditTripDetailForm
-            handleClose={handleEditTripPopoverClose}
-            diveTripDetail={diveTripDetail}
-          />
+          <EditTripDetailForm diveTripDetail={diveTripDetail} />
         </div>
       </Popover>
     </Toolbar>

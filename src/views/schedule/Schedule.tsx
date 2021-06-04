@@ -21,15 +21,13 @@ export default function Schedule() {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
   const client = useApolloClient();
 
+  // Schedule controller
   const [{ data: activityMeta, loading }, setActivityMeta] = useFetchStatus<
     BookingMeta[]
   >([]);
   const { getDailyActivityMeta } = ScheduleController.getControls(client);
 
-  const getActivityId = (
-    activityMeta: BookingMeta[],
-    activityType: string
-  ): string => {
+  const getActivityId = (activityType: string): string => {
     const activity = activityMeta.find(
       (activity) => activity.activityType === activityType
     );
@@ -85,7 +83,7 @@ export default function Schedule() {
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <ScheduleTable
-                activityId={getActivityId(activityMeta, "AM_BOAT")}
+                activityId={getActivityId("AM_BOAT")}
                 tableType="AM_BOAT"
                 date={selectedDate}
               />
@@ -93,7 +91,7 @@ export default function Schedule() {
 
             <Grid item xs={12} sm={6}>
               <ScheduleTable
-                activityId={getActivityId(activityMeta, "PM_BOAT")}
+                activityId={getActivityId("PM_BOAT")}
                 tableType="PM_BOAT"
                 date={selectedDate}
               />
@@ -101,7 +99,7 @@ export default function Schedule() {
 
             <Grid item xs={12} sm={6}>
               <ScheduleTable
-                activityId={getActivityId(activityMeta, "POOL")}
+                activityId={getActivityId("POOL")}
                 tableType="POOL"
                 date={selectedDate}
               />
@@ -109,7 +107,7 @@ export default function Schedule() {
 
             <Grid item xs={12} sm={6}>
               <ScheduleTable
-                activityId={getActivityId(activityMeta, "SHORE")}
+                activityId={getActivityId("SHORE")}
                 tableType="SHORE"
                 date={selectedDate}
               />
@@ -117,7 +115,7 @@ export default function Schedule() {
 
             <Grid item xs={12} sm={6}>
               <ScheduleTable
-                activityId={getActivityId(activityMeta, "CLASS")}
+                activityId={getActivityId("CLASS")}
                 tableType="CLASS"
                 date={selectedDate}
               />

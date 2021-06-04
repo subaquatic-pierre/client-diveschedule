@@ -3,17 +3,13 @@ import { makeStyles } from "@material-ui/core";
 
 import TableCell from "@material-ui/core/TableCell";
 import Checkbox from "@material-ui/core/Checkbox";
-import IconButton from "@material-ui/core/IconButton";
 import TableRow from "@material-ui/core/TableRow";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import Tooltip from "@material-ui/core/Tooltip";
 import Popover from "@material-ui/core/Popover";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 
 import { Booking } from "../../../@types/schedule";
-import { buildEditBookingData } from "../utils";
 
 const useStyles = makeStyles((theme) => ({
   moreMenu: {

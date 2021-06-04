@@ -72,14 +72,14 @@ export const EDIT_BOOKING = gql`
   }
 `;
 
-export const EDIT_DIVE_TRIP_DETAIL = gql`
-  mutation EditDiveTripDetail(
+export const EDIT_ACTIVITY_DETAIL = gql`
+  mutation EditActivityDetail(
     $id: ID!
     $diveSite1: String
     $diveSite2: String
     $diveGuides: [ID]
   ) {
-    editTripDetail(
+    editActivityDetail(
       id: $id
       diveSite1: $diveSite1
       diveSite2: $diveSite2
@@ -92,8 +92,8 @@ export const EDIT_DIVE_TRIP_DETAIL = gql`
   }
 `;
 
-export const CREATE_DIVE_TRIP_DETAIL = gql`
-  mutation CreateDiveTripDetail(
+export const CREATE_ACTIVITY_DETAIL = gql`
+  mutation CreateActivityDetail(
     $diveSite1: String
     $diveSite2: String
     $diveGuides: [ID]
@@ -101,7 +101,7 @@ export const CREATE_DIVE_TRIP_DETAIL = gql`
     $time: String
     $activityType: String
   ) {
-    createTripDetail(
+    createActivityDetail(
       diveSite1: $diveSite1
       diveSite2: $diveSite2
       diveGuides: $diveGuides
@@ -134,37 +134,6 @@ export const BOOKING_QUERY = gql`
       diver {
         email
         ...ProfileFragment
-      }
-    }
-  }
-`;
-
-export const GET_DAY = gql`
-  ${profileFragment}
-  ${activityDetailFragment}
-  ${bookingFragment}
-  query GetDay($date: Date!) {
-    day(date: $date) {
-      __typename
-      ... on DayType {
-        id
-        date
-        teamMembersOff {
-          ...ProfileFragment
-        }
-        noteSet {
-          title
-          text
-        }
-        activitydetailSet {
-          day {
-            date
-          }
-          ...ActivityDetailFragment
-          bookingSet {
-            ...BookingFragment
-          }
-        }
       }
     }
   }

@@ -149,6 +149,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
     if (activity && activity.bookingSet) {
       setBookings(activity.bookingSet);
     }
+    console.log(activity);
   }, [activity]);
 
   return (

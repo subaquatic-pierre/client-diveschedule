@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Grid,
@@ -21,14 +21,12 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import DoneIcon from "@material-ui/icons/Done";
 import { makeStyles } from "@material-ui/core/styles";
 
+import { formatDate } from "../../../utils/date";
 import { ActivityDetail, IUser } from "../../../@types/schedule";
 import { UserSearchInput } from "../UserSearchInput";
-import {
-  EDIT_DIVE_TRIP_DETAIL,
-  CREATE_DIVE_TRIP_DETAIL,
-} from "../../../controllers/schedule/queries";
-import { buildFormData } from "../utils";
-import { useBaseMutation } from "../../../hooks/baseMutation";
+import { useApolloClient } from "@apollo/client";
+import { ScheduleController } from "../../../controllers/schedule";
+import useFetchStatus from "../../../hooks/useFetchStatus";
 
 const siteOptions = [
   "Artificial Reef",
@@ -91,6 +89,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+export const buildFormData = (diveTripDetail: ActivityDetail): IFormData => {
+  const date = formatDate(diveTripDetail.day.date, "server");
+  const initialFormData: IFormData = {
+    activityType: diveTripDetail.activityType,
+    date,
+    diveSite1: "",
+    diveSite2: "",
+    diveGuides: [],
+  };
+
+  if (diveTripDetail.id === -1) {
+    return initialFormData;
+  }
+  const site1 =
+    diveTripDetail.diveSite1 !== null
+      ? diveTripDetail.diveSite1
+      : initialFormData.diveSite1;
+  const site2 =
+    diveTripDetail.diveSite2 !== null
+      ? diveTripDetail.diveSite2
+      : initialFormData.diveSite2;
+  return {
+    id: diveTripDetail.id,
+    time: diveTripDetail.time,
+    date,
+    activityType: diveTripDetail.activityType,
+    diveSite1: site1,
+    diveSite2: site2,
+    diveGuides: diveTripDetail.diveGuides as IUser[],
+  };
+};
+
 export interface IFormData {
   [key: string]: any;
   id?: number;
@@ -103,27 +133,32 @@ export interface IFormData {
 
 interface IEditTripDetailFormProps {
   diveTripDetail?: ActivityDetail;
-  handleClose: any;
 }
 
 export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
   diveTripDetail,
-  handleClose,
 }: any) => {
-  const initialFormData = buildFormData(diveTripDetail);
+  const client = useApolloClient();
+  const classes = useStyles();
   const [addGuide, setAddGuide] = React.useState(false);
   const [user, setUser] = React.useState<IUser | null>(null);
+
+  // FormData state
   const [formData, setFormData] = React.useState<IFormData>(
-    initialFormData as any
-  );
-  const { mutation: submitEditTripDetail } = useBaseMutation(
-    EDIT_DIVE_TRIP_DETAIL
-  );
-  const { mutation: submitCreateTripDetail } = useBaseMutation(
-    CREATE_DIVE_TRIP_DETAIL
+    buildFormData(diveTripDetail)
   );
 
-  const classes = useStyles();
+  // Activity detail state
+  const [
+    { data: activityDetail },
+    setActivityDetail,
+  ] = useFetchStatus<ActivityDetail>();
+
+  // Schedule controls
+  const {
+    createActivityDetail,
+    editActivityDetail,
+  } = ScheduleController.getControls(client);
 
   const handleFormChange = (event: any) => {
     setFormData((oldState: IFormData) => ({
@@ -155,7 +190,6 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
   };
 
   const handleSaveTripDetail = () => {
-    console.log(formData);
     const vars = {
       date: formData.date,
       diveGuides: getGuideIds(),
@@ -165,13 +199,10 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
       time: formData.time,
       activityType: formData.activityType,
     };
-    console.log(vars);
     if (isEditTrip()) {
-      submitEditTripDetail({ variables: vars });
+      editActivityDetail(vars, setActivityDetail);
     } else {
-      submitCreateTripDetail({
-        variables: vars,
-      });
+      createActivityDetail(vars, setActivityDetail);
     }
   };
 
@@ -192,6 +223,10 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
     }
     setAddGuide(false);
   };
+
+  useEffect(() => {
+    console.log(activityDetail);
+  }, [activityDetail]);
 
   return (
     <>
