@@ -17,7 +17,7 @@ import MyAvatar from "../../components/MyAvatar";
 import MenuPopover from "../../components/MenuPopover";
 import { authController } from "../../graphql/auth";
 import { useApolloClient } from "@apollo/client";
-import { messagesController } from "../../controllers/messages";
+import { messageController } from "../../controllers/messages";
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +42,7 @@ export default function AccountPopover() {
   const anchorRef = useRef(null);
   const { user } = useAuth();
   const { logout } = authController(client);
-  const { setError } = messagesController(client);
+  const { setError } = messageController(client);
   const isMountedRef = useIsMountedRef();
   const [open, setOpen] = useState(false);
 

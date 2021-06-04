@@ -1,11 +1,11 @@
 import { useApolloClient } from "@apollo/client";
 import { Box, Card, Typography, Button } from "@material-ui/core";
-import { messagesController } from "../../../controllers/messages";
+import { messageController } from "../../../controllers/messages";
 // ----------------------------------------------------------------------
 
 export default function AppTest() {
   const client = useApolloClient();
-  const { setError, setSuccess } = messagesController(client);
+  const { setError, setSuccess } = messageController(client);
   return (
     <Card sx={{ display: "flex", alignItems: "center", p: 3 }}>
       <Box sx={{ flexGrow: 1 }}>

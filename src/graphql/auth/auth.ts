@@ -9,7 +9,7 @@ import {
 } from "./queries";
 
 import { defaultUser } from "../user";
-import { messagesController } from "../../controllers/messages";
+import { messageController } from "../../controllers/messages";
 
 const initialAuthState: AuthCache = {
   viewer: {
@@ -36,7 +36,7 @@ export const initAuth = (client: ApolloClient<any>): void => {
 };
 
 export const authController = (client: ApolloClient<any>): AuthController => {
-  const { setError, setSuccess } = messagesController(client);
+  const { setError, setSuccess } = messageController(client);
   // Login user
   const login = async ({ email, password }, history) => {
     try {

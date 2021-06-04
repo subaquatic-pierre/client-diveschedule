@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { useApolloClient, useQuery } from "@apollo/client";
 import { MESSAGE_CACHE_QUERY, MessagesCache } from "../graphql/messages";
-import { messagesController } from "../controllers/messages";
+import { messageController } from "../controllers/messages";
 import { useSnackbar } from "notistack";
 
 export default function Messages() {
   const client = useApolloClient();
   const { enqueueSnackbar } = useSnackbar();
-  const { clearError, clearSuccess } = messagesController(client);
+  const { clearError, clearSuccess } = messageController(client);
   const { data, error } = useQuery<MessagesCache>(MESSAGE_CACHE_QUERY, {
     fetchPolicy: "cache-only",
   });

@@ -15,7 +15,7 @@ import {
   DELETE_BOOKING,
 } from "../../../graphql/schedule/queries";
 import { Booking, ActivityDetail } from "../../../@types/schedule";
-import { useBaseMutation } from "../../../hooks/baseMutation";
+import { useBaseMutation } from "../../../hooks/useBaseMutation";
 import useFetchStatus from "../../../hooks/useFetchStatus";
 
 import { ScheduleController } from "../../../graphql/schedule";

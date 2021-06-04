@@ -26,7 +26,7 @@ import {
   FormState,
 } from "../../../utils/buildAccountFormData";
 import useAuth from "../../../hooks/useAuth";
-import { messagesController } from "../../../controllers/messages";
+import { messageController } from "../../../controllers/messages";
 import useFetchStatus from "../../../hooks/useFetchStatus";
 import LoadingScreen from "../../LoadingScreen";
 import { Profile } from "../../../@types/user";
@@ -74,7 +74,7 @@ export default function AccountGeneral({
     createUser,
     updateProfile,
   } = UserController.getControls(client, history);
-  const { setError } = messagesController(client);
+  const { setError } = messageController(client);
 
   // Handle formik default and error values
   const [formState, setFormState] = useState(emptyFormVals);

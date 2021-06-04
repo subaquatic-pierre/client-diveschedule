@@ -34,7 +34,7 @@ export const initMessages = (client: ApolloClient<any>): void => {
   }
 };
 
-export const messagesController = (
+export const messageController = (
   client: ApolloClient<any>
 ): MessagesController => {
   const _getMessagesState = (): MessagesCache => {

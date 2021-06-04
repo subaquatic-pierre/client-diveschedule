@@ -2,7 +2,7 @@ import { useApolloClient, useQuery } from "@apollo/client";
 import { AUTH_VIEWER_QUERY } from "../graphql/auth/queries";
 import { defaultUser } from "../graphql/user/user";
 import { User } from "../@types/user";
-import { messagesController } from "../controllers/messages";
+import { messageController } from "../controllers/messages";
 
 // ----------------------------------------------------------------------
 
@@ -38,7 +38,7 @@ const buildUser = (viewer: User = defaultUser) => {
 
 export default function useAuth() {
   const client = useApolloClient();
-  const { setError } = messagesController(client);
+  const { setError } = messageController(client);
   const { data, loading, error } = useQuery(AUTH_VIEWER_QUERY, {
     fetchPolicy: "network-only",
   });

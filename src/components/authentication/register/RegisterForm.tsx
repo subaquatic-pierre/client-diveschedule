@@ -1,10 +1,8 @@
 import * as Yup from "yup";
 import { useState } from "react";
 import { Icon } from "@iconify/react";
-import { useSnackbar } from "notistack";
 import { useFormik, Form, FormikProvider } from "formik";
 import eyeFill from "@iconify/icons-eva/eye-fill";
-import closeFill from "@iconify/icons-eva/close-fill";
 import eyeOffFill from "@iconify/icons-eva/eye-off-fill";
 // material
 import {
@@ -17,7 +15,7 @@ import {
 import { LoadingButton } from "@material-ui/lab";
 // hooks
 import { authController } from "../../../graphql/auth";
-import { messagesController } from "../../../controllers/messages";
+import { messageController } from "../../../controllers/messages";
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
 // utils
 import { emailError, passwordError } from "../../../utils/helpError";
@@ -41,7 +39,7 @@ export default function RegisterForm() {
 
   // Initialize controllers
   const { register } = authController(client);
-  const { setSuccess } = messagesController(client);
+  const { setSuccess } = messageController(client);
 
   const RegisterSchema = Yup.object().shape({
     firstName: Yup.string()

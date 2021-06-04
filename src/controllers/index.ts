@@ -1,6 +1,6 @@
 import { ApolloClient, DocumentNode, FetchPolicy } from "@apollo/client";
 import { Dispatch, SetStateAction } from "react";
-import { messagesController } from "./messages";
+import { messageController } from "./messages";
 
 import NProgress from "nprogress";
 
@@ -34,7 +34,7 @@ export class BaseController {
   constructor(client, history = null) {
     this.client = client;
     this.history = history;
-    const { setError, setSuccess } = messagesController(client);
+    const { setError, setSuccess } = messageController(client);
     this.setError = setError;
     this.setSuccess = setSuccess;
   }
