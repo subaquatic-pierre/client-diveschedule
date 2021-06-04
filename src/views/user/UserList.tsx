@@ -41,8 +41,8 @@ import {
 } from "../../utils/userListVIew";
 
 // hooks
-import { useBaseMutation } from "../../hooks/useBaseMutation";
-import { useBaseQuery } from "../../hooks/useBaseQuery";
+import useBaseMutation from "../../hooks/useBaseMutation";
+import useBaseQuery from "../../hooks/useBaseQuery";
 import { USER_LIST_QUERY, DELETE_USERS } from "../../graphql/user";
 
 // controllers

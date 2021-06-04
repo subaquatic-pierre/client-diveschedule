@@ -1,16 +1,18 @@
 import { useEffect } from "react";
-import { useApolloClient, useQuery } from "@apollo/client";
+import { FetchPolicy, useApolloClient, useQuery } from "@apollo/client";
 import { messageController } from "../controllers/messages";
 import NProgress from "nprogress";
 
 interface IBaseQueryOptions {
   errorMessage?: string;
   defaultData?: any;
+  variables?: any;
+  fetchPolicy?: FetchPolicy;
   onCompleted?: (data: any) => void | undefined;
   onError?: (error: any) => void | undefined;
 }
 
-export const useBaseQuery = <TData>(
+const useBaseQuery = <TData>(
   gqlString: any,
   options: IBaseQueryOptions = {}
 ): any => {
@@ -46,3 +48,5 @@ export const useBaseQuery = <TData>(
 
   return { data, error, loading };
 };
+
+export default useBaseQuery;

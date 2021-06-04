@@ -23,7 +23,7 @@ export default function UserAccount() {
     {
       value: "general",
       icon: <Icon icon={roundAccountBox} width={20} height={20} />,
-      component: <AccountGeneral mode="create" />,
+      component: <AccountGeneral mode="create" userId="-1" />,
     },
     {
       value: "change_password",

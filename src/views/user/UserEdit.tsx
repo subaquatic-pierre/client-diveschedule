@@ -36,7 +36,7 @@ export default function UserAccount() {
     {
       value: "general",
       icon: <Icon icon={roundAccountBox} width={20} height={20} />,
-      component: <AccountGeneral mode="edit" userIdProp={id} />,
+      component: <AccountGeneral mode="edit" userId={id} />,
     },
     {
       value: "certifications",

@@ -33,7 +33,8 @@ type UserListRowProps = {
 
 const getLabel = (labelList: ModelChoiceField[], value): string => {
   const choice = labelList.find((el) => el.value === value);
-  return choice.label;
+  if (choice) return choice.label;
+  return "";
 };
 
 export default function UserListRow({

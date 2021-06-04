@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
-import * as Yup from "yup";
-import { useSnackbar } from "notistack";
 import { useApolloClient } from "@apollo/client";
+import { useHistory } from "react-router";
+import NProgress from "nprogress";
+
+// formik
+import * as Yup from "yup";
 import { Form, FormikProvider, useFormik } from "formik";
+
 // material
 import {
   Box,
@@ -16,20 +20,35 @@ import {
   FormControl,
 } from "@material-ui/core";
 import { LoadingButton } from "@material-ui/lab";
+
 // hooks
+import useBaseQuery from "../../../hooks/useBaseQuery";
+import useBaseMutation from "../../../hooks/useBaseMutation";
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
+
+// components
 import { UploadAvatar } from "../../upload";
-import { CreateUserParams, UserController } from "../../../graphql/user";
+
+// to be updated
 import {
   buildFormData,
   emptyFormVals,
   FormState,
 } from "../../../utils/buildAccountFormData";
-import useAuth from "../../../hooks/useAuth";
 import { messageController } from "../../../controllers/messages";
-import useFetchStatus from "../../../hooks/useFetchStatus";
 import { Profile } from "../../../@types/user";
-import { useHistory } from "react-router";
+
+// graphql
+import { CreateUserParams } from "../../../graphql/user";
+import {
+  GET_USER_PROFILE,
+  CREATE_USER,
+  UPDATE_PROFILE,
+} from "../../../graphql/user";
+
+// paths
+import { PATH_DASHBOARD } from "../../../routes/paths";
+
 //
 // ----------------------------------------------------------------------
 
@@ -57,33 +76,53 @@ export const certLevelChoices: ModelChoiceField[] = [
 
 type AccountGeneralProps = {
   mode?: string;
-  userIdProp?: string;
+  userId: string;
 };
 
 export default function AccountGeneral({
   mode = "account",
-  userIdProp,
+  userId,
 }: AccountGeneralProps) {
   const client = useApolloClient();
   const history = useHistory();
-
-  // Controllers
-  const {
-    getUserProfile,
-    createUser,
-    updateProfile,
-  } = UserController.getControls(client, history);
   const { setError } = messageController(client);
+  const { setSuccess } = messageController(client);
+
+  // User profile state
+  const [userProfile, setState] = useState<Profile>();
+  const { data } = useBaseQuery<Profile>(GET_USER_PROFILE, {
+    variables: { id: parseInt(userId) },
+    fetchPolicy: "network-only",
+  });
+
+  useEffect(() => {
+    if (data && data.userProfile.fullName) setState(data.userProfile);
+  }, [data]);
+
+  const { mutation: createUser } = useBaseMutation(CREATE_USER, {
+    onError: (error: any) => {
+      if (
+        error.message === "UNIQUE constraint failed: users_customuser.email"
+      ) {
+        setError("User email already exists");
+      }
+    },
+    onCompleted: (data: any) => {
+      setSuccess("User successfully created");
+      history.push(
+        PATH_DASHBOARD.user.root + "/edit/" + data.createUser.user.id
+      );
+      NProgress.done();
+    },
+  });
+
+  const { mutation: updateProfile } = useBaseMutation(UPDATE_PROFILE, {
+    successMessage: "User profile successfully updated",
+  });
 
   // Handle formik default and error values
   const [formState, setFormState] = useState(emptyFormVals);
   const isMountedRef = useIsMountedRef();
-
-  // Get logged in user details or User ID prop for edit user view
-  const [userId, setUserId] = useState(userIdProp);
-  const { user: authUser, isAuthenticated } = useAuth();
-
-  const [{ data: userProfile, loading }, setState] = useFetchStatus<Profile>();
 
   const UpdateUserSchema = Yup.object().shape({
     fullName: Yup.string()
@@ -103,19 +142,17 @@ export default function AccountGeneral({
       try {
         switch (mode) {
           case "create":
-            await createUser({ ...values } as CreateUserParams, setState);
+            createUser({ variables: values as CreateUserParams });
             break;
           case "edit":
-            await updateProfile(
-              { ...values, userId } as CreateUserParams,
-              setState
-            );
+            console.log("Edit user");
+            updateProfile({
+              variables: { ...values, userId } as CreateUserParams,
+            });
             break;
           case "account":
-            await updateProfile(
-              { ...values, userId } as CreateUserParams,
-              setState
-            );
+            console.log("Update profile");
+            updateProfile({ ...values, userId } as CreateUserParams);
             break;
           default:
             setError("Account create mode not defined");
@@ -125,8 +162,9 @@ export default function AccountGeneral({
           setSubmitting(false);
         }
       } catch (error) {
+        console.log(error);
         if (isMountedRef.current) {
-          setErrors({ afterSubmit: "Error" });
+          setErrors({ afterSubmit: error.code || error.message });
           setSubmitting(false);
         }
       }
@@ -141,20 +179,6 @@ export default function AccountGeneral({
     getFieldProps,
     setFieldValue,
   } = formik;
-
-  // Get user info for authenticated user
-  useEffect(() => {
-    if (mode === "account") {
-      if (isAuthenticated) {
-        setUserId(authUser.id);
-      }
-    }
-  }, [authUser, isAuthenticated]);
-
-  // Get user info on initial page load
-  useEffect(() => {
-    if (userId) getUserProfile(userId, setState);
-  }, [userId]);
 
   useEffect(() => {
     if (userProfile) {

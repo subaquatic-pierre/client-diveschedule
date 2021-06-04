@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 import { capitalCase } from "change-case";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import divingScubaFlag from "@iconify-icons/mdi/diving-scuba-flag";
 import divingScubaTankMultiple from "@iconify-icons/mdi/diving-scuba-tank-multiple";
 import roundVpnKey from "@iconify/icons-ic/round-vpn-key";
@@ -28,9 +28,13 @@ import {
 
 export default function UserAccount() {
   const [currentTab, setCurrentTab] = useState("general");
-  const {
-    user: { profile },
-  } = useAuth();
+  const { user } = useAuth();
+  const { profile } = user;
+  const [userId, setUserId] = useState("-1");
+
+  useEffect(() => {
+    if (user.id && user.id !== "AnonymousUser") setUserId(user.id);
+  }, [user]);
 
   if (!profile) {
     return null;
@@ -40,7 +44,7 @@ export default function UserAccount() {
     {
       value: "general",
       icon: <Icon icon={roundAccountBox} width={20} height={20} />,
-      component: <AccountGeneral />,
+      component: <AccountGeneral userId={userId} />,
     },
     {
       value: "certifications",

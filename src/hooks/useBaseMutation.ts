@@ -10,7 +10,7 @@ interface IMutationOptions {
   onError?: (error: any) => void | undefined;
 }
 
-export const useBaseMutation = <TData>(
+const useBaseMutation = <TData>(
   gqlString: any,
   options: IMutationOptions = {}
 ): any => {
@@ -21,14 +21,15 @@ export const useBaseMutation = <TData>(
   if (options.onCompleted === undefined) {
     options.onCompleted = (data: any) => {
       if (options.successMessage) setSuccess(options.successMessage);
-      // window.location.reload();
     };
   }
+
   if (options.onError === undefined) {
     options.onError = (error: any) => {
+      console.log(error);
+      setError(error.message);
       if (options.errorMessage)
         setError(`${options.errorMessage}: ${error.message}`);
-      console.log(error);
     };
   }
 
@@ -45,3 +46,5 @@ export const useBaseMutation = <TData>(
 
   return { mutation, data, error, loading };
 };
+
+export default useBaseMutation;
