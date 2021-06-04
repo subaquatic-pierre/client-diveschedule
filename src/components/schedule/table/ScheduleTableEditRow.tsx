@@ -7,12 +7,10 @@ import TableRow from "@material-ui/core/TableRow";
 import CancelIcon from "@material-ui/icons/Cancel";
 import Tooltip from "@material-ui/core/Tooltip";
 
-import { SEARCH_USERS } from "../../../graphql/user/queries";
-import { AutoCompleteSearch } from "../../AutoCompleteSearch";
 import { UserSearchInput } from "../UserSearchInput";
 import { Booking, IUser } from "../../../@types/schedule";
 import { useFormData, IFormData } from "../hooks";
-import { buildCreateBookingData, getUser, getUserOptions } from "../utils";
+import { buildCreateBookingData } from "../utils";
 import useBaseMutation from "../../../hooks/useBaseMutation";
 
 import { CREATE_BOOKING } from "../../../graphql/schedule";
@@ -141,7 +139,7 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
         style={{ minWidth: "200px" }}
         padding="none"
       >
-        <UserSearchInput size="small" setObject={setUser as any} />
+        <UserSearchInput autoFocus size="small" setObject={setUser as any} />
       </TableCell>
       <TableCell style={{ maxWidth: "100px" }} align="right">
         <TextField
@@ -174,15 +172,11 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
         </TableCell>
       ) : (
         <TableCell style={{ minWidth: "200px" }} align="right">
-          <AutoCompleteSearch
-            name="instructorName"
-            label="Full Name"
-            setObject={setInstructor}
-            getObject={getUser}
-            createObjectPlaceholder="Create User"
-            getOptions={getUserOptions}
-            queryFieldName="fullName"
-            gqlQuery={SEARCH_USERS}
+          <UserSearchInput
+            elementName="instructorName"
+            autoFocus={false}
+            label="Instructor Name"
+            setObject={setInstructor as any}
           />
         </TableCell>
       )}

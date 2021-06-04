@@ -142,8 +142,6 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
     }
   }, [activityId, data]);
 
-  console.log(bookings);
-
   return (
     <Box dir="ltr">
       {activity && (

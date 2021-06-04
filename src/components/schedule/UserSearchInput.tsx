@@ -7,23 +7,29 @@ import { SEARCH_USERS } from "../../graphql/user/queries";
 
 interface IUserSearchInputProps {
   setObject: Dispatch<SetStateAction<IUser>>;
+  elementName?: string;
+  autoFocus?: boolean;
   size?: string;
+  label?: string;
 }
 
 export const UserSearchInput: React.FC<IUserSearchInputProps> = ({
   setObject,
   size,
+  elementName,
+  autoFocus,
+  label,
 }: IUserSearchInputProps) => (
   <AutoCompleteSearch
     size={size}
-    name="user"
-    label="Full Name"
+    name={elementName ? elementName : "user"}
+    label={label ? label : "Full Name"}
     setObject={setObject}
     getObject={getUser}
     getOptions={getUserOptions}
     createObjectPlaceholder="Create User"
     queryFieldName="fullName"
     gqlQuery={SEARCH_USERS}
-    autoFocus
+    autoFocus={autoFocus}
   />
 );

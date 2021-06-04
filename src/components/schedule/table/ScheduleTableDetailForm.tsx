@@ -186,6 +186,7 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
     formData.diveGuides.forEach((guide: IUser) => {
       diveGuideIds.push(guide.id);
     });
+    console.log(formData);
     return diveGuideIds;
   };
 
