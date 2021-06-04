@@ -1,4 +1,5 @@
 import { filter } from "lodash";
+import { UserConnection } from "../graphql/user";
 import { User } from "../@types/user";
 
 export const descendingComparator = (a: User, b: User, orderBy: string) => {
@@ -49,5 +50,22 @@ export const getUsersFromIds = (userIds: string[], users: User[]): User[] => {
       }
     });
   });
+  return filteredUsers;
+};
+
+export const normalizeUserList = (allUsers: UserConnection): User[] => {
+  if (allUsers.edges) return allUsers.edges.map((edge) => edge.node);
+  return [];
+};
+
+export const filterDeletedUsers = (
+  userIds: string[],
+  users: User[]
+): User[] => {
+  const filteredUsers = [...users];
+  for (let id of userIds) {
+    const indexOf = users.findIndex((el) => el.id === id);
+    filteredUsers.splice(indexOf, 1);
+  }
   return filteredUsers;
 };

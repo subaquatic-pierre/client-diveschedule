@@ -28,7 +28,6 @@ import {
 import useAuth from "../../../hooks/useAuth";
 import { messageController } from "../../../controllers/messages";
 import useFetchStatus from "../../../hooks/useFetchStatus";
-import LoadingScreen from "../../LoadingScreen";
 import { Profile } from "../../../@types/user";
 import { useHistory } from "react-router";
 //

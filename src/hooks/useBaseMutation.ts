@@ -1,32 +1,47 @@
-import React from "react";
-import { useMutation } from "@apollo/client";
-import { Color } from "@material-ui/lab/Alert";
+import { useMutation, useApolloClient } from "@apollo/client";
+import { useEffect } from "react";
+import { messageController } from "../controllers/messages";
+import NProgress from "nprogress";
 
 interface IMutationOptions {
-  severity?: Color | undefined;
+  errorMessage?: string;
+  successMessage?: string;
   onCompleted?: (data: any) => void | undefined;
   onError?: (error: any) => void | undefined;
 }
 
-export const useBaseMutation = (
+export const useBaseMutation = <TData>(
   gqlString: any,
   options: IMutationOptions = {}
 ): any => {
+  const client = useApolloClient();
+  const { setError, setSuccess } = messageController(client);
+
   // Set default options if any are not present on config object
-  if (options.severity === undefined) {
-    options.severity = "error";
-  }
   if (options.onCompleted === undefined) {
     options.onCompleted = (data: any) => {
-      window.location.reload();
+      if (options.successMessage) setSuccess(options.successMessage);
+      // window.location.reload();
     };
   }
   if (options.onError === undefined) {
     options.onError = (error: any) => {
+      if (options.errorMessage)
+        setError(`${options.errorMessage}: ${error.message}`);
       console.log(error);
     };
   }
 
-  const [mutation, { data, error, loading }] = useMutation(gqlString, options);
+  const [mutation, { data, error, loading }] = useMutation<TData>(
+    gqlString,
+    options
+  );
+
+  useEffect(() => {
+    if (loading && !data) NProgress.start();
+    if (!loading && data) NProgress.done();
+    if (!loading && error) NProgress.done();
+  }, [loading, data, error]);
+
   return { mutation, data, error, loading };
 };

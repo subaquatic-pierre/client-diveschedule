@@ -1,6 +1,4 @@
 import { useState, useEffect, ChangeEvent } from "react";
-import NProgress from "nprogress";
-import { useApolloClient } from "@apollo/client";
 import { Icon } from "@iconify/react";
 import plusFill from "@iconify/icons-eva/plus-fill";
 // material
@@ -19,12 +17,7 @@ import {
 
 // types
 import { User } from "../../@types/user";
-
-// controllers
-import { UserController } from "../../graphql/user";
-
-// hooks
-import useFetchStatus from "../../hooks/useFetchStatus";
+import { UserConnection } from "../../graphql/user";
 
 // routes
 import { PATH_DASHBOARD } from "../../routes/paths";
@@ -42,8 +35,15 @@ import {
   getComparator,
   applySortFilter,
   getUsersFromIds,
+  normalizeUserList,
+  filterDeletedUsers,
 } from "../../utils/userListVIew";
 import LoadingScreen from "../../components/LoadingScreen";
+import { useBaseMutation } from "../../hooks/useBaseMutation";
+import { USER_LIST_QUERY, DELETE_USERS } from "../../graphql/user";
+import { useBaseQuery } from "../../hooks/useBaseQuery";
+import { useApolloClient } from "@apollo/client";
+import { messageController } from "../../controllers/messages";
 
 // ----------------------------------------------------------------------
 
@@ -60,13 +60,21 @@ const TABLE_HEAD = [
 
 export default function UserList() {
   const client = useApolloClient();
+  const { setError } = messageController(client);
 
-  // Controllers
+  // Delete user mutation
+  const { mutation: deleteUsers } = useBaseMutation(DELETE_USERS, {
+    successMessage: "Users successfully deleted",
+    onError: (err) => {
+      setError(err.message);
+      const users: User[] = normalizeUserList(queryData.allUsers);
+      setUserList(users);
+    },
+  });
 
-  const { getUserList, deleteUsers } = UserController.getControls(client);
-
-  // Data State
-  const [{ data: userList, loading }, setUserList] = useFetchStatus<User[]>([]);
+  // User list state
+  const [userList, setUserList] = useState<User[]>([]);
+  const { data: queryData, loading } = useBaseQuery(USER_LIST_QUERY);
 
   // Filter State
   const [page, setPage] = useState(0);
@@ -137,7 +145,9 @@ export default function UserList() {
   };
 
   const handleConfirmDelete = () => {
-    deleteUsers(selectedIds, setUserList, userList);
+    deleteUsers({ variables: { ids: selectedIds } });
+    const filteredUsers = filterDeletedUsers(selectedIds, userList);
+    setUserList(filteredUsers);
     setSelectedIds([]);
     setDeleteDialogOpen(false);
   };
@@ -153,17 +163,13 @@ export default function UserList() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
-  // Get user list on page load
+  // Set user list on data fetch response
   useEffect(() => {
-    getUserList(setUserList);
-  }, []);
-
-  useEffect(() => {
-    if (loading) NProgress.start();
-    if (!loading) {
-      NProgress.done();
+    if (queryData && !loading) {
+      const users: User[] = normalizeUserList(queryData.allUsers);
+      setUserList(users);
     }
-  }, [loading]);
+  }, [queryData, loading]);
 
   if (loading) return <LoadingScreen />;
 

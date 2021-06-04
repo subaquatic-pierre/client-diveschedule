@@ -1,10 +1,11 @@
-import { useApolloClient, useMutation, useQuery } from "@apollo/client";
-import { Color } from "@material-ui/lab/Alert";
+import { useEffect } from "react";
+import { useApolloClient, useQuery } from "@apollo/client";
 import { messageController } from "../controllers/messages";
+import NProgress from "nprogress";
 
 interface IBaseQueryOptions {
-  severity?: Color | undefined;
   errorMessage?: string;
+  defaultData?: any;
   onCompleted?: (data: any) => void | undefined;
   onError?: (error: any) => void | undefined;
 }
@@ -15,12 +16,8 @@ export const useBaseQuery = <TData>(
 ): any => {
   const client = useApolloClient();
   const { setError } = messageController(client);
+
   // Set default options if any are not present on config object
-
-  if (options.severity === undefined) {
-    options.severity = "error";
-  }
-
   if (options.onCompleted === undefined) {
     options.onCompleted = (data: any) => {
       //   window.location.reload();
@@ -29,11 +26,23 @@ export const useBaseQuery = <TData>(
 
   if (options.onError === undefined) {
     options.onError = (error: any) => {
-      if (options.errorMessage) setError(options.errorMessage);
+      if (options.errorMessage)
+        setError(`${options.errorMessage}: ${error.message}`);
       console.log(error);
     };
   }
 
   const { data, error, loading } = useQuery<TData>(gqlString, options);
+
+  useEffect(() => {
+    NProgress.start();
+  }, []);
+
+  useEffect(() => {
+    if (data && !loading) {
+      NProgress.done();
+    }
+  }, [data, loading]);
+
   return { data, error, loading };
 };
