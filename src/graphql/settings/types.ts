@@ -10,9 +10,3 @@ export type Settings = {
 export type SettingsCache = {
   settings: Settings;
 };
-
-export type SettingsController = {
-  handleToggleTheme: () => void;
-  handleChangeTheme: (event: any) => void;
-  handleChangeDirection: (event: any) => void;
-};

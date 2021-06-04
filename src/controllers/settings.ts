@@ -1,7 +1,8 @@
 import { ApolloClient } from "@apollo/client";
-import { updateClient } from "../index";
-import { SETTINGS_CACHE_QUERY } from "./queries";
-import { Settings, SettingsCache, SettingsController } from "./types";
+import { updateClient } from "../graphql/index";
+import { SETTINGS_CACHE_QUERY } from "../graphql/settings/queries";
+import { Settings, SettingsCache } from "../graphql/settings/types";
+import { SettingsController } from "../@types/controllers";
 
 export const initialSettingsState: SettingsCache = {
   settings: {

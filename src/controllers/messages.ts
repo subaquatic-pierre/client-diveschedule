@@ -1,10 +1,7 @@
 import { ApolloClient } from "@apollo/client";
 import { MESSAGE_CACHE_QUERY } from "../graphql/messages";
-import {
-  MessagesCache,
-  MessagesController,
-  Messages,
-} from "../graphql/messages";
+import { MessagesCache, Messages } from "../graphql/messages";
+import { MessagesController } from "../@types/controllers";
 import { updateClient } from "./index";
 
 const initialMessagesState: MessagesCache = {

@@ -11,10 +11,3 @@ export type Messages = {
 export type MessagesCache = {
   messages: Messages;
 };
-
-export type MessagesController = {
-  setError: (message: string) => void;
-  clearError: () => void;
-  setSuccess: (message: string) => void;
-  clearSuccess: () => void;
-};
