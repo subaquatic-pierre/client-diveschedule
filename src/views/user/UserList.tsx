@@ -1,6 +1,8 @@
 import { useState, useEffect, ChangeEvent } from "react";
+import { useApolloClient } from "@apollo/client";
 import { Icon } from "@iconify/react";
 import plusFill from "@iconify/icons-eva/plus-fill";
+
 // material
 import {
   Box,
@@ -17,7 +19,6 @@ import {
 
 // types
 import { User } from "../../@types/user";
-import { UserConnection } from "../../graphql/user";
 
 // routes
 import { PATH_DASHBOARD } from "../../routes/paths";
@@ -38,12 +39,17 @@ import {
   normalizeUserList,
   filterDeletedUsers,
 } from "../../utils/userListVIew";
-import LoadingScreen from "../../components/LoadingScreen";
+
+// hooks
 import { useBaseMutation } from "../../hooks/useBaseMutation";
-import { USER_LIST_QUERY, DELETE_USERS } from "../../graphql/user";
 import { useBaseQuery } from "../../hooks/useBaseQuery";
-import { useApolloClient } from "@apollo/client";
+import { USER_LIST_QUERY, DELETE_USERS } from "../../graphql/user";
+
+// controllers
 import { messageController } from "../../controllers/messages";
+
+// components
+import LoadingScreen from "../../components/LoadingScreen";
 
 // ----------------------------------------------------------------------
 
