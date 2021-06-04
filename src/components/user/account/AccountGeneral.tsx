@@ -105,6 +105,8 @@ export default function AccountGeneral({
         error.message === "UNIQUE constraint failed: users_customuser.email"
       ) {
         setError("User email already exists");
+      } else {
+        setError(error.message);
       }
     },
     onCompleted: (data: any) => {

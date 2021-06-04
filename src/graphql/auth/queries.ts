@@ -10,8 +10,12 @@ export const LOGIN_MUTATION = gql`
 `;
 
 export const REGISTER_MUTATION = gql`
-  mutation CreateUser($email: String!, $password: String!, $fullName: String) {
-    createUser(email: $email, password: $password, fullName: $fullName) {
+  mutation RegisterUser(
+    $email: String!
+    $password: String!
+    $fullName: String
+  ) {
+    registerUser(email: $email, password: $password, fullName: $fullName) {
       user {
         email
         profile {
@@ -40,6 +44,16 @@ export const AUTH_VIEWER_QUERY = gql`
         fullName
         equipment
         certLevel
+      }
+    }
+  }
+`;
+
+export const RESET_PASSWORD_MUTATION = gql`
+  mutation ResetPassword($userId: ID!) {
+    resetPassword(userId: $userId) {
+      user {
+        id
       }
     }
   }

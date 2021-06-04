@@ -1,23 +1,35 @@
-import { Icon } from "@iconify/react";
 import { useRef, useState } from "react";
+import { Link as RouterLink, useHistory } from "react-router-dom";
+import { useApolloClient } from "@apollo/client";
+
+// icons
 import homeFill from "@iconify/icons-eva/home-fill";
 import settings2Fill from "@iconify/icons-eva/settings-2-fill";
-import { Link as RouterLink, useHistory } from "react-router-dom";
+import { Icon } from "@iconify/react";
+
 // material
 import { alpha } from "@material-ui/core/styles";
 import { Button, Box, Divider, MenuItem, Typography } from "@material-ui/core";
+
 // routes
 import { PATH_DASHBOARD } from "../../routes/paths";
+
+// utils
+import { deleteAuthToken } from "../../utils/auth";
+import { messageController } from "../../controllers/messages";
+
 // hooks
 import useAuth from "../../hooks/useAuth";
 import useIsMountedRef from "../../hooks/useIsMountedRef";
+import useBaseMutation from "../../hooks/useBaseMutation";
+
+// graphql
+import { LOGOUT_MUTATION } from "../../graphql/auth";
+
 // components
 import { MIconButton } from "../../components/@material-extend";
 import MyAvatar from "../../components/MyAvatar";
 import MenuPopover from "../../components/MenuPopover";
-import { authController } from "../../controllers/auth";
-import { useApolloClient } from "@apollo/client";
-import { messageController } from "../../controllers/messages";
 
 // ----------------------------------------------------------------------
 
@@ -41,7 +53,14 @@ export default function AccountPopover() {
   const client = useApolloClient();
   const anchorRef = useRef(null);
   const { user } = useAuth();
-  const { logout } = authController(client);
+  const { setSuccess } = messageController(client);
+  const { mutation: logout } = useBaseMutation(LOGOUT_MUTATION, {
+    onCompleted: (data: any) => {
+      deleteAuthToken();
+      setSuccess("Logout successful");
+      history.push("/");
+    },
+  });
   const { setError } = messageController(client);
   const isMountedRef = useIsMountedRef();
   const [open, setOpen] = useState(false);
@@ -53,13 +72,12 @@ export default function AccountPopover() {
     setOpen(false);
   };
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     try {
-      await logout(history);
+      logout();
       if (isMountedRef.current) {
         handleClose();
       }
-      // setSuccess("Logout successful");
     } catch (error) {
       setError("Unable to logout");
     }

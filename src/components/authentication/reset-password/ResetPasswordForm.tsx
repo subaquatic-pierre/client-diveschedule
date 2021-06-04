@@ -1,14 +1,21 @@
 import * as Yup from "yup";
+
+// formik
 import { Form, FormikProvider, useFormik } from "formik";
+
 // material
 import { TextField } from "@material-ui/core";
 import { LoadingButton } from "@material-ui/lab";
+
 // hooks
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
+
+// graphql
+import { RESET_PASSWORD_MUTATION } from "../../../graphql/auth";
+
 // utils
 import { emailError } from "../../../utils/helpError";
-import { useApolloClient } from "@apollo/client";
-import { authController } from "../../../controllers/auth";
+import useBaseMutation from "../../../hooks/useBaseMutation";
 
 // ----------------------------------------------------------------------
 
@@ -26,8 +33,7 @@ export default function ResetPasswordForm({
   onSent,
   onGetEmail,
 }: ResetPasswordFormProps) {
-  const client = useApolloClient();
-  const { resetPassword } = authController(client);
+  const { mutation: resetPassword } = useBaseMutation(RESET_PASSWORD_MUTATION);
   const isMountedRef = useIsMountedRef();
 
   const ResetPasswordSchema = Yup.object().shape({

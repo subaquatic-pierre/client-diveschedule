@@ -1,10 +1,15 @@
-import * as Yup from "yup";
 import { useState } from "react";
-import { Link as RouterLink, useHistory } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
+
+// formik
+import * as Yup from "yup";
 import { useFormik, Form, FormikProvider } from "formik";
+
+// icons
 import { Icon } from "@iconify/react";
 import eyeFill from "@iconify/icons-eva/eye-fill";
 import eyeOffFill from "@iconify/icons-eva/eye-off-fill";
+
 // material
 import {
   Box,
@@ -16,15 +21,20 @@ import {
   FormControlLabel,
 } from "@material-ui/core";
 import { LoadingButton } from "@material-ui/lab";
+
 // routes
 import { PATH_AUTH } from "../../../routes/paths";
+
 // hooks
-import { authController } from "../../../controllers/auth";
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
+import useBaseMutation from "../../../hooks/useBaseMutation";
+
+// graphql
+import { LOGIN_MUTATION } from "../../../graphql/auth";
+
 // utils
 import { passwordError, emailError } from "../../../utils/helpError";
 //
-import { useApolloClient } from "@apollo/client";
 
 // ----------------------------------------------------------------------
 
@@ -36,9 +46,12 @@ type InitialValues = {
 };
 
 export default function LoginForm() {
-  const history = useHistory();
-  const client = useApolloClient();
-  const { login } = authController(client);
+  const { mutation: login } = useBaseMutation(LOGIN_MUTATION, {
+    onCompleted: (data: any) => {
+      localStorage.setItem("token", data.tokenAuth.token);
+      window.location.reload();
+    },
+  });
   const isMountedRef = useIsMountedRef();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -58,13 +71,12 @@ export default function LoginForm() {
     validationSchema: LoginSchema,
     onSubmit: async (values, { setErrors, setSubmitting, resetForm }) => {
       try {
-        await login(
-          {
+        login({
+          variables: {
             email: values.email,
             password: values.password,
           },
-          history
-        );
+        });
         if (isMountedRef.current) {
           setSubmitting(false);
         }

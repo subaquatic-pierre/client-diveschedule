@@ -1,9 +1,13 @@
 import * as Yup from "yup";
+import { useApolloClient } from "@apollo/client";
 import { useState } from "react";
-import { Icon } from "@iconify/react";
 import { useFormik, Form, FormikProvider } from "formik";
+
+// icons
+import { Icon } from "@iconify/react";
 import eyeFill from "@iconify/icons-eva/eye-fill";
 import eyeOffFill from "@iconify/icons-eva/eye-off-fill";
+
 // material
 import {
   Box,
@@ -13,14 +17,17 @@ import {
   InputAdornment,
 } from "@material-ui/core";
 import { LoadingButton } from "@material-ui/lab";
+
 // hooks
-import { authController } from "../../../controllers/auth";
-import { messageController } from "../../../controllers/messages";
+import useBaseMutation from "../../../hooks/useBaseMutation";
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
+
 // utils
 import { emailError, passwordError } from "../../../utils/helpError";
-//
-import { useApolloClient } from "@apollo/client";
+import { messageController } from "../../../controllers/messages";
+
+//graphql
+import { LOGIN_MUTATION, REGISTER_MUTATION } from "../../../graphql/auth";
 
 // ----------------------------------------------------------------------
 
@@ -32,14 +39,38 @@ type InitialValues = {
   afterSubmit?: string;
 };
 
+// ----------------------------------------------------------------------
+
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const isMountedRef = useIsMountedRef();
   const client = useApolloClient();
+  const [password, setPassword] = useState("");
+  const { setError } = messageController(client);
 
-  // Initialize controllers
-  const { register } = authController(client);
-  const { setSuccess } = messageController(client);
+  const { mutation: login } = useBaseMutation(LOGIN_MUTATION, {
+    onCompleted: (data: any) => {
+      localStorage.setItem("token", data.tokenAuth.token);
+      window.location.reload();
+    },
+  });
+
+  const { mutation: register } = useBaseMutation(REGISTER_MUTATION, {
+    onCompleted: (data: any) => {
+      login({
+        variables: { email: data.registerUser.user.email, password: password },
+      });
+    },
+    onError: (error: any) => {
+      if (
+        error.message === "UNIQUE constraint failed: users_customuser.email"
+      ) {
+        setError("User email already exists");
+      } else {
+        setError(error.message);
+      }
+    },
+  });
 
   const RegisterSchema = Yup.object().shape({
     firstName: Yup.string()
@@ -66,13 +97,13 @@ export default function RegisterForm() {
     validationSchema: RegisterSchema,
     onSubmit: async (values, { setErrors, setSubmitting }) => {
       try {
-        await register({
+        setPassword(values.password);
+        const variables = {
           email: values.email,
           password: values.password,
-          firstName: values.firstName,
-          lastName: values.lastName,
-        });
-        setSuccess("Login successful");
+          fullName: `${values.firstName} ${values.lastName}`,
+        };
+        register({ variables });
         if (isMountedRef.current) {
           setSubmitting(false);
         }
