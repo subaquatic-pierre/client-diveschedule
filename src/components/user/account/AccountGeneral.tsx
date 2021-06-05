@@ -30,11 +30,7 @@ import useIsMountedRef from "../../../hooks/useIsMountedRef";
 import { UploadAvatar } from "../../upload";
 
 // to be updated
-import {
-  buildFormData,
-  emptyFormVals,
-  FormState,
-} from "../../../utils/buildAccountFormData";
+import { buildForm } from "../../../utils/buildFormData";
 import { messageController } from "../../../controllers/messages";
 import { Profile } from "../../../@types/user";
 
@@ -74,6 +70,25 @@ export const certLevelChoices: ModelChoiceField[] = [
   { value: "INST", label: "Instructor" },
 ];
 
+interface IFormData {
+  afterSubmit?: string;
+  fullName: string;
+  email: string;
+  equipment: string;
+  certLevel: string;
+  phoneNumber: string;
+}
+
+const initialFormVals: IFormData = {
+  fullName: "",
+  email: "",
+  phoneNumber: "",
+  equipment: "",
+  certLevel: "",
+};
+
+// ----------------------------------------------------------------------
+
 type AccountGeneralProps = {
   mode?: string;
   userId: string;
@@ -87,6 +102,7 @@ export default function AccountGeneral({
   const history = useHistory();
   const { setError } = messageController(client);
   const { setSuccess } = messageController(client);
+  const [initialValues, setFormVals] = useState<IFormData>(initialFormVals);
 
   // User profile state
   const [userProfile, setState] = useState<Profile>();
@@ -123,7 +139,6 @@ export default function AccountGeneral({
   });
 
   // Handle formik default and error values
-  const [formState, setFormState] = useState(emptyFormVals);
   const isMountedRef = useIsMountedRef();
 
   const UpdateUserSchema = Yup.object().shape({
@@ -136,9 +151,9 @@ export default function AccountGeneral({
       .required("Email is required"),
   });
 
-  const formik = useFormik<FormState>({
+  const formik = useFormik<IFormData>({
     enableReinitialize: true,
-    initialValues: formState,
+    initialValues,
     validationSchema: UpdateUserSchema,
     onSubmit: async (values, { setErrors, setSubmitting }) => {
       try {
@@ -147,13 +162,11 @@ export default function AccountGeneral({
             createUser({ variables: values as CreateUserParams });
             break;
           case "edit":
-            console.log("Edit user");
             updateProfile({
               variables: { ...values, userId } as CreateUserParams,
             });
             break;
           case "account":
-            console.log("Update profile");
             updateProfile({ ...values, userId } as CreateUserParams);
             break;
           default:
@@ -184,8 +197,8 @@ export default function AccountGeneral({
 
   useEffect(() => {
     if (userProfile) {
-      const formData = buildFormData(userProfile, setError);
-      setFormState(formData);
+      const formData = buildForm<IFormData>(initialValues, userProfile);
+      setFormVals(formData);
     }
   }, [userProfile]);
 
