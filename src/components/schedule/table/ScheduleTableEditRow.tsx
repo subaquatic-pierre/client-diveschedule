@@ -8,7 +8,8 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import Tooltip from "@material-ui/core/Tooltip";
 
 import { UserSearchInput } from "../UserSearchInput";
-import { Booking, IUser } from "../../../@types/schedule";
+import { Booking } from "../../../@types/schedule";
+import { User } from "../../../@types/user";
 import { useFormData, IFormData } from "../hooks";
 import { buildCreateBookingData } from "../utils";
 import useBaseMutation from "../../../hooks/useBaseMutation";
@@ -53,8 +54,8 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
   refetchBookings,
   fetchBookingDataCalled,
 }) => {
-  const [user, setUser] = React.useState<IUser>();
-  const [instructor, setInstructor] = React.useState<IUser>();
+  const [user, setUser] = React.useState<User>();
+  const [instructor, setInstructor] = React.useState<User>();
   const classes = useStyles();
   const [formData, setFormData] = useFormData(bookingData);
   const isBoatBooking = tableType === "AM_BOAT" || tableType === "PM_BOAT";

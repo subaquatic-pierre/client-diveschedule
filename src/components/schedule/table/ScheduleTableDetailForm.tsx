@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 
 import {
   Grid,
@@ -9,25 +10,34 @@ import {
   Select,
   MenuItem,
   ListSubheader,
+  List,
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+  IconButton,
+  Tooltip,
+  Box,
 } from "@material-ui/core";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemText from "@material-ui/core/ListItemText";
-import IconButton from "@material-ui/core/IconButton";
-import CancelIcon from "@material-ui/icons/Cancel";
-import Tooltip from "@material-ui/core/Tooltip";
+
 import DeleteIcon from "@material-ui/icons/Delete";
 import DoneIcon from "@material-ui/icons/Done";
-import { makeStyles } from "@material-ui/core/styles";
 
 import { formatDate } from "../../../utils/date";
-import { ActivityDetail, IUser } from "../../../@types/schedule";
+import { ActivityDetail } from "../../../@types/schedule";
+import { User } from "../../../@types/user";
 import { UserSearchInput } from "../UserSearchInput";
-import { useApolloClient } from "@apollo/client";
-import { ScheduleController } from "../../../graphql/schedule";
-import useFetchStatus from "../../../hooks/useFetchStatus";
+import {
+  EDIT_ACTIVITY_DETAIL,
+  CREATE_ACTIVITY_DETAIL,
+  ACTIVITY_DATA,
+} from "../../../graphql/schedule";
 import { ActivityMeta } from "../../../views/schedule/Schedule";
+
+// -----------------------------------
+import { buildForm } from "../../../utils/buildFormData";
+import useBaseMutation from "../../../hooks/useBaseMutation";
+import { useApolloClient } from "@apollo/client";
+import { messageController } from "../../../controllers/messages";
 
 const siteOptions = [
   "Artificial Reef",
@@ -68,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
   },
   heading: { marginBottom: theme.spacing(2) },
   addDiverContainer: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(1),
   },
   searchInput: {
     flexGrow: 1,
@@ -90,47 +100,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const buildFormData = (diveTripDetail: ActivityDetail): IFormData => {
-  const date = formatDate(diveTripDetail.day.date, "server");
-  const initialFormData: IFormData = {
-    activityType: diveTripDetail.activityType,
-    date,
-    diveSite1: "",
-    diveSite2: "",
-    diveGuides: [],
-  };
-
-  if (diveTripDetail.id === -1) {
-    return initialFormData;
-  }
-  const site1 =
-    diveTripDetail.diveSite1 !== null
-      ? diveTripDetail.diveSite1
-      : initialFormData.diveSite1;
-  const site2 =
-    diveTripDetail.diveSite2 !== null
-      ? diveTripDetail.diveSite2
-      : initialFormData.diveSite2;
-  return {
-    id: diveTripDetail.id,
-    time: diveTripDetail.time,
-    date,
-    activityType: diveTripDetail.activityType,
-    diveSite1: site1,
-    diveSite2: site2,
-    diveGuides: diveTripDetail.diveGuides as IUser[],
-  };
-};
-
 export interface IFormData {
-  [key: string]: any;
-  id?: number;
+  afterSubmit?: any;
+  id?: string;
   activityType?: string;
   date?: string;
   diveSite1?: string;
   diveSite2?: string;
-  diveGuides: IUser[];
+  diveGuides: User[];
 }
+
+const initialFormData: IFormData = {
+  id: "",
+  activityType: "",
+  date: "",
+  diveSite1: "",
+  diveSite2: "",
+  diveGuides: [],
+};
+
+const getDiveGuideIds = (diveGuides: User[]): number[] => {
+  const ids = [];
+  try {
+    diveGuides.forEach((guide) => {
+      ids.push(guide.id);
+    });
+  } catch (error) {
+    return ids;
+  }
+  return ids;
+};
 
 interface IEditTripDetailFormProps {
   diveTripDetail?: ActivityDetail;
@@ -142,98 +141,92 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
   handleClose,
 }: any) => {
   const client = useApolloClient();
+  const { setSuccess } = messageController(client);
   const classes = useStyles();
-  const [addGuide, setAddGuide] = React.useState(false);
-  const [user, setUser] = React.useState<IUser | null>(null);
   const refetchMeta = useContext(ActivityMeta);
+  const [user, setUser] = React.useState<User | null>(null);
+  const [addingDiveGuide, setAddingDiveGuide] = React.useState(false);
+  const [formValues, setFormValues] = useState<IFormData>(initialFormData);
 
-  // FormData state
-  const [formData, setFormData] = React.useState<IFormData>(
-    buildFormData(diveTripDetail)
+  useEffect(() => {
+    const newData = {
+      ...diveTripDetail,
+      date: formatDate(diveTripDetail.day.date, "server"),
+    };
+    const formData = buildForm<IFormData>(initialFormData, newData);
+    setFormValues(formData);
+  }, [diveTripDetail]);
+
+  const { mutation: editActivityDetail } = useBaseMutation(
+    EDIT_ACTIVITY_DETAIL,
+    {
+      onCompleted: (data: any) => {
+        refetchMeta();
+        client.writeQuery({
+          query: ACTIVITY_DATA,
+          data: {
+            activityData: {
+              ...diveTripDetail,
+              ...formValues,
+            },
+          },
+        });
+        setSuccess("Activity successfully edited");
+      },
+    }
   );
 
-  // Activity detail state
-  const [
-    { data: activityDetail },
-    setActivityDetail,
-  ] = useFetchStatus<ActivityDetail>();
+  const { mutation: createActivityDetail } = useBaseMutation(
+    CREATE_ACTIVITY_DETAIL,
+    {
+      onCompleted: (data: any) => {
+        refetchMeta();
+        setSuccess("Activity successfully created");
+      },
+    }
+  );
 
-  // Schedule controls
-  const {
-    createActivityDetail,
-    editActivityDetail,
-  } = ScheduleController.getControls(client);
+  const isEditTrip = diveTripDetail.id !== -1;
 
-  const handleFormChange = (event: any) => {
-    setFormData((oldState: IFormData) => ({
-      ...oldState,
+  const handleDiveSiteChange = (event: any) => {
+    setFormValues((oldValues) => ({
+      ...oldValues,
       [event.target.name]: event.target.value,
     }));
   };
 
-  const isValidData = (data: IFormData) => {
-    for (const prop in data) {
-      if (prop === "bookingId") continue;
-      if (prop === "time") continue;
-      if (prop === "instructorName") continue;
-      if (data[prop] === "") {
-        return false;
-      }
-    }
-    return true;
-  };
-
-  const isEditTrip = () => diveTripDetail.id !== -1;
-
-  const getGuideIds = (): number[] => {
-    const diveGuideIds: number[] = [];
-    formData.diveGuides.forEach((guide: IUser) => {
-      diveGuideIds.push(guide.id);
-    });
-    console.log(formData);
-    return diveGuideIds;
-  };
-
-  const handleSaveTripDetail = () => {
-    const vars = {
-      date: formData.date,
-      diveGuides: getGuideIds(),
-      diveSite1: formData.diveSite1,
-      diveSite2: formData.diveSite2,
-      id: formData.id,
-      time: formData.time,
-      activityType: formData.activityType,
-    };
-    if (isEditTrip()) {
-      editActivityDetail(vars, setActivityDetail);
+  const handleSaveClick = () => {
+    const diveGuides = getDiveGuideIds(formValues.diveGuides);
+    if (isEditTrip) {
+      editActivityDetail({ variables: { ...formValues, diveGuides } });
     } else {
-      createActivityDetail(vars, setActivityDetail);
+      createActivityDetail({ variables: { ...formValues, diveGuides } });
     }
-    refetchMeta();
     handleClose();
   };
 
-  const handleRemoveDiveGuide = (event: any, id: number): void => {
-    setFormData((oldData) => ({
-      ...oldData,
-      diveGuides: oldData.diveGuides?.filter((user: IUser) => user.id !== id),
+  const handleRemoveDiveGuide = (id: number): void => {
+    const newGuides = formValues.diveGuides.filter(
+      (user) => user.id !== id.toString()
+    );
+    setFormValues((oldValues) => ({
+      ...oldValues,
+      diveGuides: newGuides,
     }));
   };
 
   const handleAddDiveGuide = () => {
-    if (user !== null) {
-      setFormData((oldData) => ({
-        ...oldData,
-        diveGuides: [...(oldData.diveGuides as []), user],
-      }));
-      setUser(null);
-    }
-    setAddGuide(false);
+    const newGuides = [...formValues.diveGuides, user];
+    setFormValues((oldValues) => ({
+      ...oldValues,
+      diveGuides: newGuides,
+    }));
+    setAddingDiveGuide(false);
   };
 
-  useEffect(() => {
-    console.log(activityDetail);
-  }, [activityDetail]);
+  // ----------------------------------------------------------
+
+  // ----------------------------------------------------------
 
   return (
     <>
@@ -242,37 +235,16 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
           Edit Trip Detail
         </Typography>
         <Grid item container spacing={3}>
+          {/* Dive site selection section */}
           <Grid item xs={12}>
             <FormControl variant="outlined" fullWidth>
-              <InputLabel id="dive-site-1">Dive Site 1</InputLabel>
+              <InputLabel id="diveSite1">Dive Site 1</InputLabel>
               <Select
-                labelId="dive-site-1"
-                id="dive-site-1"
-                value={formData.diveSite1}
+                labelId="diveSite1"
+                label="Dive Site 1"
+                value={formValues.diveSite1}
                 name="diveSite1"
-                onChange={(event) => {
-                  handleFormChange(event);
-                }}
-              >
-                {siteOptions.map((site: string, index: number) => (
-                  <MenuItem key={index} value={site}>
-                    {site}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl variant="outlined" fullWidth>
-              <InputLabel id="dive-site-2">Dive Site 2</InputLabel>
-              <Select
-                labelId="dive-site-2"
-                id="dive-site-2"
-                value={formData.diveSite2}
-                name="diveSite2"
-                onChange={(event) => {
-                  handleFormChange(event);
-                }}
+                onChange={(event) => handleDiveSiteChange(event)}
               >
                 {siteOptions.map((site: string, index: number) => (
                   <MenuItem key={index} value={site}>
@@ -284,18 +256,37 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
           </Grid>
 
           <Grid item xs={12}>
+            <FormControl variant="outlined" fullWidth>
+              <InputLabel id="diveSite2">Dive Site 2</InputLabel>
+              <Select
+                labelId="diveSite2"
+                label="Dive Site 2"
+                value={formValues.diveSite2}
+                name="diveSite2"
+                onChange={(event) => handleDiveSiteChange(event)}
+              >
+                {siteOptions.map((site: string, index: number) => (
+                  <MenuItem key={index} value={site}>
+                    {site}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
+          {/* Dive guide list section */}
+          <Grid item xs={12}>
             <List
               subheader={<ListSubheader>Dive Guides</ListSubheader>}
               className={classes.root}
             >
-              {formData.diveGuides &&
-                formData.diveGuides.map((guide: any, index: number) => (
+              {formValues &&
+                formValues.diveGuides &&
+                formValues.diveGuides.map((guide: any, index: number) => (
                   <ListItem key={index}>
                     <ListItemText primary={guide.profile.fullName} />
                     <ListItemSecondaryAction
-                      onClick={(event) =>
-                        handleRemoveDiveGuide(event, guide.id)
-                      }
+                      onClick={() => handleRemoveDiveGuide(guide.id)}
                     >
                       <IconButton edge="end" aria-label="delete">
                         <DeleteIcon />
@@ -303,29 +294,12 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
                     </ListItemSecondaryAction>
                   </ListItem>
                 ))}
-              {!addGuide ? (
-                <ListItem>
-                  <Button onClick={() => setAddGuide(true)} variant="contained">
-                    Add Guide
-                  </Button>
-                </ListItem>
-              ) : (
-                <Grid
-                  container
-                  direction="row"
-                  className={classes.addDiverContainer}
-                >
-                  <Grid item>
-                    <Tooltip title="Cancel">
-                      <CancelIcon
-                        className={classes.icon}
-                        onClick={() => setAddGuide(false)}
-                      />
-                    </Tooltip>
-                  </Grid>
+              {addingDiveGuide && (
+                <ListItem key="addingDiver">
                   <Grid className={classes.searchInput}>
                     <FormControl fullWidth>
                       <UserSearchInput
+                        autoFocus
                         size="small"
                         setObject={setUser as any}
                       />
@@ -339,21 +313,42 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
                       />
                     </Tooltip>
                   </Grid>
-                </Grid>
+                </ListItem>
               )}
             </List>
           </Grid>
           <Grid item xs={12} />
         </Grid>
       </Grid>
-      <Grid>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleSaveTripDetail}
-        >
-          Confirm
-        </Button>
+      {/* Button section */}
+      <Grid item container justifyContent="flex-end">
+        <Box sx={{ mt: 3 }}>
+          {!addingDiveGuide ? (
+            <Button
+              onClick={() => setAddingDiveGuide(true)}
+              variant="contained"
+            >
+              Add Guide
+            </Button>
+          ) : (
+            <Button
+              onClick={() => setAddingDiveGuide(false)}
+              variant="contained"
+              color="error"
+            >
+              Cancel
+            </Button>
+          )}
+          <Button
+            sx={{ ml: 2, color: "white" }}
+            type="submit"
+            color="success"
+            variant="contained"
+            onClick={handleSaveClick}
+          >
+            Save
+          </Button>
+        </Box>
       </Grid>
     </>
   );

@@ -164,6 +164,7 @@ export const ACTIVITY_DATA = gql`
       diveSite1
       diveSite2
       diveGuides {
+        id
         profile {
           ...ProfileFragment
         }

@@ -2,11 +2,11 @@ import React, { Dispatch, SetStateAction } from "react";
 
 import { AutoCompleteSearch } from "../AutoCompleteSearch";
 import { getUser, getUserOptions } from "./utils";
-import { IUser } from "../../@types/schedule";
+import { User } from "../../@types/user";
 import { SEARCH_USERS } from "../../graphql/user/queries";
 
 interface IUserSearchInputProps {
-  setObject: Dispatch<SetStateAction<IUser>>;
+  setObject: Dispatch<SetStateAction<User>>;
   elementName?: string;
   autoFocus?: boolean;
   size?: string;

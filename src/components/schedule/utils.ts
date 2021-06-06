@@ -1,4 +1,5 @@
-import { Booking, ActivityDetail, IUser } from "../../@types/schedule";
+import { Booking, ActivityDetail } from "../../@types/schedule";
+import { User } from "../../@types/user";
 import { formatDate } from "../../utils/date";
 import { IFormData } from "./hooks";
 
@@ -101,7 +102,7 @@ export const getHeadFields = (activityType: string): string[] => {
 export const getUserOptions = (data: any): any[] =>
   data.searchUsers.edges.map((edge: any) => edge.node.profile.fullName);
 
-export const getUser = (userName: string, data: any): IUser | undefined => {
+export const getUser = (userName: string, data: any): User | undefined => {
   try {
     const edge = data.searchUsers.edges.filter(
       (edge: any) => edge.node.profile.fullName === userName

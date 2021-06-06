@@ -76,6 +76,9 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   const [getData, { data, loading, refetch, called }] = useLazyQuery(
     ACTIVITY_DATA,
     {
+      onCompleted: (data: any) => {
+        console.log(data);
+      },
       onError: (error: any) => {
         setError(error.message);
       },

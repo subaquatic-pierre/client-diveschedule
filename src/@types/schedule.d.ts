@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 interface IObjectKeys {
   [key: string]: string | number | Date | User;
 }
@@ -10,7 +12,7 @@ export interface IScheduleInfo extends IObjectKeys {
 export interface IDay {
   id?: number;
   date: Date;
-  teamMembersOff?: IUser[];
+  teamMembersOff?: User[];
   noteSet?: INote[];
   activitydetailSet?: ITripDetail[];
 }
@@ -22,30 +24,17 @@ export interface INote {
   text: string;
 }
 
-export interface IProfile {
-  id: number;
-  fullName: string;
-  certLevel: string;
-  equipment: string;
-}
-
-export interface IUser {
-  id: number;
-  email: string;
-  profile: Profile;
-}
-
 export type Booking = {
   id: number;
   activityDetail: ActivityDetail;
   time: string;
   initiatedDate: Date;
-  bookedBy: IUser;
+  bookedBy: User;
   diverRole: string;
   bookingStatus: string;
   equipment: string;
-  diver: IUser;
-  instructor?: IUser;
+  diver: User;
+  instructor?: User;
   cancellationReason?: string;
 };
 
@@ -57,5 +46,5 @@ export type ActivityDetail = {
   diveSite1?: string;
   diveSite2?: string;
   time?: string;
-  diveGuides?: IUser[];
+  diveGuides?: User[];
 };

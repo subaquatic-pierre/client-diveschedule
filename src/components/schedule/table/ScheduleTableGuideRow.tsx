@@ -2,14 +2,9 @@ import React from "react";
 import { makeStyles } from "@material-ui/core";
 
 import TableCell from "@material-ui/core/TableCell";
-import Checkbox from "@material-ui/core/Checkbox";
 import TableRow from "@material-ui/core/TableRow";
-import Popover from "@material-ui/core/Popover";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 
-import { Booking, IProfile } from "../../../@types/schedule";
+import { Profile } from "../../../@types/user";
 
 const useStyles = makeStyles((theme) => ({
   guideRow: {
@@ -19,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IBookingRowProps {
-  profile: IProfile;
+  profile: Profile;
 }
 
 export const ScheduleTableGuideRow: React.FC<IBookingRowProps> = ({
