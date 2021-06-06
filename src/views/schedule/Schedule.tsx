@@ -16,17 +16,21 @@ import { PATH_DASHBOARD } from "../../routes/paths";
 // graphql
 import { DAILY_ACTIVITY_META, BookingMeta } from "../../graphql/schedule";
 
+export const ActivityMeta = React.createContext(() => {});
+
 export default function Schedule() {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
-  const [activityMeta, setActivityMeta] = useState<BookingMeta[]>([]);
-  const [getData, { loading }] = useLazyQuery(DAILY_ACTIVITY_META, {
-    variables: { date: formatDate(new Date(selectedDate), "server") },
-    onCompleted: (data: any) => {
-      setActivityMeta(data.dailyActivityMeta);
-    },
-  });
+  const [getData, { data, loading, refetch }] = useLazyQuery(
+    DAILY_ACTIVITY_META,
+    {
+      variables: { date: formatDate(new Date(selectedDate), "server") },
+    }
+  );
 
-  const getActivityId = (activityType: string): string => {
+  const getActivityId = (
+    activityMeta: BookingMeta[],
+    activityType: string
+  ): string => {
     const activity = activityMeta.find(
       (activity) => activity.activityType === activityType
     );
@@ -59,67 +63,69 @@ export default function Schedule() {
   if (loading) return <LoadingScreen />;
 
   return (
-    <Page title="Schedule | DiveSchedule">
-      <Container maxWidth="xl">
-        <HeaderDashboard
-          heading="Schedule"
-          links={[
-            { name: "Dashboard", href: PATH_DASHBOARD.root },
-            { name: "Schedule" },
-          ]}
-        />
-
-        <Grid item xs={12}>
-          <ScheduleInfoBar
-            selectedDate={selectedDate}
-            setSelectedDate={handleSetSelectedDate}
+    <ActivityMeta.Provider value={refetch}>
+      <Page title="Schedule | DiveSchedule">
+        <Container maxWidth="xl">
+          <HeaderDashboard
+            heading="Schedule"
+            links={[
+              { name: "Dashboard", href: PATH_DASHBOARD.root },
+              { name: "Schedule" },
+            ]}
           />
-        </Grid>
 
-        {activityMeta && (
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={6}>
-              <ScheduleTable
-                activityId={getActivityId("AM_BOAT")}
-                tableType="AM_BOAT"
-                date={selectedDate}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <ScheduleTable
-                activityId={getActivityId("PM_BOAT")}
-                tableType="PM_BOAT"
-                date={selectedDate}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <ScheduleTable
-                activityId={getActivityId("POOL")}
-                tableType="POOL"
-                date={selectedDate}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <ScheduleTable
-                activityId={getActivityId("SHORE")}
-                tableType="SHORE"
-                date={selectedDate}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <ScheduleTable
-                activityId={getActivityId("CLASS")}
-                tableType="CLASS"
-                date={selectedDate}
-              />
-            </Grid>
+          <Grid item xs={12}>
+            <ScheduleInfoBar
+              selectedDate={selectedDate}
+              setSelectedDate={handleSetSelectedDate}
+            />
           </Grid>
-        )}
-      </Container>
-    </Page>
+
+          {data && data.dailyActivityMeta && (
+            <Grid container spacing={3}>
+              <Grid item xs={12} sm={6}>
+                <ScheduleTable
+                  activityId={getActivityId(data.dailyActivityMeta, "AM_BOAT")}
+                  tableType="AM_BOAT"
+                  date={selectedDate}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <ScheduleTable
+                  activityId={getActivityId(data.dailyActivityMeta, "PM_BOAT")}
+                  tableType="PM_BOAT"
+                  date={selectedDate}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <ScheduleTable
+                  activityId={getActivityId(data.dailyActivityMeta, "POOL")}
+                  tableType="POOL"
+                  date={selectedDate}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <ScheduleTable
+                  activityId={getActivityId(data.dailyActivityMeta, "SHORE")}
+                  tableType="SHORE"
+                  date={selectedDate}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <ScheduleTable
+                  activityId={getActivityId(data.dailyActivityMeta, "CLASS")}
+                  tableType="CLASS"
+                  date={selectedDate}
+                />
+              </Grid>
+            </Grid>
+          )}
+        </Container>
+      </Page>
+    </ActivityMeta.Provider>
   );
 }

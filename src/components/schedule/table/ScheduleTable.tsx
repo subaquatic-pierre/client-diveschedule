@@ -73,11 +73,14 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   // Data state
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [activity, setActivity] = useState<ActivityDetail>(blankActivityData);
-  const [getData, { data, loading, refetch }] = useLazyQuery(ACTIVITY_DATA, {
-    onError: (error: any) => {
-      setError(error.message);
-    },
-  });
+  const [getData, { data, loading, refetch, called }] = useLazyQuery(
+    ACTIVITY_DATA,
+    {
+      onError: (error: any) => {
+        setError(error.message);
+      },
+    }
+  );
 
   const { mutation: deleteBookings } = useBaseMutation(DELETE_BOOKINGS, {
     onCompleted: (data: any) => {
@@ -144,76 +147,75 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
 
   return (
     <Box dir="ltr">
-      {activity && (
-        <Card>
-          <ScheduleTableToolbar
-            tableType={activity.activityType}
-            diveTripDetail={activity}
-            numSelected={selected.length}
-            showCreateBookingRow={showCreateBookingRow}
-            showAddBooking={!creatingBooking && editingBookingId === -1}
-            deleteBookings={handleDeleteBookings}
-          />
+      <Card>
+        <ScheduleTableToolbar
+          tableType={activity.activityType}
+          diveTripDetail={activity}
+          numSelected={selected.length}
+          showCreateBookingRow={showCreateBookingRow}
+          showAddBooking={!creatingBooking && editingBookingId === -1}
+          deleteBookings={handleDeleteBookings}
+        />
 
-          <TableContainer className={classes.tableContainer}>
-            <Table
-              aria-labelledby="tableTitle"
-              size="small"
-              aria-label="enhanced table"
-            >
-              <ScheduleTableHead
-                numSelected={selected.length}
-                onSelectAllClick={handleSelectAllClick}
-                rowCount={bookings.length}
-                headFields={getHeadFields(activity.activityType)}
+        <TableContainer className={classes.tableContainer}>
+          <Table
+            aria-labelledby="tableTitle"
+            size="small"
+            aria-label="enhanced table"
+          >
+            <ScheduleTableHead
+              numSelected={selected.length}
+              onSelectAllClick={handleSelectAllClick}
+              rowCount={bookings.length}
+              headFields={getHeadFields(activity.activityType)}
+            />
+            {loading ? (
+              <ScheduleTableLoading
+                numCol={getHeadFields(activity.activityType).length + 2}
               />
-              {loading ? (
-                <ScheduleTableLoading
-                  numCol={getHeadFields(activity.activityType).length + 2}
-                />
-              ) : (
-                <TableBody sx={{ minHeight: "400px" }}>
-                  {bookings.map((bookingData: Booking, index) => {
-                    if (bookingData.id === editingBookingId) {
-                      return (
-                        <ScheduleTableEditRow
-                          key={index}
-                          bookingData={bookingData}
-                          cancelEditingBooking={cancelEditingBooking}
-                        />
-                      );
-                    }
+            ) : (
+              <TableBody sx={{ minHeight: "400px" }}>
+                {bookings.map((bookingData: Booking, index) => {
+                  if (bookingData.id === editingBookingId) {
                     return (
-                      <ScheduleTableRow
+                      <ScheduleTableEditRow
                         key={index}
                         bookingData={bookingData}
-                        setEditingBookingId={setEditingBookingId}
-                        handleSelectClick={handleSelectClick}
-                        selected={selected}
+                        cancelEditingBooking={cancelEditingBooking}
                       />
                     );
-                  })}
-                  {isBoatTrip(activity.activityType) &&
-                    activity.diveGuides?.map((guide, index) => (
-                      <ScheduleTableGuideRow
-                        key={index}
-                        profile={guide.profile}
-                      />
-                    ))}
-                  {creatingBooking && editingBookingId === -1 && (
-                    <ScheduleTableEditRow
-                      date={date}
-                      tableType={activity.activityType}
-                      cancelEditingBooking={cancelEditingBooking}
-                      refetchBookings={refetch}
+                  }
+                  return (
+                    <ScheduleTableRow
+                      key={index}
+                      bookingData={bookingData}
+                      setEditingBookingId={setEditingBookingId}
+                      handleSelectClick={handleSelectClick}
+                      selected={selected}
                     />
-                  )}
-                </TableBody>
-              )}
-            </Table>
-          </TableContainer>
-        </Card>
-      )}
+                  );
+                })}
+                {isBoatTrip(activity.activityType) &&
+                  activity.diveGuides?.map((guide, index) => (
+                    <ScheduleTableGuideRow
+                      key={index}
+                      profile={guide.profile}
+                    />
+                  ))}
+                {creatingBooking && editingBookingId === -1 && (
+                  <ScheduleTableEditRow
+                    date={date}
+                    tableType={activity.activityType}
+                    cancelEditingBooking={cancelEditingBooking}
+                    refetchBookings={refetch}
+                    fetchBookingDataCalled={called}
+                  />
+                )}
+              </TableBody>
+            )}
+          </Table>
+        </TableContainer>
+      </Card>
     </Box>
   );
 };

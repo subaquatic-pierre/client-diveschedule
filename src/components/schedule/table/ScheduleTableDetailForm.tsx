@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import {
   Grid,
@@ -27,6 +27,7 @@ import { UserSearchInput } from "../UserSearchInput";
 import { useApolloClient } from "@apollo/client";
 import { ScheduleController } from "../../../graphql/schedule";
 import useFetchStatus from "../../../hooks/useFetchStatus";
+import { ActivityMeta } from "../../../views/schedule/Schedule";
 
 const siteOptions = [
   "Artificial Reef",
@@ -133,15 +134,18 @@ export interface IFormData {
 
 interface IEditTripDetailFormProps {
   diveTripDetail?: ActivityDetail;
+  handleClose: () => void;
 }
 
 export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
   diveTripDetail,
+  handleClose,
 }: any) => {
   const client = useApolloClient();
   const classes = useStyles();
   const [addGuide, setAddGuide] = React.useState(false);
   const [user, setUser] = React.useState<IUser | null>(null);
+  const refetchMeta = useContext(ActivityMeta);
 
   // FormData state
   const [formData, setFormData] = React.useState<IFormData>(
@@ -205,6 +209,8 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
     } else {
       createActivityDetail(vars, setActivityDetail);
     }
+    refetchMeta();
+    handleClose();
   };
 
   const handleRemoveDiveGuide = (event: any, id: number): void => {

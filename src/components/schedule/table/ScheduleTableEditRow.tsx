@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles, TextField } from "@material-ui/core";
 
 import TableCell from "@material-ui/core/TableCell";
@@ -13,6 +13,7 @@ import { useFormData, IFormData } from "../hooks";
 import { buildCreateBookingData } from "../utils";
 import useBaseMutation from "../../../hooks/useBaseMutation";
 
+import { ActivityMeta } from "../../../views/schedule/Schedule";
 import { CREATE_BOOKING } from "../../../graphql/schedule";
 
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +42,7 @@ interface IScheduleTableEditRowProps {
   cancelEditingBooking?: () => void;
   bookingData?: Booking;
   refetchBookings?: () => void;
+  fetchBookingDataCalled?: boolean;
 }
 
 export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
@@ -49,16 +51,22 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
   cancelEditingBooking,
   bookingData,
   refetchBookings,
+  fetchBookingDataCalled,
 }) => {
   const [user, setUser] = React.useState<IUser>();
   const [instructor, setInstructor] = React.useState<IUser>();
   const classes = useStyles();
   const [formData, setFormData] = useFormData(bookingData);
   const isBoatBooking = tableType === "AM_BOAT" || tableType === "PM_BOAT";
+  const refetchMeta = useContext(ActivityMeta);
 
   const { mutation: createBooking } = useBaseMutation(CREATE_BOOKING, {
     onCompleted: (data: any) => {
-      refetchBookings();
+      if (fetchBookingDataCalled) {
+        refetchBookings();
+      } else {
+        refetchMeta();
+      }
       cancelEditingBooking();
     },
   });

@@ -10,6 +10,7 @@ export const bookingFragment = gql`
     time
     activityDetail {
       activityType
+      id
     }
     instructor {
       profile {
