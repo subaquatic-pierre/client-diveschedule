@@ -95,7 +95,7 @@ export const ScheduleInfoBar: React.FC<IScheduleInfoBarProps> = ({
               {formatDate(selectedDate, "full")}
             </Typography>
           </div>
-          <div>
+          {/* <div>
             <Tooltip title="Create Diver">
               <IconButton
                 onClick={() => history.push(PATH_DASHBOARD.user.create)}
@@ -104,7 +104,7 @@ export const ScheduleInfoBar: React.FC<IScheduleInfoBarProps> = ({
                 <PersonAddIcon />
               </IconButton>
             </Tooltip>
-          </div>
+          </div> */}
           <Popover
             id={id}
             open={open}
