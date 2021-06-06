@@ -224,10 +224,6 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
     setAddingDiveGuide(false);
   };
 
-  // ----------------------------------------------------------
-
-  // ----------------------------------------------------------
-
   return (
     <>
       <Grid container>
@@ -276,25 +272,29 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
 
           {/* Dive guide list section */}
           <Grid item xs={12}>
-            <List
-              subheader={<ListSubheader>Dive Guides</ListSubheader>}
-              className={classes.root}
-            >
-              {formValues &&
-                formValues.diveGuides &&
-                formValues.diveGuides.map((guide: any, index: number) => (
-                  <ListItem key={index}>
-                    <ListItemText primary={guide.profile.fullName} />
-                    <ListItemSecondaryAction
-                      onClick={() => handleRemoveDiveGuide(guide.id)}
-                    >
-                      <IconButton edge="end" aria-label="delete">
-                        <DeleteIcon />
-                      </IconButton>
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                ))}
-              {addingDiveGuide && (
+            {formValues.diveGuides.length > 0 && (
+              <List
+                subheader={<ListSubheader>Dive Guides</ListSubheader>}
+                className={classes.root}
+              >
+                {formValues &&
+                  formValues.diveGuides &&
+                  formValues.diveGuides.map((guide: any, index: number) => (
+                    <ListItem key={index}>
+                      <ListItemText primary={guide.profile.fullName} />
+                      <ListItemSecondaryAction
+                        onClick={() => handleRemoveDiveGuide(guide.id)}
+                      >
+                        <IconButton edge="end" aria-label="delete">
+                          <DeleteIcon />
+                        </IconButton>
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  ))}
+              </List>
+            )}
+            {addingDiveGuide && (
+              <List>
                 <ListItem key="addingDiver">
                   <Grid className={classes.searchInput}>
                     <FormControl fullWidth>
@@ -314,8 +314,8 @@ export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
                     </Tooltip>
                   </Grid>
                 </ListItem>
-              )}
-            </List>
+              </List>
+            )}
           </Grid>
           <Grid item xs={12} />
         </Grid>
