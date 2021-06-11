@@ -29,14 +29,12 @@ const useStyles = makeStyles((theme) => ({
 
 interface IBookingRowProps {
   handleSelectClick: (name: number) => void;
-  setEditingBookingId: (id: number) => void;
   selected: number[];
   bookingData: Booking;
 }
 
 export const ScheduleTableRow: React.FC<IBookingRowProps> = ({
   handleSelectClick,
-  setEditingBookingId,
   selected,
   bookingData,
 }) => {
@@ -52,12 +50,10 @@ export const ScheduleTableRow: React.FC<IBookingRowProps> = ({
     equipment,
   } = bookingData;
 
-  const instructor = bookingData.instructor
-    ? bookingData.instructor
-    : undefined;
-  let instructorName;
-  if (instructor !== undefined) {
-    instructorName = instructor.profile.fullName;
+  // Get instructor name if instructor exists
+  let instructorName = "";
+  if (bookingData.instructor) {
+    instructorName = bookingData.instructor.profile.fullName;
   }
 
   const classes = useStyles();
@@ -69,16 +65,7 @@ export const ScheduleTableRow: React.FC<IBookingRowProps> = ({
     setAnchorEl(null);
   };
 
-  const handleMoreButtonClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
-
   const isSelected = (id: number) => selected.indexOf(id) !== -1;
-
-  const handleEditButtonClick = () => {
-    setEditingBookingId(id);
-    handleMoreMenuClose();
-  };
 
   const handleDeleteButtonClick = () => {
     handleMoreMenuClose();
@@ -113,19 +100,6 @@ export const ScheduleTableRow: React.FC<IBookingRowProps> = ({
       )}
       <TableCell align="right">{equipment}</TableCell>
       {!isBoatBooking && <TableCell align="right">{time}</TableCell>}
-      {/* <TableCell align="center" padding="none">
-        {selected.length === 0 && (
-          <Tooltip title="More options">
-            <IconButton
-              onClick={handleMoreButtonClick}
-              size="small"
-              aria-label="more menu"
-            >
-              <MoreHorizIcon className={classes.moreButton} />
-            </IconButton>
-          </Tooltip>
-        )}
-      </TableCell> */}
       <Popover
         id={moreMenuId}
         open={open}
@@ -142,9 +116,6 @@ export const ScheduleTableRow: React.FC<IBookingRowProps> = ({
       >
         <div className={classes.moreMenu}>
           <List component="nav" aria-label="more menu nav">
-            {/* <ListItem button onClick={handleEditButtonClick}>
-              <ListItemText primary="Edit" />
-            </ListItem> */}
             <ListItem button onClick={handleDeleteButtonClick}>
               <ListItemText primary="Delete" />
             </ListItem>

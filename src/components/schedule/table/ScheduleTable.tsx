@@ -65,7 +65,6 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   const classes = useStyles();
   const [selected, setSelected] = React.useState<number[]>([]);
   const [creatingBooking, setCreatingBooking] = React.useState<boolean>(false);
-  const [editingBookingId, setEditingBookingId] = React.useState(-1);
 
   const client = useApolloClient();
   const { setError } = messageController(client);
@@ -156,7 +155,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
           diveTripDetail={activity}
           numSelected={selected.length}
           showCreateBookingRow={showCreateBookingRow}
-          showAddBooking={!creatingBooking && editingBookingId === -1}
+          showAddBooking={!creatingBooking}
           deleteBookings={handleDeleteBookings}
         />
 
@@ -179,20 +178,10 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
             ) : (
               <TableBody sx={{ minHeight: "400px" }}>
                 {bookings.map((bookingData: Booking, index) => {
-                  if (bookingData.id === editingBookingId) {
-                    return (
-                      <ScheduleTableEditRow
-                        key={index}
-                        bookingData={bookingData}
-                        cancelEditingBooking={cancelEditingBooking}
-                      />
-                    );
-                  }
                   return (
                     <ScheduleTableRow
                       key={index}
                       bookingData={bookingData}
-                      setEditingBookingId={setEditingBookingId}
                       handleSelectClick={handleSelectClick}
                       selected={selected}
                     />
@@ -205,7 +194,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
                       profile={guide.profile}
                     />
                   ))}
-                {creatingBooking && editingBookingId === -1 && (
+                {creatingBooking && (
                   <ScheduleTableEditRow
                     date={date}
                     tableType={activity.activityType}
