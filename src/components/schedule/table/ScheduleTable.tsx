@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useApolloClient, useLazyQuery } from "@apollo/client";
-import { Table, TableBody, TableContainer, Box, Card } from "@material-ui/core";
+import {
+  Table,
+  TableBody,
+  TableContainer,
+  Box,
+  Card,
+  TableRow,
+  TableCell,
+  TableHead,
+} from "@material-ui/core";
 
 import { ScheduleTableLoading } from "./ScheduleTableLoading";
 import { ScheduleTableHead } from "./ScheduleTableHead";
@@ -20,9 +29,32 @@ import { messageController } from "../../../controllers/messages";
 const useStyles = makeStyles((theme) => ({
   tableContainer: {
     minHeight: 700,
+    display: "flex",
+    flexDirection: "column",
   },
   loading: {
     width: 300,
+  },
+  tableInfo: {
+    marginTop: "auto",
+    "& .guide_row:not(:last-child)": {
+      borderBottom: `0.5px solid ${theme.palette.grey[700]}`,
+    },
+    "& .MuiTableCell-head": {
+      "&:first-of-type": {
+        borderTopLeftRadius: "0px",
+        borderBottomLeftRadius: "0px",
+        boxShadow: "inset 0 0 0 #fff;",
+      },
+      "&:last-of-type": {
+        borderTopRightRadius: "0px",
+        borderBottomRightRadius: "0px",
+        boxShadow: "inset 0 0 0 #fff;",
+      },
+    },
+  },
+  tableTotalRow: {
+    height: theme.spacing(7),
   },
 }));
 
@@ -63,13 +95,14 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
     activityType: tableType,
   };
   const classes = useStyles();
-  const [selected, setSelected] = React.useState<number[]>([]);
-  const [creatingBooking, setCreatingBooking] = React.useState<boolean>(false);
+  const [selected, setSelected] = useState<number[]>([]);
+  const [creatingBooking, setCreatingBooking] = useState<boolean>(false);
 
   const client = useApolloClient();
   const { setError } = messageController(client);
 
   // Data state
+  const [blankRows, setBlankRows] = useState<Booking[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [activity, setActivity] = useState<ActivityDetail>(blankActivityData);
   const [getData, { data, loading, refetch, called }] = useLazyQuery(
@@ -181,19 +214,13 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
                   return (
                     <ScheduleTableRow
                       key={index}
+                      index={index}
                       bookingData={bookingData}
                       handleSelectClick={handleSelectClick}
                       selected={selected}
                     />
                   );
                 })}
-                {isBoatTrip(activity.activityType) &&
-                  activity.diveGuides?.map((guide, index) => (
-                    <ScheduleTableGuideRow
-                      key={index}
-                      profile={guide.profile}
-                    />
-                  ))}
                 {creatingBooking && (
                   <ScheduleTableEditRow
                     date={date}
@@ -206,6 +233,33 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
               </TableBody>
             )}
           </Table>
+          {isBoatTrip(activity.activityType) && (
+            <Table size="small" className={classes.tableInfo}>
+              <TableHead>
+                <TableRow>
+                  <TableCell></TableCell>
+                  <TableCell>Dive Guides</TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {activity.diveGuides?.map((guide, index) => (
+                  <ScheduleTableGuideRow key={index} profile={guide.profile} />
+                ))}
+              </TableBody>
+              <TableHead>
+                <TableRow className={classes.tableTotalRow}>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell>Total Divers</TableCell>
+                  <TableCell align="right">13</TableCell>
+                </TableRow>
+              </TableHead>
+            </Table>
+          )}
         </TableContainer>
       </Card>
     </Box>
