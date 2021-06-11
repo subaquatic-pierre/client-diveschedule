@@ -4,6 +4,8 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import { TextField } from "@material-ui/core";
 
 import { useLazyQuery, DocumentNode } from "@apollo/client";
+import { useHistory } from "react-router";
+import { PATH_DASHBOARD } from "../routes/paths";
 
 interface ISearchProps {
   setObject?: (object: any) => void;
@@ -40,6 +42,7 @@ export const AutoCompleteSearch: React.FC<ISearchProps> = ({
   const [_, setSearchValue] = React.useState("");
   const [searchOptions, setSearchOptions] = React.useState<string[]>([]);
   const [searchInputValue, setSearchInputValue] = React.useState("");
+  const history = useHistory();
 
   const filter = (
     value: string,
@@ -50,7 +53,7 @@ export const AutoCompleteSearch: React.FC<ISearchProps> = ({
     setSearchOptions(value ? [value, ...searchOptions] : searchOptions);
     const user = filter(value, getObject);
     if (!user || value === "Create User") {
-      if (handleOpenEditDiverModal) handleOpenEditDiverModal();
+      history.push(PATH_DASHBOARD.user.create);
     } else {
       if (setObject) setObject(user);
       setSearchValue(value);
