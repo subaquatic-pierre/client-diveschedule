@@ -56,6 +56,12 @@ const useStyles = makeStyles((theme) => ({
   tableTotalRow: {
     height: theme.spacing(7),
   },
+  row: {
+    borderBottom: `0.5px solid ${theme.palette.grey[400]}`,
+  },
+  firstCell: {
+    borderRight: `0.5px solid ${theme.palette.grey[400]}`,
+  },
 }));
 
 const isBoatTrip = (activityType: string): boolean => {
@@ -82,11 +88,32 @@ interface IScheduleTableProps {
   activityId?: string;
 }
 
+interface IBlankRowProps {
+  bookingNumber: number;
+}
+
+const BlankRow = ({ bookingNumber }: IBlankRowProps) => {
+  const classes = useStyles();
+
+  return (
+    <TableRow className={classes.row}>
+      <TableCell className={classes.firstCell}>{bookingNumber}</TableCell>
+      <TableCell></TableCell>
+      <TableCell></TableCell>
+      <TableCell></TableCell>
+    </TableRow>
+  );
+};
+
 export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   tableType,
   date,
   activityId,
 }) => {
+  const maxDivers = 13;
+  const [totalDivers, setTotalDivers] = useState(0);
+  const [blankBookings, setBlankBookings] = useState([]);
+
   const blankActivityData: ActivityDetail = {
     id: -1,
     time: getTripTime(tableType),
@@ -102,7 +129,6 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   const { setError } = messageController(client);
 
   // Data state
-  const [blankRows, setBlankRows] = useState<Booking[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [activity, setActivity] = useState<ActivityDetail>(blankActivityData);
   const [getData, { data, loading, refetch, called }] = useLazyQuery(
@@ -176,9 +202,24 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
       if (data) {
         setActivity(data.activityData);
         setBookings(data.activityData.bookingSet);
+        setTotalDivers(
+          data.activityData.diveGuides.length +
+            data.activityData.bookingSet.length
+        );
       }
     }
   }, [activityId, data]);
+
+  useEffect(() => {
+    let numBookings = bookings.length;
+    const availableSpaces = maxDivers - numBookings;
+    const tempBlankBookings = [];
+    for (let i = 0; i < availableSpaces; i++) {
+      numBookings += 1;
+      tempBlankBookings.push(numBookings);
+    }
+    setBlankBookings(tempBlankBookings);
+  }, [bookings]);
 
   return (
     <Box dir="ltr">
@@ -230,20 +271,27 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
                     fetchBookingDataCalled={called}
                   />
                 )}
+                {!creatingBooking &&
+                  isBoatTrip(activity.activityType) &&
+                  blankBookings.map((booking, index) => (
+                    <BlankRow key={index} bookingNumber={booking} />
+                  ))}
               </TableBody>
             )}
           </Table>
           {isBoatTrip(activity.activityType) && (
             <Table size="small" className={classes.tableInfo}>
-              <TableHead>
-                <TableRow>
-                  <TableCell></TableCell>
-                  <TableCell>Dive Guides</TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                </TableRow>
-              </TableHead>
+              {activity.diveGuides && activity.diveGuides.length > 0 && (
+                <TableHead>
+                  <TableRow>
+                    <TableCell></TableCell>
+                    <TableCell>Dive Guides</TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                  </TableRow>
+                </TableHead>
+              )}
               <TableBody>
                 {activity.diveGuides?.map((guide, index) => (
                   <ScheduleTableGuideRow key={index} profile={guide.profile} />
@@ -255,7 +303,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
                   <TableCell></TableCell>
                   <TableCell></TableCell>
                   <TableCell>Total Divers</TableCell>
-                  <TableCell align="right">13</TableCell>
+                  <TableCell align="right">{`${totalDivers}`}</TableCell>
                 </TableRow>
               </TableHead>
             </Table>
