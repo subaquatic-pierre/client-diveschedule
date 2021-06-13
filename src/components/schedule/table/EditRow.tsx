@@ -11,7 +11,8 @@ import { UserSearchInput } from "../UserSearchInput";
 import { Booking } from "../../../@types/schedule";
 import { User } from "../../../@types/user";
 import { useFormData, IFormData } from "../hooks";
-import { buildCreateBookingData } from "../utils";
+import { buildForm } from "../../../utils/buildFormData";
+import { formatDate } from "../../../utils/formatDate";
 import useBaseMutation from "../../../hooks/useBaseMutation";
 
 import { ActivityMeta } from "../../../views/schedule/Schedule";
@@ -36,6 +37,26 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+interface IForm {
+  diverRole: string;
+  equipment: string;
+  userId?: number;
+  activityType?: string;
+  date?: string;
+  time?: string;
+  instructorId?: number;
+}
+
+const initialFormData: IForm = {
+  diverRole: "",
+  activityType: "",
+  date: "",
+  userId: -1,
+  equipment: "",
+  instructorId: undefined,
+  time: "",
+};
 
 interface IProps {
   tableType?: string;
@@ -95,11 +116,13 @@ export const EditRow: React.FC<IProps> = ({
 
   const handleSaveBooking = () => {
     if (isValidBookingData(formData)) {
-      const createBookingData = buildCreateBookingData(
-        formData,
-        tableType as string,
-        date as Date
-      );
+      const createBookingData = buildForm<IForm>(initialFormData, {
+        ...formData,
+        instructorId: instructor ? parseInt(instructor.id) : -1,
+        userId: parseInt(user.id),
+        activityType: tableType,
+        date: formatDate(date, "server"),
+      });
       createBooking({ variables: createBookingData });
     }
   };

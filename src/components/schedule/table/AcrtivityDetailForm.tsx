@@ -22,7 +22,7 @@ import {
 import DeleteIcon from "@material-ui/icons/Delete";
 import DoneIcon from "@material-ui/icons/Done";
 
-import { formatDate } from "../../../utils/date";
+import { formatDate } from "../../../utils/formatDate";
 import { ActivityDetail } from "../../../@types/schedule";
 import { User } from "../../../@types/user";
 import { UserSearchInput } from "../UserSearchInput";

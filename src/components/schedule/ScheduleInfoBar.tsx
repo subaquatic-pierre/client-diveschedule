@@ -16,7 +16,7 @@ import IconButton from "@material-ui/core/IconButton";
 import TodayIcon from "@material-ui/icons/Today";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import Calendar from "react-calendar";
-import { formatDate } from "../../utils/date";
+import { formatDate } from "../../utils/formatDate";
 
 import { DAY_QUERY } from "../../graphql/schedule/queries";
 import { PATH_DASHBOARD } from "../../routes/paths";

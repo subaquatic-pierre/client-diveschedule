@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { Grid, Container } from "@material-ui/core";
-import { formatDate } from "../../utils/date";
+import { formatDate } from "../../utils/formatDate";
 
 // components
 import Page from "../../components/Page";

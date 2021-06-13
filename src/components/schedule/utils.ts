@@ -1,6 +1,6 @@
 import { Booking, ActivityDetail } from "../../@types/schedule";
 import { User } from "../../@types/user";
-import { formatDate } from "../../utils/date";
+import { formatDate } from "../../utils/formatDate";
 import { IFormData } from "./hooks";
 
 const capitalizeWord = (word: string): string => {
@@ -97,47 +97,4 @@ export const getHeadFields = (activityType: string): string[] => {
     default:
       return trainingHeadFields;
   }
-};
-
-export const getUser = (userName: string, data: any): User | undefined => {
-  try {
-    const edge = data.searchUsers.edges.filter(
-      (edge: any) => edge.node.profile.fullName === userName
-    )[0];
-    return edge.node;
-  } catch {
-    return undefined;
-  }
-};
-
-export interface IBaseBooking {
-  [key: string]: any | undefined;
-  diverRole: string;
-  equipment: string;
-  id?: number;
-  activityType?: string;
-  date?: string;
-  time?: string;
-  instructorId?: number;
-}
-
-export interface ICreateBooking extends IBaseBooking {}
-
-export interface IEditBooking extends IBaseBooking {}
-
-export const buildCreateBookingData = (
-  formData: IFormData,
-  activityType: string,
-  date: Date
-): ICreateBooking => {
-  const { userId, diverRole, equipment, time, instructorId } = formData;
-  return {
-    diverRole: diverRole as string,
-    activityType,
-    date: formatDate(date, "server"),
-    userId,
-    equipment: equipment as string,
-    instructorId: instructorId as number,
-    time: time as string,
-  };
 };

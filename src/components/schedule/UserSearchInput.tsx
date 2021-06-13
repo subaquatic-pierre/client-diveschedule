@@ -43,11 +43,15 @@ export const UserSearchInput: React.FC<IProps> = ({
       const edge = searchData.searchUsers.edges.filter(
         (edge: any) => edge.node.profile.fullName === searchValue
       )[0];
-      const user = edge.node;
       if (searchValue === "Create User") {
         history.push(PATH_DASHBOARD.user.create);
       } else {
-        setObject(user);
+        try {
+          const user = edge.node;
+          setObject(user);
+        } catch (error) {
+          // console.log(error);
+        }
       }
     }
   }, [searchValue]);
