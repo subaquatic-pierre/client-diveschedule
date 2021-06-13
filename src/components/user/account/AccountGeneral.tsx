@@ -127,9 +127,10 @@ export default function AccountGeneral({
     },
     onCompleted: (data: any) => {
       setSuccess("User successfully created");
-      history.push(
-        PATH_DASHBOARD.user.root + "/edit/" + data.createUser.user.id
-      );
+      if (history)
+        history.push(
+          PATH_DASHBOARD.user.root + "/edit/" + data.createUser.user.id
+        );
       NProgress.done();
     },
   });

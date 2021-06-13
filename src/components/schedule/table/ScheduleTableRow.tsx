@@ -10,11 +10,13 @@ import { Booking } from "../../../@types/schedule";
 const useStyles = makeStyles((theme) => ({
   row: {
     borderBottom: `0.5px solid ${theme.palette.grey[400]}`,
+    height: "38px",
     "& :hover": {
       cursor: "pointer",
     },
   },
   firstCell: {
+    paddingLeft: "0px !important",
     borderRight: `0.5px solid ${theme.palette.grey[400]}`,
   },
 }));
@@ -67,7 +69,7 @@ export const ScheduleTableRow: React.FC<IBookingRowProps> = ({
       tabIndex={-1}
       selected={isSelected(id)}
     >
-      <TableCell className={classes.firstCell}>
+      <TableCell padding="none" align="center" className={classes.firstCell}>
         {selected.length > 0 ? (
           <Checkbox
             size="small"
@@ -79,7 +81,7 @@ export const ScheduleTableRow: React.FC<IBookingRowProps> = ({
         )}
       </TableCell>
       <TableCell id={email}>{fullName}</TableCell>
-      <TableCell align="right">{diverRole}</TableCell>
+      <TableCell align="right">{diverRole.toUpperCase()}</TableCell>
       {isBoatBooking ? (
         <TableCell align="right">{certLevel}</TableCell>
       ) : (

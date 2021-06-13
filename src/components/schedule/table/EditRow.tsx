@@ -41,13 +41,13 @@ const useStyles = makeStyles((theme) => ({
 
 interface IForm {
   diverRole: string;
-  equipment: string;
-  userId?: string;
-  activityType?: string;
-  date?: string;
+  userId: string | number;
+  activityType: string;
+  date: string;
   time?: string;
-  instructorId?: string;
+  instructorId?: string | number;
   fullName?: string;
+  equipment?: string;
   certLevel?: string;
   instructorName?: string;
 }
@@ -65,34 +65,10 @@ const initialFormData: IForm = {
   certLevel: "",
 };
 
-const getBookingData = (bookingData: Booking): IForm => {
-  const {
-    diverRole,
-    equipment,
-    diver: {
-      id,
-      profile: { fullName, certLevel },
-    },
-    instructor: {
-      profile: { fullName: instructorName },
-    },
-  } = bookingData as any;
-  const data = buildForm<IForm>(initialFormData, {
-    userId: id,
-    instructorName,
-    fullName,
-    diverRole,
-    equipment,
-    certLevel,
-  });
-  return data;
-};
-
 interface IProps {
   tableType?: string;
   date?: Date;
   cancelEditingBooking?: () => void;
-  bookingData?: Booking;
   refetchBookings?: () => void;
   fetchBookingDataCalled?: boolean;
 }
@@ -101,15 +77,13 @@ export const EditRow: React.FC<IProps> = ({
   tableType,
   date,
   cancelEditingBooking,
-  bookingData,
   refetchBookings,
   fetchBookingDataCalled,
 }) => {
-  const initForm = bookingData ? getBookingData(bookingData) : initialFormData;
   const [user, setUser] = React.useState<User>();
   const [instructor, setInstructor] = useState<User>();
   const classes = useStyles();
-  const [formData, setFormData] = useState(initForm);
+  const [formData, setFormData] = useState(initialFormData);
   const isBoatBooking = tableType === "AM_BOAT" || tableType === "PM_BOAT";
   const refetchMeta = useContext(ActivityMeta);
 
@@ -170,21 +144,32 @@ export const EditRow: React.FC<IProps> = ({
     }
   };
 
+  // Update form if user change
   React.useEffect(() => {
-    setFormData((oldData) => {
-      if (user) {
+    if (user) {
+      setFormData((oldData) => {
         return {
           ...oldData,
           userId: user?.id,
           certLevel: user.profile.certLevel,
           equipment: user.profile.equipment,
           fullName: user?.profile?.fullName,
+        };
+      });
+    }
+  }, [user]);
+
+  // Update form if instructor change
+  React.useEffect(() => {
+    if (instructor) {
+      setFormData((oldData) => {
+        return {
+          ...oldData,
           instructorId: instructor?.id,
         };
-      }
-      return { ...oldData };
-    });
-  }, [user, instructor]);
+      });
+    }
+  }, [instructor]);
 
   return (
     <TableRow className={classes.row}>

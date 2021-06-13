@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
         borderTopLeftRadius: "0px",
         borderBottomLeftRadius: "0px",
         boxShadow: "inset 0 0 0 #fff;",
+        paddingLeft: "14px",
       },
       "&:last-of-type": {
         borderTopRightRadius: "0px",
@@ -29,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
         boxShadow: "inset 0 0 0 #fff;",
       },
     },
+  },
+  firstCell: {
+    paddingLeft: "0px",
   },
 }));
 
@@ -46,7 +50,11 @@ export const ScheduleTableHead: React.FC<IProps> = ({
   return (
     <TableHead>
       <TableRow className={classes.head}>
-        <TableCell padding="checkbox">
+        <TableCell
+          padding="checkbox"
+          align="center"
+          className={classes.firstCell}
+        >
           {numSelected > 0 ? (
             <Checkbox
               size="small"
