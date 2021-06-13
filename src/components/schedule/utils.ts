@@ -1,7 +1,4 @@
-import { Booking, ActivityDetail } from "../../@types/schedule";
-import { User } from "../../@types/user";
-import { formatDate } from "../../utils/formatDate";
-import { IFormData } from "./hooks";
+import { ActivityDetail } from "../../@types/schedule";
 
 const capitalizeWord = (word: string): string => {
   const firstLetter = word.slice(0, 1).toUpperCase();
@@ -44,8 +41,6 @@ export const getToolbarHeading = (
 
   const diveSites = diveSite1 !== null || diveSite2 !== null;
   const isTripDefined = id !== -1;
-
-  // console.log(activityDetail);
 
   switch (tableType) {
     case "AM_BOAT":

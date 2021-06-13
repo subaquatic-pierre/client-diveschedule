@@ -1,16 +1,17 @@
-import React, { useContext } from "react";
-import { makeStyles, TextField } from "@material-ui/core";
-
-import TableCell from "@material-ui/core/TableCell";
+import React, { useContext, useState } from "react";
+import {
+  makeStyles,
+  TextField,
+  TableCell,
+  TableRow,
+  Tooltip,
+} from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
-import TableRow from "@material-ui/core/TableRow";
 import CancelIcon from "@material-ui/icons/Cancel";
-import Tooltip from "@material-ui/core/Tooltip";
 
 import { UserSearchInput } from "../UserSearchInput";
 import { Booking } from "../../../@types/schedule";
 import { User } from "../../../@types/user";
-import { useFormData, IFormData } from "../hooks";
 import { buildForm } from "../../../utils/buildFormData";
 import { formatDate } from "../../../utils/formatDate";
 import useBaseMutation from "../../../hooks/useBaseMutation";
@@ -41,21 +42,50 @@ const useStyles = makeStyles((theme) => ({
 interface IForm {
   diverRole: string;
   equipment: string;
-  userId?: number;
+  userId?: string;
   activityType?: string;
   date?: string;
   time?: string;
-  instructorId?: number;
+  instructorId?: string;
+  fullName?: string;
+  certLevel?: string;
+  instructorName?: string;
 }
 
 const initialFormData: IForm = {
   diverRole: "",
   activityType: "",
   date: "",
-  userId: -1,
+  userId: "",
+  fullName: "",
   equipment: "",
   instructorId: undefined,
+  instructorName: undefined,
   time: "",
+  certLevel: "",
+};
+
+const getBookingData = (bookingData: Booking): IForm => {
+  const {
+    diverRole,
+    equipment,
+    diver: {
+      id,
+      profile: { fullName, certLevel },
+    },
+    instructor: {
+      profile: { fullName: instructorName },
+    },
+  } = bookingData as any;
+  const data = buildForm<IForm>(initialFormData, {
+    userId: id,
+    instructorName,
+    fullName,
+    diverRole,
+    equipment,
+    certLevel,
+  });
+  return data;
 };
 
 interface IProps {
@@ -75,10 +105,11 @@ export const EditRow: React.FC<IProps> = ({
   refetchBookings,
   fetchBookingDataCalled,
 }) => {
+  const initForm = bookingData ? getBookingData(bookingData) : initialFormData;
   const [user, setUser] = React.useState<User>();
-  const [instructor, setInstructor] = React.useState<User>();
+  const [instructor, setInstructor] = useState<User>();
   const classes = useStyles();
-  const [formData, setFormData] = useFormData(bookingData);
+  const [formData, setFormData] = useState(initForm);
   const isBoatBooking = tableType === "AM_BOAT" || tableType === "PM_BOAT";
   const refetchMeta = useContext(ActivityMeta);
 
@@ -94,7 +125,7 @@ export const EditRow: React.FC<IProps> = ({
   });
 
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((oldState: IFormData) => {
+    setFormData((oldState: IForm) => {
       return {
         ...oldState,
         [event.target.name]: event.target.value,
@@ -102,20 +133,21 @@ export const EditRow: React.FC<IProps> = ({
     });
   };
 
-  const isValidBookingData = (data: IFormData) => {
+  const isValidBookingData = (data: IForm) => {
     for (const prop in data) {
       if (prop === "bookingId") continue;
       if (prop === "time") continue;
       if (prop === "instructorName") continue;
-      if (data[prop] === "") {
-        return false;
-      }
+      // if (data[prop] === "") {
+      //   return false;
+      // }
     }
     return true;
   };
 
   const handleSaveBooking = () => {
     if (isValidBookingData(formData)) {
+      // Format values for correct backend values
       const createBookingData = buildForm<IForm>(initialFormData, {
         ...formData,
         instructorId: instructor ? parseInt(instructor.id) : -1,
