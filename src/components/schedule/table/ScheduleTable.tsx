@@ -255,7 +255,11 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
                 {!creatingBooking &&
                   isBoatTrip(activity.activityType) &&
                   blankBookings.map((booking, index) => (
-                    <BlankRow key={index} bookingNumber={booking} />
+                    <BlankRow
+                      key={index}
+                      showCreateBookingRow={showCreateBookingRow}
+                      bookingNumber={booking}
+                    />
                   ))}
               </TableBody>
             )}

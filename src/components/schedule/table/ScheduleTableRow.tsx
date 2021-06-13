@@ -21,14 +21,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IBookingRowProps {
+interface IProps {
   handleSelectClick: (name: number) => void;
   selected: number[];
   bookingData: Booking;
   index: number;
 }
 
-export const ScheduleTableRow: React.FC<IBookingRowProps> = ({
+export const ScheduleTableRow: React.FC<IProps> = ({
   handleSelectClick,
   index,
   selected,
