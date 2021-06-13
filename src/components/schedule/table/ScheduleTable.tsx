@@ -12,12 +12,13 @@ import {
   TableHead,
 } from "@material-ui/core";
 
-import { ScheduleTableLoading } from "./ScheduleTableLoading";
+import { TableLoading } from "./TableLoading";
 import { ScheduleTableHead } from "./ScheduleTableHead";
 import { ScheduleTableToolbar } from "./ScheduleTableToolbar";
 import { ScheduleTableRow } from "./ScheduleTableRow";
-import { ScheduleTableGuideRow } from "./ScheduleTableGuideRow";
-import { ScheduleTableEditRow } from "./ScheduleTableEditRow";
+import { GuideRow } from "./GuideRow";
+import { EditRow } from "./EditRow";
+import { BlankRow } from "./BlankRow";
 import { getHeadFields } from "../utils";
 
 import { Booking, ActivityDetail } from "../../../@types/schedule";
@@ -87,23 +88,6 @@ interface IScheduleTableProps {
   date: Date;
   activityId?: string;
 }
-
-interface IBlankRowProps {
-  bookingNumber: number;
-}
-
-const BlankRow = ({ bookingNumber }: IBlankRowProps) => {
-  const classes = useStyles();
-
-  return (
-    <TableRow className={classes.row}>
-      <TableCell className={classes.firstCell}>{bookingNumber}</TableCell>
-      <TableCell></TableCell>
-      <TableCell></TableCell>
-      <TableCell></TableCell>
-    </TableRow>
-  );
-};
 
 export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   tableType,
@@ -243,7 +227,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
               headFields={getHeadFields(activity.activityType)}
             />
             {loading ? (
-              <ScheduleTableLoading
+              <TableLoading
                 numCol={getHeadFields(activity.activityType).length + 2}
               />
             ) : (
@@ -260,7 +244,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
                   );
                 })}
                 {creatingBooking && (
-                  <ScheduleTableEditRow
+                  <EditRow
                     date={date}
                     tableType={activity.activityType}
                     cancelEditingBooking={cancelEditingBooking}
@@ -291,7 +275,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
               )}
               <TableBody>
                 {activity.diveGuides?.map((guide, index) => (
-                  <ScheduleTableGuideRow key={index} profile={guide.profile} />
+                  <GuideRow key={index} profile={guide.profile} />
                 ))}
               </TableBody>
               <TableHead>

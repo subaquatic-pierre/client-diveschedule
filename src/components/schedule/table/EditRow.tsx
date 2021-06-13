@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IScheduleTableEditRowProps {
+interface IProps {
   tableType?: string;
   date?: Date;
   cancelEditingBooking?: () => void;
@@ -46,7 +46,7 @@ interface IScheduleTableEditRowProps {
   fetchBookingDataCalled?: boolean;
 }
 
-export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
+export const EditRow: React.FC<IProps> = ({
   tableType,
   date,
   cancelEditingBooking,
@@ -74,7 +74,6 @@ export const ScheduleTableEditRow: React.FC<IScheduleTableEditRowProps> = ({
 
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((oldState: IFormData) => {
-      console.log(oldState);
       return {
         ...oldState,
         [event.target.name]: event.target.value,

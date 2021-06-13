@@ -15,13 +15,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IBookingRowProps {
+interface IProps {
   profile: Profile;
 }
 
-export const ScheduleTableGuideRow: React.FC<IBookingRowProps> = ({
-  profile,
-}) => {
+export const GuideRow: React.FC<IProps> = ({ profile }) => {
   const classes = useStyles();
 
   return (

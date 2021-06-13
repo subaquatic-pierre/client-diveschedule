@@ -131,12 +131,12 @@ const getDiveGuideIds = (diveGuides: User[]): number[] => {
   return ids;
 };
 
-interface IEditTripDetailFormProps {
+interface IProps {
   diveTripDetail?: ActivityDetail;
   handleClose: () => void;
 }
 
-export const EditTripDetailForm: React.FC<IEditTripDetailFormProps> = ({
+export const ActivityDetailForm: React.FC<IProps> = ({
   diveTripDetail,
   handleClose,
 }: any) => {

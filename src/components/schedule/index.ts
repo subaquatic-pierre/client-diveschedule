@@ -1,7 +1,8 @@
 export { ScheduleTable } from "./table/ScheduleTable";
-export { ScheduleTableEditRow } from "./table/ScheduleTableEditRow";
-export { ScheduleTableGuideRow } from "./table/ScheduleTableGuideRow";
+export { EditRow } from "./table/EditRow";
+export { GuideRow } from "./table/GuideRow";
 export { ScheduleTableHead } from "./table/ScheduleTableHead";
-export { ScheduleTableLoading } from "./table/ScheduleTableLoading";
+export { TableLoading } from "./table/TableLoading";
 export { ScheduleTableRow } from "./table/ScheduleTableRow";
 export { ScheduleTableToolbar } from "./table/ScheduleTableToolbar";
+export { BlankRow } from "./table/BlankRow";

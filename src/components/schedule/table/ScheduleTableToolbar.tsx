@@ -14,7 +14,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { ActivityDetail } from "../../../@types/schedule";
-import { EditTripDetailForm } from "./ScheduleTableDetailForm";
+import { ActivityDetailForm } from "./AcrtivityDetailForm";
 import { getToolbarHeading } from "../utils";
 import useAuth from "../../../hooks/useAuth";
 
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IScheduleTableToolbarProps {
+interface IProps {
   diveTripDetail?: ActivityDetail;
   numSelected: number;
   tableType: string;
@@ -51,7 +51,7 @@ interface IScheduleTableToolbarProps {
   deleteBookings: () => void;
 }
 
-export const ScheduleTableToolbar: React.FC<IScheduleTableToolbarProps> = ({
+export const ScheduleTableToolbar: React.FC<IProps> = ({
   diveTripDetail,
   numSelected,
   tableType,
@@ -190,7 +190,7 @@ export const ScheduleTableToolbar: React.FC<IScheduleTableToolbarProps> = ({
         }}
       >
         <div className={classes.popoverContainer}>
-          <EditTripDetailForm
+          <ActivityDetailForm
             handleClose={handleEditTripPopoverClose}
             diveTripDetail={diveTripDetail}
           />

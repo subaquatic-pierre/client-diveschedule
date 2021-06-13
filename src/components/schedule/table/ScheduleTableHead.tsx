@@ -1,11 +1,14 @@
 import React from "react";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Checkbox from "@material-ui/core/Checkbox";
-import { makeStyles, Typography } from "@material-ui/core";
+import {
+  makeStyles,
+  Typography,
+  TableCell,
+  TableHead,
+  TableRow,
+  Checkbox,
+} from "@material-ui/core";
 
-interface IBoatScheduleTableHeadProps {
+interface IProps {
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   numSelected: number;
   rowCount: number;
@@ -29,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const ScheduleTableHead: React.FC<IBoatScheduleTableHeadProps> = ({
+export const ScheduleTableHead: React.FC<IProps> = ({
   onSelectAllClick,
   numSelected,
   rowCount,
