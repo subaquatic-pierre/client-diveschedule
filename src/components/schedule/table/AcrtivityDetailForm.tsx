@@ -224,6 +224,10 @@ export const ActivityDetailForm: React.FC<IProps> = ({
     setAddingDiveGuide(false);
   };
 
+  useEffect(() => {
+    if (user) handleAddDiveGuide();
+  }, [user]);
+
   return (
     <>
       <Grid container>
@@ -304,14 +308,6 @@ export const ActivityDetailForm: React.FC<IProps> = ({
                         setObject={setUser as any}
                       />
                     </FormControl>
-                  </Grid>
-                  <Grid item>
-                    <Tooltip title="Done">
-                      <DoneIcon
-                        className={classes.iconRight}
-                        onClick={handleAddDiveGuide}
-                      />
-                    </Tooltip>
                   </Grid>
                 </ListItem>
               </List>
