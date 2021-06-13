@@ -1,5 +1,5 @@
 export { ScheduleTable } from "./table/ScheduleTable";
-export { EditRow } from "./table/EditRow";
+export { CreateBookingRow } from "./table/CreateBookingRow";
 export { GuideRow } from "./table/GuideRow";
 export { ScheduleTableHead } from "./table/ScheduleTableHead";
 export { TableLoading } from "./table/TableLoading";

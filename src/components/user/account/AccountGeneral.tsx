@@ -233,6 +233,7 @@ export default function AccountGeneral({
                     <TextField
                       fullWidth
                       label="Name"
+                      autoFocus
                       {...getFieldProps("fullName")}
                       error={Boolean(touched.fullName && errors.fullName)}
                       helperText={touched.fullName && errors.fullName}

@@ -16,6 +16,17 @@ interface IProps {
   label?: string;
 }
 
+const getUser = (searchData: any, fullName: string): User | string => {
+  try {
+    return searchData.searchUsers.edges.filter(
+      (edge: any) => edge.node.profile.fullName === fullName
+    )[0].node;
+  } catch (error) {
+    console.log(error);
+    return "";
+  }
+};
+
 export const UserSearchInput: React.FC<IProps> = ({
   setObject,
   size,
@@ -24,6 +35,7 @@ export const UserSearchInput: React.FC<IProps> = ({
   label,
 }: IProps) => {
   const [query, { data: searchData, called }] = useLazyQuery(SEARCH_USERS, {
+    fetchPolicy: "network-only",
     onError: (error) => {
       console.log(error);
     },
@@ -40,18 +52,11 @@ export const UserSearchInput: React.FC<IProps> = ({
   // Get user from selected value and set user
   useEffect(() => {
     if (searchData) {
-      const edge = searchData.searchUsers.edges.filter(
-        (edge: any) => edge.node.profile.fullName === searchValue
-      )[0];
       if (searchValue === "Create User") {
         history.push(PATH_DASHBOARD.user.create);
       } else {
-        try {
-          const user = edge.node;
-          setObject(user);
-        } catch (error) {
-          // console.log(error);
-        }
+        const user = getUser(searchData, searchValue);
+        if (user !== "") setObject(user as User);
       }
     }
   }, [searchValue]);
@@ -67,6 +72,20 @@ export const UserSearchInput: React.FC<IProps> = ({
     }
   }, [searchData]);
 
+  // Set search value to first option on tab press
+  window.addEventListener("keyup", (event: KeyboardEvent) => {
+    if (event.key === "Tab") {
+      if (searchOptions.length > 0 && searchData) {
+        const fullName = searchOptions[0];
+        const user = getUser(searchData, fullName);
+        if (user !== "") {
+          setSearchValue(fullName);
+          setObject(user as User);
+        }
+      }
+    }
+  });
+
   return (
     <Autocomplete
       freeSolo
@@ -76,6 +95,7 @@ export const UserSearchInput: React.FC<IProps> = ({
       filterOptions={(x) => x}
       options={searchOptions}
       size={size || "small"}
+      value={searchValue}
       onInputChange={handleSearchChange}
       renderInput={(params) => (
         <TextField

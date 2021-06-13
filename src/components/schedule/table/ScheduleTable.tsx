@@ -17,7 +17,7 @@ import { ScheduleTableHead } from "./ScheduleTableHead";
 import { ScheduleTableToolbar } from "./ScheduleTableToolbar";
 import { ScheduleTableRow } from "./ScheduleTableRow";
 import { GuideRow } from "./GuideRow";
-import { EditRow } from "./EditRow";
+import { CreateBookingRow } from "./CreateBookingRow";
 import { BlankRow } from "./BlankRow";
 import { getHeadFields } from "../utils";
 
@@ -244,7 +244,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
                   );
                 })}
                 {creatingBooking && (
-                  <EditRow
+                  <CreateBookingRow
                     date={date}
                     tableType={activity.activityType}
                     cancelEditingBooking={cancelEditingBooking}

@@ -18,6 +18,8 @@ import useBaseMutation from "../../../hooks/useBaseMutation";
 
 import { ActivityMeta } from "../../../views/schedule/Schedule";
 import { CREATE_BOOKING } from "../../../graphql/schedule";
+import { messageController } from "../../../controllers/messages";
+import { useApolloClient } from "@apollo/client";
 
 const useStyles = makeStyles((theme) => ({
   saveButton: {
@@ -53,7 +55,7 @@ interface IForm {
 }
 
 const initialFormData: IForm = {
-  diverRole: "",
+  diverRole: "PD",
   activityType: "",
   date: "",
   userId: "",
@@ -73,13 +75,15 @@ interface IProps {
   fetchBookingDataCalled?: boolean;
 }
 
-export const EditRow: React.FC<IProps> = ({
+export const CreateBookingRow: React.FC<IProps> = ({
   tableType,
   date,
   cancelEditingBooking,
   refetchBookings,
   fetchBookingDataCalled,
 }) => {
+  const client = useApolloClient();
+  const { setError } = messageController(client);
   const [user, setUser] = React.useState<User>();
   const [instructor, setInstructor] = useState<User>();
   const classes = useStyles();
@@ -122,14 +126,21 @@ export const EditRow: React.FC<IProps> = ({
   const handleSaveBooking = () => {
     if (isValidBookingData(formData)) {
       // Format values for correct backend values
-      const createBookingData = buildForm<IForm>(initialFormData, {
-        ...formData,
-        instructorId: instructor ? parseInt(instructor.id) : -1,
-        userId: parseInt(user.id),
-        activityType: tableType,
-        date: formatDate(date, "server"),
-      });
-      createBooking({ variables: createBookingData });
+      try {
+        const createBookingData = buildForm<IForm>(initialFormData, {
+          ...formData,
+          instructorId: instructor ? parseInt(instructor.id) : -1,
+          userId: parseInt(user.id),
+          activityType: tableType,
+          date: formatDate(date, "server"),
+        });
+        createBooking({ variables: createBookingData });
+      } catch (error) {
+        console.log(error);
+        setError(
+          "There was an error creating the booking. Please contact your admin"
+        );
+      }
     }
   };
 
