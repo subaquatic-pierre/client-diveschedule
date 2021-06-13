@@ -87,7 +87,7 @@ export const ScheduleTableRow: React.FC<IProps> = ({
       ) : (
         <TableCell align="right">{instructorName}</TableCell>
       )}
-      <TableCell align="right">{userEquipment}</TableCell>
+      <TableCell align="right">{equipment}</TableCell>
       {!isBoatBooking && <TableCell align="right">{time}</TableCell>}
     </TableRow>
   );
