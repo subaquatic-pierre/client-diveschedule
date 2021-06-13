@@ -48,6 +48,7 @@ interface IProps {
   tableType: string;
   showAddBooking: boolean;
   showCreateBookingRow: () => void;
+  handleEditDiverClick: () => void;
   deleteBookings: () => void;
 }
 
@@ -56,6 +57,7 @@ export const ScheduleTableToolbar: React.FC<IProps> = ({
   numSelected,
   tableType,
   showAddBooking,
+  handleEditDiverClick,
   showCreateBookingRow,
   deleteBookings,
 }) => {
@@ -150,6 +152,15 @@ export const ScheduleTableToolbar: React.FC<IProps> = ({
               </IconButton>
             </Tooltip>
           )}
+        </>
+      )}
+      {numSelected === 1 && (
+        <>
+          <Tooltip title="Edit Diver">
+            <IconButton aria-label="edit diver" onClick={handleEditDiverClick}>
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
         </>
       )}
 

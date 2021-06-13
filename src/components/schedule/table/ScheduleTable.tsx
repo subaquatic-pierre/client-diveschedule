@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useApolloClient, useLazyQuery } from "@apollo/client";
+import { useHistory } from "react-router";
+import { PATH_DASHBOARD } from "../../../routes/paths";
 import {
   Table,
   TableBody,
@@ -94,6 +96,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   date,
   activityId,
 }) => {
+  const history = useHistory();
   const maxDivers = 13;
   const [totalDivers, setTotalDivers] = useState(0);
   const [blankBookings, setBlankBookings] = useState([]);
@@ -169,6 +172,12 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
     setCreatingBooking(true);
   };
 
+  const editDiverClick = () => {
+    const booking = bookings.filter((booking) => booking.id === selected[0])[0];
+    const userId = booking.diver.id;
+    history.push(PATH_DASHBOARD.user.root + "/edit/" + userId);
+  };
+
   const cancelEditingBooking = () => {
     setCreatingBooking(false);
   };
@@ -206,6 +215,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
     <Box dir="ltr">
       <Card>
         <ScheduleTableToolbar
+          handleEditDiverClick={editDiverClick}
           tableType={activity.activityType}
           diveTripDetail={activity}
           numSelected={selected.length}
