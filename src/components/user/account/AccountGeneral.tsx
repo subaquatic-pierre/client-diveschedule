@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useApolloClient } from "@apollo/client";
+import { gql, useApolloClient } from "@apollo/client";
 import { useHistory } from "react-router";
 import NProgress from "nprogress";
 
@@ -40,10 +40,13 @@ import {
   GET_USER_PROFILE,
   CREATE_USER,
   UPDATE_PROFILE,
+  USER_LIST_QUERY,
+  profileFragment,
 } from "../../../graphql/user";
 
 // paths
 import { PATH_DASHBOARD } from "../../../routes/paths";
+import { profile } from "console";
 
 //
 // ----------------------------------------------------------------------
@@ -136,7 +139,34 @@ export default function AccountGeneral({
   });
 
   const { mutation: updateProfile } = useBaseMutation(UPDATE_PROFILE, {
-    successMessage: "User profile successfully updated",
+    onCompleted: (data: any) => {
+      setSuccess("User profile successfully updated");
+      NProgress.done();
+    },
+    update(cache, { data: { updateProfile } }) {
+      cache.modify({
+        id: cache.identify(updateProfile.user),
+        fields: {
+          profile(updatedData) {
+            cache.writeFragment({
+              data: updateProfile.user,
+              fragment: gql`
+                fragment ProfileFragment on UserType {
+                  profile {
+                    fullName
+                    equipment
+                    certLevel
+                    phoneNumber
+                    email
+                  }
+                }
+              `,
+            });
+            return updatedData;
+          },
+        },
+      });
+    },
   });
 
   // Handle formik default and error values

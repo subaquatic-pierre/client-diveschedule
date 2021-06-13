@@ -8,6 +8,7 @@ interface IMutationOptions {
   successMessage?: string;
   onCompleted?: (data: any) => void | undefined;
   onError?: (error: any) => void | undefined;
+  update?: (cache: any, data: any) => void | undefined;
 }
 
 const useBaseMutation = <TData>(

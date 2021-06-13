@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 import { bookingFragment, activityDetailFragment } from "./fragments";
-import { profileFragment } from "../user";
+import { profileFragment, userFragment } from "../user";
 
 export const CREATE_BOOKING = gql`
   ${bookingFragment}
@@ -106,7 +106,7 @@ export const CREATE_ACTIVITY_DETAIL = gql`
 
 export const BOOKING_QUERY = gql`
   ${activityDetailFragment}
-  ${profileFragment}
+  ${userFragment}
   query Bookings($date: String!) {
     bookings(date: $date) {
       id
@@ -117,15 +117,10 @@ export const BOOKING_QUERY = gql`
       equipment
       time
       instructor {
-        profile {
-          ...ProfileFragment
-        }
+        ...UserFragment
       }
       diver {
-        email
-        profile {
-          ...ProfileFragment
-        }
+        ...UserFragment
       }
     }
   }
@@ -152,7 +147,7 @@ export const DAILY_ACTIVITY_META = gql`
 
 export const ACTIVITY_DATA = gql`
   ${bookingFragment}
-  ${profileFragment}
+  ${userFragment}
   query ActivityData($activityId: ID!) {
     activityData(activityId: $activityId) {
       id
@@ -164,10 +159,7 @@ export const ACTIVITY_DATA = gql`
       diveSite1
       diveSite2
       diveGuides {
-        id
-        profile {
-          ...ProfileFragment
-        }
+        ...UserFragment
       }
       bookingSet {
         ...BookingFragment
