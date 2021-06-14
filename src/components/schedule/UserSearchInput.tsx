@@ -73,20 +73,6 @@ export const UserSearchInput: React.FC<IProps> = ({
     }
   }, [searchData]);
 
-  // Set search value to first option on tab press
-  window.addEventListener("keyup", (event: KeyboardEvent) => {
-    if (event.key === "Tab") {
-      if (searchOptions.length > 0 && searchData) {
-        const fullName = searchOptions[0];
-        const user = getUser(searchData, fullName);
-        if (user !== "") {
-          setSearchValue(fullName);
-          setObject(user as User);
-        }
-      }
-    }
-  });
-
   return (
     <Autocomplete
       freeSolo
