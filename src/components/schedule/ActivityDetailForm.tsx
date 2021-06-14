@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import {
@@ -15,29 +15,25 @@ import {
   ListItemSecondaryAction,
   ListItemText,
   IconButton,
-  Tooltip,
   Box,
 } from "@material-ui/core";
 
 import DeleteIcon from "@material-ui/icons/Delete";
-import DoneIcon from "@material-ui/icons/Done";
 
-import { formatDate } from "../../../utils/formatDate";
-import { ActivityDetail } from "../../../@types/schedule";
-import { User } from "../../../@types/user";
-import { UserSearchInput } from "../UserSearchInput";
+import { formatDate } from "../../utils/formatDate";
+import { ActivityDetail } from "../../@types/schedule";
+import { User } from "../../@types/user";
+import { UserSearchInput } from "./UserSearchInput";
 import {
   EDIT_ACTIVITY_DETAIL,
   CREATE_ACTIVITY_DETAIL,
-  ACTIVITY_DATA,
-} from "../../../graphql/schedule";
-import { ActivityMeta } from "../../../views/schedule/Schedule";
+} from "../../graphql/schedule";
 
 // -----------------------------------
-import { buildForm } from "../../../utils/buildFormData";
-import useBaseMutation from "../../../hooks/useBaseMutation";
+import { buildForm } from "../../utils/buildFormData";
+import useBaseMutation from "../../hooks/useBaseMutation";
 import { useApolloClient } from "@apollo/client";
-import { messageController } from "../../../controllers/messages";
+import { messageController } from "../../controllers/messages";
 
 const siteOptions = [
   "Artificial Reef",

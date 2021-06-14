@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useApolloClient, useLazyQuery } from "@apollo/client";
 import { useHistory } from "react-router";
-import { PATH_DASHBOARD } from "../../../routes/paths";
+import { PATH_DASHBOARD } from "../../routes/paths";
 import { Table, TableBody, TableContainer, Box, Card } from "@material-ui/core";
 
 import { TableLoading } from "./TableLoading";
@@ -15,14 +15,14 @@ import {
   getHeadFields,
   isBoatTrip,
   getTripTime,
-} from "../../../utils/scheduleUtils";
+} from "../../utils/scheduleUtils";
 import { TableInfo } from "./TableInfo";
 
-import { Booking, ActivityDetail } from "../../../@types/schedule";
+import { Booking, ActivityDetail } from "../../@types/schedule";
 
-import { ACTIVITY_DATA, DELETE_BOOKINGS } from "../../../graphql/schedule";
-import useBaseMutation from "../../../hooks/useBaseMutation";
-import { messageController } from "../../../controllers/messages";
+import { ACTIVITY_DATA, DELETE_BOOKINGS } from "../../graphql/schedule";
+import useBaseMutation from "../../hooks/useBaseMutation";
+import { messageController } from "../../controllers/messages";
 
 const useStyles = makeStyles((theme) => ({
   tableContainer: {
@@ -56,6 +56,10 @@ const useStyles = makeStyles((theme) => ({
           borderBottom: `0.5px solid ${theme.palette.grey[700]}`,
         },
         backgroundColor: "#FAFF88",
+      },
+      "&__first-cell": {
+        paddingLeft: "0px !important",
+        borderRight: `0.5px solid ${theme.palette.grey[400]}`,
       },
     },
   },

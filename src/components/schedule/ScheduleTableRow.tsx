@@ -1,18 +1,11 @@
 import React from "react";
-import { makeStyles, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 import TableCell from "@material-ui/core/TableCell";
 import Checkbox from "@material-ui/core/Checkbox";
 import TableRow from "@material-ui/core/TableRow";
 
-import { Booking } from "../../../@types/schedule";
-
-const useStyles = makeStyles((theme) => ({
-  firstCell: {
-    paddingLeft: "0px !important",
-    borderRight: `0.5px solid ${theme.palette.grey[400]}`,
-  },
-}));
+import { Booking } from "../../@types/schedule";
 
 interface IProps {
   handleSelectClick: (name: number) => void;
@@ -36,7 +29,6 @@ export const ScheduleTableRow: React.FC<IProps> = ({
       profile: { fullName, certLevel, equipment: userEquipment },
     },
     diverRole,
-    equipment,
   } = bookingData;
 
   // Get instructor name if instructor exists
@@ -44,8 +36,6 @@ export const ScheduleTableRow: React.FC<IProps> = ({
   if (bookingData.instructor) {
     instructorName = bookingData.instructor.profile.fullName;
   }
-
-  const classes = useStyles();
 
   const isSelected = (id: number) => selected.indexOf(id) !== -1;
 
@@ -62,7 +52,11 @@ export const ScheduleTableRow: React.FC<IProps> = ({
       tabIndex={-1}
       selected={isSelected(id)}
     >
-      <TableCell padding="none" align="center" className={classes.firstCell}>
+      <TableCell
+        padding="none"
+        align="center"
+        className={"schedule-table__first-cell"}
+      >
         {selected.length > 0 ? (
           <Checkbox
             size="small"

@@ -13,10 +13,10 @@ import Popover from "@material-ui/core/Popover";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import { ActivityDetail } from "../../../@types/schedule";
+import { ActivityDetail } from "../../@types/schedule";
 import { ActivityDetailForm } from "./ActivityDetailForm";
-import { getToolbarHeading } from "../../../utils/scheduleUtils";
-import useAuth from "../../../hooks/useAuth";
+import { getToolbarHeading } from "../../utils/scheduleUtils";
+import useAuth from "../../hooks/useAuth";
 
 const useStyles = makeStyles((theme) => ({
   toolbarRoot: {

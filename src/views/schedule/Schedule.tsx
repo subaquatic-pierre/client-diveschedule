@@ -7,8 +7,7 @@ import { formatDate } from "../../utils/formatDate";
 import Page from "../../components/Page";
 import HeaderDashboard from "../../components/HeaderDashboard";
 import LoadingScreen from "../../components/LoadingScreen";
-import { ScheduleTable } from "../../components/schedule/table/ScheduleTable";
-import { ScheduleInfoBar } from "../../components/schedule/ScheduleInfoBar";
+import { ScheduleTable, ScheduleInfoBar } from "../../components/schedule";
 
 // paths
 import { PATH_DASHBOARD } from "../../routes/paths";

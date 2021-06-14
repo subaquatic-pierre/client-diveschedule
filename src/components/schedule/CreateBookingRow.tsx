@@ -9,16 +9,15 @@ import {
 import DoneIcon from "@material-ui/icons/Done";
 import CancelIcon from "@material-ui/icons/Cancel";
 
-import { UserSearchInput } from "../UserSearchInput";
-import { Booking } from "../../../@types/schedule";
-import { User } from "../../../@types/user";
-import { buildForm } from "../../../utils/buildFormData";
-import { formatDate } from "../../../utils/formatDate";
-import useBaseMutation from "../../../hooks/useBaseMutation";
+import { UserSearchInput } from "./UserSearchInput";
+import { User } from "../../@types/user";
+import { buildForm } from "../../utils/buildFormData";
+import { formatDate } from "../../utils/formatDate";
+import useBaseMutation from "../../hooks/useBaseMutation";
 
-import { ActivityMeta } from "../../../views/schedule/Schedule";
-import { CREATE_BOOKING } from "../../../graphql/schedule";
-import { messageController } from "../../../controllers/messages";
+import { ActivityMeta } from "../../views/schedule/Schedule";
+import { CREATE_BOOKING } from "../../graphql/schedule";
+import { messageController } from "../../controllers/messages";
 import { useApolloClient } from "@apollo/client";
 
 const useStyles = makeStyles((theme) => ({

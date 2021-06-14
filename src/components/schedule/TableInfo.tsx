@@ -9,7 +9,7 @@ import {
   TableHead,
 } from "@material-ui/core";
 
-import { ActivityDetail } from "../../../@types/schedule";
+import { ActivityDetail } from "../../@types/schedule";
 import { GuideRow } from "./GuideRow";
 
 const useStyles = makeStyles((theme) => ({
