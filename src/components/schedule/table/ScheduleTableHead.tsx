@@ -49,11 +49,7 @@ export const ScheduleTableHead: React.FC<IProps> = ({
           )}
         </TableCell>
         {headFields.map((headCell: string, index: number) => (
-          <TableCell
-            key={index}
-            align={isFirstField(index) ? "left" : "right"}
-            // padding={isFirstField(index) ? "none" : "default"}
-          >
+          <TableCell key={index} align={isFirstField(index) ? "left" : "right"}>
             {headCell}
           </TableCell>
         ))}

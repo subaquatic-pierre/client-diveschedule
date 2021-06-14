@@ -51,6 +51,12 @@ const useStyles = makeStyles((theme) => ({
           cursor: "pointer",
         },
       },
+      "&__guide-row": {
+        "&:not(:last-of-type)": {
+          borderBottom: `0.5px solid ${theme.palette.grey[700]}`,
+        },
+        backgroundColor: "#FAFF88",
+      },
     },
   },
 }));
