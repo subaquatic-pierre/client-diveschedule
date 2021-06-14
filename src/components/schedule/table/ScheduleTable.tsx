@@ -69,11 +69,6 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   date,
   activityId,
 }) => {
-  // DEBUG --------
-  if (tableType === "AM_BOAT") {
-    console.log(activityId);
-  }
-
   const history = useHistory();
   const maxDivers = 13;
 
@@ -164,22 +159,6 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
     setCreatingBooking(false);
   };
 
-  // Get table data
-  useEffect(() => {
-    if (activityId !== "-1") {
-      getData({ variables: { activityId } });
-    }
-  }, []);
-
-  useEffect(() => {
-    if (data) {
-      const { activityData } = data;
-      const { bookingSet } = activityData;
-      setBookings(bookingSet);
-      setActivity(activityData);
-    }
-  }, [activityId, data]);
-
   useEffect(() => {
     // Set number of blank bookings
     let numBookings = bookings.length;
@@ -201,12 +180,23 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
     }
   }, [data, bookings.length]);
 
+  // Update activity data on create new activity data
+  useEffect(() => {
+    if (activityId !== "-1") {
+      getData({ variables: { activityId } });
+    }
+    if (data) {
+      setActivity(data.activityData);
+    }
+  }, [activityId]);
+
   return (
     <Box dir="ltr">
       <Card>
         <ScheduleTableToolbar
           handleEditDiverClick={editDiverClick}
-          tableType={activity.activityType}
+          tableType={tableType}
+          activityId={activityId}
           activityDetail={activity}
           numSelected={selected.length}
           showCreateBookingRow={showCreateBookingRow}

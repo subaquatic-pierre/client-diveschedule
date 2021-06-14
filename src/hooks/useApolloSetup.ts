@@ -35,6 +35,11 @@ export default function useApolloSetup() {
                   return incoming;
                 },
               },
+              profile: {
+                merge(existing, incoming) {
+                  return incoming;
+                },
+              },
             },
           },
         },

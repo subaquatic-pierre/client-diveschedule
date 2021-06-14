@@ -162,12 +162,6 @@ export const ActivityDetailForm: React.FC<IProps> = ({
       onCompleted: (data: any) => {
         setSuccess("Activity successfully edited");
       },
-      optimisticResponse: {
-        activityData: {
-          ...activityDetail,
-          ...formValues,
-        },
-      },
       refetchQueries: ["DailyBookingMeta", "ActivityData"],
     }
   );

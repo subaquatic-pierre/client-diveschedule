@@ -50,6 +50,7 @@ interface IProps {
   showCreateBookingRow: () => void;
   handleEditDiverClick: () => void;
   deleteBookings: () => void;
+  activityId?: string;
 }
 
 export const ScheduleTableToolbar: React.FC<IProps> = ({
@@ -57,6 +58,7 @@ export const ScheduleTableToolbar: React.FC<IProps> = ({
   numSelected,
   tableType,
   showAddBooking,
+  activityId,
   handleEditDiverClick,
   showCreateBookingRow,
   deleteBookings,
