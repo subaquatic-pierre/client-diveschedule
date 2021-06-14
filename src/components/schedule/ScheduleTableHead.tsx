@@ -1,11 +1,11 @@
 import React from "react";
 import {
-  makeStyles,
   Typography,
   TableCell,
   TableHead,
   TableRow,
   Checkbox,
+  makeStyles,
 } from "@material-ui/core";
 
 interface IProps {
@@ -16,8 +16,11 @@ interface IProps {
 }
 
 const useStyles = makeStyles((theme) => ({
-  firstCell: {
-    paddingLeft: "0px",
+  checkBox: {
+    marginLeft: "-6px !important",
+  },
+  checkBoxCell: {
+    paddingLeft: "26px !important",
   },
 }));
 
@@ -28,16 +31,13 @@ export const ScheduleTableHead: React.FC<IProps> = ({
   headFields,
 }) => {
   const classes = useStyles();
-  const isFirstField = (index: number): boolean => {
-    if (index === 0) return true;
-    return false;
-  };
   return (
     <TableHead>
       <TableRow className={"schedule-table__head-row"}>
-        <TableCell padding="checkbox" className={classes.firstCell}>
+        <TableCell padding="checkbox" className={classes.checkBoxCell}>
           {numSelected > 0 ? (
             <Checkbox
+              className={classes.checkBox}
               size="small"
               indeterminate={numSelected > 0 && numSelected < rowCount}
               checked={rowCount > 0 && numSelected === rowCount}
@@ -48,11 +48,21 @@ export const ScheduleTableHead: React.FC<IProps> = ({
             <Typography>#</Typography>
           )}
         </TableCell>
-        {headFields.map((headCell: string, index: number) => (
-          <TableCell key={index} align={isFirstField(index) ? "left" : "right"}>
-            {headCell}
-          </TableCell>
-        ))}
+        {headFields.map((headCell: string, index: number) => {
+          if (headCell === "Instructor") {
+            return (
+              <TableCell key={index} align="center">
+                {headCell}
+              </TableCell>
+            );
+          } else {
+            return (
+              <TableCell key={index} align={index === 0 ? "left" : "center"}>
+                {headCell}
+              </TableCell>
+            );
+          }
+        })}
       </TableRow>
     </TableHead>
   );

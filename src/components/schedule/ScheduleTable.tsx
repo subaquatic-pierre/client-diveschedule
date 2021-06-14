@@ -11,6 +11,7 @@ import { ScheduleTableToolbar } from "./ScheduleTableToolbar";
 import { ScheduleTableRow } from "./ScheduleTableRow";
 import { CreateBookingRow } from "./CreateBookingRow";
 import { BlankRow } from "./BlankRow";
+import { TableColFormat } from "./TableColFormat";
 import {
   getHeadFields,
   isBoatTrip,
@@ -26,7 +27,7 @@ import { messageController } from "../../controllers/messages";
 
 const useStyles = makeStyles((theme) => ({
   tableContainer: {
-    minHeight: 700,
+    minHeight: 820,
     display: "flex",
     flexDirection: "column",
     "& .schedule-table": {
@@ -46,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
       },
       "&__row": {
         borderBottom: `0.5px solid ${theme.palette.grey[400]}`,
-        height: "40px",
+        height: "42px",
         "& :hover": {
           cursor: "pointer",
         },
@@ -58,7 +59,6 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "#FAFF88",
       },
       "&__first-cell": {
-        paddingLeft: "0px !important",
         borderRight: `0.5px solid ${theme.palette.grey[400]}`,
       },
     },
@@ -101,24 +101,20 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   const [activity, setActivity] = useState<ActivityDetail>(blankActivityData);
 
   // Data query
-  const [getData, { data, loading, refetch, called }] = useLazyQuery(
-    ACTIVITY_DATA,
-    {
-      onError: (error: any) => {
-        setError(error.message);
-      },
-    }
-  );
-
-  const { mutation: deleteBookings } = useBaseMutation(DELETE_BOOKINGS, {
-    onCompleted: (data: any) => {
-      refetch();
-      setSelected([]);
+  const [getData, { data, loading, called }] = useLazyQuery(ACTIVITY_DATA, {
+    onError: (error: any) => {
+      setError(error.message);
     },
   });
 
+  const { mutation: deleteBookings } = useBaseMutation(DELETE_BOOKINGS, {
+    onCompleted: (data: any) => {
+      setSelected([]);
+    },
+    refetchQueries: ["ActivityData", "DailyBookingMeta"],
+  });
+
   const handleDeleteBookings = () => {
-    console.log(selected);
     deleteBookings({ variables: { ids: selected } });
   };
 
@@ -167,6 +163,12 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   };
 
   useEffect(() => {
+    if (creatingBooking) {
+      setSelected([]);
+    }
+  }, [creatingBooking]);
+
+  useEffect(() => {
     // Set number of blank bookings
     let numBookings = bookings.length;
     const availableSpaces = maxDivers - numBookings;
@@ -203,12 +205,12 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
         <ScheduleTableToolbar
           handleEditDiverClick={editDiverClick}
           tableType={tableType}
-          activityId={activityId}
           activityDetail={activity}
           numSelected={selected.length}
           showCreateBookingRow={showCreateBookingRow}
-          showAddBooking={!creatingBooking}
+          creatingBooking={creatingBooking}
           deleteBookings={handleDeleteBookings}
+          cancelEditingBooking={cancelEditingBooking}
         />
 
         <TableContainer className={classes.tableContainer}>
@@ -229,6 +231,9 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
               />
             ) : (
               <TableBody sx={{ minHeight: "400px" }}>
+                <TableColFormat
+                  isBoatTrip={isBoatTrip(activity.activityType)}
+                />
                 {bookings.map((bookingData: Booking, index) => {
                   return (
                     <ScheduleTableRow
@@ -245,7 +250,6 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
                     date={date}
                     tableType={activity.activityType}
                     cancelEditingBooking={cancelEditingBooking}
-                    refetchBookings={refetch}
                     fetchBookingDataCalled={called}
                   />
                 )}

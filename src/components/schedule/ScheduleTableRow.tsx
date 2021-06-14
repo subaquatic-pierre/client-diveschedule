@@ -1,11 +1,17 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
+import { Typography, makeStyles } from "@material-ui/core";
 
 import TableCell from "@material-ui/core/TableCell";
 import Checkbox from "@material-ui/core/Checkbox";
 import TableRow from "@material-ui/core/TableRow";
 
 import { Booking } from "../../@types/schedule";
+
+const useStyles = makeStyles((theme) => ({
+  checkBox: {
+    padding: "0px 0px 0px 12px !important",
+  },
+}));
 
 interface IProps {
   handleSelectClick: (name: number) => void;
@@ -20,6 +26,7 @@ export const ScheduleTableRow: React.FC<IProps> = ({
   selected,
   bookingData,
 }) => {
+  const classes = useStyles();
   const {
     activityDetail: { activityType },
     id,
@@ -52,30 +59,28 @@ export const ScheduleTableRow: React.FC<IProps> = ({
       tabIndex={-1}
       selected={isSelected(id)}
     >
-      <TableCell
-        padding="none"
-        align="center"
-        className={"schedule-table__first-cell"}
-      >
-        {selected.length > 0 ? (
+      {selected.length > 0 ? (
+        <TableCell className={classes.checkBox}>
           <Checkbox
             size="small"
             checked={isSelected(id)}
             inputProps={{ "aria-labelledby": email }}
           />
-        ) : (
-          <Typography>{index + 1}</Typography>
-        )}
-      </TableCell>
-      <TableCell id={email}>{fullName}</TableCell>
-      <TableCell align="right">{diverRole.toUpperCase()}</TableCell>
-      {isBoatBooking ? (
-        <TableCell align="right">{certLevel}</TableCell>
+        </TableCell>
       ) : (
-        <TableCell align="right">{instructorName}</TableCell>
+        <TableCell className={"schedule-table__first-cell"}>
+          <Typography>{index + 1}</Typography>
+        </TableCell>
       )}
-      <TableCell align="right">{userEquipment}</TableCell>
-      {!isBoatBooking && <TableCell align="right">{time}</TableCell>}
+      <TableCell id={email}>{fullName}</TableCell>
+      <TableCell align="center">{diverRole.toUpperCase()}</TableCell>
+      {isBoatBooking ? (
+        <TableCell align="center">{certLevel}</TableCell>
+      ) : (
+        <TableCell align="center">{instructorName}</TableCell>
+      )}
+      <TableCell align="center">{userEquipment}</TableCell>
+      {!isBoatBooking && <TableCell align="center">{time}</TableCell>}
     </TableRow>
   );
 };

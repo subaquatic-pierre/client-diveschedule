@@ -14,6 +14,7 @@ interface IProps {
   autoFocus?: boolean;
   size?: "small" | "medium";
   label?: string;
+  variant?: "outlined" | "standard" | "filled";
 }
 
 const getUser = (searchData: any, fullName: string): User | string => {
@@ -22,7 +23,6 @@ const getUser = (searchData: any, fullName: string): User | string => {
       (edge: any) => edge.node.profile.fullName === fullName
     )[0].node;
   } catch (error) {
-    console.log(error);
     return "";
   }
 };
@@ -33,6 +33,7 @@ export const UserSearchInput: React.FC<IProps> = ({
   elementName,
   autoFocus,
   label,
+  variant = "outlined",
 }: IProps) => {
   const [query, { data: searchData, called }] = useLazyQuery(SEARCH_USERS, {
     fetchPolicy: "network-only",
@@ -101,7 +102,7 @@ export const UserSearchInput: React.FC<IProps> = ({
         <TextField
           {...params}
           label={label}
-          variant="outlined"
+          variant={variant}
           InputProps={{
             ...params.InputProps,
             type: "search",

@@ -25,16 +25,22 @@ export default function useApolloSetup() {
         typePolicies: {
           Query: {
             fields: {
-              bookings: {
-                merge(existing, incoming) {
-                  return incoming;
-                },
+              bookings(existing, incoming) {
+                return incoming;
               },
+            },
+          },
+          ActivityDetailType: {
+            fields: {
               bookingSet: {
                 merge(existing, incoming) {
                   return incoming;
                 },
               },
+            },
+          },
+          UserType: {
+            fields: {
               profile: {
                 merge(existing, incoming) {
                   return incoming;

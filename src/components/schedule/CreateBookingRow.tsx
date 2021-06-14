@@ -4,10 +4,8 @@ import {
   TextField,
   TableCell,
   TableRow,
-  Tooltip,
+  Typography,
 } from "@material-ui/core";
-import DoneIcon from "@material-ui/icons/Done";
-import CancelIcon from "@material-ui/icons/Cancel";
 
 import { UserSearchInput } from "./UserSearchInput";
 import { User } from "../../@types/user";
@@ -21,22 +19,17 @@ import { messageController } from "../../controllers/messages";
 import { useApolloClient } from "@apollo/client";
 
 const useStyles = makeStyles((theme) => ({
-  saveButton: {
-    color: "#6CA468",
-    "&:hover": {
+  row: {
+    borderBottom: `0.5px solid ${theme.palette.grey[400]}`,
+    height: "42px",
+  },
+  cancelCell: {
+    "& :hover": {
       cursor: "pointer",
     },
   },
   cancelButton: {
-    color: "#d11a2a",
-    "&:hover": {
-      cursor: "pointer",
-    },
-  },
-  row: {
-    "& .MuiTableCell-root": {
-      minWidth: "100px",
-    },
+    marginLeft: "-2px",
   },
 }));
 
@@ -70,7 +63,6 @@ interface IProps {
   tableType?: string;
   date?: Date;
   cancelEditingBooking?: () => void;
-  refetchBookings?: () => void;
   fetchBookingDataCalled?: boolean;
 }
 
@@ -78,8 +70,6 @@ export const CreateBookingRow: React.FC<IProps> = ({
   tableType,
   date,
   cancelEditingBooking,
-  refetchBookings,
-  fetchBookingDataCalled,
 }) => {
   const client = useApolloClient();
   const { setError } = messageController(client);
@@ -88,15 +78,10 @@ export const CreateBookingRow: React.FC<IProps> = ({
   const classes = useStyles();
   const [formData, setFormData] = useState(initialFormData);
   const isBoatBooking = tableType === "AM_BOAT" || tableType === "PM_BOAT";
-  const refetchMeta = useContext(ActivityMeta);
 
   const { mutation: createBooking } = useBaseMutation(CREATE_BOOKING, {
+    refetchQueries: ["ActivityData", "DailyBookingMeta"],
     onCompleted: (data: any) => {
-      if (fetchBookingDataCalled) {
-        refetchBookings();
-      } else {
-        refetchMeta();
-      }
       cancelEditingBooking();
     },
   });
@@ -111,15 +96,9 @@ export const CreateBookingRow: React.FC<IProps> = ({
   };
 
   const isValidBookingData = (data: IForm) => {
-    for (const prop in data) {
-      if (prop === "bookingId") continue;
-      if (prop === "time") continue;
-      if (prop === "instructorName") continue;
-      // if (data[prop] === "") {
-      //   return false;
-      // }
-    }
-    return true;
+    if (data.fullName !== "") {
+      return true;
+    } else return false;
   };
 
   const handleSaveBooking = () => {
@@ -140,6 +119,8 @@ export const CreateBookingRow: React.FC<IProps> = ({
           "There was an error creating the booking. Please contact your admin"
         );
       }
+    } else {
+      setError("Please enter valid booking details");
     }
   };
 
@@ -183,26 +164,27 @@ export const CreateBookingRow: React.FC<IProps> = ({
 
   return (
     <TableRow className={classes.row}>
-      <TableCell padding="checkbox">
-        <Tooltip title="Cancel">
-          <CancelIcon
-            className={classes.cancelButton}
-            onClick={cancelEditingBooking}
-          />
-        </Tooltip>
+      <TableCell className={classes.cancelCell} onClick={handleSaveBooking}>
+        <Typography className={classes.cancelButton} color="green" variant="h5">
+          &#x2714;
+        </Typography>
       </TableCell>
-      <TableCell
-        component="th"
-        scope="row"
-        style={{ minWidth: "200px" }}
-        padding="none"
-      >
-        <UserSearchInput autoFocus size="small" setObject={setUser as any} />
-      </TableCell>
-      <TableCell style={{ maxWidth: "100px" }} align="right">
-        <TextField
+
+      {/* UserName Cell */}
+      <TableCell>
+        <UserSearchInput
+          variant="standard"
+          autoFocus
           size="small"
-          variant="outlined"
+          setObject={setUser as any}
+        />
+      </TableCell>
+
+      {/* Diver Role Cell */}
+      <TableCell align="right">
+        <TextField
+          variant="standard"
+          size="small"
           value={formData.diverRole}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
             handleFormChange(event)
@@ -213,11 +195,13 @@ export const CreateBookingRow: React.FC<IProps> = ({
           {formData.diverRole}
         </TextField>
       </TableCell>
+
+      {/* Cert Level Cell */}
       {isBoatBooking ? (
-        <TableCell style={{ maxWidth: "100px" }} align="right">
+        <TableCell align="right">
           <TextField
+            variant="standard"
             size="small"
-            variant="outlined"
             value={formData.certLevel}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               handleFormChange(event)
@@ -229,19 +213,19 @@ export const CreateBookingRow: React.FC<IProps> = ({
           </TextField>
         </TableCell>
       ) : (
-        <TableCell style={{ minWidth: "200px" }} align="right">
+        <TableCell align="right">
           <UserSearchInput
             elementName="instructorName"
+            variant="standard"
             autoFocus={false}
-            label="Instructor Name"
             setObject={setInstructor as any}
           />
         </TableCell>
       )}
-      <TableCell style={{ maxWidth: "100px" }} align="right">
+      <TableCell align="right">
         <TextField
           size="small"
-          variant="outlined"
+          variant="standard"
           value={formData.equipment}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
             handleFormChange(event)
@@ -253,10 +237,10 @@ export const CreateBookingRow: React.FC<IProps> = ({
         </TextField>
       </TableCell>
       {!isBoatBooking && (
-        <TableCell style={{ maxWidth: "100px" }} align="right">
+        <TableCell align="right">
           <TextField
+            variant="standard"
             size="small"
-            variant="outlined"
             value={formData.time}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               handleFormChange(event)
@@ -264,18 +248,10 @@ export const CreateBookingRow: React.FC<IProps> = ({
             onKeyUp={(event: React.KeyboardEvent) => handleEnterKeyUp(event)}
             name="time"
           >
-            {formData.time}
+            {formData.time.toUpperCase()}
           </TextField>
         </TableCell>
       )}
-      <TableCell style={{ maxWidth: "100px" }} align="right">
-        <Tooltip title="Save">
-          <DoneIcon
-            className={classes.saveButton}
-            onClick={handleSaveBooking}
-          />
-        </Tooltip>
-      </TableCell>
     </TableRow>
   );
 };

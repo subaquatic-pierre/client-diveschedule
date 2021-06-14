@@ -79,7 +79,7 @@ export default function Schedule() {
         <Grid container spacing={3}>
           {data && data.dailyActivityMeta && (
             <>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} lg={6}>
                 <ScheduleTable
                   activityId={getActivityId(data.dailyActivityMeta, "AM_BOAT")}
                   tableType="AM_BOAT"
@@ -87,7 +87,7 @@ export default function Schedule() {
                 />
               </Grid>
 
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} lg={6}>
                 <ScheduleTable
                   activityId={getActivityId(data.dailyActivityMeta, "PM_BOAT")}
                   tableType="PM_BOAT"
@@ -95,7 +95,7 @@ export default function Schedule() {
                 />
               </Grid>
 
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} lg={6}>
                 <ScheduleTable
                   activityId={getActivityId(data.dailyActivityMeta, "POOL")}
                   tableType="POOL"
@@ -103,7 +103,7 @@ export default function Schedule() {
                 />
               </Grid>
 
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} lg={6}>
                 <ScheduleTable
                   activityId={getActivityId(data.dailyActivityMeta, "SHORE")}
                   tableType="SHORE"
@@ -111,7 +111,7 @@ export default function Schedule() {
                 />
               </Grid>
 
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} lg={6}>
                 <ScheduleTable
                   activityId={getActivityId(data.dailyActivityMeta, "CLASS")}
                   tableType="CLASS"

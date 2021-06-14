@@ -1,18 +1,23 @@
 import React from "react";
 import clsx from "clsx";
-import { lighten, makeStyles } from "@material-ui/core/styles";
+import {
+  lighten,
+  makeStyles,
+  Toolbar,
+  Typography,
+  Tooltip,
+  Popover,
+  List,
+  ListItem,
+  ListItemText,
+} from "@material-ui/core";
 
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import Popover from "@material-ui/core/Popover";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
+import CancelIcon from "@material-ui/icons/Cancel";
+
 import { ActivityDetail } from "../../@types/schedule";
 import { ActivityDetailForm } from "./ActivityDetailForm";
 import { getToolbarHeading } from "../../utils/scheduleUtils";
@@ -46,19 +51,19 @@ interface IProps {
   activityDetail?: ActivityDetail;
   numSelected: number;
   tableType: string;
-  showAddBooking: boolean;
+  creatingBooking: boolean;
+  cancelEditingBooking: () => void;
   showCreateBookingRow: () => void;
   handleEditDiverClick: () => void;
   deleteBookings: () => void;
-  activityId?: string;
 }
 
 export const ScheduleTableToolbar: React.FC<IProps> = ({
   activityDetail,
   numSelected,
   tableType,
-  showAddBooking,
-  activityId,
+  creatingBooking,
+  cancelEditingBooking,
   handleEditDiverClick,
   showCreateBookingRow,
   deleteBookings,
@@ -80,6 +85,10 @@ export const ScheduleTableToolbar: React.FC<IProps> = ({
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     setEditTripPopoverAnchorEl(event.currentTarget);
+  };
+
+  const handleCancelCreatingBookingClick = () => {
+    cancelEditingBooking();
   };
 
   const handleEditTripPopoverClose = () => {
@@ -137,14 +146,21 @@ export const ScheduleTableToolbar: React.FC<IProps> = ({
         </>
       ) : (
         <>
-          {showAddBooking && isAdmin && (
+          {!creatingBooking && isAdmin && (
             <Tooltip title="Add Booking">
               <IconButton onClick={showCreateBookingRow}>
                 <AddCircleIcon />
               </IconButton>
             </Tooltip>
           )}
-          {isBoatTrip && isAdmin && (
+          {creatingBooking && (
+            <Tooltip title="Cancel Booking">
+              <IconButton onClick={handleCancelCreatingBookingClick}>
+                <CancelIcon />
+              </IconButton>
+            </Tooltip>
+          )}
+          {isBoatTrip && isAdmin && !creatingBooking && (
             <Tooltip title="Edit trip details">
               <IconButton
                 aria-label="filter list"

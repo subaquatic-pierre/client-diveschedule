@@ -1,5 +1,4 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { TableRow, TableCell } from "@material-ui/core";
 
 interface IProps {
@@ -7,18 +6,12 @@ interface IProps {
   showCreateBookingRow?: () => void;
 }
 
-const useStyles = makeStyles((theme) => ({
-  firstCell: {
-    borderRight: `0.5px solid ${theme.palette.grey[400]}`,
-  },
-}));
-
 export const BlankRow = ({ bookingNumber, showCreateBookingRow }: IProps) => {
-  const classes = useStyles();
-
   return (
     <TableRow onClick={showCreateBookingRow} className={"schedule-table__row"}>
-      <TableCell className={classes.firstCell}>{bookingNumber}</TableCell>
+      <TableCell className={"schedule-table__first-cell"}>
+        {bookingNumber}
+      </TableCell>
       <TableCell></TableCell>
       <TableCell></TableCell>
       <TableCell></TableCell>
