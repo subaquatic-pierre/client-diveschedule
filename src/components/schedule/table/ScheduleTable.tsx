@@ -69,6 +69,11 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   date,
   activityId,
 }) => {
+  // DEBUG --------
+  if (tableType === "AM_BOAT") {
+    console.log(activityId);
+  }
+
   const history = useHistory();
   const maxDivers = 13;
 
@@ -88,10 +93,10 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   };
 
   // Data state
-  let bookings: Booking[] = [];
-  let activity: ActivityDetail = blankActivityData;
   const [totalDivers, setTotalDivers] = useState(0);
   const [blankBookings, setBlankBookings] = useState([]);
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [activity, setActivity] = useState<ActivityDetail>(blankActivityData);
 
   // Data query
   const [getData, { data, loading, refetch, called }] = useLazyQuery(
@@ -167,6 +172,15 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   }, []);
 
   useEffect(() => {
+    if (data) {
+      const { activityData } = data;
+      const { bookingSet } = activityData;
+      setBookings(bookingSet);
+      setActivity(activityData);
+    }
+  }, [activityId, data]);
+
+  useEffect(() => {
     // Set number of blank bookings
     let numBookings = bookings.length;
     const availableSpaces = maxDivers - numBookings;
@@ -179,17 +193,13 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
 
     // Set total number of divers
     if (data) {
-      const {
-        activityData: { diveGuides },
-      } = data;
+      const { activityData } = data;
+      const { diveGuides, bookingSet } = activityData;
       setTotalDivers(diveGuides.length + bookings.length);
+      setBookings(bookingSet);
+      setActivity(activityData);
     }
   }, [data, bookings.length]);
-
-  if (data) {
-    bookings = data.activityData.bookingSet;
-    activity = data.activityData;
-  }
 
   return (
     <Box dir="ltr">
@@ -197,7 +207,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
         <ScheduleTableToolbar
           handleEditDiverClick={editDiverClick}
           tableType={activity.activityType}
-          diveTripDetail={activity}
+          activityDetail={activity}
           numSelected={selected.length}
           showCreateBookingRow={showCreateBookingRow}
           showAddBooking={!creatingBooking}

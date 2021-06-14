@@ -20,18 +20,15 @@ export const ActivityMeta = React.createContext(() => {});
 
 export default function Schedule() {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
-  const [getData, { data, loading, refetch }] = useLazyQuery(
-    DAILY_ACTIVITY_META,
-    {
-      variables: { date: formatDate(new Date(selectedDate), "server") },
-    }
-  );
+  const [getData, { data, loading }] = useLazyQuery(DAILY_ACTIVITY_META, {
+    variables: { date: formatDate(new Date(selectedDate), "server") },
+  });
 
   const getActivityId = (
-    activityMeta: BookingMeta[],
+    dailyMeta: BookingMeta[],
     activityType: string
   ): string => {
-    const activity = activityMeta.find(
+    const activity = dailyMeta.find(
       (activity) => activity.activityType === activityType
     );
     if (activity !== undefined) {
@@ -63,27 +60,27 @@ export default function Schedule() {
   if (loading) return <LoadingScreen />;
 
   return (
-    <ActivityMeta.Provider value={refetch}>
-      <Page title="Schedule | DiveSchedule">
-        <Container maxWidth="xl">
-          <HeaderDashboard
-            heading="Schedule"
-            links={[
-              { name: "Dashboard", href: PATH_DASHBOARD.root },
-              { name: "Schedule" },
-            ]}
+    <Page title="Schedule | DiveSchedule">
+      <Container maxWidth="xl">
+        <HeaderDashboard
+          heading="Schedule"
+          links={[
+            { name: "Dashboard", href: PATH_DASHBOARD.root },
+            { name: "Schedule" },
+          ]}
+        />
+
+        <Grid item xs={12}>
+          <ScheduleInfoBar
+            selectedDate={selectedDate}
+            setSelectedDate={handleSetSelectedDate}
           />
+        </Grid>
 
-          <Grid item xs={12}>
-            <ScheduleInfoBar
-              selectedDate={selectedDate}
-              setSelectedDate={handleSetSelectedDate}
-            />
-          </Grid>
-
+        <Grid container spacing={3}>
           {data && data.dailyActivityMeta && (
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
+            <>
+              <Grid item xs={12} md={6}>
                 <ScheduleTable
                   activityId={getActivityId(data.dailyActivityMeta, "AM_BOAT")}
                   tableType="AM_BOAT"
@@ -91,7 +88,7 @@ export default function Schedule() {
                 />
               </Grid>
 
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} md={6}>
                 <ScheduleTable
                   activityId={getActivityId(data.dailyActivityMeta, "PM_BOAT")}
                   tableType="PM_BOAT"
@@ -99,7 +96,7 @@ export default function Schedule() {
                 />
               </Grid>
 
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} md={6}>
                 <ScheduleTable
                   activityId={getActivityId(data.dailyActivityMeta, "POOL")}
                   tableType="POOL"
@@ -107,7 +104,7 @@ export default function Schedule() {
                 />
               </Grid>
 
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} md={6}>
                 <ScheduleTable
                   activityId={getActivityId(data.dailyActivityMeta, "SHORE")}
                   tableType="SHORE"
@@ -115,17 +112,17 @@ export default function Schedule() {
                 />
               </Grid>
 
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} md={6}>
                 <ScheduleTable
                   activityId={getActivityId(data.dailyActivityMeta, "CLASS")}
                   tableType="CLASS"
                   date={selectedDate}
                 />
               </Grid>
-            </Grid>
+            </>
           )}
-        </Container>
-      </Page>
-    </ActivityMeta.Provider>
+        </Grid>
+      </Container>
+    </Page>
   );
 }

@@ -132,68 +132,55 @@ const getDiveGuideIds = (diveGuides: User[]): number[] => {
 };
 
 interface IProps {
-  diveTripDetail?: ActivityDetail;
+  activityDetail?: ActivityDetail;
   handleClose: () => void;
 }
 
 export const ActivityDetailForm: React.FC<IProps> = ({
-  diveTripDetail,
+  activityDetail,
   handleClose,
 }: any) => {
   const client = useApolloClient();
   const { setSuccess } = messageController(client);
   const classes = useStyles();
-  const refetchMeta = useContext(ActivityMeta);
   const [user, setUser] = React.useState<User | null>(null);
   const [addingDiveGuide, setAddingDiveGuide] = React.useState(false);
   const [formValues, setFormValues] = useState<IFormData>(initialFormData);
 
   useEffect(() => {
     const newData = {
-      ...diveTripDetail,
-      date: formatDate(diveTripDetail.day.date, "server"),
+      ...activityDetail,
+      date: formatDate(activityDetail.day.date, "server"),
     };
     const formData = buildForm<IFormData>(initialFormData, newData);
     setFormValues(formData);
-  }, [diveTripDetail]);
+  }, [activityDetail]);
 
   const { mutation: editActivityDetail } = useBaseMutation(
     EDIT_ACTIVITY_DETAIL,
     {
       onCompleted: (data: any) => {
-        refetchMeta();
-        // client.writeQuery({
-        //   query: ACTIVITY_DATA,
-        //   data: {
-        //     activityData: {
-        //       ...diveTripDetail,
-        //       ...formValues,
-        //     },
-        //   },
-        // });
         setSuccess("Activity successfully edited");
       },
       optimisticResponse: {
         activityData: {
-          ...diveTripDetail,
+          ...activityDetail,
           ...formValues,
         },
       },
-      refetchQueries: ["ActivityData", "DailyBookingMeta"],
+      refetchQueries: ["DailyBookingMeta", "ActivityData"],
     }
   );
 
   const { mutation: createActivityDetail } = useBaseMutation(
     CREATE_ACTIVITY_DETAIL,
     {
-      onCompleted: (data: any) => {
-        refetchMeta();
-        setSuccess("Activity successfully created");
-      },
+      successMessage: "Activity successfully created",
+      refetchQueries: ["DailyBookingMeta"],
     }
   );
 
-  const isEditTrip = diveTripDetail.id !== -1;
+  const isEditTrip = activityDetail.id !== -1;
 
   const handleDiveSiteChange = (event: any) => {
     setFormValues((oldValues) => ({

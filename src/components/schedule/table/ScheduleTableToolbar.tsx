@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import clsx from "clsx";
 import { lighten, makeStyles } from "@material-ui/core/styles";
 
@@ -14,7 +14,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { ActivityDetail } from "../../../@types/schedule";
-import { ActivityDetailForm } from "./AcrtivityDetailForm";
+import { ActivityDetailForm } from "./ActivityDetailForm";
 import { getToolbarHeading } from "../utils";
 import useAuth from "../../../hooks/useAuth";
 
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IProps {
-  diveTripDetail?: ActivityDetail;
+  activityDetail?: ActivityDetail;
   numSelected: number;
   tableType: string;
   showAddBooking: boolean;
@@ -53,7 +53,7 @@ interface IProps {
 }
 
 export const ScheduleTableToolbar: React.FC<IProps> = ({
-  diveTripDetail,
+  activityDetail,
   numSelected,
   tableType,
   showAddBooking,
@@ -121,7 +121,7 @@ export const ScheduleTableToolbar: React.FC<IProps> = ({
           id="tableTitle"
           component="div"
         >
-          {getToolbarHeading(tableType, diveTripDetail)}
+          {getToolbarHeading(tableType, activityDetail)}
         </Typography>
       )}
 
@@ -203,7 +203,7 @@ export const ScheduleTableToolbar: React.FC<IProps> = ({
         <div className={classes.popoverContainer}>
           <ActivityDetailForm
             handleClose={handleEditTripPopoverClose}
-            diveTripDetail={diveTripDetail}
+            activityDetail={activityDetail}
           />
         </div>
       </Popover>
