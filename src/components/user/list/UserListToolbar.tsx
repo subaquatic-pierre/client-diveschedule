@@ -95,6 +95,7 @@ export default function UserListToolbar({
       ) : (
         <SearchStyle
           value={filterName}
+          autoFocus
           onChange={(e) => onFilterName(e.target.value)}
           placeholder="Search user..."
           startAdornment={
