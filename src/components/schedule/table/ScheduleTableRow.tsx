@@ -8,13 +8,6 @@ import TableRow from "@material-ui/core/TableRow";
 import { Booking } from "../../../@types/schedule";
 
 const useStyles = makeStyles((theme) => ({
-  row: {
-    borderBottom: `0.5px solid ${theme.palette.grey[400]}`,
-    height: "38px",
-    "& :hover": {
-      cursor: "pointer",
-    },
-  },
   firstCell: {
     paddingLeft: "0px !important",
     borderRight: `0.5px solid ${theme.palette.grey[400]}`,
@@ -64,7 +57,7 @@ export const ScheduleTableRow: React.FC<IProps> = ({
       hover
       role="checkbox"
       onClick={() => handleSelectClick(id)}
-      className={classes.row}
+      className={"schedule-table__row"}
       aria-checked={isSelected(id)}
       tabIndex={-1}
       selected={isSelected(id)}

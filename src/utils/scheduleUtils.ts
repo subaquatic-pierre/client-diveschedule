@@ -1,4 +1,22 @@
-import { ActivityDetail } from "../../@types/schedule";
+import { ActivityDetail } from "../@types/schedule";
+
+export const isBoatTrip = (activityType: string): boolean => {
+  if (activityType === "AM_BOAT" || activityType === "PM_BOAT") {
+    return true;
+  }
+  return false;
+};
+
+export const getTripTime = (tableType: string): string | undefined => {
+  switch (tableType) {
+    case "AM_BOAT":
+      return "9am";
+    case "PM_BOAT":
+      return "1:30pm";
+    default:
+      return undefined;
+  }
+};
 
 const capitalizeWord = (word: string): string => {
   const firstLetter = word.slice(0, 1).toUpperCase();

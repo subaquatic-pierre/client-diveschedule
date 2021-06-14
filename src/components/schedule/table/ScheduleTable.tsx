@@ -11,7 +11,11 @@ import { ScheduleTableToolbar } from "./ScheduleTableToolbar";
 import { ScheduleTableRow } from "./ScheduleTableRow";
 import { CreateBookingRow } from "./CreateBookingRow";
 import { BlankRow } from "./BlankRow";
-import { getHeadFields } from "../utils";
+import {
+  getHeadFields,
+  isBoatTrip,
+  getTripTime,
+} from "../../../utils/scheduleUtils";
 import { TableInfo } from "./TableInfo";
 
 import { Booking, ActivityDetail } from "../../../@types/schedule";
@@ -25,38 +29,31 @@ const useStyles = makeStyles((theme) => ({
     minHeight: 700,
     display: "flex",
     flexDirection: "column",
-  },
-  loading: {
-    width: 300,
-  },
-  tableTotalRow: {
-    height: theme.spacing(7),
-  },
-  row: {
-    borderBottom: `0.5px solid ${theme.palette.grey[400]}`,
-  },
-  firstCell: {
-    borderRight: `0.5px solid ${theme.palette.grey[400]}`,
+    "& .schedule-table": {
+      "&__head-row": {
+        "& .MuiTableCell-head": {
+          "&:first-of-type": {
+            borderTopLeftRadius: "0px",
+            borderBottomLeftRadius: "0px",
+            boxShadow: "inset 0 0 0 #fff;",
+          },
+          "&:last-of-type": {
+            borderTopRightRadius: "0px",
+            borderBottomRightRadius: "0px",
+            boxShadow: "inset 0 0 0 #fff;",
+          },
+        },
+      },
+      "&__row": {
+        borderBottom: `0.5px solid ${theme.palette.grey[400]}`,
+        height: "40px",
+        "& :hover": {
+          cursor: "pointer",
+        },
+      },
+    },
   },
 }));
-
-const isBoatTrip = (activityType: string): boolean => {
-  if (activityType === "AM_BOAT" || activityType === "PM_BOAT") {
-    return true;
-  }
-  return false;
-};
-
-const getTripTime = (tableType: string): string | undefined => {
-  switch (tableType) {
-    case "AM_BOAT":
-      return "9am";
-    case "PM_BOAT":
-      return "1:30pm";
-    default:
-      return undefined;
-  }
-};
 
 interface IScheduleTableProps {
   tableType: string;

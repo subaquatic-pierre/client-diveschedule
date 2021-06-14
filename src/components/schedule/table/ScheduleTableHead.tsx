@@ -16,21 +16,6 @@ interface IProps {
 }
 
 const useStyles = makeStyles((theme) => ({
-  head: {
-    "& .MuiTableCell-head": {
-      "&:first-of-type": {
-        borderTopLeftRadius: "0px",
-        borderBottomLeftRadius: "0px",
-        boxShadow: "inset 0 0 0 #fff;",
-        paddingLeft: "14px",
-      },
-      "&:last-of-type": {
-        borderTopRightRadius: "0px",
-        borderBottomRightRadius: "0px",
-        boxShadow: "inset 0 0 0 #fff;",
-      },
-    },
-  },
   firstCell: {
     paddingLeft: "0px",
   },
@@ -49,12 +34,8 @@ export const ScheduleTableHead: React.FC<IProps> = ({
   };
   return (
     <TableHead>
-      <TableRow className={classes.head}>
-        <TableCell
-          padding="checkbox"
-          align="center"
-          className={classes.firstCell}
-        >
+      <TableRow className={"schedule-table__head-row"}>
+        <TableCell padding="checkbox" className={classes.firstCell}>
           {numSelected > 0 ? (
             <Checkbox
               size="small"

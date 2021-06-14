@@ -15,7 +15,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { ActivityDetail } from "../../../@types/schedule";
 import { ActivityDetailForm } from "./ActivityDetailForm";
-import { getToolbarHeading } from "../utils";
+import { getToolbarHeading } from "../../../utils/scheduleUtils";
 import useAuth from "../../../hooks/useAuth";
 
 const useStyles = makeStyles((theme) => ({

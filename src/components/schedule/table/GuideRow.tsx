@@ -9,9 +9,10 @@ import { Profile } from "../../../@types/user";
 
 const useStyles = makeStyles((theme) => ({
   guideRow: {
-    // borderBottom: `0.5px solid ${theme.palette.grey[700]}`,
+    "& :not(:last-of-kind)": {
+      borderBottom: `0.5px solid ${theme.palette.grey[700]}`,
+    },
     backgroundColor: "#FAFF88",
-    marginTop: "100px",
   },
 }));
 
