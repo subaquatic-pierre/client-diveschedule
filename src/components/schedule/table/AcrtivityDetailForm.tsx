@@ -162,17 +162,24 @@ export const ActivityDetailForm: React.FC<IProps> = ({
     {
       onCompleted: (data: any) => {
         refetchMeta();
-        client.writeQuery({
-          query: ACTIVITY_DATA,
-          data: {
-            activityData: {
-              ...diveTripDetail,
-              ...formValues,
-            },
-          },
-        });
+        // client.writeQuery({
+        //   query: ACTIVITY_DATA,
+        //   data: {
+        //     activityData: {
+        //       ...diveTripDetail,
+        //       ...formValues,
+        //     },
+        //   },
+        // });
         setSuccess("Activity successfully edited");
       },
+      optimisticResponse: {
+        activityData: {
+          ...diveTripDetail,
+          ...formValues,
+        },
+      },
+      refetchQueries: ["ActivityData", "DailyBookingMeta"],
     }
   );
 

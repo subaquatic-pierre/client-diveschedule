@@ -1,14 +1,15 @@
-import { useMutation, useApolloClient } from "@apollo/client";
+import {
+  useMutation,
+  useApolloClient,
+  MutationHookOptions,
+} from "@apollo/client";
 import { useEffect } from "react";
 import { messageController } from "../controllers/messages";
 import NProgress from "nprogress";
 
-interface IMutationOptions {
+interface IMutationOptions extends MutationHookOptions {
   errorMessage?: string;
   successMessage?: string;
-  onCompleted?: (data: any) => void | undefined;
-  onError?: (error: any) => void | undefined;
-  update?: (cache: any, data: any) => void | undefined;
 }
 
 const useBaseMutation = <TData>(

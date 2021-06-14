@@ -3,25 +3,16 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useApolloClient, useLazyQuery } from "@apollo/client";
 import { useHistory } from "react-router";
 import { PATH_DASHBOARD } from "../../../routes/paths";
-import {
-  Table,
-  TableBody,
-  TableContainer,
-  Box,
-  Card,
-  TableRow,
-  TableCell,
-  TableHead,
-} from "@material-ui/core";
+import { Table, TableBody, TableContainer, Box, Card } from "@material-ui/core";
 
 import { TableLoading } from "./TableLoading";
 import { ScheduleTableHead } from "./ScheduleTableHead";
 import { ScheduleTableToolbar } from "./ScheduleTableToolbar";
 import { ScheduleTableRow } from "./ScheduleTableRow";
-import { GuideRow } from "./GuideRow";
 import { CreateBookingRow } from "./CreateBookingRow";
 import { BlankRow } from "./BlankRow";
 import { getHeadFields } from "../utils";
+import { TableInfo } from "./TableInfo";
 
 import { Booking, ActivityDetail } from "../../../@types/schedule";
 
@@ -37,24 +28,6 @@ const useStyles = makeStyles((theme) => ({
   },
   loading: {
     width: 300,
-  },
-  tableInfo: {
-    marginTop: "auto",
-    "& .guide_row:not(:last-child)": {
-      borderBottom: `0.5px solid ${theme.palette.grey[700]}`,
-    },
-    "& .MuiTableCell-head": {
-      "&:first-of-type": {
-        borderTopLeftRadius: "0px",
-        borderBottomLeftRadius: "0px",
-        boxShadow: "inset 0 0 0 #fff;",
-      },
-      "&:last-of-type": {
-        borderTopRightRadius: "0px",
-        borderBottomRightRadius: "0px",
-        boxShadow: "inset 0 0 0 #fff;",
-      },
-    },
   },
   tableTotalRow: {
     height: theme.spacing(7),
@@ -98,8 +71,13 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
 }) => {
   const history = useHistory();
   const maxDivers = 13;
-  const [totalDivers, setTotalDivers] = useState(0);
-  const [blankBookings, setBlankBookings] = useState([]);
+
+  const classes = useStyles();
+  const [selected, setSelected] = useState<number[]>([]);
+  const [creatingBooking, setCreatingBooking] = useState<boolean>(false);
+
+  const client = useApolloClient();
+  const { setError } = messageController(client);
 
   const blankActivityData: ActivityDetail = {
     id: -1,
@@ -108,16 +86,14 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
     bookingSet: [] as Booking[],
     activityType: tableType,
   };
-  const classes = useStyles();
-  const [selected, setSelected] = useState<number[]>([]);
-  const [creatingBooking, setCreatingBooking] = useState<boolean>(false);
-
-  const client = useApolloClient();
-  const { setError } = messageController(client);
 
   // Data state
-  const [bookings, setBookings] = useState<Booking[]>([]);
-  const [activity, setActivity] = useState<ActivityDetail>(blankActivityData);
+  let bookings: Booking[] = [];
+  let activity: ActivityDetail = blankActivityData;
+  const [totalDivers, setTotalDivers] = useState(0);
+  const [blankBookings, setBlankBookings] = useState([]);
+
+  // Data query
   const [getData, { data, loading, refetch, called }] = useLazyQuery(
     ACTIVITY_DATA,
     {
@@ -135,6 +111,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   });
 
   const handleDeleteBookings = () => {
+    console.log(selected);
     deleteBookings({ variables: { ids: selected } });
   };
 
@@ -182,25 +159,15 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
     setCreatingBooking(false);
   };
 
-  // Get table data, populate booking array or set blank
+  // Get table data
   useEffect(() => {
-    if (activityId === "-1") {
-      setActivity(blankActivityData);
-      setBookings([]);
-    } else {
+    if (activityId !== "-1") {
       getData({ variables: { activityId } });
-      if (data) {
-        setActivity(data.activityData);
-        setBookings(data.activityData.bookingSet);
-        setTotalDivers(
-          data.activityData.diveGuides.length +
-            data.activityData.bookingSet.length
-        );
-      }
     }
-  }, [activityId, data]);
+  }, []);
 
   useEffect(() => {
+    // Set number of blank bookings
     let numBookings = bookings.length;
     const availableSpaces = maxDivers - numBookings;
     const tempBlankBookings = [];
@@ -209,7 +176,20 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
       tempBlankBookings.push(numBookings);
     }
     setBlankBookings(tempBlankBookings);
-  }, [bookings]);
+
+    // Set total number of divers
+    if (data) {
+      const {
+        activityData: { diveGuides },
+      } = data;
+      setTotalDivers(diveGuides.length + bookings.length);
+    }
+  }, [data, bookings.length]);
+
+  if (data) {
+    bookings = data.activityData.bookingSet;
+    activity = data.activityData;
+  }
 
   return (
     <Box dir="ltr">
@@ -275,33 +255,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
             )}
           </Table>
           {isBoatTrip(activity.activityType) && (
-            <Table size="small" className={classes.tableInfo}>
-              {activity.diveGuides && activity.diveGuides.length > 0 && (
-                <TableHead>
-                  <TableRow>
-                    <TableCell></TableCell>
-                    <TableCell>Dive Guides</TableCell>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
-                  </TableRow>
-                </TableHead>
-              )}
-              <TableBody>
-                {activity.diveGuides?.map((guide, index) => (
-                  <GuideRow key={index} profile={guide.profile} />
-                ))}
-              </TableBody>
-              <TableHead>
-                <TableRow className={classes.tableTotalRow}>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell>Total Divers</TableCell>
-                  <TableCell align="right">{`${totalDivers}`}</TableCell>
-                </TableRow>
-              </TableHead>
-            </Table>
+            <TableInfo activity={activity} totalDivers={totalDivers} />
           )}
         </TableContainer>
       </Card>

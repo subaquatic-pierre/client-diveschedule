@@ -43,6 +43,7 @@ import {
   USER_LIST_QUERY,
   profileFragment,
 } from "../../../graphql/user";
+import { ACTIVITY_DATA, DELETE_BOOKINGS } from "../../../graphql/schedule";
 
 // paths
 import { PATH_DASHBOARD } from "../../../routes/paths";
@@ -143,30 +144,7 @@ export default function AccountGeneral({
       setSuccess("User profile successfully updated");
       NProgress.done();
     },
-    update(cache, { data: { updateProfile } }) {
-      cache.modify({
-        id: cache.identify(updateProfile.user),
-        fields: {
-          profile(updatedData) {
-            cache.writeFragment({
-              data: updateProfile.user,
-              fragment: gql`
-                fragment ProfileFragment on UserType {
-                  profile {
-                    fullName
-                    equipment
-                    certLevel
-                    phoneNumber
-                    email
-                  }
-                }
-              `,
-            });
-            return updatedData;
-          },
-        },
-      });
-    },
+    refetchQueries: ["ActivityData", "DailyBookingMeta"],
   });
 
   // Handle formik default and error values
