@@ -12,6 +12,11 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
   },
+  userName: {
+    [theme.breakpoints.down("md")]: {
+      minWidth: "200px",
+    },
+  },
 }));
 
 export const BlankRow = ({ bookingNumber, showCreateBookingRow }: IProps) => {
@@ -21,7 +26,7 @@ export const BlankRow = ({ bookingNumber, showCreateBookingRow }: IProps) => {
       <TableCell>
         <div className={classes.firstCell}>{bookingNumber}</div>
       </TableCell>
-      <TableCell></TableCell>
+      <TableCell className={classes.userName}></TableCell>
       <TableCell></TableCell>
       <TableCell></TableCell>
       <TableCell></TableCell>

@@ -81,6 +81,7 @@ export default function Schedule() {
             <>
               <Grid item xs={12} lg={6}>
                 <ScheduleTable
+                  maxDiverCount={13}
                   activityId={getActivityId(data.dailyActivityMeta, "AM_BOAT")}
                   tableType="AM_BOAT"
                   date={selectedDate}
@@ -89,6 +90,7 @@ export default function Schedule() {
 
               <Grid item xs={12} lg={6}>
                 <ScheduleTable
+                  maxDiverCount={13}
                   activityId={getActivityId(data.dailyActivityMeta, "PM_BOAT")}
                   tableType="PM_BOAT"
                   date={selectedDate}

@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core";
+import { Hidden, makeStyles } from "@material-ui/core";
 import {
   Table,
   TableBody,
@@ -17,11 +17,15 @@ const useStyles = makeStyles((theme) => ({
   tableTotalRow: {
     height: theme.spacing(7),
   },
-  tableInfo: {
-    marginTop: "auto",
-  },
   firstCell: {
-    width: "25px",
+    minWidth: "20px",
+    display: "flex",
+    justifyContent: "center",
+  },
+  fullName: {
+    [theme.breakpoints.down("md")]: {
+      padding: theme.spacing(1, 2),
+    },
   },
 }));
 
@@ -32,24 +36,34 @@ interface IProps {
 
 export const TableInfo = ({ activity, totalDivers }: IProps) => {
   const classes = useStyles();
+
   return (
     <>
-      <Table size="small" className={clsx(classes.tableInfo)}>
+      <Table size="small">
         {activity.diveGuides && activity.diveGuides.length > 0 && (
           <TableHead>
             <TableRow>
-              <TableCell>
-                <div className={classes.firstCell}></div>
+              <Hidden mdDown>
+                <TableCell>
+                  <div className={classes.firstCell}></div>
+                </TableCell>
+              </Hidden>
+              <TableCell className={classes.fullName} align="left">
+                Dive Guides
               </TableCell>
-              <TableCell align="left">Dive Guides</TableCell>
               <TableCell></TableCell>
               <TableCell></TableCell>
               <TableCell></TableCell>
+              <Hidden mdUp>
+                <TableCell></TableCell>
+              </Hidden>
             </TableRow>
           </TableHead>
         )}
         <TableBody>
-          <TableColFormat isBoatTrip={true} />
+          <Hidden mdDown>
+            <TableColFormat isBoatTrip={true} />
+          </Hidden>
           {activity.diveGuides?.map((guide, index) => (
             <GuideRow key={index} profile={guide.profile} />
           ))}

@@ -18,6 +18,11 @@ import { messageController } from "../../controllers/messages";
 import { useApolloClient } from "@apollo/client";
 
 const useStyles = makeStyles((theme) => ({
+  userName: {
+    [theme.breakpoints.down("md")]: {
+      minWidth: "200px",
+    },
+  },
   createBookingRow: {
     "& :hover": {
       cursor: "unset",
@@ -174,7 +179,7 @@ export const CreateBookingRow: React.FC<IProps> = ({
       </TableCell>
 
       {/* UserName Cell */}
-      <TableCell>
+      <TableCell className={classes.userName}>
         <UserSearchInput
           variant="standard"
           autoFocus

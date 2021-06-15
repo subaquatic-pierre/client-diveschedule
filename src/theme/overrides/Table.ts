@@ -35,6 +35,7 @@ export default function Table(theme: Theme) {
           "&:hover": {
             cursor: "unset",
           },
+          padding: theme.spacing(1, 1),
           "&:first-of-type": {},
           "&:last-of-type": {},
         },

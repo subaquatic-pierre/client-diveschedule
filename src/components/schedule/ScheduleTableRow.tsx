@@ -13,6 +13,11 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
   },
+  userName: {
+    [theme.breakpoints.down("md")]: {
+      minWidth: "200px",
+    },
+  },
   checkBox: {
     padding: "0px",
   },
@@ -79,7 +84,9 @@ export const ScheduleTableRow: React.FC<IProps> = ({
           <div className={classes.firstCell}>{index + 1}</div>
         </TableCell>
       )}
-      <TableCell id={email}>{fullName}</TableCell>
+      <TableCell className={classes.userName} id={index.toString()}>
+        {fullName}
+      </TableCell>
       <TableCell align="center">{diverRole.toUpperCase()}</TableCell>
       {isBoatBooking ? (
         <TableCell align="center">{certLevel}</TableCell>

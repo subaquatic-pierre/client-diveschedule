@@ -43,7 +43,9 @@ const useStyles = makeStyles((theme) => ({
   },
   popoverContainer: {
     padding: theme.spacing(2),
-    width: "400px",
+    [theme.breakpoints.up("md")]: {
+      width: "400px",
+    },
   },
 }));
 

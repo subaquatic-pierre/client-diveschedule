@@ -27,9 +27,7 @@ import { messageController } from "../../controllers/messages";
 
 const useStyles = makeStyles((theme) => ({
   tableContainer: {
-    minHeight: 600,
-    display: "flex",
-    flexDirection: "column",
+    minHeight: 450,
   },
 }));
 
@@ -37,15 +35,16 @@ interface IScheduleTableProps {
   tableType: string;
   date: Date;
   activityId?: string;
+  maxDiverCount?: number;
 }
 
 export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   tableType,
   date,
   activityId,
+  maxDiverCount = 13,
 }) => {
   const history = useHistory();
-  const maxDivers = 13;
 
   const classes = useStyles();
   const [selected, setSelected] = useState<number[]>([]);
@@ -141,7 +140,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   useEffect(() => {
     // Set number of blank bookings
     let numBookings = bookings.length;
-    const availableSpaces = maxDivers - numBookings;
+    const availableSpaces = maxDiverCount - numBookings;
     const tempBlankBookings = [];
     for (let i = 0; i < availableSpaces; i++) {
       numBookings += 1;
@@ -251,10 +250,12 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
               </TableBody>
             )}
           </Table>
-          {isBoatTrip(activity.activityType) && (
-            <TableInfo activity={activity} totalDivers={totalDivers} />
-          )}
         </TableContainer>
+        {isBoatTrip(activity.activityType) && (
+          <TableContainer>
+            <TableInfo activity={activity} totalDivers={totalDivers} />
+          </TableContainer>
+        )}
       </Card>
     </Box>
   );

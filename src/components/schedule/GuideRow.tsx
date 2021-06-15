@@ -1,12 +1,17 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
+import { TableRow, TableCell, Hidden } from "@material-ui/core";
 
 import { Profile } from "../../@types/user";
 
 const useStyles = makeStyles((theme) => ({
+  fullName: {
+    [theme.breakpoints.down("md")]: {
+      padding: theme.spacing(0.5, 2),
+      borderRight: "none !important",
+    },
+  },
   firstCell: {
     borderRight: "none !important",
   },
@@ -29,11 +34,20 @@ export const GuideRow: React.FC<IProps> = ({ profile }) => {
   const classes = useStyles();
   return (
     <TableRow role="checkbox" className={classes.guideRow}>
-      <TableCell className={classes.firstCell}></TableCell>
-      <TableCell id={profile.fullName}>{profile.fullName}</TableCell>
+      <Hidden mdDown>
+        <TableCell>
+          <div className={classes.firstCell}></div>
+        </TableCell>
+      </Hidden>
+      <TableCell className={classes.fullName} id={profile.fullName}>
+        {profile.fullName}
+      </TableCell>
       <TableCell></TableCell>
       <TableCell align="center">{profile.certLevel}</TableCell>
       <TableCell align="center">{profile.equipment}</TableCell>
+      <Hidden mdUp>
+        <TableCell></TableCell>
+      </Hidden>
     </TableRow>
   );
 };
