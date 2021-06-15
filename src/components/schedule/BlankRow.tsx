@@ -13,6 +13,7 @@ export const BlankRow = ({ bookingNumber, showCreateBookingRow }: IProps) => {
       <TableCell></TableCell>
       <TableCell></TableCell>
       <TableCell></TableCell>
+      <TableCell></TableCell>
     </TableRow>
   );
 };
