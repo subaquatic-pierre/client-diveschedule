@@ -19,15 +19,13 @@ const useStyles = makeStyles((theme) => ({
     minWidth: "20px",
     display: "flex",
     justifyContent: "center",
-  },
-  checkBox: {
-    marginLeft: "-5px",
-    padding: "0px",
-  },
-  checkBoxCell: {
     "&:hover": {
       cursor: "unset",
     },
+  },
+  checkBox: {
+    marginLeft: "-4px",
+    padding: "0px",
   },
 }));
 

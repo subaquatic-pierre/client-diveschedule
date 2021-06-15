@@ -27,7 +27,7 @@ import { messageController } from "../../controllers/messages";
 
 const useStyles = makeStyles((theme) => ({
   tableContainer: {
-    minHeight: 700,
+    minHeight: 600,
     display: "flex",
     flexDirection: "column",
   },
@@ -175,12 +175,15 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
         if (creatingBooking) {
           setCreatingBooking(false);
         }
+        if (selected.length > 0) {
+          setSelected([]);
+        }
       }
     };
 
-    if (creatingBooking) window.addEventListener("keyup", handleEscapePress);
+    window.addEventListener("keyup", handleEscapePress);
     return () => window.removeEventListener("keyup", handleEscapePress);
-  }, [creatingBooking]);
+  }, [creatingBooking, selected]);
 
   return (
     <Box dir="ltr">
