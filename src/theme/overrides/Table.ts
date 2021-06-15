@@ -7,11 +7,6 @@ export default function Table(theme: Theme) {
     MuiTableRow: {
       styleOverrides: {
         root: {
-          borderBottom: `0.5px solid ${theme.palette.grey[400]}`,
-          height: "20px",
-          "& :hover": {
-            cursor: "pointer",
-          },
           "&.Mui-selected": {
             backgroundColor: theme.palette.action.selected,
             "&:hover": {
@@ -25,30 +20,34 @@ export default function Table(theme: Theme) {
       styleOverrides: {
         root: {
           borderBottom: "none",
-          "&:first-of-type": {
-            // paddingLeft: theme.spacing(3),
-          },
         },
         head: {
           color: theme.palette.text.secondary,
           backgroundColor: theme.palette.background.neutral,
-          "&:hover": {
-            cursor: "unset",
+          "&:first-of-type": {
+            paddingLeft: theme.spacing(3),
+            borderTopLeftRadius: theme.shape.borderRadius,
+            borderBottomLeftRadius: theme.shape.borderRadius,
+            boxShadow: `inset 8px 0 0 ${theme.palette.background.paper}`,
           },
-          padding: theme.spacing(1, 1),
-          "&:first-of-type": {},
-          "&:last-of-type": {},
+          "&:last-of-type": {
+            paddingRight: theme.spacing(3),
+            borderTopRightRadius: theme.shape.borderRadius,
+            borderBottomRightRadius: theme.shape.borderRadius,
+            boxShadow: `inset -8px 0 0 ${theme.palette.background.paper}`,
+          },
         },
         stickyHeader: {
           backgroundColor: theme.palette.background.paper,
           backgroundImage: `linear-gradient(to bottom, ${theme.palette.background.neutral} 0%, ${theme.palette.background.neutral} 100%)`,
         },
         body: {
-          padding: theme.spacing(0.4, 1),
           "&:first-of-type": {
-            borderRight: `0.5px solid ${theme.palette.grey[400]}`,
+            paddingLeft: theme.spacing(3),
           },
-          "&:last-of-type": {},
+          "&:last-of-type": {
+            paddingRight: theme.spacing(3),
+          },
         },
       },
     },

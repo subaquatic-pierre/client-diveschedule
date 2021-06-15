@@ -29,6 +29,48 @@ const useStyles = makeStyles((theme) => ({
   tableContainer: {
     minHeight: 450,
   },
+  root: {
+    "& .MuiTableRow": {
+      "&-root": {
+        borderBottom: `0.5px solid ${theme.palette.grey[400]}`,
+        height: "20px",
+        "& :hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+    "& .MuiTableCell": {
+      "&-root": {
+        borderBottom: "none",
+      },
+      "&-head": {
+        color: theme.palette.text.secondary,
+        backgroundColor: theme.palette.background.neutral,
+        "&:hover": {
+          cursor: "unset !important",
+        },
+        "&:first-of-type": {
+          paddingLeft: "none",
+          borderTopLeftRadius: "0px",
+          borderBottomLeftRadius: "0px",
+          boxShadow: "none",
+        },
+        "&:last-of-type": {
+          paddingRight: "none",
+          borderTopRightRadius: "0px",
+          borderBottomRightRadius: "0px",
+          boxShadow: "none",
+        },
+        padding: theme.spacing(1, 1),
+      },
+      "&-body": {
+        padding: theme.spacing(0.4, 1),
+        "&:first-of-type": {
+          borderRight: `0.5px solid ${theme.palette.grey[400]}`,
+        },
+      },
+    },
+  },
 }));
 
 interface IScheduleTableProps {
@@ -185,7 +227,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
   }, [creatingBooking, selected]);
 
   return (
-    <Box dir="ltr">
+    <Box dir="ltr" className={classes.root}>
       <Card>
         <ScheduleTableToolbar
           handleEditDiverClick={editDiverClick}
