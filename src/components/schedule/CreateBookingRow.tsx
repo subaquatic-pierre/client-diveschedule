@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   makeStyles,
   TextField,
@@ -24,10 +24,14 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   confirmButton: {
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
     "& :hover": {
       cursor: "pointer",
     },
   },
+  checkMark: {},
 }));
 
 interface IForm {
@@ -161,10 +165,12 @@ export const CreateBookingRow: React.FC<IProps> = ({
 
   return (
     <TableRow className={classes.createBookingRow}>
-      <TableCell onClick={handleSaveBooking} className={classes.confirmButton}>
-        <Typography color="green" variant="h5">
-          &#x2714;
-        </Typography>
+      <TableCell onClick={handleSaveBooking}>
+        <div className={classes.confirmButton}>
+          <Typography className={classes.checkMark} color="green" variant="h5">
+            &#x2714;
+          </Typography>
+        </div>
       </TableCell>
 
       {/* UserName Cell */}

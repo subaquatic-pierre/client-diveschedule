@@ -9,9 +9,9 @@ export const TableColFormat = ({ isBoatTrip }: IProps) => {
     return (
       <tr>
         <td width="50"></td>
-        <td width="650"></td>
-        <td width="100"></td>
-        <td width="100"></td>
+        <td width="550"></td>
+        <td width="150"></td>
+        <td width="150"></td>
         <td width="100"></td>
       </tr>
     );

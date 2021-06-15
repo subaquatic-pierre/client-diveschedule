@@ -8,8 +8,12 @@ import TableRow from "@material-ui/core/TableRow";
 import { Booking } from "../../@types/schedule";
 
 const useStyles = makeStyles((theme) => ({
+  firstCell: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+  },
   checkBox: {
-    marginLeft: "-5px",
     padding: "0px",
   },
 }));
@@ -61,15 +65,19 @@ export const ScheduleTableRow: React.FC<IProps> = ({
     >
       {selected.length > 0 ? (
         <TableCell>
-          <Checkbox
-            className={classes.checkBox}
-            size="small"
-            checked={isSelected(id)}
-            inputProps={{ "aria-labelledby": email }}
-          />
+          <div className={classes.firstCell}>
+            <Checkbox
+              className={classes.checkBox}
+              size="small"
+              checked={isSelected(id)}
+              inputProps={{ "aria-labelledby": email }}
+            />
+          </div>
         </TableCell>
       ) : (
-        <TableCell>{index + 1}</TableCell>
+        <TableCell>
+          <div className={classes.firstCell}>{index + 1}</div>
+        </TableCell>
       )}
       <TableCell id={email}>{fullName}</TableCell>
       <TableCell align="center">{diverRole.toUpperCase()}</TableCell>

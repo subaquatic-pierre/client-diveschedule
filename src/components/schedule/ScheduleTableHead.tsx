@@ -15,6 +15,11 @@ interface IProps {
 }
 
 const useStyles = makeStyles((theme) => ({
+  firstCell: {
+    minWidth: "20px",
+    display: "flex",
+    justifyContent: "center",
+  },
   checkBox: {
     marginLeft: "-5px",
     padding: "0px",
@@ -23,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       cursor: "unset",
     },
-    width: "25px",
   },
 }));
 
@@ -38,7 +42,7 @@ export const ScheduleTableHead: React.FC<IProps> = ({
     <TableHead>
       <TableRow>
         <TableCell padding="checkbox">
-          <div className={classes.checkBoxCell}>
+          <div className={classes.firstCell}>
             {numSelected > 0 ? (
               <Checkbox
                 className={classes.checkBox}

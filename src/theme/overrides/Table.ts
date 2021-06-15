@@ -26,7 +26,7 @@ export default function Table(theme: Theme) {
         root: {
           borderBottom: "none",
           "&:first-of-type": {
-            paddingLeft: theme.spacing(3),
+            // paddingLeft: theme.spacing(3),
           },
         },
         head: {
@@ -43,6 +43,7 @@ export default function Table(theme: Theme) {
           backgroundImage: `linear-gradient(to bottom, ${theme.palette.background.neutral} 0%, ${theme.palette.background.neutral} 100%)`,
         },
         body: {
+          padding: theme.spacing(0.4, 1),
           "&:first-of-type": {
             borderRight: `0.5px solid ${theme.palette.grey[400]}`,
           },
