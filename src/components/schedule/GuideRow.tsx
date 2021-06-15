@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
       borderBottom: `0.5px solid ${theme.palette.grey[700]}`,
     },
     "& :hover": {
-      cursor: "unset",
+      cursor: "unset !important",
     },
     backgroundColor: "#FAFF88",
   },

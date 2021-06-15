@@ -23,7 +23,7 @@ const DashboardRoutes = {
     {
       exact: true,
       path: PATH_DASHBOARD.root,
-      component: () => <Redirect to={PATH_DASHBOARD.general.app} />,
+      component: () => <Redirect to={PATH_DASHBOARD.schedule} />,
     },
     // APP : CALENDAR
     // ----------------------------------------------------------------------

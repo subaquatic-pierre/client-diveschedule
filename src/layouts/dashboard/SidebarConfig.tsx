@@ -26,11 +26,11 @@ const sidebarConfig = [
   {
     subheader: "general",
     items: [
-      {
-        title: "home",
-        href: PATH_DASHBOARD.general.app,
-        icon: ICONS.dashboard,
-      },
+      // {
+      //   title: "home",
+      //   href: PATH_DASHBOARD.general.app,
+      //   icon: ICONS.dashboard,
+      // },
       {
         title: "schedule",
         href: PATH_DASHBOARD.schedule,

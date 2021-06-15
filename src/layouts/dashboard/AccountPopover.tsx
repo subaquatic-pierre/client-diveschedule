@@ -37,7 +37,7 @@ const MENU_OPTIONS = [
   {
     label: "Home",
     icon: homeFill,
-    linkTo: "/",
+    linkTo: PATH_DASHBOARD.root,
   },
   {
     label: "Settings",
@@ -57,7 +57,7 @@ export default function AccountPopover() {
   const { mutation: logout } = useBaseMutation(LOGOUT_MUTATION, {
     onCompleted: (data: any) => {
       deleteAuthToken();
-      setSuccess("Logout successful");
+      // setSuccess("Logout successful");
       history.push("/");
     },
   });

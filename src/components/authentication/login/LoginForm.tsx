@@ -155,7 +155,7 @@ export default function LoginForm() {
             justifyContent: "space-between",
           }}
         >
-          <FormControlLabel
+          {/* <FormControlLabel
             control={
               <Checkbox
                 {...getFieldProps("remember")}
@@ -163,7 +163,7 @@ export default function LoginForm() {
               />
             }
             label="Remember me"
-          />
+          /> */}
 
           <Link
             component={RouterLink}

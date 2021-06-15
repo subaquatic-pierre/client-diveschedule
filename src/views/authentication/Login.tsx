@@ -5,14 +5,11 @@ import {
   Box,
   Card,
   Link,
-  Alert,
   Hidden,
-  Tooltip,
   Container,
   Typography,
 } from "@material-ui/core";
 import { PATH_AUTH } from "../../routes/paths";
-import useAuth from "../../hooks/useAuth";
 import Page from "../../components/Page";
 import Logo from "../../components/Logo";
 import { LoginForm } from "../../components/authentication/login";

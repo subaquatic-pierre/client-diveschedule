@@ -54,7 +54,7 @@ export default function DashboardNavbar({
           </IconButton>
         </Hidden>
 
-        <Searchbar />
+        {/* <Searchbar /> */}
         <Box sx={{ flexGrow: 1 }} />
 
         <Box
