@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Typography,
   TableCell,
   TableHead,
   TableRow,
@@ -17,10 +16,14 @@ interface IProps {
 
 const useStyles = makeStyles((theme) => ({
   checkBox: {
-    marginLeft: "-6px !important",
+    marginLeft: "-5px",
+    padding: "0px",
   },
   checkBoxCell: {
-    paddingLeft: "26px !important",
+    "&:hover": {
+      cursor: "unset",
+    },
+    width: "25px",
   },
 }));
 
@@ -33,20 +36,22 @@ export const ScheduleTableHead: React.FC<IProps> = ({
   const classes = useStyles();
   return (
     <TableHead>
-      <TableRow className={"schedule-table__head-row"}>
-        <TableCell padding="checkbox" className={classes.checkBoxCell}>
-          {numSelected > 0 ? (
-            <Checkbox
-              className={classes.checkBox}
-              size="small"
-              indeterminate={numSelected > 0 && numSelected < rowCount}
-              checked={rowCount > 0 && numSelected === rowCount}
-              onChange={onSelectAllClick}
-              inputProps={{ "aria-label": "select all desserts" }}
-            />
-          ) : (
-            <Typography>#</Typography>
-          )}
+      <TableRow>
+        <TableCell padding="checkbox">
+          <div className={classes.checkBoxCell}>
+            {numSelected > 0 ? (
+              <Checkbox
+                className={classes.checkBox}
+                size="small"
+                indeterminate={numSelected > 0 && numSelected < rowCount}
+                checked={rowCount > 0 && numSelected === rowCount}
+                onChange={onSelectAllClick}
+                inputProps={{ "aria-label": "select all desserts" }}
+              />
+            ) : (
+              <>#</>
+            )}
+          </div>
         </TableCell>
         {headFields.map((headCell: string, index: number) => {
           if (headCell === "Instructor") {

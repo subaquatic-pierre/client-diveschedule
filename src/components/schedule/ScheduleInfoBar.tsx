@@ -14,12 +14,10 @@ import "react-calendar/dist/Calendar.css";
 
 import IconButton from "@material-ui/core/IconButton";
 import TodayIcon from "@material-ui/icons/Today";
-import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import Calendar from "react-calendar";
 import { formatDate } from "../../utils/formatDate";
 
 import { DAY_QUERY } from "../../graphql/schedule/queries";
-import { PATH_DASHBOARD } from "../../routes/paths";
 import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
@@ -51,7 +49,6 @@ export const ScheduleInfoBar: React.FC<IScheduleInfoBarProps> = ({
   setSelectedDate,
   selectedDate,
 }) => {
-  const history = useHistory();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   useQuery(DAY_QUERY, {

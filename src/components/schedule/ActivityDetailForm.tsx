@@ -15,7 +15,6 @@ import {
   ListItemSecondaryAction,
   ListItemText,
   IconButton,
-  Box,
 } from "@material-ui/core";
 
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -57,27 +56,21 @@ const siteOptions = [
 ];
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
-  formControl: {
-    margin: theme.spacing(1),
-  },
-  formContainer: {
-    "& . input": {
-      margin: theme.spacing(2),
-    },
+  heading: { marginBottom: theme.spacing(2) },
+  addButton: {
+    alignSelf: "start",
   },
   buttonContainer: {
+    display: "flex",
     marginTop: theme.spacing(2),
     "& .MuiButton-root": {
       margin: theme.spacing(1),
     },
   },
-  heading: { marginBottom: theme.spacing(2) },
-  addDiverContainer: {
-    marginTop: theme.spacing(1),
-  },
-  searchInput: {
-    flexGrow: 1,
+  guideListContainer: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(4),
+    width: "100%",
   },
   icon: {
     "&:hover": {
@@ -218,8 +211,8 @@ export const ActivityDetailForm: React.FC<IProps> = ({
         <Typography className={classes.heading} variant="h5">
           Edit Trip Detail
         </Typography>
+        {/* Dive site selection section */}
         <Grid item container spacing={3}>
-          {/* Dive site selection section */}
           <Grid item xs={12}>
             <FormControl variant="outlined" fullWidth>
               <InputLabel id="diveSite1">Dive Site 1</InputLabel>
@@ -257,52 +250,51 @@ export const ActivityDetailForm: React.FC<IProps> = ({
               </Select>
             </FormControl>
           </Grid>
+        </Grid>
 
-          {/* Dive guide list section */}
-          <Grid item xs={12}>
-            {formValues.diveGuides.length > 0 && (
-              <List
-                subheader={<ListSubheader>Dive Guides</ListSubheader>}
-                className={classes.root}
-              >
-                {formValues &&
-                  formValues.diveGuides &&
-                  formValues.diveGuides.map((guide: any, index: number) => (
-                    <ListItem key={index}>
-                      <ListItemText primary={guide.profile.fullName} />
-                      <ListItemSecondaryAction
-                        onClick={() => handleRemoveDiveGuide(guide.id)}
-                      >
-                        <IconButton edge="end" aria-label="delete">
-                          <DeleteIcon />
-                        </IconButton>
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                  ))}
-              </List>
-            )}
-            {addingDiveGuide && (
-              <List>
-                <ListItem key="addingDiver">
-                  <Grid className={classes.searchInput}>
-                    <FormControl fullWidth>
-                      <UserSearchInput
-                        autoFocus
-                        size="small"
-                        setObject={setUser as any}
-                      />
-                    </FormControl>
-                  </Grid>
-                </ListItem>
-              </List>
-            )}
-          </Grid>
-          <Grid item xs={12} />
+        {/* Dive guide list section */}
+        <Grid item xs={12} className={classes.guideListContainer}>
+          {formValues.diveGuides.length > 0 && (
+            <List subheader={<ListSubheader>Dive Guides</ListSubheader>}>
+              {formValues &&
+                formValues.diveGuides &&
+                formValues.diveGuides.map((guide: any, index: number) => (
+                  <ListItem key={index}>
+                    <ListItemText primary={guide.profile.fullName} />
+                    <ListItemSecondaryAction
+                      onClick={() => handleRemoveDiveGuide(guide.id)}
+                    >
+                      <IconButton edge="end" aria-label="delete">
+                        <DeleteIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                ))}
+            </List>
+          )}
+          {addingDiveGuide && (
+            <List>
+              <ListItem key="addingDiver">
+                <FormControl fullWidth>
+                  <UserSearchInput
+                    autoFocus
+                    size="small"
+                    setObject={setUser as any}
+                  />
+                </FormControl>
+              </ListItem>
+            </List>
+          )}
         </Grid>
       </Grid>
       {/* Button section */}
-      <Grid item container justifyContent="flex-end">
-        <Box sx={{ mt: 3 }}>
+      <Grid
+        item
+        container
+        justifyContent="space-between
+      "
+      >
+        <div>
           {!addingDiveGuide ? (
             <Button
               onClick={() => setAddingDiveGuide(true)}
@@ -319,8 +311,21 @@ export const ActivityDetailForm: React.FC<IProps> = ({
               Cancel
             </Button>
           )}
+        </div>
+        <div>
+          {!addingDiveGuide && (
+            <Button
+              sx={{ ml: 1, color: "white" }}
+              type="submit"
+              color="error"
+              variant="contained"
+              onClick={handleClose}
+            >
+              Cancel
+            </Button>
+          )}
           <Button
-            sx={{ ml: 2, color: "white" }}
+            sx={{ ml: 1, color: "white" }}
             type="submit"
             color="success"
             variant="contained"
@@ -328,7 +333,7 @@ export const ActivityDetailForm: React.FC<IProps> = ({
           >
             Save
           </Button>
-        </Box>
+        </div>
       </Grid>
     </>
   );

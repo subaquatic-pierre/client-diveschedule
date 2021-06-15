@@ -1,5 +1,4 @@
-export type ThemeMode = "light" | "dark";
-export type ThemeDirection = "rtl" | "ltr";
+import { ThemeDirection, ThemeMode } from "../../@types/settings";
 
 export type Settings = {
   __typename?: "Settings";

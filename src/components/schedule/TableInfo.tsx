@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 
 import { ActivityDetail } from "../../@types/schedule";
+import { TableColFormat } from "./TableColFormat";
 import { GuideRow } from "./GuideRow";
 
 const useStyles = makeStyles((theme) => ({
@@ -18,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
   },
   tableInfo: {
     marginTop: "auto",
+  },
+  firstCell: {
+    width: "25px",
   },
 }));
 
@@ -29,34 +33,42 @@ interface IProps {
 export const TableInfo = ({ activity, totalDivers }: IProps) => {
   const classes = useStyles();
   return (
-    <Table size="small" className={clsx(classes.tableInfo)}>
-      {activity.diveGuides && activity.diveGuides.length > 0 && (
+    <>
+      <Table size="small" className={clsx(classes.tableInfo)}>
+        {activity.diveGuides && activity.diveGuides.length > 0 && (
+          <TableHead>
+            <TableRow>
+              <TableCell>
+                <div className={classes.firstCell}></div>
+              </TableCell>
+              <TableCell align="left">Dive Guides</TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+          </TableHead>
+        )}
+        <TableBody>
+          <TableColFormat isBoatTrip={true} />
+          {activity.diveGuides?.map((guide, index) => (
+            <GuideRow key={index} profile={guide.profile} />
+          ))}
+        </TableBody>
+      </Table>
+      <Table>
         <TableHead>
-          <TableRow className={"schedule-table__head-row"}>
+          <TableColFormat isBoatTrip={true} />
+          <TableRow
+            className={clsx(classes.tableTotalRow, "schedule-table__head-row")}
+          >
             <TableCell></TableCell>
-            <TableCell>Dive Guides</TableCell>
             <TableCell></TableCell>
+            <TableCell>Total Divers</TableCell>
             <TableCell></TableCell>
-            <TableCell></TableCell>
+            <TableCell align="center">{`${totalDivers}`}</TableCell>
           </TableRow>
         </TableHead>
-      )}
-      <TableBody>
-        {activity.diveGuides?.map((guide, index) => (
-          <GuideRow key={index} profile={guide.profile} />
-        ))}
-      </TableBody>
-      <TableHead>
-        <TableRow
-          className={clsx(classes.tableTotalRow, "schedule-table__head-row")}
-        >
-          <TableCell></TableCell>
-          <TableCell></TableCell>
-          <TableCell></TableCell>
-          <TableCell>Total Divers</TableCell>
-          <TableCell align="right">{`${totalDivers}`}</TableCell>
-        </TableRow>
-      </TableHead>
-    </Table>
+      </Table>
+    </>
   );
 };

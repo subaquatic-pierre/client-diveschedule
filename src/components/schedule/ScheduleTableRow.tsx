@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
 import TableCell from "@material-ui/core/TableCell";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -9,7 +9,8 @@ import { Booking } from "../../@types/schedule";
 
 const useStyles = makeStyles((theme) => ({
   checkBox: {
-    padding: "0px 0px 0px 12px !important",
+    marginLeft: "-5px",
+    padding: "0px",
   },
 }));
 
@@ -54,23 +55,21 @@ export const ScheduleTableRow: React.FC<IProps> = ({
       hover
       role="checkbox"
       onClick={() => handleSelectClick(id)}
-      className={"schedule-table__row"}
       aria-checked={isSelected(id)}
       tabIndex={-1}
       selected={isSelected(id)}
     >
       {selected.length > 0 ? (
-        <TableCell className={classes.checkBox}>
+        <TableCell>
           <Checkbox
+            className={classes.checkBox}
             size="small"
             checked={isSelected(id)}
             inputProps={{ "aria-labelledby": email }}
           />
         </TableCell>
       ) : (
-        <TableCell className={"schedule-table__first-cell"}>
-          <Typography>{index + 1}</Typography>
-        </TableCell>
+        <TableCell>{index + 1}</TableCell>
       )}
       <TableCell id={email}>{fullName}</TableCell>
       <TableCell align="center">{diverRole.toUpperCase()}</TableCell>

@@ -27,41 +27,9 @@ import { messageController } from "../../controllers/messages";
 
 const useStyles = makeStyles((theme) => ({
   tableContainer: {
-    minHeight: 820,
+    minHeight: 700,
     display: "flex",
     flexDirection: "column",
-    "& .schedule-table": {
-      "&__head-row": {
-        "& .MuiTableCell-head": {
-          "&:first-of-type": {
-            borderTopLeftRadius: "0px",
-            borderBottomLeftRadius: "0px",
-            boxShadow: "inset 0 0 0 #fff;",
-          },
-          "&:last-of-type": {
-            borderTopRightRadius: "0px",
-            borderBottomRightRadius: "0px",
-            boxShadow: "inset 0 0 0 #fff;",
-          },
-        },
-      },
-      "&__row": {
-        borderBottom: `0.5px solid ${theme.palette.grey[400]}`,
-        height: "42px",
-        "& :hover": {
-          cursor: "pointer",
-        },
-      },
-      "&__guide-row": {
-        "&:not(:last-of-type)": {
-          borderBottom: `0.5px solid ${theme.palette.grey[700]}`,
-        },
-        backgroundColor: "#FAFF88",
-      },
-      "&__first-cell": {
-        borderRight: `0.5px solid ${theme.palette.grey[400]}`,
-      },
-    },
   },
 }));
 
@@ -127,6 +95,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
       return;
     }
     setSelected([]);
+    setCreatingBooking(false);
   };
 
   const handleSelectClick = (id: number): void => {
@@ -146,6 +115,7 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
       );
     }
     setSelected(newSelected);
+    setCreatingBooking(false);
   };
 
   const showCreateBookingRow = () => {
@@ -198,6 +168,19 @@ export const ScheduleTable: React.FC<IScheduleTableProps> = ({
       setActivity(data.activityData);
     }
   }, [activityId]);
+
+  useEffect(() => {
+    const handleEscapePress = (event) => {
+      if (event.key === "Escape") {
+        if (creatingBooking) {
+          setCreatingBooking(false);
+        }
+      }
+    };
+
+    if (creatingBooking) window.addEventListener("keyup", handleEscapePress);
+    return () => window.removeEventListener("keyup", handleEscapePress);
+  }, [creatingBooking]);
 
   return (
     <Box dir="ltr">

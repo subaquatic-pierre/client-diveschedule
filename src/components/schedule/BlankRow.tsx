@@ -8,10 +8,8 @@ interface IProps {
 
 export const BlankRow = ({ bookingNumber, showCreateBookingRow }: IProps) => {
   return (
-    <TableRow onClick={showCreateBookingRow} className={"schedule-table__row"}>
-      <TableCell className={"schedule-table__first-cell"}>
-        {bookingNumber}
-      </TableCell>
+    <TableRow onClick={showCreateBookingRow}>
+      <TableCell>{bookingNumber}</TableCell>
       <TableCell></TableCell>
       <TableCell></TableCell>
       <TableCell></TableCell>

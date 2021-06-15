@@ -13,23 +13,20 @@ import { buildForm } from "../../utils/buildFormData";
 import { formatDate } from "../../utils/formatDate";
 import useBaseMutation from "../../hooks/useBaseMutation";
 
-import { ActivityMeta } from "../../views/schedule/Schedule";
 import { CREATE_BOOKING } from "../../graphql/schedule";
 import { messageController } from "../../controllers/messages";
 import { useApolloClient } from "@apollo/client";
 
 const useStyles = makeStyles((theme) => ({
-  row: {
-    borderBottom: `0.5px solid ${theme.palette.grey[400]}`,
-    height: "42px",
+  createBookingRow: {
+    "& :hover": {
+      cursor: "unset",
+    },
   },
-  cancelCell: {
+  confirmButton: {
     "& :hover": {
       cursor: "pointer",
     },
-  },
-  cancelButton: {
-    marginLeft: "-2px",
   },
 }));
 
@@ -163,9 +160,9 @@ export const CreateBookingRow: React.FC<IProps> = ({
   }, [instructor]);
 
   return (
-    <TableRow className={classes.row}>
-      <TableCell className={classes.cancelCell} onClick={handleSaveBooking}>
-        <Typography className={classes.cancelButton} color="green" variant="h5">
+    <TableRow className={classes.createBookingRow}>
+      <TableCell onClick={handleSaveBooking} className={classes.confirmButton}>
+        <Typography color="green" variant="h5">
           &#x2714;
         </Typography>
       </TableCell>
