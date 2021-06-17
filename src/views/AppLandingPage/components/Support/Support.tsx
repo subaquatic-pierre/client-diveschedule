@@ -64,7 +64,7 @@ const Contact = ({
                 <span>
                   Our friendly support team
                   <Typography
-                    color="secondary"
+                    color="primary"
                     variant="inherit"
                     component="span"
                   >
@@ -80,7 +80,7 @@ const Contact = ({
           />
         </Grid>
         <Grid item xs={12}>
-          <Grid container spacing={0}>
+          <Grid container justifyItems="center" spacing={0}>
             {items.map((item: any, index: number) => (
               <Grid item container xs={6} sm={3} key={index} data-aos="fade-up">
                 <ListItem disableGutters className={classes.listItem}>
@@ -92,7 +92,7 @@ const Contact = ({
                       color={colors.deepOrange}
                     />
                   </ListItemAvatar>
-                  <Typography variant="subtitle1" color="secondary" noWrap>
+                  <Typography variant="subtitle1" color="primary" noWrap>
                     {item}
                   </Typography>
                 </ListItem>
@@ -100,7 +100,14 @@ const Contact = ({
             ))}
           </Grid>
         </Grid>
-        <Grid item container alignItems="center" xs={12} data-aos="fade-up">
+        <Grid
+          item
+          container
+          alignItems="center"
+          justifyContent="center"
+          xs={12}
+          data-aos="fade-up"
+        >
           {team.map((item: any, index: number) => (
             <Avatar
               key={index}

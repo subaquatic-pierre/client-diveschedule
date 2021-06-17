@@ -130,6 +130,7 @@ const SectionHeader = ({
       {ctaGroup && ctaGroup.length && (
         <Grid item xs={12} className="section-header__cta-wrapper">
           <Grid
+            justifyContent="center"
             container
             alignItems="center"
             wrap="nowrap"
