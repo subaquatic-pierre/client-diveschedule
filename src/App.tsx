@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createBrowserHistory } from "history";
 import { HelmetProvider } from "react-helmet-async";
 
@@ -13,6 +13,8 @@ import routes, { renderRoutes } from "./routes";
 
 // Theme
 import ThemeConfig from "./theme";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 // Components
 import SetupCache from "./components/SetupCache";
@@ -32,6 +34,11 @@ const history = createBrowserHistory();
 
 const App: React.FC = (props) => {
   const client = useApolloSetup();
+
+  useEffect(() => {
+    AOS.init();
+    AOS.refresh();
+  });
 
   if (!client) {
     return <BaseLoading />;

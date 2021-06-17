@@ -3,7 +3,6 @@ import { ReactNode } from "react";
 import { Box } from "@material-ui/core";
 //
 import HomeNavbar from "./HomeNavbar";
-
 // ----------------------------------------------------------------------
 
 type HomeLayoutProps = {

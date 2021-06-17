@@ -18,16 +18,16 @@ import { reviews, support, integrations } from "./data";
 
 const useStyles = makeStyles((theme) => ({
   pagePaddingTop: {
-    paddingTop: theme.spacing(3),
+    paddingTop: theme.spacing(10),
     [theme.breakpoints.up("md")]: {
-      paddingTop: theme.spacing(5),
+      paddingTop: theme.spacing(12),
     },
   },
   sectionNoPaddingTop: {
     paddingTop: 0,
   },
   shape: {
-    background: theme.palette.secondary.light,
+    background: colors.grey[50],
     borderBottomRightRadius: "50%",
     borderBottom: `1px solid ${colors.grey[200]}`,
   },

@@ -65,6 +65,7 @@
     "@turf/bbox": "^6.0.1",
     "@types/js-cookie": "^2.2.6",
     "@types/react-calendar": "^3.1.4",
+    "aos": "^2.3.4",
     "apexcharts": "^3.26.0",
     "apollo3-cache-persist": "^0.9.1",
     "autosuggest-highlight": "^3.1.1",
@@ -149,6 +150,7 @@
     "yup": "^0.32.9"
   },
   "devDependencies": {
+    "@types/aos": "^3.0.3",
     "@babel/core": "^7.12.3",
     "@babel/eslint-parser": "^7.13.14",
     "@iconify-icons/clarity": "^1.1.1",

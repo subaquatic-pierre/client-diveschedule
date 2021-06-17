@@ -1,10 +1,10 @@
 import React from "react";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, colors } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: theme.palette.secondary.light,
+    background: colors.grey[50],
   },
   inner: {
     width: "100%",
