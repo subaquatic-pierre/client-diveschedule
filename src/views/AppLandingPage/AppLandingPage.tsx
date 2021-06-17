@@ -71,9 +71,9 @@ const AppLandingPage = (): JSX.Element => {
           <Section>
             <Partners data={integrations} />
           </Section>
-          <SectionAlternate innerNarrowed>
+          {/* <SectionAlternate innerNarrowed>
             <Pricings />
-          </SectionAlternate>
+          </SectionAlternate> */}
           <Section>
             <Download data={[]} />
           </Section>

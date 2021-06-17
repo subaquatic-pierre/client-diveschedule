@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
 import { SectionHeader } from "../../../../components/molecules";
 import { CardBase } from "../../../../components/organisms";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   cardBase: {
@@ -26,6 +27,7 @@ const Subscription = ({
   ...rest
 }: ViewComponentProps): JSX.Element => {
   const classes = useStyles();
+  const history = useHistory();
 
   return (
     <div className={className} {...rest}>
@@ -39,20 +41,23 @@ const Subscription = ({
         <SectionHeader
           title={
             <span className={classes.textWhite}>
-              Get TheFront and save your time.
+              Get the Dive Schedule and save your time.
             </span>
           }
           subtitle={
             <span className={classes.textWhite}>
-              Don't lose a chance to be among the firsts to know about our
-              upcoming news and updates.
+              Don't miss out on the best dive scheduling application available.
             </span>
           }
           fadeUp
           align="left"
           ctaGroup={[
-            <Button variant="contained" size="large">
-              Download now
+            <Button
+              onClick={() => history.push("/dashboard")}
+              variant="contained"
+              size="large"
+            >
+              Sign up now!
             </Button>,
           ]}
           disableGutter
