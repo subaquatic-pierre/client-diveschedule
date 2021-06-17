@@ -3,6 +3,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useMediaQuery, Grid, Button, Typography } from "@material-ui/core";
 import { Image } from "../../../../components/atoms";
 import { SectionHeader } from "../../../../components/molecules";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   image: {
@@ -17,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Hero = ({ className, ...rest }: ViewComponentProps): JSX.Element => {
   const classes = useStyles();
+  const history = useHistory();
 
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"), {
@@ -37,19 +39,33 @@ const Hero = ({ className, ...rest }: ViewComponentProps): JSX.Element => {
           <SectionHeader
             title={
               <span>
-                Beautiful data representation
+                Beautiful diving schedule
                 <br />
                 <Typography component="span" variant="inherit" color="primary">
-                  built with theFront.
+                  built for SCUBA divers.
                 </Typography>
               </span>
             }
-            subtitle="World developers use our theFront theme to build their internal tools and client admin applications. Save yourself time and money."
+            subtitle="Divers from around the world use our application to book and keep track of their diving schedules, to save time and money."
             ctaGroup={[
-              <Button variant="contained" color="primary" size="large">
+              <Button
+                onClick={() => {
+                  history.push("/dashboard");
+                }}
+                variant="contained"
+                color="primary"
+                size="large"
+              >
                 Start now
               </Button>,
-              <Button variant="outlined" color="primary" size="large">
+              <Button
+                onClick={() => {
+                  history.push("/dashboard");
+                }}
+                variant="outlined"
+                color="primary"
+                size="large"
+              >
                 Learn more
               </Button>,
             ]}

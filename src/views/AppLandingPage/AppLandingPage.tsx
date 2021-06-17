@@ -1,7 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { colors, Divider } from "@material-ui/core";
+import { colors, Divider, Container } from "@material-ui/core";
 
+import { experimentalStyled as styled } from "@material-ui/core/styles";
+import Page from "../../components/Page";
 import { Section, SectionAlternate } from "../../components/organisms";
 import {
   Customization,
@@ -15,6 +17,15 @@ import {
 } from "./components";
 
 import { reviews, support, integrations } from "./data";
+
+const RootStyle = styled(Page)(({ theme }) => ({
+  height: "100%",
+}));
+
+const ContentStyle = styled("div")(({ theme }) => ({
+  overflow: "hidden",
+  position: "relative",
+}));
 
 const useStyles = makeStyles((theme) => ({
   pagePaddingTop: {
@@ -37,35 +48,39 @@ const AppLandingPage = (): JSX.Element => {
   const classes = useStyles();
 
   return (
-    <div>
-      <div className={classes.shape}>
-        <Section className={classes.pagePaddingTop}>
-          <Hero />
-        </Section>
-        <Section className={classes.sectionNoPaddingTop}>
-          <Reviews data={reviews} />
-        </Section>
-        <Section className={classes.sectionNoPaddingTop}>
-          <Hub />
-        </Section>
-      </div>
-      <Section narrow>
-        <Support data={support} />
-      </Section>
-      <SectionAlternate>
-        <Customization />
-      </SectionAlternate>
-      <Section>
-        <Partners data={integrations} />
-      </Section>
-      <SectionAlternate innerNarrowed>
-        <Pricings />
-      </SectionAlternate>
-      <Section>
-        <Download data={[]} />
-      </Section>
-      <Divider />
-    </div>
+    <RootStyle
+      title="The starting point for your next project | DiveSchedule"
+      id="move_top"
+    >
+      <Container maxWidth="xl">
+        <div className={classes.shape}>
+          <Section className={classes.pagePaddingTop}>
+            <Hero />
+          </Section>
+          <Section className={classes.sectionNoPaddingTop}>
+            <Reviews data={reviews} />
+          </Section>
+          <Section className={classes.sectionNoPaddingTop}>
+            <Hub />
+          </Section>
+        </div>
+        <ContentStyle>
+          <Section narrow>
+            <Support data={support} />
+          </Section>
+          <Section>
+            <Partners data={integrations} />
+          </Section>
+          <SectionAlternate innerNarrowed>
+            <Pricings />
+          </SectionAlternate>
+          <Section>
+            <Download data={[]} />
+          </Section>
+          <Divider />
+        </ContentStyle>
+      </Container>
+    </RootStyle>
   );
 };
 

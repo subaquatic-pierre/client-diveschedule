@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useMediaQuery, Grid } from "@material-ui/core";
 import { LearnMoreLink, Image } from "../../../../components/atoms";
@@ -8,6 +9,10 @@ import { CardBase } from "../../../../components/organisms";
 const useStyles = makeStyles(() => ({
   logo: {
     maxWidth: 50,
+  },
+  flex: {
+    display: "flex",
+    alignItems: "center",
   },
 }));
 
@@ -24,21 +29,13 @@ const Partners = ({
   });
 
   return (
-    <div className={className} {...rest}>
+    <div className={clsx(className, classes.flex)} {...rest}>
       <Grid container spacing={isMd ? 4 : 2}>
-        <Grid item xs={12} md={6} data-aos="fade-up">
+        <Grid item xs={12} md={6} className={classes.flex} data-aos="fade-up">
           <SectionHeader
-            title="We love to explore new ways to engage with brands and reach"
-            subtitle="Our mission is to help you to grow your design skills, meet and connect with professional dsigners who share your passions."
+            title="We love to explore new ways to engage with new features"
+            subtitle="Our mission is to help you to grow your diving skills, meet and connect with other divers and share your passions."
             align="left"
-            label="100+ Integrations"
-            ctaGroup={[
-              <LearnMoreLink
-                title="See all integrations"
-                href="#"
-                variant="h6"
-              />,
-            ]}
             disableGutter
           />
         </Grid>

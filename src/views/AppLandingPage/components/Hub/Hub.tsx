@@ -57,50 +57,23 @@ const Features = ({ className, ...rest }: ViewComponentProps): JSX.Element => {
               <SectionHeader
                 title={
                   <span>
-                    Use flexible components.
+                    Check availability.
                     <br />
                     <Typography
                       component="span"
                       variant="inherit"
                       color="primary"
                     >
-                      to build an app quickly.
+                      book your next dive.
                     </Typography>
                   </span>
                 }
-                subtitle="TheFront styles and extends Material-UI components, but also included brand new landing page focused components."
+                subtitle="The dive schedule offers real time dive scheduling availability. Sign in and check with the dive center if there is availability for the next dive."
                 align="left"
                 fadeUp
                 disableGutter
                 titleVariant="h3"
               />
-            </Grid>
-            <Grid item xs={12}>
-              <div className={classes.placementGrid}>
-                <div>
-                  <CountUpNumber
-                    end={400}
-                    label="Components"
-                    textColor="primary"
-                    suffix="+"
-                  />
-                </div>
-                <div className={classes.placementGridItemMiddle}>
-                  <CountUpNumber
-                    end={100}
-                    label="Satisfaction"
-                    textColor="primary"
-                    suffix="%"
-                  />
-                </div>
-                <div>
-                  <CountUpNumber
-                    end={5.0}
-                    label="Review Score"
-                    textColor="primary"
-                  />
-                </div>
-              </div>
             </Grid>
           </Grid>
         </Grid>

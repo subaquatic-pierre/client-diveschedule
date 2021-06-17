@@ -1,5 +1,5 @@
-import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import React from "react";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import {
   useMediaQuery,
   Grid,
@@ -8,10 +8,10 @@ import {
   ListItemText,
   Avatar,
   Typography,
-} from '@material-ui/core';
-const useStyles = makeStyles(theme => ({
+} from "@material-ui/core";
+const useStyles = makeStyles((theme) => ({
   avatar: {
-    background: 'transparent',
+    background: "transparent",
     width: 60,
     height: 60,
   },
@@ -20,11 +20,15 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Reviews = ({ data, className, ...rest }: ViewComponentProps): JSX.Element => {
+const Reviews = ({
+  data,
+  className,
+  ...rest
+}: ViewComponentProps): JSX.Element => {
   const classes = useStyles();
 
   const theme = useTheme();
-  const isMd = useMediaQuery(theme.breakpoints.up('md'), {
+  const isMd = useMediaQuery(theme.breakpoints.up("md"), {
     defaultMatches: true,
   });
 
@@ -42,7 +46,7 @@ const Reviews = ({ data, className, ...rest }: ViewComponentProps): JSX.Element 
                   <ListItemText
                     primary={item.title}
                     primaryTypographyProps={{
-                      variant: 'h5',
+                      variant: "h5",
                     }}
                   />
                 </ListItem>
@@ -54,7 +58,10 @@ const Reviews = ({ data, className, ...rest }: ViewComponentProps): JSX.Element 
               </Grid>
               <Grid item xs={12}>
                 <ListItem disableGutters>
-                  <ListItemText primary={item.city} secondary="TheFront User" />
+                  <ListItemText
+                    primary={item.city}
+                    secondary="Dive Schedule user"
+                  />
                 </ListItem>
               </Grid>
             </Grid>

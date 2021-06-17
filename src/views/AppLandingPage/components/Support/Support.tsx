@@ -74,7 +74,7 @@ const Contact = ({
                 </span>
               </>
             }
-            subtitle="We aim to take care of you. Need help with installation, find a bug, or just need a clarifiction about our documentation? We'll be there to lend a helping hand."
+            subtitle="We aim to take care of you. Need help with installation, find a bug, or just need a clarification on features. We'll be there to lend a helping hand."
             align="center"
             disableGutter
           />
@@ -100,7 +100,7 @@ const Contact = ({
             ))}
           </Grid>
         </Grid>
-        <Grid
+        {/* <Grid
           item
           container
           alignItems="center"
@@ -116,7 +116,7 @@ const Contact = ({
               {...item.authorPhoto}
             />
           ))}
-        </Grid>
+        </Grid> */}
       </Grid>
     </div>
   );
