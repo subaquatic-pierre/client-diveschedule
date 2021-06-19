@@ -150,13 +150,13 @@
     "yup": "^0.32.9"
   },
   "devDependencies": {
-    "@types/aos": "^3.0.3",
     "@babel/core": "^7.12.3",
     "@babel/eslint-parser": "^7.13.14",
     "@iconify-icons/clarity": "^1.1.1",
     "@iconify-icons/mdi": "^1.1.15",
     "@iconify-icons/whh": "^1.1.0",
     "@iconify/react": "^1.1.4",
+    "@types/aos": "^3.0.3",
     "@types/autosuggest-highlight": "^3.1.1",
     "@types/d3-array": "^2.9.0",
     "@types/d3-scale": "^3.2.2",
