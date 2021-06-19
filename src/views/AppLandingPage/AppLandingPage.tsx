@@ -48,10 +48,7 @@ const AppLandingPage = (): JSX.Element => {
   const classes = useStyles();
 
   return (
-    <RootStyle
-      title="The starting point for your next project | DiveSchedule"
-      id="move_top"
-    >
+    <RootStyle title="Home | DiveSchedule" id="move_top">
       <Container maxWidth="xl">
         <div className={classes.shape}>
           <Section className={classes.pagePaddingTop}>
